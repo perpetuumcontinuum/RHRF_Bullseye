@@ -306,15 +306,20 @@ export default function Profile(props: any) {
             <section key={section.id} className="rf-profile-section">
               {section.id === "consumable" && (
                 <div className="rf-profile-subtabs">
-                  {([["arrow", "ARROWS"], ["armor", "ARMOR"], ["energy", "ENERGY"]] as const).map(([id, label]) => (
-                    <button
-                      key={id}
-                      className={`rf-profile-subtab ${activeConsumableTab === id ? "active" : ""}`}
-                      onClick={() => setActiveConsumableTab(id)}
-                    >
-                      {label}
-                    </button>
-                  ))}
+                  {([["arrow", "ARROWS"], ["armor", "ARMOR"], ["energy", "ENERGY"]] as const).map(([id, label]) => {
+                    const subCount = section.items
+                      .filter((item) => rfConsumableType(item) === id)
+                      .reduce((sum, item) => sum + (counts.get(item.id) ?? 0), 0);
+                    return (
+                      <button
+                        key={id}
+                        className={`rf-profile-subtab ${activeConsumableTab === id ? "active" : ""}`}
+                        onClick={() => setActiveConsumableTab(id)}
+                      >
+                        {label} ({subCount})
+                      </button>
+                    );
+                  })}
                 </div>
               )}
               

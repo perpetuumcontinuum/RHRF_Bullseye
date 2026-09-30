@@ -549,6 +549,7 @@ const pixelBounds = (() => {
             fill="#00ffff"
             filter="url(#neonGlowCyan)"
             letterSpacing="8"
+            className="rf-paused-glitch"
           >
             PAUSED
           </text>

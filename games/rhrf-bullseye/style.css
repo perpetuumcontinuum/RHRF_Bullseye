@@ -2501,3 +2501,21 @@ body {
 .rf-top-bar__score.rf-score-cyber {
   border: 2px solid #00ffff;
 }
+
+/* Cyber glitch effect for PAUSED text */
+.rf-paused-glitch {
+  animation: rf-glitch-text 2.5s infinite steps(10);
+}
+@keyframes rf-glitch-text {
+  0% { transform: translate(0); }
+  10% { transform: translate(-2px, -2px); filter: hue-rotate(90deg); }
+  20% { transform: translate(2px, 2px); filter: hue-rotate(0deg); }
+  30% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); filter: hue-rotate(90deg); }
+  50% { transform: translate(0); }
+  60% { transform: translate(-3px, 0); }
+  70% { transform: translate(3px, 0); filter: hue-rotate(0deg); }
+  80% { transform: translate(0, 3px); }
+  90% { transform: translate(0, -3px); filter: hue-rotate(90deg); }
+  100% { transform: translate(0); }
+}
