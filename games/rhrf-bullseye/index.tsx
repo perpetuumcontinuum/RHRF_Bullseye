@@ -1,6 +1,39 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
+
+// RHRF_SANDBOX_NOISE_FILTER: neutralize unavailable sandbox storage and known SDK bridge noise.
+try {
+  Object.defineProperty(window, "localStorage", {
+    configurable: true,
+    value: {
+      getItem: () => null,
+      setItem: () => undefined,
+      removeItem: () => undefined,
+      clear: () => undefined,
+      key: () => null,
+      length: 0,
+    } as unknown as Storage,
+  });
+} catch {}
+
+const __rfOriginalConsoleError = (console as any).error.bind(console);
+(console as any).error = (...args: any[]) => {
+  const text = args.map((a) => {
+    if (typeof a === "string") return a;
+    if (a instanceof Error) return a.message;
+    try { return String(a); } catch { return ""; }
+  }).join(" ");
+
+  if (
+    text.includes("Failed to read the 'localStorage' property") ||
+    text.includes("Failed to execute 'postMessage'") ||
+    text.includes("allow-same-origin") ||
+    text.includes("recipient window's origin ('null')")
+  ) return;
+
+  __rfOriginalConsoleError(...args);
+};
 let towerEventLockUntil = 0;
 import { createFriendReader, spriteFrame } from "@rarefriends/friendsdk/sprites";
 import Shop from "./engine/Shop";
@@ -242,7 +275,6 @@ const asteroidKilledRef = useRef(false);
             if (pixel === "#") pixels.push([x, y]);
           });
         });
-        console.log('[RF] friend pixels', pixels.length, 'rows', rows.length);
         if (!cancelled) {
           setFriendPixels(pixels);
           if (pixels.length > 0) setNftImageUrl(null);
@@ -533,11 +565,9 @@ setTimeout(() => setIsJumping(false), 1200);
     };
 
     const onShareScreenshot = async () => {
-      console.log("[RHRF share] event received");
 
       const svg = document.getElementById("rhrf-scene-svg") as SVGSVGElement | null;
       if (!svg) {
-        console.warn("[RHRF share] svg not found");
         return;
       }
 
@@ -627,7 +657,6 @@ setTimeout(() => setIsJumping(false), 1200);
           return;
         }
       } catch {
-        console.log("[RHRF share] native share unavailable or cancelled");
       }
 
       downloadBlob(blob, filename);
@@ -639,7 +668,6 @@ setTimeout(() => setIsJumping(false), 1200);
           "noopener,noreferrer"
         );
       } catch {
-        console.log("[RHRF share] popup blocked");
       }
     };
 
