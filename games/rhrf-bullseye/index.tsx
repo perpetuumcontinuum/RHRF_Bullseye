@@ -845,10 +845,9 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
       if (e.repeat) return;
       if (t && (t.tagName === 'BUTTON' || t.isContentEditable)) return;
-      // Block gameplay hotkeys while overlays are open to prevent accidental actions from shop/profile/guide
+      const k = e.code;
       if ((showShop || showProfile || showGuide) && k !== 'Escape') return;
       const h = handlersRef.current;
-      const k = e.code;
       if (k === 'Digit1' || k === 'Numpad1') { e.preventDefault(); if (h.towerFire) h.towerFire(); }
       else if (k === 'Digit2' || k === 'Numpad2') { e.preventDefault(); if (h.fire) h.fire(); }
       else if (k === 'Digit3' || k === 'Numpad3') { e.preventDefault(); if (h.jump) h.jump(); }
