@@ -56,3 +56,7 @@ Validate the build:
     npm run build
     npx friendsdk check ./games/rhrf-bullseye
 
+## Passive income
+
+RHRF Bullseye is idle-friendly: you do not have to master the aim to progress. A satellite periodically drops a rare energy consumable into your inventory simply for being in the game. Accrual keeps running even while the game is paused, so a new player can park on the pause screen, let charges accumulate, then spend them in the shop. Energy stacks up to a cap of 100 and can be sold at the standard rates (quick sale 50%, offer 60%) to fund bows, outfits, amulets, arrows and armor. This lowers the skill floor and makes the first legendary run reachable without reflexes.
+
