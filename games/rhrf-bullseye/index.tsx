@@ -597,7 +597,7 @@ setTimeout(() => setIsJumping(false), 1200);
       const isProd = window.location.hostname.includes('rarefriends.com');
       const gameLink = isProd 
         ? window.location.href.split('?')[0]
-        : 'https://rarefriends.com/arcade/rhrf-bullseye';
+        : window.location.origin + window.location.pathname;
 
       
       const cyberStatus = effectiveCyberStyle ? "CYBER ACTIVATED" : "STANDARD LOADOUT";
