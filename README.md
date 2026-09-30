@@ -60,16 +60,15 @@ Validate the build:
 
 RHRF Bullseye is idle-friendly: you do not have to master the aim to progress. A satellite periodically drops a rare energy consumable into your inventory simply for being in the game. Accrual keeps running even while the game is paused, so a new player can park on the pause screen, let charges accumulate, then spend them in the shop. Energy stacks up to a cap of 100 and can be sold at the standard rates (quick sale 50%, offer 60%) to fund bows, outfits, amulets, arrows and armor. This lowers the skill floor and makes the first legendary run reachable without reflexes.
 
-## License, but make it fun 🏹⚡
+## License, but make it fun 🏹
 
 This whole thing is **MIT**. No strings, no gatekeeping, no "ask first".
 
 - 🎯 Fork it, remix it, ship it — go wild.
-- 💜 Swap the archer for your own Rare Friend and call it yours.
-- 🟡 Wire it to a real economy someday; the simulated RF is just a label today, and the door is wide open.
-- 🤖 Built with an AI coding agent, by a human who kept the weird ideas. That's the spirit of the vibeathon.
+- 👽 Swap the archer for your own Rare Friend and call it yours.
+- ⛓️ Wire it to a real economy someday; the simulated RF is just a label today, and the door is wide open.
+- 🤘 Built with an AI coding agent Qwen 💜🤖❤️, by a human who kept the weird ideas. That's the spirit of the vibeathon.
 
-Use it as much as you want, for as long as you want. If it makes someone's day brighter or their neon ridge a little more defendable — that's the whole point. ✨
+Use it as much as you want, for as long as you want. If it makes someone's day brighter or their neon ridge a little more defendable — that's the whole point. 
 
-Provided **as is**, no warranties, no promises, no refunds on a missed bullseye. The bow is yours now.
-
+Provided as is, no warranties, no promises, no refunds on a missed bullseye. The bow is yours now. 😎
