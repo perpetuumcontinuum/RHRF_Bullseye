@@ -61,6 +61,39 @@ jobs:
               print("injected", h)
           EOF
 
+      - name: Generate OG image
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y librsvg2-bin
+          rsvg-convert -w 1200 -h 630 games/rhrf-bullseye/og-banner.svg -o games/rhrf-bullseye/.friendsdk/og.png
+          python3 - <<'EOF'
+          import glob
+          out = "games/rhrf-bullseye/.friendsdk"
+          base = "https://perpetuumcontinuum.github.io/RHRF_Bullseye"
+          og = (
+            '<meta property="og:type" content="website"/>'
+            '<meta property="og:site_name" content="RHRF Bullseye"/>'
+            '<meta property="og:title" content="RHRF Bullseye — Cyber Archery for Rare Friends"/>'
+            '<meta property="og:description" content="Your Generations NFT becomes the archer. Shoot moving targets, dodge ghosts, deflect asteroids and unlock legendary gear. Built on FriendSDK v0.1.4, live on Robinhood Chain."/>'
+            '<meta property="og:url" content="' + base + '/"/>'
+            '<meta property="og:image" content="' + base + '/og.png"/>'
+            '<meta property="og:image:type" content="image/png"/>'
+            '<meta property="og:image:width" content="1200"/>'
+            '<meta property="og:image:height" content="630"/>'
+            '<meta name="twitter:card" content="summary_large_image"/>'
+            '<meta name="twitter:title" content="RHRF Bullseye — Cyber Archery for Rare Friends"/>'
+            '<meta name="twitter:description" content="Cyber archery minigame for the Rare Friends Vibeathon. Simulated RF, Robinhood Chain, FriendSDK v0.1.4."/>'
+            '<meta name="twitter:image" content="' + base + '/og.png"/>'
+          )
+          for h in sorted(glob.glob(out + "/*.html")):
+              t = open(h, encoding="utf-8").read()
+              if "og:image" in t:
+                  continue
+              t = t.replace("</head>", og + "</head>", 1)
+              open(h, "w", encoding="utf-8").write(t)
+              print("og injected", h)
+          EOF
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
