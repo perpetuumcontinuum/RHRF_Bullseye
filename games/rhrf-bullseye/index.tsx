@@ -319,7 +319,11 @@ const asteroidKilledRef = useRef(false);
 
   useEffect(() => {
     const onSatellitePass = () => {
-      setInventory((inv) => [...inv, 'energy_rare']);
+      setInventory((inv) => {
+        // mirror catalog CONSUMABLE_CAP (100) for the satellite-granted energy charge
+        if (inv.filter((x) => x === 'energy_rare').length >= 100) return inv;
+        return [...inv, 'energy_rare'];
+      });
     };
 
     window.addEventListener('rhrf-satellite-pass', onSatellitePass);
@@ -839,6 +843,8 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
     const handleKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement | null;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+      if (e.repeat) return;
+      if (t && (t.tagName === 'BUTTON' || t.isContentEditable)) return;
       const h = handlersRef.current;
       const k = e.code;
       if (k === 'Digit1' || k === 'Numpad1') { e.preventDefault(); if (h.towerFire) h.towerFire(); }
