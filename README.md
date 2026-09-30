@@ -41,3 +41,18 @@ Full rules, controls, simulated economy tables, checks and known issues live in 
 Playable preview: https://perpetuumcontinuum.github.io/RHRF_Bullseye/
 
 Running the preview requires a wallet holding a Generations NFT (gen 1 or higher) on Robinhood mainnet, per the event rules.
+
+## Quick local run
+
+    git clone https://github.com/perpetuumcontinuum/RHRF_Bullseye.git
+    cd RHRF_Bullseye
+    npm install
+    npx friendsdk dev ./games/rhrf-bullseye
+
+Open the printed local URL, normally http://localhost:4173. Connect a browser wallet on Robinhood mainnet (chain 4663) holding a hardwired Rare Friends Generations NFT, generation 1 or higher, to pass the Friend-selection gate.
+
+Validate the build:
+
+    npm run build
+    npx friendsdk check ./games/rhrf-bullseye
+
