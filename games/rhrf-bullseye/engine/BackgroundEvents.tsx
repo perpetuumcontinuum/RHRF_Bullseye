@@ -39,6 +39,8 @@ export default function BackgroundEvents() {
     };
 
     const scheduleGhost = () => {
+      // Do not spawn new ghosts while paused; let existing ones finish their path honestly
+      if (pausedRef.current) return;
       const delay = GHOST_MIN_DELAY + Math.random() * (GHOST_MAX_DELAY - GHOST_MIN_DELAY);
       const id = window.setTimeout(() => startGhost(), delay);
       addTimer(id);
