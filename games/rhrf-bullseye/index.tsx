@@ -816,6 +816,12 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
       if (k === 'Digit1' || k === 'Numpad1') { e.preventDefault(); if (h.towerFire) h.towerFire(); }
       else if (k === 'Digit2' || k === 'Numpad2') { e.preventDefault(); if (h.fire) h.fire(); }
       else if (k === 'Digit3' || k === 'Numpad3') { e.preventDefault(); if (h.jump) h.jump(); }
+      else if (k === 'Escape') { setShowShop(false); setShowProfile(false); setShowGuide(false); }
+      else if (k === 'Space' || k === 'Digit4' || k === 'Numpad4') { e.preventDefault(); togglePause(); }
+      else if (k === 'KeyM' || k === 'Digit5' || k === 'Numpad5') { toggleMute(); }
+      else if (k === 'KeyS' || k === 'Digit6' || k === 'Numpad6') { setShowShop(true); playSound('select'); }
+      else if (k === 'KeyP' || k === 'Digit7' || k === 'Numpad7') { setShowProfile(true); playSound('select'); }
+      else if (k === 'KeyG' || k === 'Digit8' || k === 'Numpad8') { setShowGuide(true); playSound('select'); }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);

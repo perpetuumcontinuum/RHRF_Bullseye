@@ -63,6 +63,21 @@ export default function Guide({ onClose }: GuideProps) {
     { title: "RARITY", lines: ["Rare: basic boost.", "Epic: stronger boost.", "Legendary: best boost.", "Three legendaries unlock cyber style."] },
     { title: "LASERS", lines: ["Satellites drop laser consumables.", "Laser cap is 100.", "Use lasers for tower defense.", "Sell lasers in shop for RF.", "Lasers can accumulate while paused."] },
     { title: "CYBER", lines: ["Requires legendary bow, outfit and amulet.", "Reduces screen shake.", "Bullseye shimmer is always visible."] },
+  
+    {
+      title: "HOTKEYS",
+      lines: [
+        "1 / Numpad1 — Tower Laser",
+        "2 / Numpad2 — Shot",
+        "3 / Numpad3 — Jump",
+        "4 / Space — Pause / Resume",
+        "5 / M — Toggle mute",
+        "6 / S — Open Shop",
+        "7 / P — Open Profile",
+        "8 / G — Open Guide",
+        "Esc — Close overlays",
+      ],
+    },
   ];
 
   return (
