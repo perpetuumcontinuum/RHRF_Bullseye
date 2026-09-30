@@ -1,5 +1,19 @@
 # RHRF Bullseye
 
+<p align="center">
+  <img src="https://perpetuumcontinuum.github.io/RHRF_Bullseye/favicon.svg" alt="RHRF Bullseye favicon" width="96" />
+</p>
+
+<p align="center">
+  <img alt="FriendSDK" src="https://img.shields.io/badge/FriendSDK-v0.1.4-ff2bd6?logo=github&logoColor=white" />
+  <img alt="React" src="https://img.shields.io/badge/React-19.2.8-00eaff?logo=react&logoColor=white" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-6.0.3-3178c6?logo=typescript&logoColor=white" />
+  <img alt="Renderer" src="https://img.shields.io/badge/renderer-SVG-ccff00" />
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-00eaff" />
+  <img alt="Hosting" src="https://img.shields.io/badge/hosting-GitHub%20Pages-0a0022?logo=github&logoColor=white" />
+  <img alt="Category" src="https://img.shields.io/badge/category-Character%20Spotlight-ff2bd6" />
+</p>
+
 Cyber archery minigame for the Rare Friends Vibeathon. The selected Generations NFT is the archer; RF is a simulated score label.
 
 - **Category:** Character Spotlight
