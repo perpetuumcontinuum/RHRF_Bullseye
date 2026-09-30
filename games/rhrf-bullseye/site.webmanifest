@@ -1,0 +1,16 @@
+{
+  "name": "RHRF Bullseye",
+  "short_name": "Bullseye",
+  "description": "Cyber archery minigame for Rare Friends",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a0014",
+  "theme_color": "#ff00ff",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

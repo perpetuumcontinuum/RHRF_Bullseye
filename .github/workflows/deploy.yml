@@ -38,6 +38,28 @@ jobs:
 
       - name: Build game
         run: npm run build
+      - name: Inject head assets
+        run: |
+          python3 - <<'EOF'
+          import glob, shutil
+          src = "games/rhrf-bullseye"
+          out = src + "/.friendsdk"
+          for f in ("favicon.svg", "site.webmanifest"):
+              shutil.copy(src + "/" + f, out + "/" + f)
+          inject = (
+              '<meta name="description" content="Defend the planet with your Generations NFT in this cyber archery minigame. Shoot moving targets, dodge ghosts, deflect asteroids and unlock legendary gear. Built on FriendSDK v0.1.4."/>'
+              '<link rel="icon" type="image/svg+xml" href="./favicon.svg"/>'
+              '<link rel="apple-touch-icon" href="./favicon.svg"/>'
+              '<link rel="manifest" href="./site.webmanifest"/>'
+          )
+          for h in sorted(glob.glob(out + "/*.html")):
+              t = open(h, encoding="utf-8").read()
+              if "favicon.svg" in t:
+                  continue
+              t = t.replace("</head>", inject + "</head>", 1)
+              open(h, "w", encoding="utf-8").write(t)
+              print("injected", h)
+          EOF
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
