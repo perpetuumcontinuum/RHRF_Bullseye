@@ -470,14 +470,15 @@ flashTimerRef.current = window.setTimeout(() => {
     if (pausedRef.current) return;
     if (stateRef.current !== 'IDLE' || isJumping || isShooting || isLaserFiring || isFallen) return;
     setIsJumping(true);
+    (window as any).__RHRF_JUMP_STARTED_AT__ = Date.now();
     playSound('select');
     setJumpVariant(["spin-360", "spin-reverse", "spin-720", "spin-double-reverse", "flip-horizontal", "tilt-mix", "feet-up", "flip-vertical"][Math.floor(Math.random() * 8)]);
-setTimeout(() => setIsJumping(false), 1200);
+    setTimeout(() => setIsJumping(false), 1200);
   };
 
   useEffect(() => {
     const onGhostHit = () => {
-      if (isJumping || isFallen) return;
+      // Hit validation is owned by the collision loop in BackgroundEvents
       recordEvent("ghost", false);
 
       const armorId = armorRef.current;

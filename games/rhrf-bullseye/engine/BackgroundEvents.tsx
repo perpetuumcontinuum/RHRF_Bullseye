@@ -8,6 +8,23 @@ const GHOST_END = -155;
 const GHOST_BASE_SPEED = 1300 / 6;
 const COLLIDE_X = PLAYER_X + PLAYER_WIDTH - GHOST_FRONT;
 
+// Ghost body spans x=[5,50] inside its mirrored local frame (translate(55,0) scale(-1,1))
+const GHOST_BODY_MIN = 5;
+const GHOST_BODY_MAX = 50;
+const GHOST_BODY_LEN = GHOST_BODY_MAX - GHOST_BODY_MIN;
+// 4% tolerance trimmed from each end so edge grazes never feel unfair
+const GHOST_LETHAL_RATIO = 0.96;
+const GHOST_LETHAL_PAD = (GHOST_BODY_LEN * (1 - GHOST_LETHAL_RATIO)) / 2;
+const GHOST_LETHAL_MIN = GHOST_BODY_MIN + GHOST_LETHAL_PAD;
+const GHOST_LETHAL_MAX = GHOST_BODY_MAX - GHOST_LETHAL_PAD;
+
+// Player occupies x=[240,320] on the ground and lifts 85px while airborne
+const PLAYER_TOP = PLAYER_X;
+const PLAYER_BOTTOM = PLAYER_X + PLAYER_WIDTH;
+// Jump arc lasts 1155ms; outside this window the player is not clear of the ghost
+const JUMP_SAFE_START_MS = 200;
+const JUMP_SAFE_END_MS = 955;
+
 const GHOST_SAFETY_MS = 9000;
 const GHOST_MIN_DELAY = 30000;
 const GHOST_MAX_DELAY = 42000;
@@ -62,7 +79,7 @@ export default function BackgroundEvents() {
         if (finished) return;
         finished = true;
         cancelAnimationFrame(g.raf);
-        if (!g.hit) window.dispatchEvent(new CustomEvent("rhrf-ghost-dodged"));
+        // Dodge is resolved when the ghost leaves the contact zone
         setGhostX(null);
         scheduleGhost();
       };
@@ -72,19 +89,33 @@ export default function BackgroundEvents() {
         g.last = now;
         g.x -= g.speed * dt;
 
-        if (!g.hit && g.x <= COLLIDE_X) {
-          g.hit = true;
-          g.speed *= 2;
-          setGhostHit(true);
-          const __rhrfGhostFallen = Boolean((window as any).__RHRF_IS_FALLEN__);
-          const __rhrfGhostJumping = Boolean((window as any).__RHRF_IS_JUMPING__);
-          if (__rhrfGhostFallen) {
+        // Horizontal overlap between the player column and the ghost lethal core
+        const overlapsX = g.x + GHOST_LETHAL_MAX > PLAYER_TOP && g.x + GHOST_LETHAL_MIN < PLAYER_BOTTOM;
+        const ghostLeaving = g.x + GHOST_LETHAL_MAX <= PLAYER_TOP;
+
+        if (!g.hit && overlapsX) {
+          const fallen = Boolean((window as any).__RHRF_IS_FALLEN__);
+          const jumping = Boolean((window as any).__RHRF_IS_JUMPING__);
+          const jumpStart = Number((window as any).__RHRF_JUMP_STARTED_AT__ || 0);
+          const elapsed = jumpStart > 0 ? Date.now() - jumpStart : Infinity;
+          // Shape does not matter: only the airborne phase clears the ghost
+          const safelyAirborne = jumping && !fallen
+            && elapsed >= JUMP_SAFE_START_MS
+            && elapsed <= JUMP_SAFE_END_MS;
+
+          if (!safelyAirborne) {
             g.hit = true;
-          } else if (!__rhrfGhostJumping) {
-            g.hit = true;
+            g.speed *= 2;
+            setGhostHit(true);
             window.dispatchEvent(new CustomEvent("rhrf-ghost-hit"));
+            window.dispatchEvent(new CustomEvent("rhrf-bull-hit"));
           }
-          window.dispatchEvent(new CustomEvent("rhrf-bull-hit"));
+        }
+
+        // Ghost crossed the player column without a single overlap hit
+        if (!g.hit && ghostLeaving) {
+          g.hit = true;
+          window.dispatchEvent(new CustomEvent("rhrf-ghost-dodged"));
         }
 
         setGhostX(g.x);
