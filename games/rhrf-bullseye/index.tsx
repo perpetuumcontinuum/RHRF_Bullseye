@@ -502,6 +502,8 @@ setTimeout(() => setIsJumping(false), 1200);
 
   useEffect(() => {
     if (!isFallen) return;
+    // Freeze fall timer while paused to preserve character state
+    if (isPaused) return;
 
     if (fallRemaining <= 0) {
       const done = window.setTimeout(() => setIsFallen(false), 300);
@@ -513,7 +515,7 @@ setTimeout(() => setIsJumping(false), 1200);
     }, 1000);
 
     return () => window.clearTimeout(tick);
-  }, [isFallen, fallRemaining]);
+  }, [isFallen, fallRemaining, isPaused]);
 
   useEffect(() => {
     if (isFallen || fallRemaining > 0) return;
@@ -1135,7 +1137,7 @@ const handleToggleCyberStyle = () => {
   }, []);
 
 if (loading) {
-    return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", background: "#0a0014", color: "#00ffff", fontFamily: "monospace", fontSize: "18px" }}>LOADING RHRF BULLSEYE...</div>;
+    return <div className="rf-loading-screen">LOADING RHRF BULLSEYE...</div>;
   }
 
   return (

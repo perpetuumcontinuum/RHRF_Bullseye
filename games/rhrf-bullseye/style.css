@@ -2502,10 +2502,7 @@ body {
   border: 2px solid #00ffff;
 }
 
-/* Cyber glitch effect for PAUSED text */
-.rf-paused-glitch {
-  animation: rf-glitch-text 2.5s infinite steps(10);
-}
+
 @keyframes rf-glitch-text {
   0% { transform: translate(0); }
   10% { transform: translate(-2px, -2px); filter: hue-rotate(90deg); }
@@ -2518,4 +2515,81 @@ body {
   80% { transform: translate(0, 3px); }
   90% { transform: translate(0, -3px); filter: hue-rotate(90deg); }
   100% { transform: translate(0); }
+}
+
+/* Simplified 404-style slice glitch for PAUSED text */
+.rf-glitch-container {
+  position: relative;
+}
+
+.rf-glitch-text-r,
+.rf-glitch-text-g {
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+.rf-glitch-text-r {
+  clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%);
+  animation: rf-glitch-top-slice 3s steps(1) infinite;
+}
+
+.rf-glitch-text-g {
+  clip-path: polygon(0 68%, 100% 68%, 100% 100%, 0 100%);
+  animation: rf-glitch-bot-slice 3s steps(1) infinite;
+  animation-delay: 0.2s;
+}
+
+@keyframes rf-glitch-top-slice {
+  0%, 78%, 100% { transform: translateX(-4px); opacity: 0.7; }
+  80% { transform: translateX(-12px); opacity: 1; clip-path: polygon(0 5%, 100% 5%, 100% 28%, 0 28%); }
+  82% { transform: translateX(8px); opacity: 0.9; clip-path: polygon(0 0, 100% 0, 100% 22%, 0 22%); }
+  84% { transform: translateX(-6px); opacity: 1; clip-path: polygon(0 3%, 100% 3%, 100% 30%, 0 30%); }
+  86% { transform: translateX(-4px); opacity: 0.7; }
+}
+
+@keyframes rf-glitch-bot-slice {
+  0%, 78%, 100% { transform: translateX(4px); opacity: 0.7; }
+  80% { transform: translateX(14px); opacity: 1; clip-path: polygon(0 70%, 100% 70%, 100% 95%, 0 95%); }
+  82% { transform: translateX(-8px); opacity: 0.9; clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
+  84% { transform: translateX(6px); opacity: 1; clip-path: polygon(0 68%, 100% 68%, 100% 92%, 0 92%); }
+  86% { transform: translateX(4px); opacity: 0.7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rf-glitch-text-r,
+  .rf-glitch-text-g {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Loading screen glitch effect */
+.rf-loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #0a0014;
+  color: #00eaff;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  letter-spacing: 2px;
+  position: relative;
+  animation: rf-loading-glitch 1s steps(8) infinite;
+}
+
+@keyframes rf-loading-glitch {
+  0% { text-shadow: 2px 0 #ff2bd6, -2px 0 #ccff00; }
+  25% { text-shadow: -2px 0 #ff2bd6, 2px 0 #ccff00; }
+  50% { text-shadow: 2px 2px #ff2bd6, -2px -2px #ccff00; }
+  75% { text-shadow: -2px 2px #ff2bd6, 2px -2px #ccff00; }
+  100% { text-shadow: 2px 0 #ff2bd6, -2px 0 #ccff00; }
+}
+
+/* Increase font size for better readability in menus */
+.rf-guide-panel *,
+.rf-profile-panel *,
+.rf-shop-panel *,
+.rf-shop-item-desc * {
+    font-size: large !important;
 }

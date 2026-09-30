@@ -539,31 +539,47 @@ const pixelBounds = (() => {
       {isPaused && (
         <g pointerEvents="none">
           <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />
-          <text
-            x="500"
-            y="355"
-            textAnchor="middle"
-            fontFamily="monospace"
-            fontSize="54"
-            fontWeight="bold"
-            fill="#00ffff"
-            filter="url(#neonGlowCyan)"
-            letterSpacing="8"
-            className="rf-paused-glitch"
-          >
-            PAUSED
-          </text>
-          <text
-            x="500"
-            y="392"
-            textAnchor="middle"
-            fontFamily="monospace"
-            fontSize="14"
-            fill="#ff00ff"
-            opacity="0.85"
-          >
-            SHOP / SOUND / SCREENSHOT STILL WORK
-          </text>
+          <g className="rf-glitch-container">
+            <text
+              x="500"
+              y="355"
+              textAnchor="middle"
+              fontFamily="'Courier New', Courier, monospace"
+              fontSize="54"
+              fontWeight="bold"
+              fill="#c0f"
+              letterSpacing="4"
+              className="rf-glitch-text-base"
+            >
+              PAUSED
+            </text>
+            <text
+              x="500"
+              y="355"
+              textAnchor="middle"
+              fontFamily="'Courier New', Courier, monospace"
+              fontSize="54"
+              fontWeight="bold"
+              fill="#cf0"
+              letterSpacing="4"
+              className="rf-glitch-text-r"
+            >
+              PAUSED
+            </text>
+            <text
+              x="500"
+              y="355"
+              textAnchor="middle"
+              fontFamily="'Courier New', Courier, monospace"
+              fontSize="54"
+              fontWeight="bold"
+              fill="#ccff00"
+              letterSpacing="4"
+              className="rf-glitch-text-g"
+            >
+              PAUSED
+            </text>
+          </g>
         </g>
       )}
 
