@@ -1,0 +1,186 @@
+import React, { useMemo, useState } from "react";
+import {
+
+  CATALOG,
+  CONSUMABLE_CAP,
+  getItemCount,
+  type ShopItem,
+} from "./catalog";
+
+const rfIsConsumableItem = (item: any) => {
+  if (!item) return false;
+
+  const category = String(item.category ?? "").toLowerCase();
+  const id = String(item.id ?? "").toLowerCase();
+
+  return (
+    category === "consumable" ||
+    id.includes("arrow") ||
+    id.includes("armor") ||
+    id.includes("energy")
+  );
+};
+
+const rfCyberBlocksItem = (cyberActive: boolean, item: any) =>
+  Boolean(cyberActive) && !rfIsConsumableItem(item);
+
+const TABS = [
+  { id: "bow", label: "BOWS" },
+  { id: "hat", label: "CLOTHES" },
+  { id: "amulet", label: "AMULETS" },
+  { id: "consumable", label: "ITEMS" },
+] as const;
+
+export default function Shop(props: any) {
+  const [activeTab, setActiveTab] = useState<string>("bow");
+
+  const items = useMemo(() => CATALOG, []);
+  const visibleItems = items.filter((item) => item.category === activeTab);
+
+  const totalScore = Number(props.totalScore ?? props.score ?? 0);
+  const inventory: string[] = Array.isArray(props.inventory) ? props.inventory.map(String) : [];
+
+  const isEquipped = (item: ShopItem) => {
+    if (item.id.startsWith("arrow_")) return props.equippedArrow === item.id;
+    if (item.id.startsWith("armor_")) return props.equippedArmor === item.id;
+    if (item.id.startsWith("energy_")) return props.equippedEnergy === item.id;
+
+    if (item.category === "bow") return props.equippedBow === item.id;
+    if (item.category === "hat") return props.equippedHat === item.id;
+    if (item.category === "amulet") return props.equippedAmulet === item.id;
+
+    return false;
+  };
+
+  const canAfford = (price: number, amount = 1) => totalScore >= Number(price || 0) * amount;
+
+  const close = () => {
+    if (props.onClose) props.onClose();
+  };
+
+  const addConsumable = (item: ShopItem, amount: number) => {
+    if (props.onAddConsumable) {
+      props.onAddConsumable(item, amount);
+      return;
+    }
+
+    if (props.onBuy) {
+      props.onBuy(item);
+    }
+  };
+
+  const toggleEquip = (item: ShopItem) => {
+    if (props.onToggleEquip) {
+      props.onToggleEquip(item);
+      return;
+    }
+
+    if (props.onEquip) {
+      props.onEquip(item.id);
+    }
+  };
+
+  const buyNonConsumable = (item: ShopItem) => {
+    if (props.onBuy) props.onBuy(item);
+  };
+
+  return (
+    <div className="rf-shop-overlay" onClick={close}>
+      <div className="rf-shop-panel" onClick={(e) => e.stopPropagation()}>
+        <div className="rf-shop-header">
+          <div className="rf-shop-title">SHOP</div>
+          <div className="rf-shop-balance">{Math.floor(totalScore)} RF</div>
+          <button className="rf-shop-close" onClick={close}>X</button>
+        </div>
+
+        <div className="rf-shop-tabs">
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              className={`rf-shop-tab ${activeTab === tab.id ? "active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="rf-shop-scroll">
+          {visibleItems.length === 0 && <div className="rf-shop-empty">NO ITEMS</div>}
+
+          {visibleItems.map((item) => {
+            const count = getItemCount(inventory, item.id);
+            const owned = count > 0;
+            const equipped = isEquipped(item);
+            const isConsumable = item.category === "consumable";
+
+            if (isConsumable) {
+              const canPlus1 = count + 1 <= CONSUMABLE_CAP && canAfford(item.price, 1);
+              const canPlus10 = count + 10 <= CONSUMABLE_CAP && canAfford(item.price, 10);
+
+              return (
+                <div key={item.id} className={`rf-shop-item rarity-${item.rarity}`}>
+                  <div className="rf-shop-item-main">
+                    <div className="rf-shop-item-name">{item.name}</div>
+                    <div className="rf-shop-item-desc">{item.description}</div>
+                  </div>
+
+                  <div className="rf-shop-item-side rf-shop-consumable-side">
+                    <div className="rf-shop-item-price">{item.price} RF / x</div>
+                    <div className="rf-shop-item-count">IN STOCK: {count} / {CONSUMABLE_CAP}</div>
+
+                    <div className="rf-shop-consumable-controls">
+                      <button disabled={!canPlus1} onClick={() => addConsumable(item, 1)}>
+                        +1
+                      </button>
+                      <button disabled={!canPlus10} onClick={() => addConsumable(item, 10)}>
+                        +10
+                      </button>
+                    </div>
+
+                    <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (!owned)}
+                      className="rf-shop-item-btn rf-shop-equip-btn"
+                      onClick={() => toggleEquip(item)}
+                    >
+                      {equipped ? "UNEQUIP" : "EQUIP"}
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div key={item.id} className={`rf-shop-item rarity-${item.rarity}`}>
+                <div className="rf-shop-item-main">
+                  <div className="rf-shop-item-name">{item.name}</div>
+                  <div className="rf-shop-item-desc">{item.description}</div>
+                </div>
+
+                <div className="rf-shop-item-side">
+                  <div className="rf-shop-item-price">{item.price} RF</div>
+
+                  {!owned ? (
+                    <button
+                      className="rf-shop-item-btn"
+                      disabled={!canAfford(item.price, 1)}
+                      onClick={() => buyNonConsumable(item)}
+                    >
+                      BUY
+                    </button>
+                  ) : (
+                    <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item)}
+                      className="rf-shop-item-btn rf-shop-equip-btn"
+                      onClick={() => toggleEquip(item)}
+                    >
+                      {equipped ? "UNEQUIP" : "EQUIP"}
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}

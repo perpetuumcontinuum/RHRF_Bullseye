@@ -1,0 +1,25 @@
+{
+  "name": "rhrf-bullseye",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "friendsdk dev ./games/rhrf-bullseye",
+    "build": "friendsdk build ./games/rhrf-bullseye",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rarefriends/friendsdk": "https://github.com/spokesz/friendsdk/releases/download/v0.1.4/rarefriends-friendsdk-0.1.4.tgz",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "playwright": "^1.63.0",
+    "typescript": "6.0.3"
+  }
+}
