@@ -64,7 +64,7 @@ jobs:
           .rf-theme-switch button{display:grid;place-items:center;width:28px;height:28px;min-height:0;padding:0;background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer}
           .rf-theme-switch button:hover{border-color:var(--bd)}
           .rf-theme-switch button[aria-pressed=true]{border-color:var(--bd);box-shadow:0 0 10px var(--g1)}
-          .sw{display:block;width:14px;height:14px;border-radius:3px;border:1px solid rgba(127,127,127,.55)}
+          .sw{display:block;width:18px;height:18px;border-radius:3px;border:1px solid rgba(127,127,127,.55)}
           .sw-light{background:#fff}
           .sw-dark{background:#111}
           .rf-site-footer{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;padding:7px 16px;background:var(--cbg);border:1px solid var(--ln);border-radius:999px;box-shadow:0 0 18px var(--g1);font:11px/1 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;max-width:94vw}
