@@ -21,3 +21,9 @@ for h in sorted(glob.glob("games/rhrf-bullseye/.friendsdk/*.html")):
     if t2 != t:
         Path(h).write_text(t2, encoding="utf-8")
     print(h, "->", n, "assets busted")
+
+# CDN-лаг: HTML всегда свежий, ассеты bust-ятся по sha
+HEADERS = "/\n  Cache-Control: no-cache, must-revalidate\n/*.html\n  Cache-Control: no-cache, must-revalidate\n"
+out = Path("games/rhrf-bullseye/.friendsdk/_headers")
+out.write_text(HEADERS, encoding="utf-8")
+print(out, "-> _headers written")
