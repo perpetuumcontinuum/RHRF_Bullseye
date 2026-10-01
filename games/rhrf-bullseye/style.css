@@ -2694,3 +2694,11 @@ body {
 .cyber-active .nft-archer {
   animation: cyberPulse 2.5s infinite ease-in-out;
 }
+
+.rf-shop-tabs {
+    overflow: unset !important;
+}
+
+.rf-guide-panel *, .rf-profile-panel *, .rf-shop-panel *, .rf-shop-item-desc * {
+    padding: 0.7vh 1.2vh;
+}

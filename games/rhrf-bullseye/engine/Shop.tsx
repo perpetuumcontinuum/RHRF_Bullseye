@@ -136,14 +136,13 @@ export default function Shop(props: any) {
                       <button disabled={!canPlus10} onClick={() => addConsumable(item, 10)}>
                         +10
                       </button>
+                      <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (!owned)}
+                        className="rf-shop-item-btn rf-shop-equip-btn"
+                        onClick={() => toggleEquip(item)}
+                      >
+                        {equipped ? "UNEQUIP" : "EQUIP"}
+                      </button>
                     </div>
-
-                    <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (!owned)}
-                      className="rf-shop-item-btn rf-shop-equip-btn"
-                      onClick={() => toggleEquip(item)}
-                    >
-                      {equipped ? "UNEQUIP" : "EQUIP"}
-                    </button>
                   </div>
                 </div>
               );

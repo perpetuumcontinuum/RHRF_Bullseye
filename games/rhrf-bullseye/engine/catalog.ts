@@ -13,29 +13,29 @@ export type ShopItem = {
 export const CONSUMABLE_CAP = 100;
 
 export const CATALOG: ShopItem[] = [
-  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", price: 40, description: "Stable basic bow. Small accuracy bonus." },
-  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", price: 90, description: "Neon reinforced bow. Better arrow control." },
-  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", price: 180, description: "Cyber Robinhood prototype. Maximum shot precision." },
+  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", price: 40, description: "x2 score" },
+  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", price: 90, description: "x3 score" },
+  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", price: 180, description: "x4 score" },
 
-  { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", price: 35, description: "Outfit tint. Softly recolors the Friend body by rarity." },
-  { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", price: 80, description: "Outfit tint. Softly recolors the Friend body by rarity." },
-  { id: "hat_legendary", name: "LEGENDARY OUTFIT", category: "hat", rarity: "legendary", price: 160, description: "Outfit tint. Softly recolors the Friend body by rarity." },
+  { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", price: 35, description: "x2 accuracy" },
+  { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", price: 80, description: "x3 accuracy" },
+  { id: "hat_legendary", name: "LEGENDARY OUTFIT", category: "hat", rarity: "legendary", price: 160, description: "x4 accuracy" },
 
-  { id: "amulet_rare", name: "RARE AMULET", category: "amulet", rarity: "rare", price: 45, description: "Basic luck charm. Small score chance boost." },
-  { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", price: 100, description: "Signal crystal. Better multiplier chances." },
-  { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", price: 200, description: "Genesis fragment. High risk, high reward." },
+  { id: "amulet_rare", name: "RARE AMULET", category: "amulet", rarity: "rare", price: 45, description: "x2 slow aim" },
+  { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", price: 100, description: "x3 slow aim" },
+  { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", price: 200, description: "x4 slow aim" },
 
-  { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", price: 25, description: "Standard neon arrows. Basic score." },
-  { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", price: 60, description: "Charged arrows. Better bullseye impact." },
-  { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", price: 120, description: "Prototype arrows. Massive score potential." },
+  { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", price: 25, description: "x2 score, fast draw" },
+  { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", price: 60, description: "x3 score, faster draw" },
+  { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", price: 120, description: "x4 score, instant draw" },
 
-  { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", price: 30, description: "Basic tower charge. Satellite-friendly energy." },
-  { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", price: 80, description: "Enhanced tower charge. Higher asteroid bounty." },
-  { id: "energy_legendary", name: "LEGENDARY ENERGY", category: "consumable", rarity: "legendary", price: 160, description: "Prototype tower charge. Maximum asteroid bounty." },
+  { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", price: 30, description: "x2 asteroid RF" },
+  { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", price: 80, description: "x3 asteroid RF" },
+  { id: "energy_legendary", name: "LEGENDARY ENERGY", category: "consumable", rarity: "legendary", price: 160, description: "x4 asteroid RF" },
 
-  { id: "armor_rare", name: "RARE ARMOR", category: "consumable", rarity: "rare", price: 40, description: "Blocks one cyber ghost charge penalty." },
-  { id: "armor_epic", name: "EPIC ARMOR", category: "consumable", rarity: "epic", price: 85, description: "Stronger shield. Reduces charge risk." },
-  { id: "armor_legendary", name: "LEGENDARY ARMOR", category: "consumable", rarity: "legendary", price: 160, description: "Genesis plating. Almost full charge protection." },
+  { id: "armor_rare", name: "RARE ARMOR", category: "consumable", rarity: "rare", price: 40, description: "x0.75 stun" },
+  { id: "armor_epic", name: "EPIC ARMOR", category: "consumable", rarity: "epic", price: 85, description: "x0.5 stun" },
+  { id: "armor_legendary", name: "LEGENDARY ARMOR", category: "consumable", rarity: "legendary", price: 160, description: "x0.25 stun" },
 ];
 
 export function getItemById(id: string): ShopItem | undefined {
