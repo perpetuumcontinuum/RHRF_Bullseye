@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { PLAYER_X, PLAYER_WIDTH } from "./geometry";
 
-const PLAYER_X = 240;
-const PLAYER_WIDTH = 80;
 const GHOST_FRONT = 5;
 const GHOST_START = 1155;
 const GHOST_END = -155;
@@ -18,9 +17,6 @@ const GHOST_LETHAL_PAD = (GHOST_BODY_LEN * (1 - GHOST_LETHAL_RATIO)) / 2;
 const GHOST_LETHAL_MIN = GHOST_BODY_MIN + GHOST_LETHAL_PAD;
 const GHOST_LETHAL_MAX = GHOST_BODY_MAX - GHOST_LETHAL_PAD;
 
-// Player occupies x=[240,320] on the ground and lifts 85px while airborne
-const PLAYER_TOP = PLAYER_X;
-const PLAYER_BOTTOM = PLAYER_X + PLAYER_WIDTH;
 // Jump arc lasts 1155ms; outside this window the player is not clear of the ghost
 const JUMP_SAFE_START_MS = 200;
 const JUMP_SAFE_END_MS = 955;
@@ -86,12 +82,20 @@ export default function BackgroundEvents() {
 
       const step = (now: number) => {
         const dt = (now - g.last) / 1000;
+        // Always advance the clock so unpausing does not produce a time jump
         g.last = now;
+
+        if ((window as any).__RHRF_IS_PAUSED__) {
+          // Ghost holds position, no collision check, no hit events
+          g.raf = requestAnimationFrame(step);
+          return;
+        }
+
         g.x -= g.speed * dt;
 
         // Horizontal overlap between the player column and the ghost lethal core
-        const overlapsX = g.x + GHOST_LETHAL_MAX > PLAYER_TOP && g.x + GHOST_LETHAL_MIN < PLAYER_BOTTOM;
-        const ghostLeaving = g.x + GHOST_LETHAL_MAX <= PLAYER_TOP;
+        const overlapsX = g.x + GHOST_LETHAL_MAX > PLAYER_X && g.x + GHOST_LETHAL_MIN < PLAYER_X + PLAYER_WIDTH;
+        const ghostLeaving = g.x + GHOST_LETHAL_MAX <= PLAYER_X;
 
         if (!g.hit && overlapsX) {
           const fallen = Boolean((window as any).__RHRF_IS_FALLEN__);

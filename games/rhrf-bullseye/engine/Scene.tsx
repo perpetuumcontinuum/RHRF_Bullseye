@@ -1,4 +1,5 @@
 import BackgroundEvents from "./BackgroundEvents";
+import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
 import React from "react";
 import { TARGET_CX, TARGET_CY, ARROW_START_X, ARROW_START_Y, getScoreColor } from "./math";
 
@@ -39,6 +40,7 @@ interface SceneProps {
   isMuted?: boolean;
   onToggleMute?: () => void;
   isPaused?: boolean;
+  onPopupDone?: (id: number) => void;
   onTogglePause?: () => void;
 }
 
@@ -70,6 +72,7 @@ export default function Scene({
   isMuted,
   onToggleMute,
   isPaused,
+  onPopupDone,
   onTogglePause,
 }: SceneProps) {
   const cyberStyle = Boolean(isCyberStyle ?? (typeof window !== 'undefined' && (window as any).__RHRF_IS_CYBER__));
@@ -309,7 +312,7 @@ const pixelBounds = (() => {
       </g>
       <BackgroundEvents />
 
-      <g transform="translate(240, 410)">
+      <g transform={`translate(${PLAYER_X}, ${PLAYER_Y})`}>
         <g
           transform={isFallen ? `translate(0, ${fallDropY}) translate(${spriteCenterX}, ${spriteCenterY}) rotate(90) translate(${-spriteCenterX}, ${-spriteCenterY})` : undefined}
           className={characterClass || undefined}
@@ -320,7 +323,7 @@ const pixelBounds = (() => {
         >
           {friendPixels && friendPixels.length > 0 ? (
             <g
-              className={`nft-archer ${isJumping ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}`}
+              className={`nft-archer ${isJumping ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
               shapeRendering="crispEdges"
             >
               {friendPixels.map(([x, y], i) => (
@@ -361,9 +364,9 @@ const pixelBounds = (() => {
               href={nftImageUrl}
               x="0"
               y="0"
-              width="80"
-              height="80"
-              className={`nft-archer ${isJumping ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}`}
+              width={PLAYER_WIDTH}
+              height={PLAYER_HEIGHT}
+              className={`nft-archer ${isJumping ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
             />
           ) : null}
         </g>
@@ -506,8 +509,9 @@ const pixelBounds = (() => {
         return (
           <g key={popup.id} transform={`translate(${popup.x}, ${popup.y})`}>
             <g
-              className={`score-popup ${cyberPopup ? "rf-score-popup-cyber" : ""}`}
-              style={{ ["--dx" as any]: `${popup.dx ?? -298}px`, ["--dy" as any]: `${popup.dy ?? -206}px` } as any}
+              className={`score-popup ${cyberPopup ? "rf-score-popup-cyber" : ""}${isPaused ? " rf-popup-paused" : ""}`}
+              style={{ ["--dx" as any]: `${popup.dx ?? -238}px`, ["--dy" as any]: `${popup.dy ?? -200}px` } as any}
+              onAnimationEnd={(e) => { if (e.currentTarget === e.target) onPopupDone?.(popup.id); }}
             >
               <rect
                 x="-35"
@@ -536,6 +540,27 @@ const pixelBounds = (() => {
         );
       })}
 
+{explosion?.visible && (
+<g transform={`translate(${explosion.x}, ${explosion.y})`}>
+<circle r="25" fill="#ffaa00" opacity="0.8" filter="url(#bigGlow)">
+<animate attributeName="r" values="25;45;0" dur="1s" fill="freeze"/>
+<animate attributeName="opacity" values="0.8;0.4;0" dur="1s" fill="freeze"/>
+</circle>
+<circle r="15" fill="#ff3300" opacity="0.9">
+<animate attributeName="r" values="15;30;0" dur="0.8s" fill="freeze"/>
+<animate attributeName="opacity" values="0.9;0.5;0" dur="0.8s" fill="freeze"/>
+</circle>
+</g>
+)}
+{}
+      {asteroidVisible && (
+        <g transform={`translate(${asteroidPosition.x}, ${asteroidPosition.y})`}>
+          <circle r="20" fill="#8B4513" filter="url(#softGlow)" />
+          <circle r="15" fill="#A0522D" />
+          <circle cx="-5" cy="-5" r="3" fill="#654321" />
+          <circle cx="7" cy="3" r="2" fill="#654321" />
+        </g>
+      )}
       {isPaused && (
         <g pointerEvents="none">
           <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />
@@ -695,27 +720,6 @@ const pixelBounds = (() => {
         <text x="0" y="6" textAnchor="middle" fontFamily="monospace" fontSize="18" fill="#00ffff">𝕏</text>
       </g>
       {}
-{explosion?.visible && (
-<g transform={`translate(${explosion.x}, ${explosion.y})`}>
-<circle r="25" fill="#ffaa00" opacity="0.8" filter="url(#bigGlow)">
-<animate attributeName="r" values="25;45;0" dur="1s" fill="freeze"/>
-<animate attributeName="opacity" values="0.8;0.4;0" dur="1s" fill="freeze"/>
-</circle>
-<circle r="15" fill="#ff3300" opacity="0.9">
-<animate attributeName="r" values="15;30;0" dur="0.8s" fill="freeze"/>
-<animate attributeName="opacity" values="0.9;0.5;0" dur="0.8s" fill="freeze"/>
-</circle>
-</g>
-)}
-{}
-      {asteroidVisible && (
-        <g transform={`translate(${asteroidPosition.x}, ${asteroidPosition.y})`}>
-          <circle r="20" fill="#8B4513" filter="url(#softGlow)" />
-          <circle r="15" fill="#A0522D" />
-          <circle cx="-5" cy="-5" r="3" fill="#654321" />
-          <circle cx="7" cy="3" r="2" fill="#654321" />
-        </g>
-      )}
       {}
       {isLaserFiring && (
         <rect x="185" y="130" width="10" height="200" fill="#ff0000" filter="url(#neonGlowPink)" className="laser-beam" />

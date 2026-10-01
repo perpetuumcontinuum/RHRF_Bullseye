@@ -39,6 +39,7 @@ import { createFriendReader, spriteFrame } from "@rarefriends/friendsdk/sprites"
 import Shop from "./engine/Shop";
 import Hud from "./engine/Hud";
 import ArrowHud from "./engine/ArrowHud";
+import { SCORE_TARGET_X, SCORE_TARGET_Y, ARROW_POPUP_X, ARROW_POPUP_Y } from "./engine/geometry";
 import TopHud from "./engine/TopBar";
 import { SHOP_ITEMS, calculateFinalScore, calculateScore, TARGET_CX, TARGET_CY, getRarityMult, TARGET_R, ARROW_START_X, ARROW_START_Y, getRandomPointInTarget, getScoreColor } from "./engine/math";
 import Guide from "./engine/Guide";
@@ -47,7 +48,8 @@ import Scene from "./engine/Scene";
 import "./style.css";
 
 // milliseconds the crosshair travels before SHOT unlocks again
-const TARGET_RESUME_LEAD_MS = 1000;
+const TARGET_RESUME_LEAD_MS = 500;
+const LASER_COOLDOWN_MS = 10000;
 
 export default function RhrfBullseye({ friendId, client }: { friendId?: bigint | null; client?: any }) {
   const [gameStats, setGameStats] = useState<GameStats>(() => loadStats());
@@ -107,6 +109,7 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
   const [isJumping, setIsJumping] = useState(false);
   const [jumpVariant, setJumpVariant] = useState("spin-360");
   const [isLaserFiring, setIsLaserFiring] = useState(false);
+  const [laserCooldown, setLaserCooldown] = useState(false);
   const [asteroidPosition, setAsteroidPosition] = useState({ x: 0, y: 0 });
   const [asteroidVisible, setAsteroidVisible] = useState(false);
 const [screenShake, setScreenShake] = useState(false);
@@ -126,6 +129,15 @@ const asteroidKilledRef = useRef(false);
   const [showShop, setShowShop] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const showShopRef = useRef(false);
+  const showProfileRef = useRef(false);
+  const showGuideRef = useRef(false);
+
+  useEffect(() => {
+    showShopRef.current = showShop;
+    showProfileRef.current = showProfile;
+    showGuideRef.current = showGuide;
+  }, [showShop, showProfile, showGuide]);
   const [inventory, setInventory] = useState<string[]>([]);
   const [equippedBow, setEquippedBow] = useState<string | null>(null);
   const [equippedAmulet, setEquippedAmulet] = useState<string | null>(null);
@@ -150,7 +162,59 @@ const asteroidKilledRef = useRef(false);
   const [isCyberStyle, setIsCyberStyle] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  useEffect(() => {
+    // Lives after the declaration to avoid a temporal dead zone hit
+    (window as any).__RHRF_IS_PAUSED__ = isPaused;
+    pausedRef.current = isPaused;
+  }, [isPaused]);
   const pausedRef = useRef(false);
+  // Effect timers (messages, shake, explosion) must not expire behind the
+  // pause overlay: remaining time only drains while unpaused
+  const ptSeqRef = useRef(0);
+  const ptMapRef = useRef(new Map<number, { fn: () => void; remaining: number }>());
+  const ptRafRef = useRef(0);
+
+  const pt = (fn: () => void, ms: number): number => {
+    const id = ++ptSeqRef.current;
+    ptMapRef.current.set(id, { fn, remaining: ms });
+    return id;
+  };
+
+  useEffect(() => {
+    let last = performance.now();
+    const tick = () => {
+      const now = performance.now();
+      const dt = now - last;
+      last = now;
+      if (!pausedRef.current && ptMapRef.current.size > 0) {
+        const fired: number[] = [];
+        ptMapRef.current.forEach((v, id) => {
+          v.remaining -= dt;
+          if (v.remaining <= 0) fired.push(id);
+        });
+        fired.forEach((id) => {
+          const item = ptMapRef.current.get(id);
+          ptMapRef.current.delete(id);
+          item?.fn();
+        });
+      }
+      ptRafRef.current = requestAnimationFrame(tick);
+    };
+    ptRafRef.current = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(ptRafRef.current);
+      ptMapRef.current.clear();
+    };
+  }, []);
+  const asteroidPausedRef = useRef(false);
+  const asteroidPauseSinceRef = useRef(0);
+  const asteroidPauseAccumRef = useRef(0);
+  const arrowPausedRef = useRef(false);
+  const arrowPauseSinceRef = useRef(0);
+  const arrowPauseAccumRef = useRef(0);
+  const jumpPausedRef = useRef(false);
+  const jumpPauseSinceRef = useRef(0);
+  const jumpPauseAccumRef = useRef(0);
   const mutedRef = useRef(false);
 
   const toggleMute = () => {
@@ -298,6 +362,11 @@ const asteroidKilledRef = useRef(false);
     let raf: number;
     
     const loop = () => {
+      // Frozen during pause so the reticle and target stop drifting
+      if (pausedRef.current) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
       if (stateRef.current === 'IDLE' || resumingRef.current) {
         setLaserPos(prev => {
           const dx = laserTarget.x - prev.x;
@@ -393,14 +462,34 @@ const asteroidKilledRef = useRef(false);
 
     if (aimTimerRef.current) clearTimeout(aimTimerRef.current);
 
-    aimTimerRef.current = window.setTimeout(() => {
+    aimTimerRef.current = window.setTimeout(function onAimDone() {
+      // Release is deferred while paused so no phase flips behind the overlay
+      if (pausedRef.current) {
+        aimTimerRef.current = window.setTimeout(onAimDone, 50);
+        return;
+      }
       setShotPhase('FLYING');
 
       let start = Date.now();
       const duration = 400;
+      arrowPauseAccumRef.current = 0;
+      arrowPausedRef.current = false;
 
       const animateFlight = () => {
-        const elapsed = Date.now() - start;
+        // In-flight arrow holds position during pause
+        if (pausedRef.current) {
+          if (!arrowPausedRef.current) {
+            arrowPausedRef.current = true;
+            arrowPauseSinceRef.current = Date.now();
+          }
+          requestAnimationFrame(animateFlight);
+          return;
+        }
+        if (arrowPausedRef.current) {
+          arrowPauseAccumRef.current += Date.now() - arrowPauseSinceRef.current;
+          arrowPausedRef.current = false;
+        }
+        const elapsed = Date.now() - start - arrowPauseAccumRef.current;
         const progress = Math.min(elapsed / duration, 1);
         setArrowProgress(progress);
 
@@ -429,7 +518,7 @@ const asteroidKilledRef = useRef(false);
             const popupColor = getScoreColor(baseScore);
 const isBullseyeHit = baseScore === 10;
 const effectivePopupColor = isBullseyeHit ? CYBER_BULLSEYE_COLOR : popupColor;
-setScorePopups((arr) => [...arr, { x: 580, y: 240, score: finalScore, isBullseye: baseScore === 10, color: effectivePopupColor, id: popupId }]);
+setScorePopups((arr) => [...arr, { x: ARROW_POPUP_X, y: ARROW_POPUP_Y, dx: SCORE_TARGET_X - ARROW_POPUP_X, dy: SCORE_TARGET_Y - ARROW_POPUP_Y, score: finalScore, isBullseye: baseScore === 10, color: effectivePopupColor, id: popupId }]);
 if (flashTimerRef.current) window.clearTimeout(flashTimerRef.current);
 setFlashColor(effectivePopupColor);
 // hold the hit color until the score popup animation finishes
@@ -453,7 +542,11 @@ flashTimerRef.current = window.setTimeout(() => {
           setIsShooting(false);
           setArrowProgress(0);
           if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current);
-          resumeTimerRef.current = window.setTimeout(() => {
+          resumeTimerRef.current = window.setTimeout(function onResumeDone() {
+            if (pausedRef.current) {
+              resumeTimerRef.current = window.setTimeout(onResumeDone, 50);
+              return;
+            }
             resumeTimerRef.current = null;
             resumingRef.current = false;
             stateRef.current = 'IDLE';
@@ -473,7 +566,30 @@ flashTimerRef.current = window.setTimeout(() => {
     (window as any).__RHRF_JUMP_STARTED_AT__ = Date.now();
     playSound('select');
     setJumpVariant(["spin-360", "spin-reverse", "spin-720", "spin-double-reverse", "flip-horizontal", "tilt-mix", "feet-up", "flip-vertical"][Math.floor(Math.random() * 8)]);
-    setTimeout(() => setIsJumping(false), 1200);
+    // Pausable jump clock: the 1200ms arc advances only in game time
+    const jumpT0 = Date.now();
+    jumpPauseAccumRef.current = 0;
+    jumpPausedRef.current = false;
+    const checkJumpEnd = () => {
+      if (pausedRef.current) {
+        if (!jumpPausedRef.current) {
+          jumpPausedRef.current = true;
+          jumpPauseSinceRef.current = Date.now();
+        }
+        requestAnimationFrame(checkJumpEnd);
+        return;
+      }
+      if (jumpPausedRef.current) {
+        jumpPauseAccumRef.current += Date.now() - jumpPauseSinceRef.current;
+        jumpPausedRef.current = false;
+      }
+      if (Date.now() - jumpT0 - jumpPauseAccumRef.current >= 1200) {
+        setIsJumping(false);
+      } else {
+        requestAnimationFrame(checkJumpEnd);
+      }
+    };
+    requestAnimationFrame(checkJumpEnd);
   };
 
   useEffect(() => {
@@ -517,6 +633,20 @@ flashTimerRef.current = window.setTimeout(() => {
 
     return () => window.clearTimeout(tick);
   }, [isFallen, fallRemaining, isPaused]);
+
+  const jumpElapsedAtPauseRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (isPaused) {
+      // Freeze jump clock: store elapsed so the safe-air window survives pause
+      const start = Number((window as any).__RHRF_JUMP_STARTED_AT__ || 0);
+      if (start > 0) jumpElapsedAtPauseRef.current = Date.now() - start;
+    } else if (jumpElapsedAtPauseRef.current !== null) {
+      // Resume jump clock from the preserved offset
+      (window as any).__RHRF_JUMP_STARTED_AT__ = Date.now() - jumpElapsedAtPauseRef.current;
+      jumpElapsedAtPauseRef.current = null;
+    }
+  }, [isPaused]);
 
   useEffect(() => {
     if (isFallen || fallRemaining > 0) return;
@@ -758,15 +888,18 @@ flashTimerRef.current = window.setTimeout(() => {
 
   const handleTowerFire = () => {
     if (pausedRef.current) return;
-    if (isFallen || isLaserFiring || isJumping || isShooting || stateRef.current !== 'IDLE') return;
+    // Tower laser is independent of bow/jump/fall: only its own cooldown gates it
+    if (laserCooldown || isLaserFiring) return;
 
     const energyToUse = equippedEnergy && getCount(equippedEnergy) > 0 ? equippedEnergy : null;
     setTowerEnergyId(energyToUse);
     consumeOne(energyToUse);
 
     setIsLaserFiring(true);
+    setLaserCooldown(true);
     playSound('action-start');
     setTimeout(() => setIsLaserFiring(false), 800);
+    setTimeout(() => setLaserCooldown(false), LASER_COOLDOWN_MS);
   };
 
   useEffect(() => {
@@ -779,21 +912,23 @@ asteroidKilledRef.current = true;
 setExplosion({x: ax, y: ay, visible: true});
           setSuccessMessage("ASTEROID DEFLECTED!");
           recordEvent("asteroid", true);
-          setTimeout(() => setSuccessMessage(null), 2500);
-impactTimersRef.current.push(window.setTimeout(() => setExplosion({x: 0, y: 0, visible: false}), 1500));
+          pt(() => setSuccessMessage(null), 2500);
+impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false}), 1500));
       const mult = equippedEnergy?.includes("legendary") ? 4 : equippedEnergy?.includes("epic") ? 3 : equippedEnergy?.includes("rare") ? 2 : 1;
       const reward = 25 * mult;
       const energyColor = equippedEnergy?.includes("legendary") ? "#ffaa00" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : "#ff3366";
       setTotalScore((s) => s + reward);
       addEarnedScore(reward);
       const pid = Date.now() + Math.random();
-      setScorePopups((arr) => [...arr, { x: ax, y: ay, dx: 282 - ax, dy: 44 - ay, score: reward, color: energyColor, id: pid }]);
-      window.setTimeout(() => setScorePopups((arr) => arr.filter((pp) => pp.id !== pid)), 2100);
+      setScorePopups((arr) => [...arr, { x: ax, y: ay, dx: SCORE_TARGET_X - ax, dy: SCORE_TARGET_Y - ay, score: reward, color: energyColor, id: pid }]);
+      // removal now driven by score-popup onAnimationEnd (pause-safe)
     }
   }, [isLaserFiring, asteroidVisible, asteroidPosition, equippedEnergy]);
 
   useEffect(() => {
     const spawnAsteroid = () => {
+      // Hold off spawning while paused; the scheduler will retry
+      if (pausedRef.current) return;
       const now = Date.now();
       if (now < towerEventLockUntil) return;
       towerEventLockUntil = now + 30000;
@@ -802,20 +937,36 @@ impactTimersRef.current.push(window.setTimeout(() => setExplosion({x: 0, y: 0, v
       asteroidKilledRef.current = false;
       setAsteroidPosition({ x: 0, y: 0 });
       let startTime = Date.now();
+      asteroidPauseAccumRef.current = 0;
+      asteroidPausedRef.current = false;
       const animate = () => {
-        const elapsed = Date.now() - startTime;
+        // While paused: keep the rAF loop alive but do not advance position
+        if (pausedRef.current) {
+          if (!asteroidPausedRef.current) {
+            asteroidPausedRef.current = true;
+            asteroidPauseSinceRef.current = Date.now();
+          }
+          requestAnimationFrame(animate);
+          return;
+        }
+        // On resume: bank the paused span so progress continues where it stopped
+        if (asteroidPausedRef.current) {
+          asteroidPauseAccumRef.current += Date.now() - asteroidPauseSinceRef.current;
+          asteroidPausedRef.current = false;
+        }
+        const elapsed = Date.now() - startTime - asteroidPauseAccumRef.current;
         const progress = elapsed / 3056;
         if (progress >= 1) {
           setAsteroidVisible(false);
           if (!asteroidKilledRef.current) {
           recordEvent("asteroid", false);
-            impactTimersRef.current.push(window.setTimeout(() => {
+            impactTimersRef.current.push(pt(() => {
               if (!cyberRef.current) setScreenShake(true);
               setAsteroidWarning(true);
               playSound('impact');
             }, 1000));
-            impactTimersRef.current.push(window.setTimeout(() => setScreenShake(false), 2000));
-            impactTimersRef.current.push(window.setTimeout(() => setAsteroidWarning(false), 3500));
+            impactTimersRef.current.push(pt(() => setScreenShake(false), 2000));
+            impactTimersRef.current.push(pt(() => setAsteroidWarning(false), 3500));
           }
           return;
         }
@@ -844,25 +995,61 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
   useEffect(() => {
 
     const handleKey = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement | null;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
-      if (e.repeat) return;
-      if (t && (t.tagName === 'BUTTON' || t.isContentEditable)) return;
       const k = e.code;
-      if ((showShop || showProfile || showGuide) && k !== 'Escape') return;
+      if (e.repeat) return;
+      // Escape closes overlays regardless of focused element (buttons keep focus after click)
+      if (k === 'Escape' || e.key === 'Escape') {
+        const anyOpen = showShopRef.current || showProfileRef.current || showGuideRef.current;
+        setShowShop(false);
+        setShowProfile(false);
+        setShowGuide(false);
+        if (anyOpen) playSound('select');
+        return;
+      }
+      const t = e.target as HTMLElement | null;
+      // Text entry fields never trigger hotkeys
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      const overlayOpen = showShopRef.current || showProfileRef.current || showGuideRef.current;
       const h = handlersRef.current;
-      if (k === 'Digit1' || k === 'Numpad1') { e.preventDefault(); if (h.towerFire) h.towerFire(); }
-      else if (k === 'Digit2' || k === 'Numpad2') { e.preventDefault(); if (h.fire) h.fire(); }
-      else if (k === 'Digit3' || k === 'Numpad3') { e.preventDefault(); if (h.jump) h.jump(); }
-      else if (k === 'Escape') { setShowShop(false); setShowProfile(false); setShowGuide(false); }
-      else if (k === 'Space' || k === 'Digit4' || k === 'Numpad4') { e.preventDefault(); togglePause(); }
-      else if (k === 'KeyM' || k === 'Digit5' || k === 'Numpad5') { toggleMute(); }
-      else if (k === 'KeyS' || k === 'Digit6' || k === 'Numpad6') { setShowShop(true); playSound('select'); }
-      else if (k === 'KeyP' || k === 'Digit7' || k === 'Numpad7') { setShowProfile(true); playSound('select'); }
-      else if (k === 'KeyG' || k === 'Digit8' || k === 'Numpad8') { setShowGuide(true); playSound('select'); }
+
+      // Every game hotkey is dispatched BEFORE the BUTTON guard. After a mouse
+      // click the focused button swallows un-prevented keys as a native
+      // re-activation, which is why digits only worked after clicking away.
+      if (k === 'Space') {
+        e.preventDefault();
+        if (!overlayOpen) togglePause();
+        return;
+      }
+
+      const isHotkey =
+        k === 'Digit1' || k === 'Numpad1' ||
+        k === 'Digit2' || k === 'Numpad2' ||
+        k === 'Digit3' || k === 'Numpad3' ||
+        k === 'Digit4' || k === 'Numpad4' ||
+        k === 'KeyM' || k === 'Digit5' || k === 'Numpad5' ||
+        k === 'KeyS' || k === 'Digit6' || k === 'Numpad6' ||
+        k === 'KeyP' || k === 'Digit7' || k === 'Numpad7' ||
+        k === 'KeyG' || k === 'Digit8' || k === 'Numpad8';
+
+      if (isHotkey) {
+        e.preventDefault();
+        if (overlayOpen) return;
+        if (k === 'Digit1' || k === 'Numpad1') { if (h.towerFire) h.towerFire(); }
+        else if (k === 'Digit2' || k === 'Numpad2') { if (h.fire) h.fire(); }
+        else if (k === 'Digit3' || k === 'Numpad3') { if (h.jump) h.jump(); }
+        else if (k === 'Digit4' || k === 'Numpad4') { togglePause(); }
+        else if (k === 'KeyM' || k === 'Digit5' || k === 'Numpad5') { toggleMute(); }
+        else if (k === 'KeyS' || k === 'Digit6' || k === 'Numpad6') { setShowShop(true); playSound('select'); }
+        else if (k === 'KeyP' || k === 'Digit7' || k === 'Numpad7') { setShowProfile(true); playSound('select'); }
+        else if (k === 'KeyG' || k === 'Digit8' || k === 'Numpad8') { setShowGuide(true); playSound('select'); }
+        return;
+      }
+
+      // Unknown keys keep the original focus guard
+      if (t && t.tagName === 'BUTTON') return;
     };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    window.addEventListener('keydown', handleKey, true);
+    return () => window.removeEventListener('keydown', handleKey, true);
   }, []);
 
   const getItemCategory = (item: any): string => {
@@ -1142,7 +1329,7 @@ if (loading) {
   }
 
   return (
-    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "")}>
+    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "")}>
       
 
       <div className="scanline-overlay" />
@@ -1199,6 +1386,7 @@ if (loading) {
         isMuted={isMuted}
         onToggleMute={toggleMute}
         isPaused={isPaused}
+        onPopupDone={(id) => setScorePopups((arr) => arr.filter((p) => p.id !== id))}
         onTogglePause={togglePause}
       />
 
@@ -1214,8 +1402,8 @@ if (loading) {
         </div>
       )}
 
-      <div className="controls-row">
-        <button className="fire-tower-btn" disabled={isFallen || isLaserFiring || isJumping || isShooting || shotPhase !== 'IDLE'} onClick={handleTowerFire}>
+      <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
+        <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>
           FIRE
         </button>
         <button className="shot-btn" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring} onClick={handleFire}>
@@ -1252,6 +1440,7 @@ if (loading) {
             return id;
           });
         }}
+        isPaused={isPaused}
       />
 
       {showGuide && <Guide onClose={() => { setShowGuide(false); playSound('select'); }} />}

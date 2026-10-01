@@ -10,6 +10,7 @@ type HudProps = {
   onEquipArrow?: (id: string) => void;
   onEquipArmor?: (id: string) => void;
   onEquipEnergy?: (id: string) => void;
+  isPaused?: boolean;
 };
 
 const RARITIES: Rarity[] = ["rare", "epic", "legendary"];
@@ -87,7 +88,7 @@ function CollapsibleSlot(props: {
 export default function ArrowHud(props: HudProps) {
   const inventory = Array.isArray(props.inventory) ? props.inventory.map(String) : [];
   return (
-    <div className="rf-hud-stack">
+    <div className={`rf-hud-stack${props.isPaused ? " rf-paused-lock" : ""}`}{...(props.isPaused ? ({ inert: "" } as any) : {})}>
       <CollapsibleSlot prefix="arrow" icon={ICONS.arrow} inventory={inventory}
         equipped={props.equippedArrow ?? null} onEquip={props.onEquipArrow} />
       <CollapsibleSlot prefix="armor" icon={ICONS.armor} inventory={inventory}
