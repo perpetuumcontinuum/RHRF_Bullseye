@@ -10,21 +10,15 @@ interface HUDProps {
 
 export default function HUD({ score, onShop, onGuide, onProfile, flashColor }: HUDProps) {
   const isCyberFlash = flashColor === "cyber";
-  const currentColor = isCyberFlash ? "#00ffff" : flashColor || "#00ffff";
-  const glowColor = isCyberFlash ? "#00ffff88" : flashColor ? `${flashColor}88` : "#00ffff88";
-  const innerGlow = isCyberFlash ? "#00ffff44" : flashColor ? `${flashColor}44` : "#00ffff44";
-
-  const scoreStyle: React.CSSProperties = { transition: "none" };
-  if (!isCyberFlash) {
-    scoreStyle.border = `2px solid ${currentColor}`;
-    scoreStyle.boxShadow = `0 0 12px ${glowColor}, inset 0 0 8px ${innerGlow}`;
-    scoreStyle.color = currentColor;
-    scoreStyle.textShadow = `0 0 8px ${currentColor}`;
-  }
+  // null = дефолт из CSS (--score-flash fallback #00ffff); кибер красит анимацией
+  const flash = isCyberFlash ? null : flashColor;
 
   return (
     <div className="rf-top-bar">
-      <div className={"rf-top-bar__score" + (isCyberFlash ? " rf-score-cyber" : "")} style={scoreStyle}>
+      <div
+        className={"rf-top-bar__score" + (isCyberFlash ? " rf-score-cyber" : "")}
+        style={flash ? ({ "--score-flash": flash } as unknown as React.CSSProperties) : undefined}
+      >
         {score.toLocaleString()}
       </div>
       <button className="rf-top-bar__btn rf-top-bar__btn--shop" onClick={onShop}>SHOP</button>

@@ -397,6 +397,8 @@
   gap: clamp(8px, 2.5vw, 24px);
   z-index: 20;
   align-items: flex-end;
+  justify-content: center;
+  width: 45%;
   max-width: calc(100vw - 16px - var(--rf-safe-left) - var(--rf-safe-right));
 }
 
@@ -596,6 +598,11 @@ svg [class*="projectile" i] {
 }
 
 .rf-top-bar {
+  --tb-h: clamp(28px, 9vmin, 36px);
+  --tb-r: 10px;
+  --tb-py: clamp(5px, 1.5vmin, 9px);
+  --tb-px: clamp(7px, 2vmin, 13px);
+  --tb-bw: 2px;
   position: absolute;
   top: calc(8px + var(--rf-safe-top));
   left: 50%;
@@ -612,34 +619,40 @@ svg [class*="projectile" i] {
 }
 
 .rf-top-bar__score {
+  --sf: var(--score-flash, #00ffff);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #0a0014e6;
-  border-radius: 10px;
-  padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 14px);
+  border: var(--tb-bw) solid var(--sf);
+  border-radius: var(--tb-r);
+  min-height: var(--tb-h);
+  min-width: clamp(72px, 18vw, 140px);
+  padding: var(--tb-py) var(--tb-px);
   font-size: var(--rf-ui-md);
   font-weight: bold;
   letter-spacing: clamp(1px, 0.2vw, 3px);
-  min-width: clamp(72px, 18vw, 140px);
-  text-align: center;
-  border: 1px solid #00ffff;
-  box-shadow: 0 0 12px #00ffff88, inset 0 0 8px #00ffff44;
-  color: #00ffff;
-  text-shadow: 0 0 8px #00ffff;
+  color: var(--sf);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--sf) 53%, transparent),
+              inset 0 0 8px color-mix(in srgb, var(--sf) 27%, transparent);
+  text-shadow: 0 0 8px var(--sf);
+  transition: none;
 }
 
 .rf-top-bar__btn {
+  box-sizing: border-box;
   background: #0a0014e6;
-  border-radius: 10px;
-  min-height: 36px;
-  padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2.2vw, 14px);
+  border: var(--tb-bw) solid;
+  border-radius: var(--tb-r);
+  min-height: var(--tb-h);
+  padding: var(--tb-py) var(--tb-px);
   font-size: var(--rf-ui-sm);
   font-weight: bold;
   letter-spacing: clamp(0.4px, 0.12vw, 2px);
   cursor: pointer;
   font-family: monospace;
   transition: 0.2s;
-  border: 1px solid;
-  box-shadow: 0 0 10px, 0 0 6px inset;
-  text-shadow: 0 0 8px;
   white-space: nowrap;
 }
 
@@ -2333,8 +2346,8 @@ body {
   }
 
   .rf-top-bar__btn {
-    min-height: 34px;
-    padding: 7px 8px;
+    min-height: var(--tb-h);
+    padding: var(--tb-py) var(--tb-px);
     font-size: var(--rf-ui-xs);
     letter-spacing: 0.2px;
   }
