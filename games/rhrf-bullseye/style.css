@@ -397,7 +397,6 @@
   gap: clamp(8px, 2.5vw, 24px);
   z-index: 20;
   align-items: flex-end;
-  justify-content: center;
   width: 45%;
   max-width: calc(100vw - 16px - var(--rf-safe-left) - var(--rf-safe-right));
 }
