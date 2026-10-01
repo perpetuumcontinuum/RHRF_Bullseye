@@ -119,6 +119,14 @@ jobs:
               print("og injected", h)
           EOF
 
+      - name: Cache-bust asset URLs
+        run: |
+          for f in games/rhrf-bullseye/.friendsdk/*.html; do
+            sed -i "s#\(href=\"\./[a-z-]*\.css\"\)#\1?v=${GITHUB_SHA}#g" "$f"
+            sed -i "s#\(src=\"\./[a-z-]*\.js\"\)#\1?v=${GITHUB_SHA}#g" "$f"
+          done
+          grep -o '[a-z-]*\.css?v=[0-9a-f]*' games/rhrf-bullseye/.friendsdk/*.html | head
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
