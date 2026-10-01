@@ -49,7 +49,7 @@ jobs:
           [data-theme=cyber] body{background:linear-gradient(115deg,#12002b,#3d005e,#001a3d,#003d2e,#3d0018,#12002b);background-size:400% 400%;animation:rfFlow 18s ease-in-out infinite}
           @keyframes rfFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
           @media (prefers-reduced-motion:reduce){[data-theme=cyber] body{animation:none}[data-theme=cyber]{animation:none}}
-          #root{width:min(96vw,960px,calc((100dvh - var(--rf-reserve,99px)) * var(--rf-ar,1.5)));margin:0}
+          #root{width:min(96vw,960px,calc(((100dvh + var(--rf-vh-add,10vh)) - var(--rf-reserve,99px)) * var(--rf-ar,1.5)));margin:0}
           section.rf-game-frame{background:var(--fb);border:1px solid var(--bd);border-radius:12px;box-shadow:0 0 26px var(--g1),0 0 70px var(--g2),inset 0 0 34px var(--gi)}
           section.rf-game-frame .rf-frame-toolbar>*,section.rf-game-frame button,section.rf-frame-scrim button{background:var(--cbg);border:1px solid var(--bd);color:var(--cfg)}
           section.rf-game-frame button:hover:not(:disabled),section.rf-frame-scrim button:hover:not(:disabled){background:var(--chv)}
