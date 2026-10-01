@@ -2864,3 +2864,10 @@ button.fire-tower-btn {
     gap: clamp(3px, 1.2vmin, 6px);
   }
 }
+
+.controls-row button,
+.rf-top-bar button,
+.rf-hud-main,
+.rf-hud-mini {
+  padding: 1vh !important;
+}
