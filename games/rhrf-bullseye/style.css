@@ -2860,3 +2860,21 @@ button.fire-tower-btn {
     max-width: clamp(110px, 40vmin, 150px);
   }
 }
+
+/* topbar-landscape */
+@media (orientation: landscape) and (max-height: 500px) {
+  .rf-top-bar {
+    gap: clamp(4px, 1.2vmin, 8px);
+  }
+
+  .rf-top-bar__score {
+    padding: clamp(4px, 1.4vmin, 8px) clamp(6px, 1.8vmin, 11px);
+    letter-spacing: clamp(0.5px, 0.15vmin, 1.5px);
+    min-width: clamp(54px, 14vmin, 96px);
+  }
+
+  .rf-top-bar__btn {
+    padding: clamp(4px, 1.4vmin, 8px) clamp(6px, 2vmin, 12px);
+    letter-spacing: clamp(0.3px, 0.1vmin, 1px);
+  }
+}
