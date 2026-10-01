@@ -2413,7 +2413,7 @@ body {
 
   .controls-row {
     gap: 6px;
-    width: calc(100vw - 12px);
+    width: 45%;
   }
 
   .controls-row button {
