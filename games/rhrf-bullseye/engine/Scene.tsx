@@ -382,11 +382,14 @@ const pixelBounds = (() => {
 
       <g transform={`translate(${PLAYER_X}, ${PLAYER_Y})`}>
         <g
-          transform={isFallen ? `translate(0, ${fallDropY}) translate(${spriteCenterX}, ${spriteCenterY}) rotate(90) translate(${-spriteCenterX}, ${-spriteCenterY})` : undefined}
-          className={characterClass || undefined}
+          transform={undefined}
+          className={[characterClass, isFallen ? "rf-archer-fallen" : ""].filter(Boolean).join(" ") || undefined}
           style={{
             ["--armor-color" as any]: armorColor || undefined,
             ["--clothing-color" as any]: clothingColor || undefined,
+            ["--cx" as any]: `${spriteCenterX}px`,
+            ["--cy" as any]: `${spriteCenterY}px`,
+            ["--drop" as any]: `${fallDropY}px`,
           }}
         >
           {friendPixels && friendPixels.length > 0 ? (

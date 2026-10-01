@@ -450,13 +450,6 @@
   border-color: #fff !important;
 }
 
-.jump-btn {
-  background: linear-gradient(135deg, #00331a, #063);
-  border-color: #0f8 !important;
-  color: #0f8;
-  animation: buttonPulseGreen 2s ease-in-out infinite;
-}
-
 .jump-btn:hover:not(:disabled) {
   background: #00994d;
   color: #fff;
@@ -2719,7 +2712,6 @@ body {
 .controls-row .shot-btn {
     border-color: #ff2b2b!important;
     color: #ff5a5a!important;
-    animation: rfPulseRed 2.2s ease-in-out infinite
 }
 
 .controls-row .shot-btn:active:not(:disabled) {
@@ -2733,4 +2725,43 @@ body {
 button.fire-tower-btn {
     color: #d071ff;
     border-color: #fff !important;
+}
+
+/* ==========================================================
+   Fall: lift 10px + rotate -> hang -> drop (accelerating)
+   ========================================================== */
+@keyframes rfArcherFall {
+  0% {
+    transform: translate(0, 0) translate(var(--cx), var(--cy)) rotate(0deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    animation-timing-function: cubic-bezier(.25, .9, .3, 1);
+  }
+  32% {
+    transform: translate(0, -10px) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    animation-timing-function: cubic-bezier(.55, 0, .85, .4);
+  }
+  100% {
+    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+  }
+}
+
+.rf-archer-fallen {
+  animation: rfArcherFall .5s forwards;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rf-archer-fallen {
+    animation: none !important;
+    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy))) !important;
+  }
+}
+button.jump-btn {
+    color: #2ee48a;
+    border-color: #fff !important;
+}
+button.jump-btn { 
+    animation: buttonPulseGreen 2s ease-in-out infinite;
+}
+button.fire-tower-btn {
+    animation: buttonPulse 2s ease-in-out infinite;
 }
