@@ -478,7 +478,6 @@
 }
 
 .nft-archer {
-  animation: cyberPulse 2.5s infinite ease-in-out, float 4s infinite ease-in-out;
   image-rendering: pixelated;
 }
 
@@ -2689,4 +2688,9 @@ body {
   opacity: 0.2;
   mix-blend-mode: screen;
   pointer-events: none;
+}
+
+/* Cyber mode keeps the neon breathing; default NFT stays flat */
+.cyber-active .nft-archer {
+  animation: cyberPulse 2.5s infinite ease-in-out;
 }
