@@ -120,23 +120,7 @@ jobs:
           EOF
 
       - name: Cache-bust asset URLs
-        run: |
-          python3 - <<'EOF'
-          import glob, os, re
-          sha = os.environ.get("GITHUB_SHA", "")[:8]
-          pat = re.compile(r'((?:href|src)="[^"?]+\.(?:css|js))"')
-          for h in sorted(glob.glob("games/rhrf-bullseye/.friendsdk/*.html")):
-              t = Path(h).read_text(encoding="utf-8")
-              n = 0
-              def rep(m):
-                  global n
-                  n += 1
-                  return m.group(1) + "?v=" + sha + '"'
-              t2 = pat.sub(rep, t)
-              if n:
-                  Path(h).write_text(t2, encoding="utf-8")
-              print(h, "->", n, "assets busted")
-          EOF
+        run: python3 scripts/cache_bust.py
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
