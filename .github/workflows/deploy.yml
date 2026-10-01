@@ -121,11 +121,22 @@ jobs:
 
       - name: Cache-bust asset URLs
         run: |
-          for f in games/rhrf-bullseye/.friendsdk/*.html; do
-            sed -i "s#\(href=\"\./[a-z-]*\.css\"\)#\1?v=${GITHUB_SHA}#g" "$f"
-            sed -i "s#\(src=\"\./[a-z-]*\.js\"\)#\1?v=${GITHUB_SHA}#g" "$f"
-          done
-          grep -o '[a-z-]*\.css?v=[0-9a-f]*' games/rhrf-bullseye/.friendsdk/*.html | head
+          python3 - <<'EOF'
+          import glob, os, re
+          sha = os.environ.get("GITHUB_SHA", "")[:8]
+          pat = re.compile(r'((?:href|src)="[^"?]+\.(?:css|js))"')
+          for h in sorted(glob.glob("games/rhrf-bullseye/.friendsdk/*.html")):
+              t = Path(h).read_text(encoding="utf-8")
+              n = 0
+              def rep(m):
+                  global n
+                  n += 1
+                  return m.group(1) + "?v=" + sha + '"'
+              t2 = pat.sub(rep, t)
+              if n:
+                  Path(h).write_text(t2, encoding="utf-8")
+              print(h, "->", n, "assets busted")
+          EOF
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
