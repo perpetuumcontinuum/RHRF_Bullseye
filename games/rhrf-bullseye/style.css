@@ -2797,3 +2797,28 @@ button.fire-tower-btn {
   color: #fff;
   background: #1e0033;
 }
+
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --rf-ui-xs: clamp(9px, 2.6vmin, 11px);
+    --rf-ui-sm: clamp(10px, 3vmin, 12px);
+    --rf-ui-md: clamp(11px, 3.4vmin, 14px);
+    --rf-ui-lg: clamp(12px, 4vmin, 16px);
+    --rf-pad: clamp(6px, 2.4vmin, 10px);
+    --rf-gap: clamp(4px, 2vmin, 8px);
+    --rf-radius: clamp(6px, 2vmin, 10px);
+  }
+
+  .controls-row {
+    bottom: calc(clamp(8px, 2.4vmin, 20px) + var(--rf-safe-bottom));
+    gap: clamp(6px, 1.8vmin, 14px);
+  }
+
+  .controls-row button {
+    min-width: clamp(54px, 16vmin, 96px);
+    min-height: clamp(30px, 10vmin, 44px);
+    padding: clamp(6px, 1.6vmin, 10px) clamp(8px, 2.2vmin, 14px);
+    font-size: clamp(10px, 3vmin, 13px);
+    letter-spacing: clamp(0.5px, 0.2vmin, 1.5px);
+  }
+}
