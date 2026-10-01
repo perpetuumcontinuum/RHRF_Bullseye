@@ -38,6 +38,40 @@ jobs:
 
       - name: Build game
         run: npm run build
+      - name: Apply page frame styles
+        run: |
+          cat >> games/rhrf-bullseye/.friendsdk/layout.css <<'CSS'
+
+          /* custom wrapper frame */
+          body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #111;
+          }
+
+          section.rf-game-frame {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border-color: #333;
+          }
+
+          section.rf-game-frame iframe {
+            background: transparent;
+          }
+          CSS
+
+          cat >> games/rhrf-bullseye/.friendsdk/game.css <<'CSS'
+
+          /* let wrapper dark background show through iframe document */
+          html, body, #root {
+            background: transparent !important;
+          }
+          CSS
       - name: Inject head assets
         run: |
           python3 - <<'EOF'
