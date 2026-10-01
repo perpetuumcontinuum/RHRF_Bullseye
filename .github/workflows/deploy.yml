@@ -68,6 +68,7 @@ jobs:
           .sw-light{background:#fff}
           .sw-dark{background:#111}
           main#root{position:absolute;top:4vh}
+          .rf-theme-switch{display:flex;flex-direction:column;gap:4px}
           .rf-game-frame button, .rf-frame-scrim button { padding: 1vh !important; }
           @property --cyber-fill{syntax:"<color>";inherits:true;initial-value:#ccff00}
           @keyframes friendCyberFill{0%{--cyber-fill:#ccff00}12%{--cyber-fill:#7dff2a}25%{--cyber-fill:#aa00ff}37%{--cyber-fill:#ff00c8}50%{--cyber-fill:#00ffff}62%{--cyber-fill:#00a0ff}75%{--cyber-fill:#ffaa00}87%{--cyber-fill:#ff5e00}100%{--cyber-fill:#ccff00}}
