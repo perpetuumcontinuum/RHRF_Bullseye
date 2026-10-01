@@ -2668,24 +2668,24 @@ body {
 
 /* Horizon glow where a missed asteroid sinks behind the ground line */
 .rf-landing-glow {
-  filter: blur(16px);
-  opacity: 0.5;
+  filter: blur(18px);
+  opacity: 0.55;
   mix-blend-mode: screen;
   pointer-events: none;
 }
 
 /* Tier 1: full-width horizon haze, deliberately faint (distant flash) */
 .rf-landing-glow-wide {
-  filter: blur(42px);
-  opacity: 0.13;
+  filter: blur(46px);
+  opacity: 0.16;
   mix-blend-mode: screen;
   pointer-events: none;
 }
 
 /* Tier 2: soft mass concentration toward the impact point */
 .rf-landing-glow-mid {
-  filter: blur(30px);
-  opacity: 0.2;
+  filter: blur(34px);
+  opacity: 0.24;
   mix-blend-mode: screen;
   pointer-events: none;
 }

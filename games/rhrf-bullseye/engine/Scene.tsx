@@ -288,7 +288,9 @@ const pixelBounds = (() => {
       </g>
       <circle cx="800" cy="120" r="65" fill="none" stroke="#ffaa0033" strokeWidth="1"/>
 
-      {asteroidVisible && (
+      
+      
+{asteroidVisible && (
         <g transform={`translate(${asteroidPosition.x}, ${asteroidPosition.y})`}>
           <circle r="20" fill="#8B4513" filter="url(#softGlow)" />
           <circle r="15" fill="#A0522D" />
@@ -296,34 +298,34 @@ const pixelBounds = (() => {
           <circle cx="7" cy="3" r="2" fill="#654321" />
         </g>
       )}
-      {landingGlow?.visible && (
+{landingGlow?.visible && (
         <g>
           {/* Tier 1: uniform haze across the entire horizon, independent of impact x */}
           <ellipse
             className="rf-landing-glow-wide"
             cx={500}
             cy={484}
-            rx={520}
-            ry={20}
-            fill="#aaff00"
+            rx={620}
+            ry={28}
+            fill="#ff2bd6"
           />
           {/* Tier 2: mass bias toward the impact point */}
           <ellipse
             className="rf-landing-glow-mid"
             cx={landingGlow.x}
             cy={481}
-            rx={300}
-            ry={32}
-            fill="#bfff22"
+            rx={430}
+            ry={36}
+            fill="#ff1493"
           />
           {/* Tier 3: near core right where it went under */}
           <ellipse
             className="rf-landing-glow"
             cx={landingGlow.x}
             cy={478}
-            rx={120}
-            ry={42}
-            fill="#ccff33"
+            rx={130}
+            ry={44}
+            fill="#ff6ae0"
           />
         </g>
       )}
