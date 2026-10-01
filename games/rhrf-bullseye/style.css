@@ -2822,3 +2822,41 @@ button.fire-tower-btn {
     letter-spacing: clamp(0.5px, 0.2vmin, 1.5px);
   }
 }
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .rf-hud-cat,
+  .rf-hud-right,
+  .rf-hud-row,
+  .rf-hud-stack,
+  .rf-hud-expand {
+    gap: clamp(3px, 1vmin, 6px);
+  }
+
+  .rf-hud-main,
+  .rf-hud-mini {
+    min-width: clamp(30px, 10vmin, 38px);
+    min-height: clamp(30px, 10vmin, 38px);
+    padding: clamp(4px, 1.4vmin, 7px) clamp(5px, 1.6vmin, 9px);
+    gap: 2px;
+    border-radius: 8px;
+  }
+
+  .rf-hud-icon {
+    width: clamp(14px, 4vmin, 20px);
+    height: clamp(14px, 4vmin, 20px);
+  }
+
+  .rf-hud-mini-icon {
+    width: clamp(11px, 3.2vmin, 16px);
+    height: clamp(11px, 3.2vmin, 16px);
+  }
+
+  .rf-hud-count,
+  .rf-hud-mini-count {
+    font-size: clamp(8px, 2.4vmin, 11px);
+  }
+
+  .rf-hud-expand {
+    max-width: clamp(110px, 40vmin, 150px);
+  }
+}
