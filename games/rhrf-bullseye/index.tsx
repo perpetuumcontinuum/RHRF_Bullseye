@@ -610,6 +610,7 @@ flashTimerRef.current = window.setTimeout(() => {
         removeOneFromInventory(armorId);
       }
 
+      setIsJumping(false);
       setIsFallen(true);
       playSound('impact');
       setFallRemaining(Math.ceil(duration / 1000));

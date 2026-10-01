@@ -104,8 +104,9 @@ const pixelBounds = (() => {
   const spriteCenterX = (spriteLeft + spriteRight) / 2;
   const spriteCenterY = (spriteTop + spriteBottom) / 2;
   const spriteWidth = spriteRight - spriteLeft;
+  const spriteHeight = spriteBottom - spriteTop;
 
-  const fallDropY = spriteWidth / 2;
+  const fallDropY = spriteHeight / 2;
   const fallBodyCenterY = spriteCenterY + fallDropY;
 
   const fallTimerX = spriteCenterX;
@@ -125,9 +126,9 @@ const pixelBounds = (() => {
     return null;
   };
 
-  const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || "#00ffff";
+  const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || "#ff0000";
   const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || "#ff3366";
-  const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || "#ff00ff";
+  const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || "#ff0000";
 
   const getArmorColor = (id?: string | null) => {
     if (!id) return null;
@@ -390,7 +391,7 @@ const pixelBounds = (() => {
         >
           {friendPixels && friendPixels.length > 0 ? (
             <g
-              className={`nft-archer ${isJumping ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
+              className={`nft-archer ${isJumping && !isFallen ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
               shapeRendering="crispEdges"
             >
               {friendPixels.map(([x, y], i) => (
@@ -433,7 +434,7 @@ const pixelBounds = (() => {
               y="0"
               width={PLAYER_WIDTH}
               height={PLAYER_HEIGHT}
-              className={`nft-archer ${isJumping ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
+              className={`nft-archer ${isJumping && !isFallen ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
             />
           ) : null}
         </g>
