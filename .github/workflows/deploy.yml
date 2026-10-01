@@ -41,37 +41,22 @@ jobs:
       - name: Apply page frame styles
         run: |
           cat >> games/rhrf-bullseye/.friendsdk/layout.css <<'CSS'
-
-          /* custom wrapper frame */
-          body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #111;
-          }
-
-          section.rf-game-frame {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: transparent;
-            border-color: #333;
-          }
-
-          section.rf-game-frame iframe {
-            background: transparent;
-          }
+          html,body{background:#0b0714}
+          body{margin:0;padding:0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+          #root{width:100%;max-width:min(96vw,960px);margin:0}
+          section.rf-game-frame{background:transparent;border:1px solid #b026ff;border-radius:12px;box-shadow:0 0 26px rgba(176,38,255,.5),0 0 70px rgba(0,229,255,.22),inset 0 0 34px rgba(176,38,255,.14)}
+          section.rf-game-frame .rf-frame-toolbar>*,section.rf-game-frame button,section.rf-frame-scrim button{background:#16002e;border:1px solid #b026ff;color:#e6fbff}
+          section.rf-game-frame button:hover:not(:disabled),section.rf-frame-scrim button:hover:not(:disabled){background:#2a0a4a}
+          section.rf-game-frame .rf-frame-mode{color:#9a7ab5}
+          section.rf-game-frame .rf-runtime-status{background:#12002b;color:#9a7ab5}
+          section.rf-frame-scrim{background:rgba(5,0,15,.82)}
+          section.rf-frame-scrim .rf-frame-menu{background:#12002b;border-color:#b026ff;color:#e6fbff}
+          section.rf-frame-scrim .rf-frame-menu-heading{border-bottom-color:#3a1a55}
+          section.rf-frame-scrim .rf-frame-menu-footer{border-top-color:#3a1a55}
+          section.rf-frame-scrim .rf-frame-friends button[aria-pressed=true]{background:#2a0a4a}
+          section.rf-game-frame .rf-frame-primary,section.rf-frame-scrim .rf-frame-primary{background:#b026ff;color:#fff}
           CSS
 
-          cat >> games/rhrf-bullseye/.friendsdk/game.css <<'CSS'
-
-          /* let wrapper dark background show through iframe document */
-          html, body, #root {
-            background: transparent !important;
-          }
-          CSS
       - name: Inject head assets
         run: |
           python3 - <<'EOF'
