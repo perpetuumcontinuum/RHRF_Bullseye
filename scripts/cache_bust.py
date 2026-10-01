@@ -12,6 +12,14 @@ def fix(m):
         return m.group(1) + url + m.group(3)           # не ассет — вернуть чисто, без мусора
     return m.group(1) + url + '?v=' + sha + '"'        # ассет — bust ВНУТРИ кавычки
 
+FRAME = re.compile(r'(["\'])(\./game\.html)\1')
+for j in sorted(glob.glob("games/rhrf-bullseye/.friendsdk/*.js")):
+    t = Path(j).read_text(encoding="utf-8")
+    t2 = FRAME.sub(lambda m: m.group(1) + m.group(2) + "?v=" + sha + m.group(1), t)
+    if t2 != t:
+        Path(j).write_text(t2, encoding="utf-8")
+    print(j, "-> frameUrl busted" if t2 != t else j, "-> frameUrl ok")
+
 for h in sorted(glob.glob("games/rhrf-bullseye/.friendsdk/*.html")):
     t = Path(h).read_text(encoding="utf-8")
     n = 0
