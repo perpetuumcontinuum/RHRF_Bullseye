@@ -41,44 +41,36 @@ jobs:
       - name: Apply page frame styles
         run: |
           cat >> games/rhrf-bullseye/.friendsdk/layout.css <<'CSS'
-          html,body{background:#0b0714}
+          :root{--pg:#0b0714;--fb:transparent;--bd:#b026ff;--g1:rgba(176,38,255,.5);--g2:rgba(0,229,255,.22);--gi:rgba(176,38,255,.14);--cbg:#16002e;--cfg:#e6fbff;--chv:#2a0a4a;--mf:#9a7ab5;--sbg:#12002b;--sf:#9a7ab5;--sc:rgba(5,0,15,.82);--mbg:#12002b;--mf2:#e6fbff;--ln:#3a1a55;--pb:#b026ff;--pf:#fff}
+          [data-theme=light]{--pg:#efe9f7;--bd:#7a1fd0;--g1:rgba(122,31,208,.28);--g2:rgba(0,150,200,.14);--gi:rgba(122,31,208,.08);--cbg:#fff;--cfg:#1a0f2b;--chv:#e6dcf2;--mf:#6b5a80;--sbg:#e8e0f0;--sf:#6b5a80;--sc:rgba(240,235,247,.86);--mbg:#fff;--mf2:#1a0f2b;--ln:#cbbfe0;--pb:#7a1fd0}
+          [data-theme=cyber]{--pg:#05000f;--bd:#00e5ff;--g1:rgba(0,229,255,.55);--g2:rgba(255,43,214,.35);--gi:rgba(176,38,255,.2);--cbg:#12002b;--cfg:#e6fbff;--chv:#2a0a4a;--mf:#5fd0e0;--sbg:#0a0020;--sf:#5fd0e0;--sc:rgba(3,0,12,.85);--mbg:#0a0020;--mf2:#e6fbff;--ln:#00384a;--pb:#ff2bd6;--pf:#fff}
+          html,body{background:var(--pg)}
           body{margin:0;padding:0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+          [data-theme=cyber] body{background:linear-gradient(115deg,#12002b,#3d005e,#001a3d,#003d2e,#3d0018,#12002b);background-size:400% 400%;animation:rfFlow 18s ease-in-out infinite}
+          @keyframes rfFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+          @media (prefers-reduced-motion:reduce){[data-theme=cyber] body{animation:none}}
           #root{width:100%;max-width:min(96vw,960px);margin:0}
-          section.rf-game-frame{background:transparent;border:1px solid #b026ff;border-radius:12px;box-shadow:0 0 26px rgba(176,38,255,.5),0 0 70px rgba(0,229,255,.22),inset 0 0 34px rgba(176,38,255,.14)}
-          section.rf-game-frame .rf-frame-toolbar>*,section.rf-game-frame button,section.rf-frame-scrim button{background:#16002e;border:1px solid #b026ff;color:#e6fbff}
-          section.rf-game-frame button:hover:not(:disabled),section.rf-frame-scrim button:hover:not(:disabled){background:#2a0a4a}
-          section.rf-game-frame .rf-frame-mode{color:#9a7ab5}
-          section.rf-game-frame .rf-runtime-status{background:#12002b;color:#9a7ab5}
-          section.rf-frame-scrim{background:rgba(5,0,15,.82)}
-          section.rf-frame-scrim .rf-frame-menu{background:#12002b;border-color:#b026ff;color:#e6fbff}
-          section.rf-frame-scrim .rf-frame-menu-heading{border-bottom-color:#3a1a55}
-          section.rf-frame-scrim .rf-frame-menu-footer{border-top-color:#3a1a55}
-          section.rf-frame-scrim .rf-frame-friends button[aria-pressed=true]{background:#2a0a4a}
-          section.rf-game-frame .rf-frame-primary,section.rf-frame-scrim .rf-frame-primary{background:#b026ff;color:#fff}
+          section.rf-game-frame{background:var(--fb);border:1px solid var(--bd);border-radius:12px;box-shadow:0 0 26px var(--g1),0 0 70px var(--g2),inset 0 0 34px var(--gi)}
+          section.rf-game-frame .rf-frame-toolbar>*,section.rf-game-frame button,section.rf-frame-scrim button{background:var(--cbg);border:1px solid var(--bd);color:var(--cfg)}
+          section.rf-game-frame button:hover:not(:disabled),section.rf-frame-scrim button:hover:not(:disabled){background:var(--chv)}
+          section.rf-game-frame .rf-frame-mode{color:var(--mf)}
+          section.rf-game-frame .rf-runtime-status{background:var(--sbg);color:var(--sf)}
+          section.rf-frame-scrim{background:var(--sc)}
+          section.rf-frame-scrim .rf-frame-menu{background:var(--mbg);border-color:var(--bd);color:var(--mf2)}
+          section.rf-frame-scrim .rf-frame-menu-heading,section.rf-frame-scrim .rf-frame-menu-footer{border-color:var(--ln)}
+          section.rf-frame-scrim .rf-frame-friends button[aria-pressed=true]{background:var(--chv)}
+          section.rf-game-frame .rf-frame-primary,section.rf-frame-scrim .rf-frame-primary{background:var(--pb);color:var(--pf)}
+          .rf-theme-switch{position:fixed;top:12px;right:12px;z-index:50;display:flex;gap:6px;padding:5px;background:var(--cbg);border:1px solid var(--ln);border-radius:10px}
+          .rf-theme-switch button{display:grid;place-items:center;width:28px;height:28px;min-height:0;padding:0;background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer}
+          .rf-theme-switch button:hover{border-color:var(--bd)}
+          .rf-theme-switch button[aria-pressed=true]{border-color:var(--bd);box-shadow:0 0 10px var(--g1)}
+          .sw{display:block;width:14px;height:14px;border-radius:3px;border:1px solid rgba(127,127,127,.55)}
+          .sw-light{background:#fff}
+          .sw-dark{background:#111}
           CSS
 
       - name: Inject head assets
-        run: |
-          python3 - <<'EOF'
-          import glob, shutil
-          src = "games/rhrf-bullseye"
-          out = src + "/.friendsdk"
-          for f in ("favicon.svg", "site.webmanifest"):
-              shutil.copy(src + "/" + f, out + "/" + f)
-          inject = (
-              '<meta name="description" content="Defend the planet with your Generations NFT in this cyber archery minigame. Shoot moving targets, dodge ghosts, deflect asteroids and unlock legendary gear. Built on FriendSDK v0.1.4."/>'
-              '<link rel="icon" type="image/svg+xml" href="./favicon.svg"/>'
-              '<link rel="apple-touch-icon" href="./favicon.svg"/>'
-              '<link rel="manifest" href="./site.webmanifest"/>'
-          )
-          for h in sorted(glob.glob(out + "/*.html")):
-              t = open(h, encoding="utf-8").read()
-              if "favicon.svg" in t:
-                  continue
-              t = t.replace("</head>", inject + "</head>", 1)
-              open(h, "w", encoding="utf-8").write(t)
-              print("injected", h)
-          EOF
+        run: python3 scripts/inject.py
 
       - name: Generate OG image
         run: |
