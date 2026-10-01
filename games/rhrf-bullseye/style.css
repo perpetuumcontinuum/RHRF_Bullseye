@@ -2765,3 +2765,36 @@ button.jump-btn {
 button.fire-tower-btn {
     animation: buttonPulse 2s ease-in-out infinite;
 }
+.rf-shop-panel, .rf-profile-panel {
+    position: absolute !important;
+    top: 4vh;
+}
+
+.rf-stat-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.rf-stat-tab {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 6px 2px;
+  background: #0a0014e6;
+  border: 1px solid #3a1a55;
+  border-radius: 6px;
+  color: #9a7ab5;
+  font-family: monospace;
+  font-size: clamp(7px, 1.5vw, 10px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-align: center;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.rf-stat-tab.active {
+  border-color: #f0f;
+  color: #fff;
+  background: #1e0033;
+}

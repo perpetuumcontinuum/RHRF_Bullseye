@@ -8,7 +8,37 @@ import {
   type ShopCategory,
   type ShopItem,
 } from "./catalog";
-import { type GameStats, createLeaderboardRows } from "./stats";
+import { type GameStats, formatDuration } from "./stats";
+
+const STAT_TABS = [
+  { id: "time", label: "TOTAL TIME", cols: ["SESSION", "ALL TIME"] },
+  { id: "rf", label: "EARNED RF", cols: ["TOTAL", "—"] },
+  { id: "cyber", label: "CYBER STREAK", cols: ["CURRENT", "BEST"] },
+  { id: "ghost", label: "GHOST STREAK", cols: ["CURRENT", "BEST"] },
+  { id: "asteroid", label: "ASTEROID STREAK", cols: ["CURRENT", "BEST"] },
+] as const;
+
+type StatTabId = (typeof STAT_TABS)[number]["id"];
+
+function statRow(stats: GameStats | undefined, tab: StatTabId) {
+  if (!stats) return null;
+  const streak = (cur: number, best: number) => ({
+    cur: cur >= 3 ? String(cur) : "—",
+    best: best >= 3 ? String(best) : "—",
+  });
+  switch (tab) {
+    case "time":
+      return { cur: formatDuration(stats.currentSessionMs), best: formatDuration(stats.totalPlayMs) };
+    case "rf":
+      return { cur: stats.earnedScore.toLocaleString(), best: "—" };
+    case "cyber":
+      return streak(stats.currentCyberStreak, stats.bestCyberStreak);
+    case "ghost":
+      return streak(stats.currentGhostStreak, stats.bestGhostStreak);
+    case "asteroid":
+      return streak(stats.currentAsteroidStreak, stats.bestAsteroidStreak);
+  }
+}
 
 const rfIsConsumableItem = (item: any) => {
   if (!item) return false;
@@ -94,6 +124,7 @@ const rfLimitByRarity = (items: ShopItem[]): ShopItem[] => {
 export default function Profile(props: any) {
   const [pendingSale, setPendingSale] = useState<PendingSale>(null);
   const [activeTab, setActiveTab] = useState<"equipment" | "stats" | "cyber">("equipment");
+  const [activeStat, setActiveStat] = useState<StatTabId>("time");
   const [activeEquipmentTab, setActiveEquipmentTab] = useState<ShopCategory>("bow");
   const [activeConsumableTab, setActiveConsumableTab] = useState<"arrow" | "armor" | "energy">("arrow");
 
@@ -104,7 +135,6 @@ export default function Profile(props: any) {
   const totalScore = Number(props.totalScore ?? props.score ?? 0);
   const gameStats = props.gameStats as GameStats | undefined;
   const playerName = String(props.friendId ?? "YOU");
-  const leaderboardRows = gameStats ? createLeaderboardRows(gameStats, playerName) : [];
   const cyberUnlock = Boolean(
     props.hasCyberUnlock ??
     (typeof window !== "undefined" && (window as any).__RHRF_HAS_CYBER_UNLOCK__) ??
@@ -266,29 +296,44 @@ export default function Profile(props: any) {
             </div>
           </div>
         <div className="rf-profile-section" style={{ display: activeTab === "stats" ? undefined : "none" }}>
-          <div className="rf-profile-section-title">LEADERBOARD</div>
+          <div className="rf-stat-tabs">
+            {STAT_TABS.map((t) => (
+              <button
+                key={t.id}
+                className={`rf-stat-tab ${activeStat === t.id ? "active" : ""}`}
+                onClick={() => setActiveStat(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
           <table className="rf-leaderboard">
             <thead>
               <tr>
                 <th>PLAYER</th>
-                <th>CATEGORY</th>
-                <th>RESULT</th>
+                <th>{STAT_TABS.find((t) => t.id === activeStat)!.cols[0]}</th>
+                <th>{STAT_TABS.find((t) => t.id === activeStat)!.cols[1]}</th>
               </tr>
             </thead>
             <tbody>
-              {leaderboardRows.length === 0 ? (
-                <tr>
-                  <td colSpan={3} className="rf-leaderboard-empty">NO DATA</td>
-                </tr>
-              ) : (
-                leaderboardRows.map((row) => (
-                  <tr key={row.label}>
-                    <td>{row.player}</td>
-                    <td>{row.label}</td>
-                    <td>{row.display}</td>
+              {(() => {
+                const row = statRow(gameStats, activeStat);
+                if (!row) {
+                  return (
+                    <tr>
+                      <td colSpan={3} className="rf-leaderboard-empty">NO DATA</td>
+                    </tr>
+                  );
+                }
+                return (
+                  <tr>
+                    <td>{playerName}</td>
+                    <td>{row.cur}</td>
+                    <td>{row.best}</td>
                   </tr>
-                ))
-              )}
+                );
+              })()}
             </tbody>
           </table>
         </div>
