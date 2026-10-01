@@ -2878,3 +2878,11 @@ button.fire-tower-btn {
     letter-spacing: clamp(0.3px, 0.1vmin, 1px);
   }
 }
+
+/* hud-stack-landscape */
+@media (orientation: landscape) and (max-height: 500px) {
+  .rf-hud-stack {
+    bottom: calc(clamp(56px, 15vmin, 100px) + var(--rf-safe-bottom));
+    gap: clamp(4px, 1.2vmin, 8px);
+  }
+}
