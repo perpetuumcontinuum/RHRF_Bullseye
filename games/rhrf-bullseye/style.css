@@ -2865,9 +2865,17 @@ button.fire-tower-btn {
   }
 }
 
+:root {
+  --btn-pad: 1vh;
+}
+
 .controls-row button,
 .rf-top-bar button,
 .rf-hud-main,
-.rf-hud-mini {
-  padding: 1vh !important;
+.rf-hud-mini,
+.rf-mute-btn,
+.rf-pause-btn,
+.rf-share-btn,
+.rf-shop-item-btn {
+  padding: var(--btn-pad) !important;
 }
