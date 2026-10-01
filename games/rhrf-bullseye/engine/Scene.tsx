@@ -17,6 +17,7 @@ interface SceneProps {
   energyQualityId?: string | null;
   asteroidVisible: boolean;
   asteroidPosition: { x: number; y: number };
+  landingGlow?: { x: number; y: number; visible: boolean };
   explosion?: { x: number; y: number; visible: boolean };
   arrowProgress: number;
   stuckArrows: { x: number; y: number }[];
@@ -58,6 +59,7 @@ export default function Scene({
   energyQualityId,
   asteroidVisible,
   asteroidPosition,
+  landingGlow,
   explosion,
   arrowProgress,
   stuckArrows,
@@ -232,6 +234,23 @@ const pixelBounds = (() => {
         <radialGradient id="moonGrad" cx="40%" cy="40%" r="60%">
           <stop offset="0%" stopColor="#ffffcc"/><stop offset="50%" stopColor="#ffee66"/><stop offset="100%" stopColor="#ffaa00"/>
         </radialGradient>
+      {/* Blood moon: charcoal core -> arterial crimson -> copper ember limb */}
+      <radialGradient id="moonGradRed" cx="42%" cy="38%" r="68%">
+        <stop offset="0%" stopColor="#5c0a08"/>
+        <stop offset="38%" stopColor="#8b170e"/>
+        <stop offset="72%" stopColor="#c03e1c"/>
+        <stop offset="92%" stopColor="#e26a29"/>
+        <stop offset="100%" stopColor="#fb8b35"/>
+      </radialGradient>
+      <filter id="neonGlowRed" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="5" result="b"/>
+        <feFlood floodColor="#c03e1c" floodOpacity="0.85" result="c"/>
+        <feComposite in="c" in2="b" operator="in" result="g"/>
+        <feMerge>
+          <feMergeNode in="g"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
         <linearGradient id="treeGrad" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#2a0050"/><stop offset="50%" stopColor="#1a0035"/><stop offset="100%" stopColor="#2a0050"/>
         </linearGradient>
@@ -252,16 +271,62 @@ const pixelBounds = (() => {
         <circle cx="320" cy="40" r="1.5" fill="#ffffff"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle>
         <circle cx="550" cy="30" r="2" fill="#ffffff"><animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/></circle>
         <circle cx="780" cy="50" r="1.5" fill="#ffffff"><animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite"/></circle>
-      </g>
+              <circle cx="40" cy="95" r="1.2" fill="#ffffff"><animate attributeName="opacity" values="0.25;0.9;0.25" dur="2.4s" repeatCount="indefinite" /></circle>
+        <circle cx="150" cy="130" r="1" fill="#ffffff"><animate attributeName="opacity" values="0.2;0.75;0.2" dur="2.8s" repeatCount="indefinite" /></circle>
+        <circle cx="205" cy="72" r="1" fill="#ffffff"><animate attributeName="opacity" values="0.3;0.85;0.3" dur="1.7s" repeatCount="indefinite" /></circle>
+        <circle cx="430" cy="95" r="1.6" fill="#ffffff"><animate attributeName="opacity" values="0.25;0.95;0.25" dur="2.1s" repeatCount="indefinite" /></circle>
+        <circle cx="660" cy="85" r="1.3" fill="#ffffff"><animate attributeName="opacity" values="0.2;0.8;0.2" dur="1.9s" repeatCount="indefinite" /></circle>
+        <circle cx="905" cy="70" r="1" fill="#ffffff"><animate attributeName="opacity" values="0.25;0.7;0.25" dur="2.3s" repeatCount="indefinite" /></circle>
+</g>
 
       <g>
-        <circle cx="800" cy="120" r="55" fill="#ffaa0022" filter="url(#bigGlow)"/>
-        <circle cx="800" cy="120" r="42" fill="url(#moonGrad)" filter="url(#neonGlowYellow)"/>
-        <circle cx="785" cy="110" r="6" fill="#eebb44" opacity="0.4"/>
-        <circle cx="810" cy="130" r="8" fill="#eebb44" opacity="0.8"/>
+        <circle cx="800" cy="120" r="58" fill="#e26a2933" filter="url(#bigGlow)"/>
+        <circle cx="800" cy="120" r="42" fill="url(#moonGradRed)" filter="url(#neonGlowRed)"/>
+        <circle cx="785" cy="110" r="6" fill="#520104" opacity="0.7"/>
+        <circle cx="810" cy="130" r="8" fill="#6E0A05" opacity="0.8"/>
+        <circle cx="800" cy="120" r="42" fill="none" stroke="#fb8b35" strokeWidth="1.2" opacity="0.55"/>
       </g>
       <circle cx="800" cy="120" r="65" fill="none" stroke="#ffaa0033" strokeWidth="1"/>
 
+      {asteroidVisible && (
+        <g transform={`translate(${asteroidPosition.x}, ${asteroidPosition.y})`}>
+          <circle r="20" fill="#8B4513" filter="url(#softGlow)" />
+          <circle r="15" fill="#A0522D" />
+          <circle cx="-5" cy="-5" r="3" fill="#654321" />
+          <circle cx="7" cy="3" r="2" fill="#654321" />
+        </g>
+      )}
+      {landingGlow?.visible && (
+        <g>
+          {/* Tier 1: uniform haze across the entire horizon, independent of impact x */}
+          <ellipse
+            className="rf-landing-glow-wide"
+            cx={500}
+            cy={484}
+            rx={520}
+            ry={20}
+            fill="#aaff00"
+          />
+          {/* Tier 2: mass bias toward the impact point */}
+          <ellipse
+            className="rf-landing-glow-mid"
+            cx={landingGlow.x}
+            cy={481}
+            rx={300}
+            ry={32}
+            fill="#bfff22"
+          />
+          {/* Tier 3: near core right where it went under */}
+          <ellipse
+            className="rf-landing-glow"
+            cx={landingGlow.x}
+            cy={478}
+            rx={120}
+            ry={42}
+            fill="#ccff33"
+          />
+        </g>
+      )}
       <rect x="0" y="480" width="1000" height="220" fill="url(#groundGrad)"/>
       <line x1="0" y1="480" x2="1000" y2="480" stroke="#ff00ff" strokeWidth="2" filter="url(#neonGlowPink)" opacity="0.6"/>
       
@@ -553,14 +618,6 @@ const pixelBounds = (() => {
 </g>
 )}
 {}
-      {asteroidVisible && (
-        <g transform={`translate(${asteroidPosition.x}, ${asteroidPosition.y})`}>
-          <circle r="20" fill="#8B4513" filter="url(#softGlow)" />
-          <circle r="15" fill="#A0522D" />
-          <circle cx="-5" cy="-5" r="3" fill="#654321" />
-          <circle cx="7" cy="3" r="2" fill="#654321" />
-        </g>
-      )}
       {isPaused && (
         <g pointerEvents="none">
           <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />

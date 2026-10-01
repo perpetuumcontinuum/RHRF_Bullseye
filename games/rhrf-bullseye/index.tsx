@@ -112,6 +112,7 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
   const [laserCooldown, setLaserCooldown] = useState(false);
   const [asteroidPosition, setAsteroidPosition] = useState({ x: 0, y: 0 });
   const [asteroidVisible, setAsteroidVisible] = useState(false);
+  const [landingGlow, setLandingGlow] = useState({ x: 0, y: 480, visible: false });
 const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
@@ -212,6 +213,7 @@ const asteroidKilledRef = useRef(false);
   const arrowPausedRef = useRef(false);
   const arrowPauseSinceRef = useRef(0);
   const arrowPauseAccumRef = useRef(0);
+  const asteroidFinalXRef = useRef(0);
   const jumpPausedRef = useRef(false);
   const jumpPauseSinceRef = useRef(0);
   const jumpPauseAccumRef = useRef(0);
@@ -958,20 +960,23 @@ impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false})
         const progress = elapsed / 3056;
         if (progress >= 1) {
           setAsteroidVisible(false);
+
           if (!asteroidKilledRef.current) {
           recordEvent("asteroid", false);
             impactTimersRef.current.push(pt(() => {
               if (!cyberRef.current) setScreenShake(true);
               setAsteroidWarning(true);
+              setLandingGlow({ x: asteroidFinalXRef.current, y: 480, visible: true });
               playSound('impact');
             }, 1000));
             impactTimersRef.current.push(pt(() => setScreenShake(false), 2000));
-            impactTimersRef.current.push(pt(() => setAsteroidWarning(false), 3500));
+            impactTimersRef.current.push(pt(() => { setAsteroidWarning(false); setLandingGlow((g) => ({ ...g, visible: false })); }, 3500));
           }
           return;
         }
         const x = 685 * progress;
         const y = 480 * progress;
+        asteroidFinalXRef.current = x;
         setAsteroidPosition({ x, y });
         requestAnimationFrame(animate);
       };
@@ -1372,6 +1377,7 @@ if (loading) {
         isLaserFiring={isLaserFiring}
         asteroidVisible={asteroidVisible}
         asteroidPosition={asteroidPosition}
+        landingGlow={landingGlow}
         arrowProgress={arrowProgress}
         stuckArrows={stuckArrows}
         scorePopups={scorePopups}
