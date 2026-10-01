@@ -17,12 +17,22 @@ HEAD = (
 )
 
 WIDGET = Path("frame-widget.html").read_text(encoding="utf-8")
+FOOTER = Path("frame-footer.html").read_text(encoding="utf-8")
 
+total = 0
 for h in sorted(glob.glob(str(out / "*.html"))):
     t = Path(h).read_text(encoding="utf-8")
+    before = t
     if "favicon.svg" not in t:
         t = t.replace("</head>", HEAD + "</head>", 1)
     if "rf-theme-switch" not in t:
         t = t.replace("</body>", WIDGET + "</body>", 1)
-    Path(h).write_text(t, encoding="utf-8")
-    print("injected", h)
+    if "rf-site-footer" not in t:
+        t = t.replace("</body>", FOOTER + "</body>", 1)
+    if t != before:
+        Path(h).write_text(t, encoding="utf-8")
+        total += 1
+        print("injected", h)
+    else:
+        print("skipped (already injected)", h)
+print(">> files changed:", total)

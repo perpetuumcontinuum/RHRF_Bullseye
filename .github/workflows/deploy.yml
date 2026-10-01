@@ -67,6 +67,13 @@ jobs:
           .sw{display:block;width:14px;height:14px;border-radius:3px;border:1px solid rgba(127,127,127,.55)}
           .sw-light{background:#fff}
           .sw-dark{background:#111}
+          .rf-site-footer{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;padding:7px 16px;background:var(--cbg);border:1px solid var(--ln);border-radius:999px;box-shadow:0 0 18px var(--g1);font:11px/1 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;max-width:94vw}
+          .rf-site-footer a{display:flex;align-items:center;gap:6px;color:var(--mf);text-decoration:none;border-bottom:1px solid transparent;transition:color .18s,border-color .18s,text-shadow .18s}
+          .rf-site-footer a:hover,.rf-site-footer a:focus-visible{color:var(--cfg);border-bottom-color:var(--bd);text-shadow:0 0 10px var(--g1);outline:none}
+          .rf-site-footer a svg{opacity:.85;transition:opacity .18s}
+          .rf-site-footer a:hover svg{opacity:1}
+          .rf-sep{flex:0 0 auto;width:1px;height:12px;background:var(--ln)}
+          @media(max-width:600px){.rf-site-footer{gap:9px;padding:6px 11px;font-size:9px;letter-spacing:.06em;bottom:8px}.rf-site-footer a{gap:4px}}
           CSS
 
       - name: Inject head assets
