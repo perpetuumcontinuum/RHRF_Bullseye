@@ -74,9 +74,6 @@ jobs:
           html:not(.rf-tools-open) .rf-frame-toolbar{display:none}
           html.rf-tools-open .rf-frame-toolbar{display:flex;bottom:58px}
           @media(max-width:520px){.rf-tools-toggle{left:6px;bottom:6px;width:32px;height:32px}html.rf-tools-open .rf-frame-toolbar{bottom:44px}}
-          .rf-game-frame button, .rf-frame-scrim button {
-              padding: 1vh !important;
-          }
           .rf-site-footer{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;padding:7px 16px;background:var(--cbg);border:1px solid var(--ln);border-radius:999px;box-shadow:0 0 18px var(--g1);font:11px/1 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;max-width:94vw}
           .rf-site-footer a{display:flex;align-items:center;gap:6px;color:var(--mf);text-decoration:none;border-bottom:1px solid transparent;transition:color .18s,border-color .18s,text-shadow .18s}
           .rf-site-footer a:hover,.rf-site-footer a:focus-visible{color:var(--cfg);border-bottom-color:var(--bd);text-shadow:0 0 10px var(--g1);outline:none}
