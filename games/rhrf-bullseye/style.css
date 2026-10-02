@@ -1261,7 +1261,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }.rf-hud-stack button{
     border-radius: 1vh !important;
     min-width: 3vh !important;
-    padding: 1vh !important;
+    padding: 0 1vh !important;
 }/* ===== pager (чистый,без !important{
   flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;
@@ -1822,3 +1822,16 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-hud-mini:disabled .rf-hud-mini-count{
   color:#3a3a44;
 }
+
+
+/* ===== bottom row: true center + right-aligned hud (grid) ===== */
+.rf-bottom-row{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:end;
+  width:100%;
+  max-width:calc(100vw - 1rem - var(--rf-safe-left) - var(--rf-safe-right));
+  gap:clamp(.4rem,1.6vmin,.9rem);
+}
+.rf-bottom-row > .controls-row{ grid-column:2; justify-self:center; }
+.rf-bottom-row > .rf-hud-stack{ grid-column:3; justify-self:end; }
