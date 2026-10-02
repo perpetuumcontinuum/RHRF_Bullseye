@@ -72,10 +72,44 @@
 
   }
 
+  var FS_ON = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
+  var FS_OFF = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3a2 2 0 0 0 2-2V3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M21 16h-3a2 2 0 0 0-2 2v3"/></svg>';
+
+  function syncFs() {
+    var b = document.getElementById("rfFsBtn");
+    if (!b) return;
+    var on = document.fullscreenElement || document.webkitFullscreenElement;
+    b.innerHTML = on ? FS_OFF : FS_ON;
+    b.setAttribute("aria-label", on ? "Exit fullscreen" : "Fullscreen");
+  }
+
+  function mountFs() {
+    if (document.getElementById("rfFsBtn")) return;
+    var ft = document.querySelector(".rf-site-footer");
+    if (!ft) return;
+    var b = document.createElement("button");
+    b.type = "button";
+    b.id = "rfFsBtn";
+    b.className = "rf-fs-btn";
+    b.setAttribute("aria-label", "Fullscreen");
+    b.innerHTML = FS_ON;
+    b.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var cur = document.fullscreenElement || document.webkitFullscreenElement;
+      var fn = cur ? (document.exitFullscreen || document.webkitExitFullscreen)
+                   : (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen);
+      if (fn) fn.call(cur ? document : document.documentElement);
+    });
+    ft.appendChild(b);
+    document.addEventListener("fullscreenchange", syncFs);
+    document.addEventListener("webkitfullscreenchange", syncFs);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     paint();
     fitFrame();
     mountToggle();
+    mountFs();
     document.addEventListener("click", function (e) {
       if (!root.classList.contains("rf-tools-open")) return;
       var bar = document.querySelector(".rf-frame-toolbar");
@@ -102,6 +136,7 @@
     // runtime.js может перерисовать рамку -> возвращаем кнопку
     new MutationObserver(function () {
       if (!document.getElementById("rfToolsToggle")) mountToggle();
+        if (!document.getElementById("rfFsBtn")) mountFs();
     }).observe(document.documentElement, { childList: true, subtree: true });
   });
 
