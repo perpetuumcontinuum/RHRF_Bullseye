@@ -9,6 +9,7 @@ import {
   type ShopItem,
 } from "./catalog";
 import { type GameStats, formatDuration } from "./stats";
+import ItemIcon from "./ItemIcon";
 
 const STAT_TABS = [
   { id: "time", label: "TOTAL TIME", cols: ["SESSION", "ALL TIME"] },
@@ -383,8 +384,9 @@ export default function Profile(props: any) {
                     return (
                       <div
                         key={item.id}
-                        className={`rf-profile-card rarity-${item.rarity} ${equipped ? "equipped" : ""}`}
+                        className={`rf-profile-card rf-profile-card--icon rarity-${item.rarity} ${equipped ? "equipped" : ""}`}
                       >
+                        <ItemIcon item={item} />
                         <div className="rf-profile-card-top">
                           <div className="rf-profile-card-name">{item.name}</div>
                           {(item.category === "consumable" || count > 1) && (
