@@ -2880,3 +2880,8 @@ button.fire-tower-btn {
 .rf-shop-item-btn {
   padding: var(--btn-pad) !important;
 }
+
+.controls-row button, .rf-top-bar button, .rf-top-bar div {
+    font-size: 3vh !important;
+    min-height: 1vh !important;
+}
