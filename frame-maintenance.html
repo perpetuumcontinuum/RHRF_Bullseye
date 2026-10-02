@@ -72,8 +72,8 @@
       if (q.has("maintenance")) {
         var val = q.get("maintenance");
         set(val === "" || val === "1" || val === "true");
-      } else if (DEFAULT) {
-        set(true);
+      } else if (!DEFAULT) {
+        set(false);
       } else {
         set(read());
       }
