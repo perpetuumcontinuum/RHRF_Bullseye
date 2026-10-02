@@ -85,6 +85,10 @@ jobs:
           .rf-site-footer a:hover svg{opacity:1}
           .rf-sep{flex:0 0 auto;width:1px;height:12px;background:var(--ln)}
           @media(max-width:600px){.rf-site-footer{gap:9px;padding:6px 11px;font-size:9px;letter-spacing:.06em;bottom:8px}.rf-site-footer a{gap:4px}}
+          .rf-gap{flex:0 0 auto;width:10px}
+          .rf-site-footer .rf-theme-switch{position:static!important;top:auto!important;right:auto!important;display:inline-flex!important;flex-direction:row!important;gap:4px!important;padding:0!important;background:transparent!important;border:none!important;box-shadow:none!important}
+          .rf-site-footer .rf-fs-btn{position:static!important;bottom:auto!important;right:auto!important;width:28px;height:28px;min-height:0;padding:0;background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer;display:grid;place-items:center;color:var(--cfg)}
+          .rf-site-footer .rf-fs-btn:hover{border-color:var(--bd)}
           CSS
 
       - name: Inject head assets

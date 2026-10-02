@@ -25,8 +25,6 @@ for h in sorted(glob.glob(str(out / "*.html"))):
     before = t
     if "favicon.svg" not in t:
         t = t.replace("</head>", HEAD + "</head>", 1)
-    if "rf-theme-switch" not in t:
-        t = t.replace("</body>", WIDGET + "</body>", 1)
     if "rf-site-footer" not in t:
         t = t.replace("</body>", FOOTER + "</body>", 1)
     if t != before:
