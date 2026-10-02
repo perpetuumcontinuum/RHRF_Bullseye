@@ -129,12 +129,15 @@ export default function Shop(props: any) {
                 <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}`}>
                   <ItemIcon item={item} />
                   <div className="rf-shop-item-main">
+                    <div className="rf-shop-item-heading">
                     <div className="rf-shop-item-name">{item.name}</div>
+                    <div className="rf-shop-item-price-inline">{item.price} RF{isConsumable ? " / x" : ""}</div>
+                  </div>
                     <div className="rf-shop-item-desc">{item.description}</div>
                   </div>
 
                   <div className="rf-shop-item-side rf-shop-consumable-side">
-                    <div className="rf-shop-item-price">{item.price} RF / x</div>
+                    
                     <div className="rf-shop-item-count">IN STOCK: {count} / {CONSUMABLE_CAP}</div>
 
                     <div className="rf-shop-consumable-controls">
@@ -160,12 +163,15 @@ export default function Shop(props: any) {
               <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}`}>
                   <ItemIcon item={item} />
                 <div className="rf-shop-item-main">
-                  <div className="rf-shop-item-name">{item.name}</div>
+                  <div className="rf-shop-item-heading">
+                    <div className="rf-shop-item-name">{item.name}</div>
+                    <div className="rf-shop-item-price-inline">{item.price} RF{isConsumable ? " / x" : ""}</div>
+                  </div>
                   <div className="rf-shop-item-desc">{item.description}</div>
                 </div>
 
                 <div className="rf-shop-item-side">
-                  <div className="rf-shop-item-price">{item.price} RF</div>
+                  
 
                   {!owned ? (
                     <button

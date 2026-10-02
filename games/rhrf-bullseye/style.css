@@ -1402,7 +1402,9 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-profile-card--icon.rarity-epic .rf-shop-item-icon{ color:#b14dff; }
 .rf-profile-card--icon.rarity-legendary .rf-shop-item-icon{ color:#ffb300; }
 .rf-shop-item-main{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:.1vmin; }
-.rf-shop-item-name{ font-size:var(--ui-name); font-weight:900; color:#e8e8ff; }
+.rf-shop-item-name{ font-size:var(--ui-name); font-weight:900; color:#e8e8ff; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rf-shop-item-heading{ display:flex; align-items:baseline; justify-content:space-between; gap:.5vmin; min-width:0; }
+.rf-shop-item-price-inline{ flex:0 0 auto; font-size:var(--ui-ui); font-weight:900; color:#ccff00; white-space:nowrap; text-align:right; text-shadow:0 0 .6vmin #ccff0055; }
 .rf-shop-item-desc{ font-size:var(--ui-desc); line-height:1.3; color:#9a9ab0; }
 .rf-shop-item-side{
   min-width:0;
