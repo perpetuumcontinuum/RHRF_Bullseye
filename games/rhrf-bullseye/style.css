@@ -2893,3 +2893,9 @@ button.fire-tower-btn {
 .rf-top-bar div {
     border-radius: 1vh;
 }
+
+.rf-hud-stack button {
+    border-radius: 1vh !important;
+    min-width: 3vh !important;
+    padding: 1vh !important;
+}
