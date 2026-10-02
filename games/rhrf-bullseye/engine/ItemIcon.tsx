@@ -31,12 +31,10 @@ function Glyph({ children }: { children: React.ReactNode }) {
 
 function Bow() {
   return (
-    <>
-      <path d="M28 10C13 19 13 45 28 54" />
-      <path d="M28 10v44" />
-      <path d="M28 32h18" />
-      <path d="M46 32l-7-4v8z" fill="currentColor" stroke="none" />
-    </>
+    <g transform="translate(25 32)">
+      <path d="M0,-28 Q12,-15 12,0 Q12,15 0,28" />
+      <path d="M0,-28V28" strokeWidth={2} opacity=".85" />
+    </g>
   );
 }
 

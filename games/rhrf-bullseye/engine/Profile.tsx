@@ -257,13 +257,19 @@ export default function Profile(props: any) {
         <div className="rf-profile-section" style={{ display: activeTab === "cyber" ? undefined : "none" }}>
             <div className="rf-profile-section-title">CYBER STYLE</div>
             <div className="rf-profile-grid">
-              <div className={`rf-profile-card rarity-legendary ${cyberOn ? "equipped" : ""}`}>
+              <div className={`rf-profile-card rf-profile-card--icon rarity-legendary ${cyberOn ? "equipped" : ""}`}>
+            <ItemIcon item={{ id: "cyber_style", category: "cyber", icon: "cyber" }} />
                 <div className="rf-profile-card-top">
                   <div className="rf-profile-card-name">CYBER STYLE</div>
+                  <div className="rf-profile-card-count">{cyberOn ? "ON" : "OFF"}</div>
                 </div>
                 <div className="rf-profile-card-desc">
                   Requires LEGENDARY BOW, LEGENDARY OUTFIT and LEGENDARY AMULET in inventory.
                   Grants legendary bow / outfit / amulet effects and disables asteroid screen shake.
+                </div>
+                <div className="rf-profile-card-bottom">
+                  <div className="rf-profile-card-rarity">LEGENDARY</div>
+                  {cyberOn && <div className="rf-profile-card-equipped">ACTIVE</div>}
                 </div>
                 <div className="rf-profile-card-actions">
                   <button
