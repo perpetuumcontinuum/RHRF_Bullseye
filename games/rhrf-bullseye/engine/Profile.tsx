@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+
   fallbackItem,
   getItemById,
   getItemCount,
@@ -26,18 +27,25 @@ function statRow(stats: GameStats | undefined, tab: StatTabId) {
     best: best >= 3 ? String(best) : "—",
   });
   switch (tab) {
-    case "time": return { cur: formatDuration(stats.currentSessionMs), best: formatDuration(stats.totalPlayMs) };
-    case "rf": return { cur: stats.earnedScore.toLocaleString(), best: "—" };
-    case "cyber": return streak(stats.currentCyberStreak, stats.bestCyberStreak);
-    case "ghost": return streak(stats.currentGhostStreak, stats.bestGhostStreak);
-    case "asteroid": return streak(stats.currentAsteroidStreak, stats.bestAsteroidStreak);
+    case "time":
+      return { cur: formatDuration(stats.currentSessionMs), best: formatDuration(stats.totalPlayMs) };
+    case "rf":
+      return { cur: stats.earnedScore.toLocaleString(), best: "—" };
+    case "cyber":
+      return streak(stats.currentCyberStreak, stats.bestCyberStreak);
+    case "ghost":
+      return streak(stats.currentGhostStreak, stats.bestGhostStreak);
+    case "asteroid":
+      return streak(stats.currentAsteroidStreak, stats.bestAsteroidStreak);
   }
 }
 
 const rfIsConsumableItem = (item: any) => {
   if (!item) return false;
+
   const category = String(item.category ?? "").toLowerCase();
   const id = String(item.id ?? "").toLowerCase();
+
   return (
     category === "consumable" ||
     id.includes("arrow") ||
@@ -56,7 +64,12 @@ const CATEGORY_ORDER: { id: ShopCategory; label: string }[] = [
   { id: "consumable", label: "CONSUMABLES" },
 ];
 
-type PendingSale = { item: ShopItem; amount: number; rate: number; revenue: number } | null;
+type PendingSale = {
+  item: ShopItem;
+  amount: number;
+  rate: number;
+  revenue: number;
+} | null;
 
 function getInventory(props: any): string[] {
   const raw = props.inventory ?? props.items ?? props.owned ?? [];
@@ -68,9 +81,11 @@ function isEquipped(props: any, item: ShopItem): boolean {
   if (item.id.startsWith("arrow_")) return props.equippedArrow === item.id;
   if (item.id.startsWith("armor_")) return props.equippedArmor === item.id;
   if (item.id.startsWith("energy_")) return props.equippedEnergy === item.id;
+
   if (item.category === "bow") return props.equippedBow === item.id;
   if (item.category === "hat") return props.equippedHat === item.id;
   if (item.category === "amulet") return props.equippedAmulet === item.id;
+
   return false;
 }
 
@@ -81,14 +96,22 @@ const rfConsumableType = (item: ShopItem): "arrow" | "armor" | "energy" => {
   return "energy";
 };
 
-const RARITY_ORDER: Record<string, number> = { rare: 0, epic: 1, legendary: 2 };
+const RARITY_ORDER: Record<string, number> = {
+  rare: 0,
+  epic: 1,
+  legendary: 2,
+};
 
 const rfLimitByRarity = (items: ShopItem[]): ShopItem[] => {
   const byRarity = new Map<string, ShopItem>();
+
   for (const item of items) {
     const rarity = String(item.rarity ?? "").toLowerCase();
-    if (!byRarity.has(rarity)) byRarity.set(rarity, item);
+    if (!byRarity.has(rarity)) {
+      byRarity.set(rarity, item);
+    }
   }
+
   return Array.from(byRarity.values())
     .sort((a, b) => {
       const ar = String(a.rarity ?? "").toLowerCase();
@@ -121,20 +144,24 @@ export default function Profile(props: any) {
     props.isCyberStyle ??
     (typeof window !== "undefined" && (window as any).__RHRF_IS_CYBER__)
   );
-  const cyber = cyberOn;
 
   const counts = new Map<string, number>();
-  for (const id of inventory) counts.set(id, (counts.get(id) ?? 0) + 1);
+  for (const id of inventory) {
+    counts.set(id, (counts.get(id) ?? 0) + 1);
+  }
+
   const uniqueIds = Array.from(counts.keys());
 
   const catalogItems: ShopItem[] = uniqueIds.map((id) => {
     const found = getItemById(id);
     if (found) return found;
+
     const lower = id.toLowerCase();
     let category: ShopCategory = "consumable";
     if (lower.includes("bow")) category = "bow";
     else if (lower.includes("hat") || lower.includes("head") || lower.includes("helmet") || lower.includes("crown")) category = "hat";
     else if (lower.includes("amulet") || lower.includes("neck") || lower.includes("charm")) category = "amulet";
+
     return fallbackItem(id, category);
   });
 
@@ -152,87 +179,136 @@ export default function Profile(props: any) {
     { id: "consumable", label: "CONSUMABLES", count: catalogItems.filter((item) => item.category === "consumable").length },
   ];
 
-  const close = () => { if (typeof props.onClose === "function") props.onClose(); };
-  const toggleEquip = (item: ShopItem) => {
-    if (props.onToggleEquip) { props.onToggleEquip(item); return; }
-    if (props.onEquip) props.onEquip(item.id);
+  const close = () => {
+    if (typeof props.onClose === "function") props.onClose();
   };
+
+  const toggleEquip = (item: ShopItem) => {
+    if (props.onToggleEquip) {
+      props.onToggleEquip(item);
+      return;
+    }
+
+    if (props.onEquip) {
+      props.onEquip(item.id);
+    }
+  };
+
   const openSellConfirm = (item: ShopItem, rate: number) => {
     const count = getItemCount(inventory, item.id);
     const amount = item.category === "consumable" ? count : 1;
     if (amount <= 0) return;
+
     const revenue = sellValue(item.price, rate, amount);
     setPendingSale({ item, amount, rate, revenue });
   };
-  const cancelSell = () => setPendingSale(null);
+
+  const cancelSell = () => {
+    setPendingSale(null);
+  };
+
   const confirmSell = () => {
     if (!pendingSale) return;
-    if (props.onSell) props.onSell(pendingSale.item, pendingSale.amount, pendingSale.rate);
+
+    if (props.onSell) {
+      props.onSell(pendingSale.item, pendingSale.amount, pendingSale.rate);
+    }
+
     setPendingSale(null);
   };
 
   return (
-    <div className="rb-sheet" onClick={close}>
-      <div className="rb-panel" onClick={(event) => event.stopPropagation()}>
-        <div className="rb-head">
-          <div className="rb-title">PROFILE</div>
-          <div className="rb-balance">{Math.floor(totalScore)} RF</div>
-          <button className="rb-close" onClick={close} aria-label="Close">✕</button>
+    <div className="rf-profile-overlay" onClick={close}>
+      <div className="rf-profile-panel" onClick={(event) => event.stopPropagation()}>
+        <div className="rf-profile-header">
+          <div className="rf-profile-title">PROFILE</div>
+          <div className="rf-profile-balance">{Math.floor(totalScore)} RF</div>
+          <button className="rf-profile-close" onClick={close}>X</button>
         </div>
 
-        <div className="rb-stats">
-          <div className="rb-stat"><span className="rb-stat-label">SCORE</span><strong className="rb-stat-value">{Math.floor(totalScore)}</strong></div>
-          <div className="rb-stat"><span className="rb-stat-label">ITEMS</span><strong className="rb-stat-value">{catalogItems.length}</strong></div>
-          <div className="rb-stat"><span className="rb-stat-label">EQUIPPED</span><strong className="rb-stat-value">{equippedCount}</strong></div>
-          <div className="rb-stat"><span className="rb-stat-label">TOTAL</span><strong className="rb-stat-value">{inventory.length}</strong></div>
+        <div className="rf-profile-stats">
+          <div className="rf-profile-stat">
+            <span>SCORE</span>
+            <strong>{Math.floor(totalScore)}</strong>
+          </div>
+          <div className="rf-profile-stat">
+            <span>ITEMS</span>
+            <strong>{catalogItems.length}</strong>
+          </div>
+          <div className="rf-profile-stat">
+            <span>EQUIPPED</span>
+            <strong>{equippedCount}</strong>
+          </div>
+          <div className="rf-profile-stat">
+            <span>TOTAL</span>
+            <strong>{inventory.length}</strong>
+          </div>
         </div>
 
-        <div className="rb-tabs">
+          <div className="rf-profile-tabs">
           {(["equipment", "stats", "cyber"] as const).map((tab) => (
-            <button key={tab} className={`rb-tab ${activeTab === tab ? "rb-tab--active" : ""}`} onClick={() => setActiveTab(tab)}>
+            <button
+              key={tab}
+              className={`rf-profile-tab ${activeTab === tab ? "active" : ""}`}
+              onClick={() => setActiveTab(tab)}
+            >
               {tab.toUpperCase()}
             </button>
           ))}
         </div>
 
         {activeTab === "equipment" && (
-          <div className="rb-subtabs">
+          <div className="rf-profile-subtabs rf-equipment-subtabs">
             {equipmentTabs.map((tab) => (
-              <button key={tab.id} className={`rb-subtab ${activeEquipmentTab === tab.id ? "rb-subtab--active" : ""}`} onClick={() => setActiveEquipmentTab(tab.id)}>
-                {tab.label}{tab.count > 0 ? ` (${tab.count})` : ""}
+              <button
+                key={tab.id}
+                className={`rf-profile-subtab ${activeEquipmentTab === tab.id ? "active" : ""}`}
+                onClick={() => setActiveEquipmentTab(tab.id)}
+              >
+                {tab.label}
+                {tab.count > 0 ? ` (${tab.count})` : ""}
               </button>
             ))}
           </div>
         )}
 
-        <div className="rb-section" style={{ display: activeTab === "cyber" ? undefined : "none" }}>
-          <div className="rb-section-title">CYBER STYLE</div>
-          <div className="rb-grid">
-            <div className={`rb-card rb-card--legendary ${cyberOn ? "rb-card--equipped" : ""}`}>
-              <div className="rb-card-main">
-                <div className="rb-card-name">CYBER STYLE</div>
-                <div className="rb-card-desc">Requires LEGENDARY BOW, LEGENDARY OUTFIT and LEGENDARY AMULET in inventory. Grants legendary effects and disables asteroid screen shake.</div>
-              </div>
-              <div className="rb-card-side">
-                <div className="rb-card-actions">
-                  <button className="rb-btn rb-btn--equip" disabled={!cyberUnlock} onClick={() => { if (typeof props.onToggleCyber === "function") props.onToggleCyber(); else window.dispatchEvent(new CustomEvent("rhrf-toggle-cyber")); }}>
+        <div className="rf-profile-section" style={{ display: activeTab === "cyber" ? undefined : "none" }}>
+            <div className="rf-profile-section-title">CYBER STYLE</div>
+            <div className="rf-profile-grid">
+              <div className={`rf-profile-card rarity-legendary ${cyberOn ? "equipped" : ""}`}>
+                <div className="rf-profile-card-top">
+                  <div className="rf-profile-card-name">CYBER STYLE</div>
+                </div>
+                <div className="rf-profile-card-desc">
+                  Requires LEGENDARY BOW, LEGENDARY OUTFIT and LEGENDARY AMULET in inventory.
+                  Grants legendary bow / outfit / amulet effects and disables asteroid screen shake.
+                </div>
+                <div className="rf-profile-card-actions">
+                  <button
+                    className="rf-profile-action equip"
+                    disabled={!cyberUnlock}
+                    onClick={() => { if (typeof props.onToggleCyber === "function") props.onToggleCyber(); else window.dispatchEvent(new CustomEvent("rhrf-toggle-cyber")); }}
+                  >
                     {cyberOn ? "UNEQUIP" : "EQUIP"}
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="rb-section" style={{ display: activeTab === "stats" ? undefined : "none" }}>
-          <div className="rb-subtabs">
+        <div className="rf-profile-section" style={{ display: activeTab === "stats" ? undefined : "none" }}>
+          <div className="rf-stat-tabs">
             {STAT_TABS.map((t) => (
-              <button key={t.id} className={`rb-subtab ${activeStat === t.id ? "rb-subtab--active" : ""}`} onClick={() => setActiveStat(t.id)}>
+              <button
+                key={t.id}
+                className={`rf-stat-tab ${activeStat === t.id ? "active" : ""}`}
+                onClick={() => setActiveStat(t.id)}
+              >
                 {t.label}
               </button>
             ))}
           </div>
-          <table className="rb-table">
+
+          <table className="rf-leaderboard">
             <thead>
               <tr>
                 <th>PLAYER</th>
@@ -243,14 +319,26 @@ export default function Profile(props: any) {
             <tbody>
               {(() => {
                 const row = statRow(gameStats, activeStat);
-                if (!row) return (<tr><td colSpan={3} className="rb-empty">NO DATA</td></tr>);
-                return (<tr><td>{playerName}</td><td>{row.cur}</td><td>{row.best}</td></tr>);
+                if (!row) {
+                  return (
+                    <tr>
+                      <td colSpan={3} className="rf-leaderboard-empty">NO DATA</td>
+                    </tr>
+                  );
+                }
+                return (
+                  <tr>
+                    <td>{playerName}</td>
+                    <td>{row.cur}</td>
+                    <td>{row.best}</td>
+                  </tr>
+                );
               })()}
             </tbody>
           </table>
         </div>
 
-        <div className="rb-body" style={{ display: activeTab === "equipment" ? undefined : "none" }}>
+        <div className={`rf-profile-scroll ${activeTab === "equipment" ? "rf-equipment-scroll" : ""}`} style={{ display: activeTab === "equipment" ? undefined : "none" }}>
           {sections
             .filter((section) => section.id === activeEquipmentTab)
             .map((section) => {
@@ -258,76 +346,113 @@ export default function Profile(props: any) {
                 ? section.items.filter((item) => rfConsumableType(item) === activeConsumableTab)
                 : section.items;
               const displayItems = rfLimitByRarity(rawDisplayItems);
+
               return (
-                <section key={section.id} className="rb-section">
-                  {section.id === "consumable" && (
-                    <div className="rb-subtabs">
-                      {([["arrow", "ARROWS"], ["armor", "ARMOR"], ["energy", "ENERGY"]] as const).map(([id, label]) => {
-                        const subCount = section.items
-                          .filter((item) => rfConsumableType(item) === id)
-                          .reduce((sum, item) => sum + (counts.get(item.id) ?? 0), 0);
-                        return (
-                          <button key={id} className={`rb-subtab ${activeConsumableTab === id ? "rb-subtab--active" : ""}`} onClick={() => setActiveConsumableTab(id)}>
-                            {label} ({subCount})
+            <section key={section.id} className="rf-profile-section">
+              {section.id === "consumable" && (
+                <div className="rf-profile-subtabs">
+                  {([["arrow", "ARROWS"], ["armor", "ARMOR"], ["energy", "ENERGY"]] as const).map(([id, label]) => {
+                    const subCount = section.items
+                      .filter((item) => rfConsumableType(item) === id)
+                      .reduce((sum, item) => sum + (counts.get(item.id) ?? 0), 0);
+                    return (
+                      <button
+                        key={id}
+                        className={`rf-profile-subtab ${activeConsumableTab === id ? "active" : ""}`}
+                        onClick={() => setActiveConsumableTab(id)}
+                      >
+                        {label} ({subCount})
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+              
+
+              {displayItems.length === 0 ? (
+                <div className="rf-profile-empty">NO ITEMS</div>
+              ) : (
+                <div className="rf-profile-grid">
+                  {displayItems.map((item) => {
+                    const count = getItemCount(inventory, item.id);
+                    const equipped = isEquipped(props, item);
+                    const sellAmount = item.category === "consumable" ? count : 1;
+                    const sell50 = sellValue(item.price, 0.5, sellAmount);
+                    const sell60 = sellValue(item.price, 0.6, sellAmount);
+
+                    return (
+                      <div
+                        key={item.id}
+                        className={`rf-profile-card rarity-${item.rarity} ${equipped ? "equipped" : ""}`}
+                      >
+                        <div className="rf-profile-card-top">
+                          <div className="rf-profile-card-name">{item.name}</div>
+                          {(item.category === "consumable" || count > 1) && (
+                            <div className="rf-profile-card-count">x{count}</div>
+                          )}
+                        </div>
+
+                        <div className="rf-profile-card-desc">{item.description}</div>
+
+                        <div className="rf-profile-card-bottom">
+                          <div className="rf-profile-card-rarity">{item.rarity.toUpperCase()}</div>
+                          {equipped && <div className="rf-profile-card-equipped">EQUIPPED</div>}
+                        </div>
+
+                        <div className="rf-profile-card-actions">
+                          <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (count <= 0)}
+                            className="rf-profile-action equip"
+                            onClick={() => toggleEquip(item)}
+                          >
+                            {equipped ? "UNEQUIP" : "EQUIP"}
                           </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                  {displayItems.length === 0 ? (
-                    <div className="rb-empty">NO ITEMS</div>
-                  ) : (
-                    <div className="rb-grid">
-                      {displayItems.map((item) => {
-                        const count = getItemCount(inventory, item.id);
-                        const equipped = isEquipped(props, item);
-                        const sellAmount = item.category === "consumable" ? count : 1;
-                        const sell50 = sellValue(item.price, 0.5, sellAmount);
-                        const sell60 = sellValue(item.price, 0.6, sellAmount);
-                        return (
-                          <div key={item.id} className={`rb-card rb-card--${item.rarity} ${equipped ? "rb-card--equipped" : ""}`}>
-                            <div className="rb-card-main">
-                              <div className="rb-card-top">
-                                <div className="rb-card-name">{item.name}</div>
-                                {(item.category === "consumable" || count > 1) && (<div className="rb-card-count">x{count}</div>)}
-                              </div>
-                              <div className="rb-card-desc">{item.description}</div>
-                              <div className="rb-card-bottom">
-                                <div className="rb-card-rarity">{item.rarity.toUpperCase()}</div>
-                                {equipped && <div className="rb-card-equipped-tag">EQUIPPED</div>}
-                              </div>
-                            </div>
-                            <div className="rb-card-side">
-                              <div className="rb-card-actions">
-                                <button className="rb-btn rb-btn--equip" disabled={rfCyberBlocksItem(cyber, item) || count <= 0} onClick={() => toggleEquip(item)}>
-                                  {equipped ? "UNEQUIP" : "EQUIP"}
-                                </button>
-                                <button className="rb-btn rb-btn--sell" onClick={() => openSellConfirm(item, 0.5)}>SELL 50%<span>{sell50} RF</span></button>
-                                <button className="rb-btn rb-btn--offer" disabled={count <= 0} onClick={() => openSellConfirm(item, 0.6)}>OFFER 60%<span>{sell60} RF</span></button>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </section>
-              );
-            })}
+
+                          <button
+                            className="rf-profile-action sell"
+                            onClick={() => openSellConfirm(item, 0.5)}
+                          >
+                            SELL 50%
+                            <span>{sell50} RF</span>
+                          </button>
+
+                          <button
+                            className="rf-profile-action offer"
+                            disabled={count <= 0}
+                            onClick={() => openSellConfirm(item, 0.6)}
+                          >
+                            OFFER 60%
+                            <span>{sell60} RF</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          );
+          })}
         </div>
 
         {pendingSale && (
-          <div className="rb-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="rb-modal-box">
-              <div className="rb-modal-title">CONFIRM SALE</div>
-              <div className="rb-modal-text">
-                Sell {pendingSale.amount} x {pendingSale.item.name}<br />
-                for <strong>{pendingSale.revenue} RF</strong>?<br />
+          <div className="rf-sell-confirm" onClick={(e) => e.stopPropagation()}>
+            <div className="rf-sell-confirm-box">
+              <div className="rf-sell-confirm-title">CONFIRM SALE</div>
+              <div className="rf-sell-confirm-text">
+                Sell {pendingSale.amount} x {pendingSale.item.name}
+                <br />
+                for <strong>{pendingSale.revenue} RF</strong>?
+                <br />
                 Mode: {pendingSale.rate >= 0.6 ? "OFFER 60%" : "QUICK 50%"}
               </div>
-              <div className="rb-modal-actions">
-                <button className="rb-btn rb-btn--cancel" onClick={cancelSell}>CANCEL</button>
-                <button className="rb-btn rb-btn--ok" onClick={confirmSell}>SELL</button>
+
+              <div className="rf-sell-confirm-actions">
+                <button className="rf-sell-confirm-cancel" onClick={cancelSell}>
+                  CANCEL
+                </button>
+                <button className="rf-sell-confirm-ok" onClick={confirmSell}>
+                  SELL
+                </button>
               </div>
             </div>
           </div>
