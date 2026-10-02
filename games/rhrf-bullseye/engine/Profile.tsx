@@ -11,6 +11,29 @@ import {
 import { type GameStats, formatDuration } from "./stats";
 import ItemIcon from "./ItemIcon";
 
+const fmtCompact = (n: number): string => {
+  const v = Math.floor(Number(n) || 0);
+  if (v >= 1000000000) {
+    const x = v / 1000000000;
+    if (x < 10) return x.toFixed(1) + "B";
+    if (x < 100) return x.toFixed(0) + "B";
+    return Math.floor(x) + "B";
+  }
+  if (v >= 1000000) {
+    const x = v / 1000000;
+    if (x < 10) return x.toFixed(1) + "M";
+    if (x < 100) return x.toFixed(0) + "M";
+    return Math.floor(x) + "M";
+  }
+  if (v >= 1000) {
+    const x = v / 1000;
+    if (x < 10) return x.toFixed(1) + "K";
+    if (x < 100) return x.toFixed(0) + "K";
+    return Math.floor(x) + "K";
+  }
+  return String(v);
+};
+
 const STAT_TABS = [
   { id: "time", label: "TOTAL TIME", cols: ["SESSION", "ALL TIME"] },
   { id: "rf", label: "EARNED RF", cols: ["TOTAL", "—"] },
@@ -286,20 +309,20 @@ export default function Profile(props: any) {
         <div className="rf-profile-section" style={{ display: activeTab === "stats" ? undefined : "none" }}>
           <div className="rf-profile-stats">
             <div className="rf-profile-stat">
-              <span>SCORE</span>
-              <strong>{Math.floor(totalScore)}</strong>
+              <span title="SCORE">S</span>
+              <strong>{fmtCompact(totalScore)}</strong>
             </div>
             <div className="rf-profile-stat">
-              <span>ITEMS</span>
-              <strong>{catalogItems.length}</strong>
+              <span title="ITEMS">I</span>
+              <strong>{fmtCompact(catalogItems.length)}</strong>
             </div>
             <div className="rf-profile-stat">
-              <span>EQUIPPED</span>
-              <strong>{equippedCount}</strong>
+              <span title="EQUIPPED">E</span>
+              <strong>{fmtCompact(equippedCount)}</strong>
             </div>
             <div className="rf-profile-stat">
-              <span>TOTAL</span>
-              <strong>{inventory.length}</strong>
+              <span title="TOTAL">T</span>
+              <strong>{fmtCompact(inventory.length)}</strong>
             </div>
           </div>
           <div className="rf-stat-tabs">

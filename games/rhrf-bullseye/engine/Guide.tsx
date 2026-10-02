@@ -11,6 +11,7 @@ export default function Guide({ onClose }: GuideProps) {
 
   const sections = [
     { title: "CONTROLS", lines: ["SHOT: fire arrow.", "JUMP: dodge ghost.", "LASER: destroy asteroid.", "SHOP: buy, equip or sell.", "PROFILE: stats and cyber style.", "GUIDE: open this screen.", "MUTE: toggle audio.", "PAUSE: freeze gameplay.", "X: share screenshot."] },
+    { title: "PROFILE", lines: ["S: score.", "I: items.", "E: equipped.", "T: total."] },
     { title: "SCORE", lines: ["10: bullseye, cyber shimmer.", "9-7: epic zone.", "6-4: rare zone.", "3-1: common zone."] },
     { title: "RARITY", lines: ["Rare: basic boost.", "Epic: stronger boost.", "Legendary: best boost.", "Three legendaries unlock cyber style."] },
     { title: "LASERS", lines: ["Satellites drop laser consumables.", "Laser cap is 100.", "Use lasers for tower defense.", "Sell lasers in shop for RF.", "Lasers can accumulate while paused."] },

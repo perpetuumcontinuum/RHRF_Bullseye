@@ -1661,3 +1661,37 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-profile-panel .rf-profile-card--icon.rarity-legendary > .rf-shop-item-icon.rf-item-icon--cyber{
   color: #fff;
 }
+
+/* ===== stat tabs: no stretch, smaller, horizontal scroll ===== */
+.rf-stat-tab{
+  flex:0 0 auto;
+  font-size:clamp(.6rem,1.6vmin,.78rem);
+  padding:0 clamp(.4rem,1.2vmin,.7rem);
+  letter-spacing:.05vmin;
+}
+
+/* ===== stat tabs scroll + compact profile stats ===== */
+.rf-profile-panel > .rf-profile-section {
+  overflow-x: hidden;
+}
+
+.rf-stat-tabs {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.rf-stat-tab {
+  flex: 0 0 auto;
+  max-width: none;
+}
+
+.rf-profile-stat {
+  overflow: hidden;
+}
+
+.rf-profile-stat strong {
+  max-width: 100%;
+  white-space: nowrap;
+}
