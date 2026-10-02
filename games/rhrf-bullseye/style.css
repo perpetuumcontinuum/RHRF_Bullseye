@@ -628,7 +628,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   color: #ff2d2d;
   text-shadow: 0 0 8px rgba(255, 0, 0, 0.95), 0 0 18px rgba(255, 0, 0, 0.75), 0 0 2px #fff;
 }.rf-msg-green{
-  color: #cf0;
+  color: #ccff00;
   text-shadow: 0 0 8px rgba(204, 255, 0, 0.95), 0 0 18px rgba(204, 255, 0, 0.75), 0 0 2px #fff;
 }.rf-shake-text{
   animation: rfTextVibrate 0.11s infinite ease-in-out;
@@ -637,20 +637,20 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }.rf-share-btn text{
   transition: fill 0.15s ease;
 }.rf-share-btn:hover circle,.rf-share-btn:focus circle{
-  stroke: #cf0;
+  stroke: #ccff00;
   fill: #10001f;
 }.rf-share-btn:hover text,.rf-share-btn:focus text{
-  fill: #cf0;
+  fill: #ccff00;
 }.rf-share-btn:focus{
   outline: none;
 }.rf-mute-btn circle:last-of-type{
   transition: stroke 0.15s ease;
 }.rf-mute-btn:hover circle:last-of-type,.rf-mute-btn:focus circle:last-of-type{
-  stroke: #cf0;
+  stroke: #ccff00;
 }.rf-mute-btn path,.rf-mute-btn line{
   transition: stroke 0.15s ease;
 }.rf-mute-btn:hover path,.rf-mute-btn:focus path{
-  stroke: #cf0;
+  stroke: #ccff00;
 }.rf-pause-btn circle:last-of-type{
   transition: stroke 0.15s ease;
 }.rf-pause-btn:hover circle:last-of-type,.rf-pause-btn:focus circle:last-of-type{
@@ -804,7 +804,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   }25%{
     fill: #0ff;
   }50%{
-    fill: #cf0;
+    fill: #ccff00;
   }75%{
     fill: #fff;
   }to{
@@ -823,9 +823,9 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
     box-shadow: 0 0 25px #f0f8, inset 0 0 15px #f0f4;
     text-shadow: 0 0 10px #ff00ff;
   }50%{
-    color: #cf0;
-    border-color: #cf0;
-    box-shadow: 0 0 25px #cf08, inset 0 0 15px #cf04;
+    color: #ccff00;
+    border-color: #ccff00;
+    box-shadow: 0 0 25px #ccff0088, inset 0 0 15px #ccff0044;
     text-shadow: 0 0 10px #ccff00;
   }75%{
     color: #fff;
@@ -840,7 +840,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   }25%{
     fill: #f0f;
   }50%{
-    fill: #cf0;
+    fill: #ccff00;
   }75%{
     fill: #fff;
   }
@@ -851,7 +851,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   }25%{
     stroke: #f0f;
   }50%{
-    stroke: #cf0;
+    stroke: #ccff00;
   }75%{
     stroke: #fff;
   }

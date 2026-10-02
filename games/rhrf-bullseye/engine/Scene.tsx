@@ -648,7 +648,7 @@ const pixelBounds = (() => {
               fontFamily="'Courier New', Courier, monospace"
               fontSize="54"
               fontWeight="bold"
-              fill="#cf0"
+              fill="#ccff00"
               letterSpacing="4"
               className="rf-glitch-text-r"
             >
