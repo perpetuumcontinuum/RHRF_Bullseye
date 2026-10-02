@@ -1423,16 +1423,17 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 
 /* profile stats */
 .rf-profile-stats{
-  flex:0 0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:.3vmin;
-  padding:clamp(.3rem,1vmin,.6rem) clamp(.5rem,1.6vmin,.9rem) 0;
+  flex:0 0 auto; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.25vmin;
+  padding:clamp(.2rem,.8vmin,.45rem) clamp(.45rem,1.4vmin,.8rem) 0;
 }
 .rf-profile-stat{
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0;
-  background:rgba(0,255,255,.05); border:1px solid rgba(0,255,255,.18);
-  border-radius:var(--ui-r); padding:clamp(.25rem,.8vmin,.5rem) .2vmin; min-height:0;
+  display:flex; flex-direction:row; align-items:baseline; justify-content:center; gap:.25vmin;
+  background:rgba(0,255,255,.04); border:1px solid rgba(0,255,255,.14);
+  border-radius:clamp(.3rem,1vmin,.55rem); padding:clamp(.15rem,.55vmin,.35rem) .35vmin;
+  min-height:0; min-width:0; overflow:hidden;
 }
-.rf-profile-stat span{ font-size:var(--ui-desc); letter-spacing:.1vmin; color:#7a7a8a; }
-.rf-profile-stat strong{ font-size:var(--ui-name); font-weight:900; color:#00ffff; text-shadow:0 0 .6vmin #00ffff66; }
+.rf-profile-stat span{ font-size:clamp(.48rem,1.25vmin,.58rem); letter-spacing:.05vmin; color:#7a7a8a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.rf-profile-stat strong{ font-size:clamp(.62rem,1.6vmin,.78rem); font-weight:900; color:#00ffff; text-shadow:0 0 .5vmin #00ffff55; white-space:nowrap; }
 
 /* profile section / grid / card */
 .rf-profile-section{ display:flex; flex-direction:column; gap:var(--ui-gap); }
@@ -1512,10 +1513,10 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   .rf-shop-item-price, .rf-shop-item-count{ text-align:left; }
   .rf-shop-consumable-controls{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .rf-shop-consumable-controls button:last-child{ grid-column:auto; }
-  .rf-profile-stats{ gap:.2vmin; padding:.15rem clamp(.4rem,1.4vmin,.7rem) 0; }
-  .rf-profile-stat{ padding:.12rem .1vmin; }
-  .rf-profile-stat span{ font-size:clamp(.5rem,1.3vmin,.62rem); }
-  .rf-profile-stat strong{ font-size:clamp(.7rem,1.8vmin,.88rem); }
+  .rf-profile-stats{ gap:.15vmin; padding:.1rem clamp(.35rem,1.2vmin,.6rem) 0; }
+  .rf-profile-stat{ padding:.1rem .2vmin; gap:.15vmin; }
+  .rf-profile-stat span{ font-size:clamp(.45rem,1.15vmin,.54rem); }
+  .rf-profile-stat strong{ font-size:clamp(.58rem,1.45vmin,.72rem); }
   .rf-profile-tabs, .rf-equipment-subtabs{ padding-top:.2rem; gap:.25rem; }
   .rf-profile-tab, .rf-equipment-subtabs .rf-profile-subtab{
     height:clamp(1.25rem,3.4vmin,1.55rem); font-size:clamp(.6rem,1.55vmin,.76rem); padding:0 .35vmin;
