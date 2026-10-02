@@ -243,12 +243,19 @@
   isolation: isolate;
 }.scene-container:focus{
   outline: none;
-}.scene-container > svg{
+}.rf-shake-layer{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}.rf-shake-layer > svg{
   width: 100%;
   height: 100%;
   display: block;
-}.scene-container.screen-shake{
+}.scene-container.screen-shake .rf-shake-layer{
   animation: screenZoom 0.2s ease-in-out 5;
+}.scene-container.rf-paused-root .rf-shake-layer,
+.scene-container.rf-overlay-open .rf-shake-layer{
+  animation: none;
 }
 
 @keyframes screenZoom {0%,100%{
@@ -1715,3 +1722,6 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   white-space:nowrap;
 }
 .rf-profile-stat span{ letter-spacing:.12vmin; opacity:.9; }
+.rf-top-bar {
+    width: 69%;
+}

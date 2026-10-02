@@ -965,7 +965,7 @@ impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false})
           if (!asteroidKilledRef.current) {
           recordEvent("asteroid", false);
             impactTimersRef.current.push(pt(() => {
-              if (!cyberRef.current) setScreenShake(true);
+              if (!cyberRef.current && !pausedRef.current && !showShopRef.current && !showProfileRef.current && !showGuideRef.current) setScreenShake(true);
               setAsteroidWarning(true);
               setLandingGlow({ x: asteroidFinalXRef.current, y: 480, visible: true });
               playSound('impact');
@@ -1335,7 +1335,7 @@ if (loading) {
   }
 
   return (
-    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "")}>
+    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "") + ((showShop || showProfile || showGuide) ? " rf-overlay-open" : "")}>
       
 
       <div className="scanline-overlay" />
@@ -1369,6 +1369,7 @@ if (loading) {
         flashColor={flashColor}
       />
 
+<div className="rf-shake-layer">
 <Scene 
         nftImageUrl={nftImageUrl}
         laserX={laserPos.x}
@@ -1397,6 +1398,7 @@ if (loading) {
         onTogglePause={togglePause}
       />
 
+      </div>
       {asteroidWarning && (
         <div className="rf-overlay-msg rf-msg-red rf-shake-text">
            ASTEROID REACHED THE PLANET SURFACE
