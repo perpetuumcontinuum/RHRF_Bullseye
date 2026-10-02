@@ -1928,3 +1928,112 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   background:#0a001499; border:1px solid #00ffff; border-radius:var(--ui-r);
   color:#00ffff; cursor:pointer;
 }.rf-shop-pager-btn:disabled{ opacity:.3; cursor:not-allowed; }.rf-shop-pager-info{ font-family:monospace; font-weight:900; font-size:var(--ui-ui); color:#e8e8ff; letter-spacing:.1vmin; }
+
+/* ===== hotfix: shop/profile overlay density + z-index ===== */
+.rf-shop-overlay,
+.rf-profile-overlay {
+  z-index: 2147483647 !important;
+  isolation: isolate;
+}
+
+.rf-shop-panel,
+.rf-profile-panel {
+  max-height: 100% !important;
+  overflow: hidden !important;
+}
+
+.rf-shop-scroll,
+.rf-profile-scroll {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain !important;
+}
+
+.rf-shop-panel .rf-shop-item {
+  align-items: flex-start !important;
+}
+
+.rf-shop-panel .rf-shop-item-main {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+.rf-shop-panel .rf-shop-item-name,
+.rf-shop-panel .rf-shop-item-desc {
+  text-align: left !important;
+}
+
+.rf-shop-panel .rf-shop-item-side {
+  flex: 0 0 auto !important;
+  min-width: 0 !important;
+  width: 38% !important;
+  max-width: 150px !important;
+  position: relative !important;
+}
+
+.rf-shop-panel .rf-shop-consumable-side {
+  width: 45% !important;
+  max-width: 180px !important;
+}
+
+.rf-shop-panel .rf-shop-item-price,
+.rf-shop-panel .rf-shop-item-count {
+  text-align: right !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.rf-shop-panel .rf-shop-consumable-controls {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: .25rem !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.rf-shop-panel .rf-shop-consumable-controls button {
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: .3rem .35rem !important;
+  font-size: clamp(.62rem, 1.7vmin, .78rem) !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.rf-shop-panel .rf-shop-consumable-controls button:last-child {
+  grid-column: 1 / -1 !important;
+}
+
+@media (max-width: 520px) {
+  .rf-shop-panel .rf-shop-item {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: .35rem !important;
+  }
+
+  .rf-shop-panel .rf-shop-item-side,
+  .rf-shop-panel .rf-shop-consumable-side {
+    width: 100% !important;
+    max-width: none !important;
+    align-items: stretch !important;
+  }
+
+  .rf-shop-panel .rf-shop-item-price,
+  .rf-shop-panel .rf-shop-item-count {
+    text-align: left !important;
+  }
+
+  .rf-shop-panel .rf-shop-consumable-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .rf-shop-panel .rf-shop-consumable-controls button:last-child {
+    grid-column: auto !important;
+  }
+}
