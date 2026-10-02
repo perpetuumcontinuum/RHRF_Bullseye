@@ -3,39 +3,39 @@
     #rfMaintenance{
       position:fixed;
       inset:0;
-      z-index:9999;
-      display:grid;
-      place-items:center;
-      padding:1rem;
-      background:repeating-linear-gradient(45deg,#f5c518 0 18px,#111 18px 36px);
-      font:700 clamp(1rem,3vw,2rem)/1.2 ui-monospace,monospace;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      text-align:center;
+      z-index:40;
+      pointer-events:none;
+      overflow:hidden;
     }
     #rfMaintenance[hidden]{display:none}
-    #rfMaintenance .rf-maint-card{
-      max-width:min(720px,92vw);
-      padding:1rem 1.4rem;
-      border:2px solid #f5c518;
-      border-radius:12px;
-      background:rgba(0,0,0,.84);
-      color:#f5c518;
-      box-shadow:0 0 24px rgba(245,197,24,.35);
+    #rfMaintenance .rf-tape{
+      position:absolute;
+      left:50%;
+      top:50%;
+      height:clamp(72px,30vh,240px);
+      width:var(--tape-w,200vmax);
+      transform:translate(-50%,-50%) rotate(var(--tape-a,-25deg));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      background:repeating-linear-gradient(60deg,#f5c518 0 26px,#141414 26px 52px);
+      border-top:3px solid #141414;
+      border-bottom:3px solid #141414;
+      box-shadow:0 0 30px rgba(0,0,0,.55);
     }
-    #rfMaintenance .rf-maint-sub{
-      margin-top:.55rem;
+    #rfMaintenance .rf-tape span{
+      white-space:nowrap;
+      font:900 clamp(.8rem,2.2vh,1.4rem)/1 ui-monospace,monospace;
+      letter-spacing:.15em;
+      text-transform:uppercase;
       color:#fff;
-      font-size:clamp(.72rem,1.8vw,1rem);
-      letter-spacing:.04em;
-      text-transform:none;
-      opacity:.88;
+      text-shadow:1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 0 6px #000;
     }
   </style>
 
-  <div class="rf-maint-card">
-    Under maintenance
-    <div class="rf-maint-sub">Technical work in progress. The bow will be back shortly.</div>
+  <div class="rf-tape" aria-hidden="true">
+    <span>UNDER MAINTENANCE - WORK IN PROGRESS - SESSION PROGRESS AND NEW PURCHASES MAY BE LOST - UNDER MAINTENANCE - WORK IN PROGRESS - SESSION PROGRESS AND NEW PURCHASES MAY BE LOST - UNDER MAINTENANCE - WORK IN PROGRESS - SESSION PROGRESS AND NEW PURCHASES MAY BE LOST - </span>
   </div>
 
   <script>
@@ -43,17 +43,28 @@
       var el = document.getElementById("rfMaintenance");
       if (!el) return;
 
-      var DEFAULT = false;
+      var DEFAULT = true;
+      var KEY = "rf_maintenance";
+      var tape = el.querySelector(".rf-tape");
 
       function read() {
-        try { return localStorage.getItem("rf_maintenance") === "1"; } catch (e) { return false; }
+        try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; }
+      }
+
+      function layout() {
+        if (!tape) return;
+        var w = window.innerWidth, h = window.innerHeight;
+        var a = Math.atan2(h, w) * 180 / Math.PI;
+        tape.style.setProperty("--tape-a", (-a) + "deg");
+        tape.style.setProperty("--tape-w", Math.ceil(Math.hypot(w, h)) + "px");
       }
 
       function set(v) {
         el.hidden = !v;
+        if (v) layout();
         try {
-          if (v) localStorage.setItem("rf_maintenance", "1");
-          else localStorage.removeItem("rf_maintenance");
+          if (v) localStorage.setItem(KEY, "1");
+          else localStorage.removeItem(KEY);
         } catch (e) {}
       }
 
@@ -66,6 +77,9 @@
       } else {
         set(read());
       }
+
+      addEventListener("resize", layout);
+      addEventListener("orientationchange", layout);
 
       window.rfMaint = {
         on: function () { set(true); },
