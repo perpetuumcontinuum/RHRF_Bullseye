@@ -2901,7 +2901,6 @@ button.fire-tower-btn {
 }
 
 .rf-guide-panel *, .rf-profile-panel * {
-    padding: 1vh 2vh !important;
     border-radius: 1vh !important;
     font-size: 3vh !important;
     min-height: 1vh !important;
@@ -2910,5 +2909,10 @@ button.fire-tower-btn {
 .rf-shop-panel * {
     padding: 1vh !important;
     border-radius: 1vh !important;
-    font-size: 4vh !important;
+    font-size: 3vh !important;
+}
+.rf-shop-item-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
