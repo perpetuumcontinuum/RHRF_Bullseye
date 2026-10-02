@@ -33,9 +33,15 @@ const TABS = [
 
 export default function Shop(props: any) {
   const [activeTab, setActiveTab] = useState<string>("bow");
+  const [page, setPage] = useState(0);
 
   const items = useMemo(() => CATALOG, []);
   const visibleItems = items.filter((item) => item.category === activeTab);
+
+  const PAGE_SIZE = 3;
+  const totalPages = Math.max(1, Math.ceil(visibleItems.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const pageItems = visibleItems.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE);
 
   const totalScore = Number(props.totalScore ?? props.score ?? 0);
   const inventory: string[] = Array.isArray(props.inventory) ? props.inventory.map(String) : [];
@@ -98,7 +104,7 @@ export default function Shop(props: any) {
             <button
               key={tab.id}
               className={`rf-shop-tab ${activeTab === tab.id ? "active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => { setActiveTab(tab.id); setPage(0); }}
             >
               {tab.label}
             </button>
@@ -108,7 +114,7 @@ export default function Shop(props: any) {
         <div className="rf-shop-scroll">
           {visibleItems.length === 0 && <div className="rf-shop-empty">NO ITEMS</div>}
 
-          {visibleItems.map((item) => {
+          {pageItems.map((item) => {
             const count = getItemCount(inventory, item.id);
             const owned = count > 0;
             const equipped = isEquipped(item);
@@ -179,6 +185,14 @@ export default function Shop(props: any) {
             );
           })}
         </div>
+
+        {totalPages > 1 && (
+          <div className="rf-shop-pager">
+            <button className="rf-shop-pager-btn" disabled={safePage <= 0} onClick={() => setPage(safePage - 1)}>PREV</button>
+            <span className="rf-shop-pager-info">{safePage + 1} / {totalPages}</span>
+            <button className="rf-shop-pager-btn" disabled={safePage >= totalPages - 1} onClick={() => setPage(safePage + 1)}>NEXT</button>
+          </div>
+        )}
       </div>
     </div>
   );
