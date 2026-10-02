@@ -43,6 +43,8 @@
       var el = document.getElementById("rfMaintenance");
       if (!el) return;
 
+      var DEFAULT = false;
+
       function read() {
         try { return localStorage.getItem("rf_maintenance") === "1"; } catch (e) { return false; }
       }
@@ -59,6 +61,8 @@
       if (q.has("maintenance")) {
         var val = q.get("maintenance");
         set(val === "" || val === "1" || val === "true");
+      } else if (DEFAULT) {
+        set(true);
       } else {
         set(read());
       }
