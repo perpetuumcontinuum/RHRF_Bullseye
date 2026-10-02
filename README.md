@@ -72,3 +72,13 @@ This whole thing is **MIT**. No strings, no gatekeeping, no "ask first".
 Use it as much as you want, for as long as you want. If it makes someone's day brighter or their neon ridge a little more defendable — that's the whole point. 
 
 Provided as is, no warranties, no promises, no refunds on a missed bullseye. The bow is yours now. 😎
+
+### Economy update
+
+- Bows: 400 / 900 / 1800 RF (rare/epic/legendary).
+- Outfits: 350 / 800 / 1600 RF (rare/epic/legendary).
+- Amulets: 450 / 1000 / 2000 RF (rare/epic/legendary).
+- Consumables: arrows 60/150/300 RF, energy 300/800/1600 RF, armor 100/220/400 RF (rare/epic/legendary).
+- Selling item: 50 percent of listed price.
+- Offer sale: 60 percent of listed price.
+- Current price tuning is modest; when stat persistence arrives, the economy will become deeper and new features will appear.
