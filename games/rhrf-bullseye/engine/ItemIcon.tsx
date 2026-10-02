@@ -1,10 +1,14 @@
 import React from "react";
+import { type ShopIcon } from "./catalog";
 
 type ItemLike = {
   id?: string;
   category?: string;
   rarity?: string;
+  icon?: ShopIcon;
 };
+
+type Variant = ShopIcon | "unknown";
 
 function Glyph({ children }: { children: React.ReactNode }) {
   return (
@@ -51,9 +55,13 @@ function Arrow() {
 function Armor() {
   return (
     <>
-      <path d="M32 8 52 16v16c0 12-10 20-20 24-10-4-20-12-20-24V16z" />
-      <path d="M32 16v32" />
-      <path d="M20 24h24" />
+      <path
+        className="rf-item-fill-bg"
+        d="M32 7 50 14v18c0 12-8 19-18 25-10-6-18-13-18-25V14z"
+      />
+      <path d="M32 18v28" />
+      <path d="M22 26h20" />
+      <path d="M24 38h16" />
     </>
   );
 }
@@ -82,11 +90,29 @@ function Amulet() {
 function Clothes() {
   return (
     <>
-      <path d="M20 14 32 10 44 14 52 24 46 30 44 26v28H20V26l-2 4-6-6z" />
-      <path d="M32 10v44" />
-      <path d="M24 18l4 6" />
-      <path d="M40 18l-4 6" />
-      <path d="M20 40h24" />
+      <circle cx="32" cy="12" r="6" />
+      <path d="M23 23h18l4 18-7 2-2-9H28l-2 9-7-2z" />
+      <path d="M23 23 13 33" />
+      <path d="M41 23l10 10" />
+      <path d="M28 41l-2 15" />
+      <path d="M36 41l2 15" />
+      <path d="M32 23v18" />
+      <path d="M26 29h12" />
+    </>
+  );
+}
+
+function Cyber() {
+  return (
+    <>
+      <path d="M32 9c4 0 7 3 7 7s-3 7-7 7-7-3-7-7 3-7 7-7z" />
+      <path d="M23 27h18l5 17-8-3-3 12-4-12-3 12-8-3z" />
+      <path d="M23 27 12 35" />
+      <path d="M41 27l11 8" />
+      <path d="M28 44l-2 13" />
+      <path d="M36 44l2 13" />
+      <path d="M20 24 10 18l8 20z" fill="currentColor" stroke="none" opacity=".45" />
+      <path d="M44 24 54 18l-8 20z" fill="currentColor" stroke="none" opacity=".45" />
     </>
   );
 }
@@ -101,23 +127,47 @@ function Unknown() {
   );
 }
 
+function shapeFor(v: Variant): React.ReactNode {
+  switch (v) {
+    case "bow":
+      return <Bow />;
+    case "arrow":
+      return <Arrow />;
+    case "armor":
+      return <Armor />;
+    case "energy":
+      return <Energy />;
+    case "amulet":
+      return <Amulet />;
+    case "clothes":
+      return <Clothes />;
+    case "cyber":
+      return <Cyber />;
+    default:
+      return <Unknown />;
+  }
+}
+
 export default function ItemIcon({ item }: { item: ItemLike }) {
   const id = String(item.id ?? "").toLowerCase();
   const category = String(item.category ?? "").toLowerCase();
 
-  let shape: React.ReactNode = <Unknown />;
+  let variant: Variant = item.icon ?? "unknown";
 
-  if (id.includes("arrow")) shape = <Arrow />;
-  else if (id.includes("armor")) shape = <Armor />;
-  else if (id.includes("energy")) shape = <Energy />;
-  else if (category === "bow") shape = <Bow />;
-  else if (category === "hat") shape = <Clothes />;
-  else if (category === "amulet") shape = <Amulet />;
-  else if (category === "consumable") shape = <Energy />;
+  if (!item.icon) {
+    if (id.includes("cyber")) variant = "cyber";
+    else if (id.includes("arrow")) variant = "arrow";
+    else if (id.includes("armor")) variant = "armor";
+    else if (id.includes("energy")) variant = "energy";
+    else if (category === "bow") variant = "bow";
+    else if (category === "hat") variant = "clothes";
+    else if (category === "amulet") variant = "amulet";
+    else if (category === "consumable") variant = "energy";
+  }
 
   return (
-    <div className="rf-shop-item-icon" aria-hidden="true">
-      <Glyph>{shape}</Glyph>
+    <div className={`rf-shop-item-icon rf-item-icon--${variant}`} aria-hidden="true">
+      <Glyph>{shapeFor(variant)}</Glyph>
     </div>
   );
 }
