@@ -16,29 +16,29 @@ export type ShopItem = {
 export const CONSUMABLE_CAP = 100;
 
 export const CATALOG: ShopItem[] = [
-  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", icon: "bow", price: 40, description: "x2 score" },
-  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 90, description: "x3 score" },
-  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 180, description: "x4 score" },
+  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", icon: "bow", price: 400, description: "x2 score" },
+  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 900, description: "x3 score" },
+  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 1800, description: "x4 score" },
 
-  { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", icon: "clothes", price: 35, description: "x2 accuracy" },
-  { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", icon: "clothes", price: 80, description: "x3 accuracy" },
-  { id: "hat_legendary", name: "LEGENDARY OUTFIT", category: "hat", rarity: "legendary", icon: "clothes", price: 160, description: "x4 accuracy" },
+  { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", icon: "clothes", price: 350, description: "x2 accuracy" },
+  { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", icon: "clothes", price: 800, description: "x3 accuracy" },
+  { id: "hat_legendary", name: "LEGENDARY OUTFIT", category: "hat", rarity: "legendary", icon: "clothes", price: 1600, description: "x4 accuracy" },
 
-  { id: "amulet_rare", name: "RARE AMULET", category: "amulet", rarity: "rare", icon: "amulet", price: 45, description: "x2 slow aim" },
-  { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", icon: "amulet", price: 100, description: "x3 slow aim" },
-  { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", icon: "amulet", price: 200, description: "x4 slow aim" },
+  { id: "amulet_rare", name: "RARE AMULET", category: "amulet", rarity: "rare", icon: "amulet", price: 450, description: "x2 slow aim" },
+  { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", icon: "amulet", price: 1000, description: "x3 slow aim" },
+  { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", icon: "amulet", price: 2000, description: "x4 slow aim" },
 
-  { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", icon: "arrow", price: 25, description: "x2 score, fast draw" },
-  { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", icon: "arrow", price: 60, description: "x3 score, faster draw" },
-  { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", icon: "arrow", price: 120, description: "x4 score, instant draw" },
+  { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", icon: "arrow", price: 60, description: "x2 score, fast draw" },
+  { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", icon: "arrow", price: 150, description: "x3 score, faster draw" },
+  { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", icon: "arrow", price: 300, description: "x4 score, instant draw" },
 
-  { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", icon: "energy", price: 30, description: "x2 asteroid RF" },
-  { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", icon: "energy", price: 80, description: "x3 asteroid RF" },
-  { id: "energy_legendary", name: "LEGENDARY ENERGY", category: "consumable", rarity: "legendary", icon: "energy", price: 160, description: "x4 asteroid RF" },
+  { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", icon: "energy", price: 300, description: "x2 asteroid RF" },
+  { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", icon: "energy", price: 800, description: "x3 asteroid RF" },
+  { id: "energy_legendary", name: "LEGENDARY ENERGY", category: "consumable", rarity: "legendary", icon: "energy", price: 1600, description: "x4 asteroid RF" },
 
-  { id: "armor_rare", name: "RARE ARMOR", category: "consumable", rarity: "rare", icon: "armor", price: 40, description: "x0.75 stun" },
-  { id: "armor_epic", name: "EPIC ARMOR", category: "consumable", rarity: "epic", icon: "armor", price: 85, description: "x0.5 stun" },
-  { id: "armor_legendary", name: "LEGENDARY ARMOR", category: "consumable", rarity: "legendary", icon: "armor", price: 160, description: "x0.25 stun" },
+  { id: "armor_rare", name: "RARE ARMOR", category: "consumable", rarity: "rare", icon: "armor", price: 100, description: "x0.75 stun" },
+  { id: "armor_epic", name: "EPIC ARMOR", category: "consumable", rarity: "epic", icon: "armor", price: 220, description: "x0.5 stun" },
+  { id: "armor_legendary", name: "LEGENDARY ARMOR", category: "consumable", rarity: "legendary", icon: "armor", price: 400, description: "x0.25 stun" },
 ];
 
 export function getItemById(id: string): ShopItem | undefined {
