@@ -24,6 +24,25 @@ function countOf(inventory: string[], id: string): number {
   return inventory.filter((x) => x === id).length;
 }
 
+function ArrowGlyph({ className }: { className: string }) {
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      className={className}
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="12"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="40" y1="160" x2="160" y2="40" />
+      <polyline points="130,40 160,40 160,70" />
+      <polyline points="70,160 40,160 40,130" transform="rotate(-180,40,160)" />
+    </svg>
+  );
+}
+
 function CollapsibleSlot(props: {
   prefix: "arrow" | "armor" | "energy";
   icon: string;
@@ -58,9 +77,13 @@ function CollapsibleSlot(props: {
         onClick={() => setOpen((v) => !v)}
         aria-label={`${props.prefix} selector`}
       >
-        <svg viewBox="0 0 24 24" className="rf-hud-icon" aria-hidden="true">
-          <path d={props.icon} fill="currentColor" />
-        </svg>
+        {props.prefix === "arrow" ? (
+          <ArrowGlyph className="rf-hud-icon" />
+        ) : (
+          <svg viewBox="0 0 24 24" className="rf-hud-icon" aria-hidden="true">
+            <path d={props.icon} fill="currentColor" />
+          </svg>
+        )}
         <span className="rf-hud-count">{displayCount}</span>
       </button>
 
@@ -74,9 +97,13 @@ function CollapsibleSlot(props: {
             onClick={() => handlePick(row)}
             aria-label={row.id}
           >
-            <svg viewBox="0 0 24 24" className="rf-hud-mini-icon" aria-hidden="true">
-              <path d={props.icon} fill="currentColor" />
-            </svg>
+            {props.prefix === "arrow" ? (
+              <ArrowGlyph className="rf-hud-mini-icon" />
+            ) : (
+              <svg viewBox="0 0 24 24" className="rf-hud-mini-icon" aria-hidden="true">
+                <path d={props.icon} fill="currentColor" />
+              </svg>
+            )}
             <span className="rf-hud-mini-count">{row.count}</span>
           </button>
         ))}
