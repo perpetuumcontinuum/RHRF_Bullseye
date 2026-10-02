@@ -1364,7 +1364,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-shop-item{
   box-sizing:border-box;
   display:grid;
-  grid-template-columns:minmax(0,18%) minmax(0,1fr) minmax(0,34%);
+  grid-template-columns:minmax(0,10%) minmax(0,1fr) minmax(0,20%);
   align-items:center;
   gap:clamp(.45rem,1.5vmin,.9rem);
   background:rgba(255,255,255,.03);
@@ -1373,7 +1373,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   padding:clamp(.45rem,1.4vmin,.8rem);
 }
 .rf-shop-item--consumable{
-  grid-template-columns:minmax(0,18%) minmax(0,1fr) minmax(0,42%);
+  grid-template-columns:minmax(0,10%) minmax(0,1fr) minmax(0,28%);
 }
 .rf-shop-item-icon{
   box-sizing:border-box;
@@ -1398,6 +1398,9 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-shop-item.rarity-rare .rf-shop-item-icon{ color:#3a7bff; }
 .rf-shop-item.rarity-epic .rf-shop-item-icon{ color:#b14dff; }
 .rf-shop-item.rarity-legendary .rf-shop-item-icon{ color:#ffb300; }
+.rf-profile-card--icon.rarity-rare .rf-shop-item-icon{ color:#3a7bff; }
+.rf-profile-card--icon.rarity-epic .rf-shop-item-icon{ color:#b14dff; }
+.rf-profile-card--icon.rarity-legendary .rf-shop-item-icon{ color:#ffb300; }
 .rf-shop-item-main{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:.1vmin; }
 .rf-shop-item-name{ font-size:var(--ui-name); font-weight:900; color:#e8e8ff; }
 .rf-shop-item-desc{ font-size:var(--ui-desc); line-height:1.3; color:#9a9ab0; }
@@ -1468,7 +1471,16 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-profile-stat strong{ font-size:clamp(.62rem,1.6vmin,.78rem); font-weight:900; color:#00ffff; text-shadow:0 0 .5vmin #00ffff55; white-space:nowrap; }
 
 /* profile section / grid / card */
-.rf-profile-section{ display:flex; flex-direction:column; gap:var(--ui-gap); }
+.rf-profile-section{
+  display:flex; flex-direction:column; gap:var(--ui-gap);
+}
+.rf-profile-panel > .rf-profile-section{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  padding:clamp(.5rem,1.6vmin,.9rem) clamp(.6rem,2vmin,1.1rem);
+}
 .rf-profile-section-title{ font-size:var(--ui-ui); font-weight:900; letter-spacing:.15vmin; color:#ccff00; }
 .rf-profile-grid{ display:flex; flex-direction:column; gap:var(--ui-gap); }
 .rf-profile-card{
@@ -1503,6 +1515,28 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-profile-action.sell:hover:not(:disabled){ background:#ff5a5a33; }
 .rf-profile-action.offer:hover:not(:disabled){ background:#ffb30033; }
 .rf-profile-action:disabled{ opacity:.3; cursor:not-allowed; }
+
+/* профиль: иконка слева, контент справа, действия снизу */
+.rf-profile-card--icon{
+  display:grid;
+  grid-template-columns:minmax(0,18%) minmax(0,1fr);
+  grid-template-areas:
+    "icon top"
+    "icon desc"
+    "icon bottom"
+    "actions actions";
+  gap:.3vmin clamp(.45rem,1.5vmin,.9rem);
+}
+.rf-profile-card--icon .rf-shop-item-icon{ grid-area:icon; align-self:start; }
+.rf-profile-card--icon .rf-profile-card-top{ grid-area:top; min-width:0; }
+.rf-profile-card--icon .rf-profile-card-desc{ grid-area:desc; min-width:0; }
+.rf-profile-card--icon .rf-profile-card-bottom{ grid-area:bottom; min-width:0; }
+.rf-profile-card--icon .rf-profile-card-actions{ grid-area:actions; }
+
+.rf-profile-section .rf-profile-stats{
+  padding:0;
+  margin-bottom:clamp(.2rem,.8vmin,.45rem);
+}
 
 /* leaderboard */
 .rf-leaderboard{ width:100%; border-collapse:collapse; font-size:var(--ui-ui); }

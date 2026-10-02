@@ -227,25 +227,6 @@ export default function Profile(props: any) {
           <button className="rf-profile-close" onClick={close}>X</button>
         </div>
 
-        <div className="rf-profile-stats">
-          <div className="rf-profile-stat">
-            <span>SCORE</span>
-            <strong>{Math.floor(totalScore)}</strong>
-          </div>
-          <div className="rf-profile-stat">
-            <span>ITEMS</span>
-            <strong>{catalogItems.length}</strong>
-          </div>
-          <div className="rf-profile-stat">
-            <span>EQUIPPED</span>
-            <strong>{equippedCount}</strong>
-          </div>
-          <div className="rf-profile-stat">
-            <span>TOTAL</span>
-            <strong>{inventory.length}</strong>
-          </div>
-        </div>
-
           <div className="rf-profile-tabs">
           {(["equipment", "stats", "cyber"] as const).map((tab) => (
             <button
@@ -297,6 +278,24 @@ export default function Profile(props: any) {
             </div>
           </div>
         <div className="rf-profile-section" style={{ display: activeTab === "stats" ? undefined : "none" }}>
+          <div className="rf-profile-stats">
+            <div className="rf-profile-stat">
+              <span>SCORE</span>
+              <strong>{Math.floor(totalScore)}</strong>
+            </div>
+            <div className="rf-profile-stat">
+              <span>ITEMS</span>
+              <strong>{catalogItems.length}</strong>
+            </div>
+            <div className="rf-profile-stat">
+              <span>EQUIPPED</span>
+              <strong>{equippedCount}</strong>
+            </div>
+            <div className="rf-profile-stat">
+              <span>TOTAL</span>
+              <strong>{inventory.length}</strong>
+            </div>
+          </div>
           <div className="rf-stat-tabs">
             {STAT_TABS.map((t) => (
               <button
