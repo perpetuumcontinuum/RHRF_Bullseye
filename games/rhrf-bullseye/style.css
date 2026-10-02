@@ -2908,7 +2908,6 @@ button.fire-tower-btn {
 }
 
 .rf-shop-panel * {
-    min-height: 10vh !important;
     padding: 1vh !important;
     border-radius: 1vh !important;
     font-size: 4vh !important;
