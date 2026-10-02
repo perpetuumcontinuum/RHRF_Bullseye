@@ -1362,15 +1362,47 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 
 /* shop item: ОДНА ПОЛОСКА */
 .rf-shop-item{
-  box-sizing:border-box; display:flex; align-items:center; gap:clamp(.5rem,1.6vmin,.9rem);
-  background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12);
-  border-radius:var(--ui-r); padding:clamp(.45rem,1.4vmin,.8rem);
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:minmax(0,18%) minmax(0,1fr) minmax(0,34%);
+  align-items:center;
+  gap:clamp(.45rem,1.5vmin,.9rem);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--ui-r);
+  padding:clamp(.45rem,1.4vmin,.8rem);
 }
+.rf-shop-item--consumable{
+  grid-template-columns:minmax(0,18%) minmax(0,1fr) minmax(0,42%);
+}
+.rf-shop-item-icon{
+  box-sizing:border-box;
+  width:100%;
+  aspect-ratio:1 / 1;
+  min-width:0;
+  display:grid;
+  place-items:center;
+  padding:8%;
+  color:#8a8a9a;
+  background:radial-gradient(circle, color-mix(in srgb, currentColor 18%, transparent) 0%, transparent 72%);
+  border:.25vmin solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius:clamp(.35rem,1.2vmin,.7rem);
+  box-shadow:inset 0 0 1.2vmin color-mix(in srgb, currentColor 12%, transparent);
+}
+.rf-shop-item-icon svg{
+  width:100%;
+  height:100%;
+  display:block;
+  filter:drop-shadow(0 0 .8vmin color-mix(in srgb, currentColor 45%, transparent));
+}
+.rf-shop-item.rarity-rare .rf-shop-item-icon{ color:#3a7bff; }
+.rf-shop-item.rarity-epic .rf-shop-item-icon{ color:#b14dff; }
+.rf-shop-item.rarity-legendary .rf-shop-item-icon{ color:#ffb300; }
 .rf-shop-item-main{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:.1vmin; }
 .rf-shop-item-name{ font-size:var(--ui-name); font-weight:900; color:#e8e8ff; }
 .rf-shop-item-desc{ font-size:var(--ui-desc); line-height:1.3; color:#9a9ab0; }
 .rf-shop-item-side{
-  flex:0 0 auto; width:34%; max-width:150px;
+  min-width:0;
   display:flex; flex-direction:column; align-items:flex-end; justify-content:center; gap:.3vmin;
 }
 .rf-shop-item-price{ font-size:var(--ui-ui); font-weight:900; color:#ccff00; text-shadow:0 0 .6vmin #ccff0066; white-space:nowrap; }
@@ -1386,7 +1418,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-shop-item-btn:disabled{ opacity:.3; cursor:not-allowed; }
 
 /* consumable: кнопки в сетку, не наезжают */
-.rf-shop-consumable-side{ width:42%; max-width:180px; }
+.rf-shop-consumable-side{ min-width:0; }
 .rf-shop-consumable-controls{ display:grid; grid-template-columns:1fr 1fr; gap:.3vmin; width:100%; }
 .rf-shop-consumable-controls button{
   min-width:0; width:100%; min-height:var(--ui-btn-h); padding:0 .4vmin;
@@ -1508,8 +1540,8 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 
 /* mobile: карточка в стек, тапы крупные */
 @media (max-width:520px){
-  .rf-shop-item{ flex-direction:column; align-items:stretch; gap:.35rem; }
-  .rf-shop-item-side, .rf-shop-consumable-side{ width:100%; max-width:none; align-items:stretch; }
+  .rf-shop-item{ grid-template-columns:20% minmax(0,1fr); gap:.35rem; }
+  .rf-shop-item-side, .rf-shop-consumable-side{ grid-column:1 / -1; width:100%; max-width:none; align-items:stretch; }
   .rf-shop-item-price, .rf-shop-item-count{ text-align:left; }
   .rf-shop-consumable-controls{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .rf-shop-consumable-controls button:last-child{ grid-column:auto; }
@@ -1521,11 +1553,6 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   .rf-profile-tab, .rf-equipment-subtabs .rf-profile-subtab{
     height:clamp(1.25rem,3.4vmin,1.55rem); font-size:clamp(.6rem,1.55vmin,.76rem); padding:0 .35vmin;
   }
-}
-  .rf-shop-item-side, .rf-shop-consumable-side{ width:100%; max-width:none; align-items:stretch; }
-  .rf-shop-item-price, .rf-shop-item-count{ text-align:left; }
-  .rf-shop-consumable-controls{ grid-template-columns:repeat(3,minmax(0,1fr)); }
-  .rf-shop-consumable-controls button:last-child{ grid-column:auto; }
 }
 
 @media (prefers-reduced-motion:reduce){
