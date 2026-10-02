@@ -90,6 +90,58 @@ jobs:
           .rf-site-footer .rf-theme-switch{position:static!important;top:auto!important;right:auto!important;display:inline-flex!important;flex-direction:row!important;gap:4px!important;padding:0!important;background:transparent!important;border:none!important;box-shadow:none!important}
           .rf-site-footer .rf-fs-btn{position:static!important;bottom:auto!important;right:auto!important;width:28px;height:28px;min-height:0;padding:0;background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer;display:grid;place-items:center;color:var(--cfg)}
           .rf-site-footer .rf-fs-btn:hover{border-color:var(--bd)}
+          .rf-site-footer [data-tip]{position:relative}
+          .rf-site-footer [data-tip]::after{
+            content:attr(data-tip);
+            position:absolute;
+            bottom:calc(100% + 10px);
+            left:50%;
+            transform:translateX(-50%) translateY(4px);
+            background:var(--sc);
+            color:var(--cfg);
+            border:1px solid var(--bd);
+            border-radius:8px;
+            padding:.5em .7em;
+            font:10px/1.35 ui-monospace,monospace;
+            letter-spacing:.04em;
+            text-transform:none;
+            white-space:normal;
+            width:max-content;
+            max-width:min(240px,70vw);
+            box-shadow:0 0 14px var(--g1);
+            opacity:0;
+            visibility:hidden;
+            pointer-events:none;
+            transition:opacity .16s ease,transform .16s ease;
+            z-index:60;
+          }
+          .rf-site-footer [data-tip]:hover::after,
+          .rf-site-footer [data-tip]:focus-visible::after{
+            opacity:1;
+            visibility:visible;
+            transform:translateX(-50%) translateY(0);
+          }
+          .rf-site-footer [data-tip]::before{
+            content:"";
+            position:absolute;
+            bottom:calc(100% + 4px);
+            left:50%;
+            transform:translateX(-50%);
+            border:6px solid transparent;
+            border-top-color:var(--bd);
+            opacity:0;
+            visibility:hidden;
+            transition:opacity .16s ease;
+            z-index:60;
+            pointer-events:none;
+          }
+          .rf-site-footer [data-tip]:hover::before,
+          .rf-site-footer [data-tip]:focus-visible::before{
+            opacity:1;
+            visibility:visible;
+          }
+          .rf-site-footer a.rf-opensea svg{width:18px;height:18px;display:block}
+          @media(max-width:600px){.rf-site-footer [data-tip]::after{max-width:62vw;font-size:9px}}
           CSS
 
       - name: Inject head assets

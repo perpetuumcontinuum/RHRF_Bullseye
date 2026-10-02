@@ -3,10 +3,15 @@
   var OK = { light: 1, dark: 1, cyber: 1 };
   var root = document.documentElement;
 
+  function readCookie() {
+    try { var m = document.cookie.match(/(?:^|; )rhrf_theme=([^;]+)/); return m ? decodeURIComponent(m[1]) : null; } catch (e) { return null; }
+  }
+
   function resolve() {
     var t = null;
     try { t = localStorage.getItem(KEY); } catch (e) {}
-    if (!OK[t]) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    if (!OK[t]) t = readCookie();
+    if (!OK[t]) t = "cyber";
     return t;
   }
 
@@ -125,6 +130,8 @@
       b.addEventListener("click", function () {
         root.dataset.theme = b.dataset.set;
         try { localStorage.setItem(KEY, b.dataset.set); } catch (e) {}
+
+        try { document.cookie = KEY + "=" + encodeURIComponent(b.dataset.set) + ";path=/;max-age=31536000;samesite=lax"; } catch (e) {}
         paint();
       });
     });
