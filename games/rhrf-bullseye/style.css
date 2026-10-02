@@ -1316,6 +1316,15 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 
 /* tabs */
 .rf-shop-tabs, .rf-profile-tabs, .rf-profile-subtabs, .rf-stat-tabs, .rf-equipment-subtabs{
+.rf-profile-section .rf-profile-subtabs{
+  padding-top:0; margin-top:.2vmin;
+  border-top:1px solid rgba(0,255,255,.12);
+}
+.rf-profile-section .rf-profile-subtab{
+  height:clamp(1.3rem,3.6vmin,1.7rem); font-size:clamp(.62rem,1.6vmin,.78rem);
+  opacity:.85;
+}
+.rf-profile-section .rf-profile-subtab.active{ opacity:1; }
   flex:0 0 auto; display:flex; gap:var(--ui-gap);
   padding:clamp(.4rem,1.2vmin,.7rem) clamp(.6rem,2vmin,1.1rem) 0;
   overflow-x:auto; scrollbar-width:none;
@@ -1414,13 +1423,13 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 
 /* profile stats */
 .rf-profile-stats{
-  flex:0 0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:var(--ui-gap);
-  padding:clamp(.5rem,1.4vmin,.8rem) clamp(.6rem,2vmin,1.1rem) 0;
+  flex:0 0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:.3vmin;
+  padding:clamp(.3rem,1vmin,.6rem) clamp(.5rem,1.6vmin,.9rem) 0;
 }
 .rf-profile-stat{
-  display:flex; flex-direction:column; align-items:center; gap:.1vmin;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0;
   background:rgba(0,255,255,.05); border:1px solid rgba(0,255,255,.18);
-  border-radius:var(--ui-r); padding:clamp(.3rem,1vmin,.6rem) .3vmin;
+  border-radius:var(--ui-r); padding:clamp(.25rem,.8vmin,.5rem) .2vmin; min-height:0;
 }
 .rf-profile-stat span{ font-size:var(--ui-desc); letter-spacing:.1vmin; color:#7a7a8a; }
 .rf-profile-stat strong{ font-size:var(--ui-name); font-weight:900; color:#00ffff; text-shadow:0 0 .6vmin #00ffff66; }
@@ -1503,7 +1512,6 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   .rf-shop-item-price, .rf-shop-item-count{ text-align:left; }
   .rf-shop-consumable-controls{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .rf-shop-consumable-controls button:last-child{ grid-column:auto; }
-  .rf-profile-stats{ grid-template-columns:repeat(2,1fr); }
 }
 
 @media (prefers-reduced-motion:reduce){
