@@ -2885,3 +2885,7 @@ button.fire-tower-btn {
     font-size: 3vh !important;
     min-height: 1vh !important;
 }
+
+.controls-row button, .rf-top-bar button {
+    border-radius: 1vh !important;
+}
