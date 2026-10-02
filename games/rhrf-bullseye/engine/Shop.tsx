@@ -6,6 +6,7 @@ import {
   getItemCount,
   type ShopItem,
 } from "./catalog";
+import ItemIcon from "./ItemIcon";
 
 const rfIsConsumableItem = (item: any) => {
   if (!item) return false;
@@ -125,7 +126,8 @@ export default function Shop(props: any) {
               const canPlus10 = count + 10 <= CONSUMABLE_CAP && canAfford(item.price, 10);
 
               return (
-                <div key={item.id} className={`rf-shop-item rarity-${item.rarity}`}>
+                <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}`}>
+                  <ItemIcon item={item} />
                   <div className="rf-shop-item-main">
                     <div className="rf-shop-item-name">{item.name}</div>
                     <div className="rf-shop-item-desc">{item.description}</div>
@@ -155,7 +157,8 @@ export default function Shop(props: any) {
             }
 
             return (
-              <div key={item.id} className={`rf-shop-item rarity-${item.rarity}`}>
+              <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}`}>
+                  <ItemIcon item={item} />
                 <div className="rf-shop-item-main">
                   <div className="rf-shop-item-name">{item.name}</div>
                   <div className="rf-shop-item-desc">{item.description}</div>
