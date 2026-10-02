@@ -131,7 +131,7 @@ export default function Shop(props: any) {
                   <div className="rf-shop-item-main">
                     <div className="rf-shop-item-heading">
                     <div className="rf-shop-item-name">{item.name}</div>
-                    <div className="rf-shop-item-price-inline">{item.price} RF{isConsumable ? " / x" : ""}</div>
+                    <div className="rf-shop-item-price-inline">{item.price} RF</div>
                   </div>
                     <div className="rf-shop-item-desc">{item.description}</div>
                   </div>
@@ -165,7 +165,7 @@ export default function Shop(props: any) {
                 <div className="rf-shop-item-main">
                   <div className="rf-shop-item-heading">
                     <div className="rf-shop-item-name">{item.name}</div>
-                    <div className="rf-shop-item-price-inline">{item.price} RF{isConsumable ? " / x" : ""}</div>
+                    <div className="rf-shop-item-price-inline">{item.price} RF</div>
                   </div>
                   <div className="rf-shop-item-desc">{item.description}</div>
                 </div>
