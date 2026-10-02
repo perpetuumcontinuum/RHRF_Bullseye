@@ -1512,6 +1512,19 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   .rf-shop-item-price, .rf-shop-item-count{ text-align:left; }
   .rf-shop-consumable-controls{ grid-template-columns:repeat(3,minmax(0,1fr)); }
   .rf-shop-consumable-controls button:last-child{ grid-column:auto; }
+  .rf-profile-stats{ gap:.2vmin; padding:.15rem clamp(.4rem,1.4vmin,.7rem) 0; }
+  .rf-profile-stat{ padding:.12rem .1vmin; }
+  .rf-profile-stat span{ font-size:clamp(.5rem,1.3vmin,.62rem); }
+  .rf-profile-stat strong{ font-size:clamp(.7rem,1.8vmin,.88rem); }
+  .rf-profile-tabs, .rf-equipment-subtabs{ padding-top:.2rem; gap:.25rem; }
+  .rf-profile-tab, .rf-equipment-subtabs .rf-profile-subtab{
+    height:clamp(1.25rem,3.4vmin,1.55rem); font-size:clamp(.6rem,1.55vmin,.76rem); padding:0 .35vmin;
+  }
+}
+  .rf-shop-item-side, .rf-shop-consumable-side{ width:100%; max-width:none; align-items:stretch; }
+  .rf-shop-item-price, .rf-shop-item-count{ text-align:left; }
+  .rf-shop-consumable-controls{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .rf-shop-consumable-controls button:last-child{ grid-column:auto; }
 }
 
 @media (prefers-reduced-motion:reduce){
