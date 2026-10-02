@@ -1,0 +1,74 @@
+<div id="rfMaintenance" hidden aria-live="polite">
+  <style>
+    #rfMaintenance{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:grid;
+      place-items:center;
+      padding:1rem;
+      background:repeating-linear-gradient(45deg,#f5c518 0 18px,#111 18px 36px);
+      font:700 clamp(1rem,3vw,2rem)/1.2 ui-monospace,monospace;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-align:center;
+    }
+    #rfMaintenance[hidden]{display:none}
+    #rfMaintenance .rf-maint-card{
+      max-width:min(720px,92vw);
+      padding:1rem 1.4rem;
+      border:2px solid #f5c518;
+      border-radius:12px;
+      background:rgba(0,0,0,.84);
+      color:#f5c518;
+      box-shadow:0 0 24px rgba(245,197,24,.35);
+    }
+    #rfMaintenance .rf-maint-sub{
+      margin-top:.55rem;
+      color:#fff;
+      font-size:clamp(.72rem,1.8vw,1rem);
+      letter-spacing:.04em;
+      text-transform:none;
+      opacity:.88;
+    }
+  </style>
+
+  <div class="rf-maint-card">
+    Under maintenance
+    <div class="rf-maint-sub">Technical work in progress. The bow will be back shortly.</div>
+  </div>
+
+  <script>
+    (function () {
+      var el = document.getElementById("rfMaintenance");
+      if (!el) return;
+
+      function read() {
+        try { return localStorage.getItem("rf_maintenance") === "1"; } catch (e) { return false; }
+      }
+
+      function set(v) {
+        el.hidden = !v;
+        try {
+          if (v) localStorage.setItem("rf_maintenance", "1");
+          else localStorage.removeItem("rf_maintenance");
+        } catch (e) {}
+      }
+
+      var q = new URLSearchParams(location.search);
+      if (q.has("maintenance")) {
+        var val = q.get("maintenance");
+        set(val === "" || val === "1" || val === "true");
+      } else {
+        set(read());
+      }
+
+      window.rfMaint = {
+        on: function () { set(true); },
+        off: function () { set(false); },
+        toggle: function () { set(el.hidden); },
+        get state() { return !el.hidden; }
+      };
+    })();
+  </script>
+</div>

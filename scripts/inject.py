@@ -18,6 +18,7 @@ HEAD = (
 
 WIDGET = Path("frame-widget.html").read_text(encoding="utf-8")
 FOOTER = Path("frame-footer.html").read_text(encoding="utf-8")
+MAINT = Path("frame-maintenance.html").read_text(encoding="utf-8")
 
 total = 0
 for h in sorted(glob.glob(str(out / "*.html"))):
@@ -25,6 +26,8 @@ for h in sorted(glob.glob(str(out / "*.html"))):
     before = t
     if "favicon.svg" not in t:
         t = t.replace("</head>", HEAD + "</head>", 1)
+    if "rfMaintenance" not in t:
+        t = t.replace("</body>", MAINT + "</body>", 1)
     if "rf-site-footer" not in t:
         t = t.replace("</body>", FOOTER + "</body>", 1)
     if t != before:
