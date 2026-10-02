@@ -1411,6 +1411,7 @@ if (loading) {
         </div>
       )}
 
+      <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
         <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>
           FIRE
@@ -1451,6 +1452,7 @@ if (loading) {
         }}
         isPaused={isPaused}
       />
+      </div>
 
       {showGuide && <Guide onClose={() => { setShowGuide(false); playSound('select'); }} />}
       

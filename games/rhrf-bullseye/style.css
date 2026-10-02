@@ -1725,3 +1725,100 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-top-bar {
     width: 69%;
 }
+
+
+/* ===== bottom row + hud horizontal (clean, no px, no !important) ===== */
+.rf-bottom-row{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:calc(clamp(1.4rem,5vh,3.2rem) + var(--rf-safe-bottom));
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:clamp(.5rem,2vmin,1.1rem);
+  z-index:25;
+  width:max-content;
+  max-width:calc(100vw - 2rem - var(--rf-safe-left) - var(--rf-safe-right));
+}
+
+/* controls-row перестаёт быть absolute-центром, становится гибким ребёнком ряда */
+.controls-row{
+  position:static;
+  left:auto;
+  transform:none;
+  bottom:auto;
+  width:auto;
+  z-index:auto;
+  flex:0 1 auto;
+  min-width:0;
+}
+
+/* hud-stack: из правого вертикального бара в горизонтальный ряд справа */
+.rf-hud-stack{
+  position:static;
+  right:auto;
+  bottom:auto;
+  z-index:auto;
+  flex-direction:row;
+  align-items:flex-end;
+  gap:clamp(.3rem,1.2vmin,.6rem);
+}
+
+/* кат: main снизу, раскрытие вверх */
+.rf-hud-cat{
+  flex-direction:column-reverse;
+  align-items:center;
+  gap:clamp(.2rem,.8vmin,.4rem);
+}
+
+/* expand: вертикально вверх, по центру */
+.rf-hud-expand{
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  max-width:none;
+  transform:translateY(.5rem);
+}
+.rf-hud-cat.open .rf-hud-expand{
+  transform:translateY(0);
+}
+
+/* кнопки приглушены, чтобы не спорили с картой */
+.rf-hud-main,.rf-hud-mini{
+  background:rgba(4,0,12,.42);
+  border:1px solid color-mix(in srgb, currentColor 32%, transparent);
+  box-shadow:none;
+}
+.rf-hud-main:hover,.rf-hud-mini:hover:not(:disabled){
+  background:rgba(10,0,24,.7);
+  border-color:color-mix(in srgb, currentColor 60%, transparent);
+}
+.rf-hud-main.active{
+  background:rgba(255,255,255,.06);
+  border-color:currentColor;
+  box-shadow:0 0 1.2vmin color-mix(in srgb, currentColor 55%, transparent);
+}
+.rf-hud-mini.equipped{
+  background:rgba(255,255,255,.08);
+  border-color:currentColor;
+  box-shadow:0 0 1.2vmin color-mix(in srgb, currentColor 55%, transparent);
+}
+
+/* цифра = мелкая статистика: тусклая по умолчанию, светится только когда активна и есть заряд */
+.rf-hud-count,.rf-hud-mini-count{
+  font-size:clamp(.55rem,1.6vmin,.72rem);
+  font-weight:900;
+  line-height:1;
+  color:#6a6a7a;
+  text-shadow:none;
+  transition:color .15s ease,text-shadow .15s ease;
+}
+.rf-hud-main.active .rf-hud-count,
+.rf-hud-mini.equipped .rf-hud-mini-count{
+  color:currentColor;
+  text-shadow:0 0 .6vmin currentColor;
+}
+.rf-hud-mini:disabled .rf-hud-mini-count{
+  color:#3a3a44;
+}
