@@ -40,13 +40,11 @@ function Bow() {
 
 function Arrow() {
   return (
-    <>
-      <path d="M16 48 48 16" />
-      <path d="M48 16l-9 2 2-9z" fill="currentColor" stroke="none" />
-      <path d="M16 48l7-2" />
-      <path d="M16 48l2-7" />
-      <path d="M22 42l4 4" />
-    </>
+    <g>
+      <line x1="12.8" y1="51.2" x2="51.2" y2="12.8" />
+      <polyline points="41.6,12.8 51.2,12.8 51.2,22.4" />
+      <polyline points="22.4,51.2 12.8,51.2 12.8,41.6" transform="rotate(-180,12.8,51.2)" />
+    </g>
   );
 }
 
