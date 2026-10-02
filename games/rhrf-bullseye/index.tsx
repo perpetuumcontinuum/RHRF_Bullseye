@@ -101,6 +101,7 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
 
   const [nftImageUrl, setNftImageUrl] = useState<string | null>(null);
   const [friendPixels, setFriendPixels] = useState<[number, number][]>([]);
+  const [sidePixels, setSidePixels] = useState<[number, number][]>([]);
   const [loading, setLoading] = useState(true);
   const [totalScore, setTotalScore] = useState(0);
   const [isShooting, setIsShooting] = useState(false);
@@ -331,19 +332,31 @@ const asteroidKilledRef = useRef(false);
     const loadFriendSprite = async () => {
       try {
         const sprites = await createFriendReader().read(friendId);
-        const frame = spriteFrame(sprites, "down", false, 0, "right").frame;
-        const rows: string[] = (frame as any).rows ?? [];
-
-        const pixels: [number, number][] = [];
-
-        rows.forEach((row, y) => {
-          [...String(row)].forEach((pixel, x) => {
-            if (pixel === "#") pixels.push([x, y]);
+        const parseRows = (rows: string[]) => {
+          const pixels: [number, number][] = [];
+          rows.forEach((row, y) => {
+            [...String(row)].forEach((pixel, x) => {
+              if (pixel === "#") pixels.push([x, y]);
+            });
           });
-        });
+          return pixels;
+        };
+
+        const frontFrame = spriteFrame(sprites, "down", false, 0, "right").frame;
+        const frontPixels = parseRows((frontFrame as any).rows ?? []);
+
+        let sidePixelsLoaded: [number, number][] = [];
+        try {
+          const sideFrame = spriteFrame(sprites, "right", false, 0, "right").frame;
+          sidePixelsLoaded = parseRows((sideFrame as any).rows ?? []);
+        } catch {
+          sidePixelsLoaded = [];
+        }
+
         if (!cancelled) {
-          setFriendPixels(pixels);
-          if (pixels.length > 0) setNftImageUrl(null);
+          setFriendPixels(frontPixels);
+          setSidePixels(sidePixelsLoaded);
+          if (frontPixels.length > 0) setNftImageUrl(null);
           setLoading(false);
         }
       } catch (err) {
@@ -1390,7 +1403,7 @@ if (loading) {
         bowQualityId={equippedBow}
         isFallen={isFallen}
         fallRemaining={fallRemaining}
-       friendPixels={friendPixels} jumpVariant={jumpVariant} equippedArmor={equippedArmor} clothingQualityId={equippedHat} amuletQualityId={equippedAmulet} isCyberStyle={effectiveCyberStyle}
+       friendPixels={friendPixels} sidePixels={sidePixels} jumpVariant={jumpVariant} equippedArmor={equippedArmor} clothingQualityId={equippedHat} amuletQualityId={equippedAmulet} isCyberStyle={effectiveCyberStyle}
         isMuted={isMuted}
         onToggleMute={toggleMute}
         isPaused={isPaused}

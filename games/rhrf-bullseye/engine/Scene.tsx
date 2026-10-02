@@ -34,6 +34,7 @@ interface SceneProps {
   isFallen?: boolean;
   fallRemaining?: number;
   friendPixels?: [number, number][];
+  sidePixels?: [number, number][] | null;
   equippedArmor?: string | null;
   clothingQualityId?: string | null;
   amuletQualityId?: string | null;
@@ -67,6 +68,7 @@ export default function Scene({
   isFallen,
   fallRemaining,
   friendPixels,
+  sidePixels,
   equippedArmor,
   clothingQualityId,
   amuletQualityId,
@@ -184,6 +186,36 @@ const pixelBounds = (() => {
   const stringPull =
     shotPhase === "AIMING" ||
     (shotPhase === "FLYING" && arrowProgress < 0.12);
+
+  const useSidePixels = Boolean(stringPull && sidePixels && sidePixels.length > 0);
+  const activePixels: [number, number][] = useSidePixels ? (sidePixels as [number, number][]) : (friendPixels ?? []);
+
+  const renderOffset = (() => {
+    if (!useSidePixels || !friendPixels || friendPixels.length === 0 || !sidePixels || sidePixels.length === 0) {
+      return { x: 0, y: 0 };
+    }
+
+    const bounds = (pts: [number, number][]) => {
+      const xs = pts.map((p) => p[0]);
+      const ys = pts.map((p) => p[1]);
+      return {
+        minX: Math.min(...xs),
+        maxX: Math.max(...xs),
+        minY: Math.min(...ys),
+        maxY: Math.max(...ys),
+      };
+    };
+
+    const fb = bounds(friendPixels);
+    const sb = bounds(sidePixels);
+
+    const fcx = ((fb.minX + fb.maxX + 1) / 2) * 5;
+    const fcy = ((fb.minY + fb.maxY + 1) / 2) * 5;
+    const scx = ((sb.minX + sb.maxX + 1) / 2) * 5;
+    const scy = ((sb.minY + sb.maxY + 1) / 2) * 5;
+
+    return { x: fcx - scx, y: fcy - scy };
+  })();
 
   const stringX = stringPull ? tailX : BOW_MID_X;
   const stringY = stringPull ? tailY : BOW_MID_Y;
@@ -392,12 +424,12 @@ const pixelBounds = (() => {
             ["--drop" as any]: `${fallDropY}px`,
           }}
         >
-          {friendPixels && friendPixels.length > 0 ? (
+          {activePixels && activePixels.length > 0 ? (
             <g
               className={`nft-archer ${isJumping && !isFallen ? `nft-archer-jumping jump-${jumpVariant || "spin-360"}` : ""}${isPaused ? " rf-archer-paused" : ""}`}
               shapeRendering="crispEdges"
-            >
-              {friendPixels.map(([x, y], i) => (
+             transform={`translate(${renderOffset.x}, ${renderOffset.y})`}>
+              {activePixels.map(([x, y], i) => (
                 <rect
                   key={"fo-" + i}
                   x={x * 5 - 5}
@@ -407,7 +439,7 @@ const pixelBounds = (() => {
                   className="friend-outline"
                 />
               ))}
-              {friendPixels.map(([x, y], i) => (
+              {activePixels.map(([x, y], i) => (
                 <rect
                   key={"fb-" + i}
                   x={x * 5}
@@ -419,7 +451,7 @@ const pixelBounds = (() => {
               ))}
 
               {clothingColor &&
-                friendPixels.map(([x, y], i) => (
+                activePixels.map(([x, y], i) => (
                   <rect
                     key={"fc-" + i}
                     x={x * 5}
