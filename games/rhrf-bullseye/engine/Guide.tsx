@@ -15,6 +15,7 @@ export default function Guide({ onClose }: GuideProps) {
     { title: "SCORE", lines: ["10: bullseye, cyber shimmer.", "9-7: epic zone.", "6-4: rare zone.", "3-1: common zone."] },
     { title: "RARITY", lines: ["Rare: basic boost.", "Epic: stronger boost.", "Legendary: best boost.", "Three legendaries unlock cyber style."] },
     { title: "LASERS", lines: ["Satellites drop laser consumables.", "Laser cap is 100.", "Use lasers for tower defense.", "Sell lasers in shop for RF.", "Lasers can accumulate while paused."] },
+    { title: "ECONOMY", lines: ["Bows: 400 / 900 / 1800 RF.", "Outfits: 350 / 800 / 1600 RF.", "Amulets: 450 / 1000 / 2000 RF.", "Arrows: 60 / 150 / 300 RF.", "Energy: 300 / 800 / 1600 RF.", "Armor: 100 / 220 / 400 RF.", "Sell: 50% / offer: 60%.", "Current price tuning is modest; stat persistence will make the economy deeper."] },
     { title: "CYBER", lines: ["Requires legendary bow, outfit and amulet.", "Reduces screen shake.", "Bullseye shimmer is always visible."] },
     { title: "HOTKEYS", lines: ["1 / Numpad1 — Tower Laser", "2 / Numpad2 — Shot", "3 / Numpad3 — Jump", "4 / Space — Pause / Resume", "5 / M — Toggle mute", "6 / S — Open Shop", "7 / P — Open Profile", "8 / G — Open Guide", "Esc — Close overlays"] },
   ];
