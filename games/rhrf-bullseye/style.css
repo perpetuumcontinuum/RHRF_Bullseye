@@ -2889,3 +2889,7 @@ button.fire-tower-btn {
 .controls-row button, .rf-top-bar button {
     border-radius: 1vh !important;
 }
+
+.rf-top-bar div {
+    border-radius: 1vh;
+}
