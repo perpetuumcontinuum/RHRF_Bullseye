@@ -135,6 +135,9 @@ const asteroidKilledRef = useRef(false);
   const showProfileRef = useRef(false);
   const showGuideRef = useRef(false);
 
+  const isMenuOpenRef = () =>
+    showShopRef.current || showProfileRef.current || showGuideRef.current;
+
   useEffect(() => {
     showShopRef.current = showShop;
     showProfileRef.current = showProfile;
@@ -1042,17 +1045,15 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
       if (e.repeat) return;
       // Escape closes overlays regardless of focused element (buttons keep focus after click)
       if (k === 'Escape' || e.key === 'Escape') {
-        const anyOpen = showShopRef.current || showProfileRef.current || showGuideRef.current;
         setShowShop(false);
         setShowProfile(false);
         setShowGuide(false);
-        if (anyOpen) playSound('select');
+        if (isMenuOpenRef()) playSound('select');
         return;
       }
       const t = e.target as HTMLElement | null;
       // Text entry fields never trigger hotkeys
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-      const overlayOpen = showShopRef.current || showProfileRef.current || showGuideRef.current;
       const h = handlersRef.current;
 
       // Every game hotkey is dispatched BEFORE the BUTTON guard. After a mouse
@@ -1060,7 +1061,7 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
       // re-activation, which is why digits only worked after clicking away.
       if (k === 'Space') {
         e.preventDefault();
-        if (!overlayOpen) togglePause();
+        if (!isMenuOpenRef()) togglePause();
         return;
       }
 
@@ -1076,7 +1077,7 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
 
       if (isHotkey) {
         e.preventDefault();
-        if (overlayOpen) return;
+        if (isMenuOpenRef()) return;
         if (k === 'Digit1' || k === 'Numpad1') { if (h.towerFire) h.towerFire(); }
         else if (k === 'Digit2' || k === 'Numpad2') { if (h.fire) h.fire(); }
         else if (k === 'Digit3' || k === 'Numpad3') { if (h.jump) h.jump(); }
