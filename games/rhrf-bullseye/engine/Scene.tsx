@@ -596,13 +596,7 @@ const pixelBounds = (() => {
         </g>
       )}
 
-      {stuckArrows.map((arrow, i) => (
-        <g key={i} transform={`translate(${arrow.x}, ${arrow.y})`}>
-          <line x1="-18" y1="0" x2="0" y2="0" stroke="#00ffff" strokeWidth="1.5" filter="url(#neonGlowCyan)"/>
-          <polygon points="-18,0 -24,-4 -20,0" fill="#ff00ff"/>
-          <polygon points="-18,0 -24,4 -20,0" fill="#ff00ff"/>
-        </g>
-      ))}
+      {[]}
 
             {scorePopups.map((popup) => {
         const color = popup.color || getScoreColor(popup.score);
@@ -819,6 +813,20 @@ const pixelBounds = (() => {
       {isLaserFiring && (
         <rect x="185" y="130" width="10" height="200" fill="#ff0000" filter="url(#neonGlowPink)" className="laser-beam" />
       )}
-    </svg>
+    
+        {stuckArrows.map((arrow, index) => (
+          <g
+            key={`rf-stuck-force-${index}`}
+            transform={`translate(${arrow.x}, ${arrow.y})`}
+            className="rf-stuck-force"
+            style={{ opacity: 1, visibility: "visible", pointerEvents: "none" }}
+          >
+            <line x1="-18" y1="18" x2="16" y2="-16" stroke="#ccff00" strokeWidth="4" strokeLinecap="round" />
+            <polygon points="16,-16 4,-16 16,-4" fill="#ccff00" />
+            <line x1="-18" y1="18" x2="-8" y2="18" stroke="#ccff00" strokeWidth="3" strokeLinecap="round" />
+            <line x1="-18" y1="18" x2="-18" y2="8" stroke="#ccff00" strokeWidth="3" strokeLinecap="round" />
+          </g>
+        ))}
+</svg>
   );
 }
