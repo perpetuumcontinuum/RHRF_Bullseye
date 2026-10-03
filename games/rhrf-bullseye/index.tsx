@@ -126,6 +126,7 @@ const asteroidKilledRef = useRef(false);
   const [laserTarget, setLaserTarget] = useState(getRandomPointInTarget());
   const [stuckArrows, setStuckArrows] = useState<{x: number, y: number, color: string}[]>([]);
   const shotTargetRef = useRef<{ x: number; y: number } | null>(null);
+  const laserPosLiveRef = useRef(laserPos);
   const [scorePopups, setScorePopups] = useState<{x: number, y: number, score: number, isBullseye?: boolean, color?: string, dx?: number, dy?: number, id: number}[]>([]);
   const [flashColor, setFlashColor] = useState<string | null>(null);
   const CYBER_BULLSEYE_COLOR = "cyber";
@@ -412,7 +413,9 @@ const asteroidKilledRef = useRef(false);
           }
           const amuletSlow = cyberRef.current ? 4 : getRarityMult(amuletRef.current ?? equippedAmulet);
           const speed = Math.min((0.32 + Math.random() * 0.96) / amuletSlow, 0.85);
-          return { x: prev.x + dx * speed, y: prev.y + dy * speed };
+          const next = { x: prev.x + dx * speed, y: prev.y + dy * speed };
+          laserPosLiveRef.current = next;
+          return next;
         });
 }
       raf = requestAnimationFrame(loop);
@@ -488,7 +491,7 @@ const asteroidKilledRef = useRef(false);
     stateRef.current = 'SHOOTING';
 
     setStuckArrows([]);
-    shotTargetRef.current = { x: laserPos.x, y: laserPos.y };
+    shotTargetRef.current = { x: laserPosLiveRef.current.x, y: laserPosLiveRef.current.y };
 
     const arrowToUse = equippedArrow && getCount(equippedArrow) > 0 ? equippedArrow : null;
     setShotArrowId(arrowToUse);
@@ -582,7 +585,9 @@ flashTimerRef.current = window.setTimeout(() => {
           // catch a target that has not moved yet
           resumingRef.current = true;
           setLaserTarget(getSmartTarget(equippedHat));
-          setLaserPos(getRandomPointInTarget());
+          const np = getRandomPointInTarget();
+          laserPosLiveRef.current = np;
+          setLaserPos(np);
           setShotPhase('RESUMING');
           setIsShooting(false);
           setArrowProgress(0);

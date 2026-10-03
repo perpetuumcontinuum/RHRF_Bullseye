@@ -586,7 +586,7 @@ const pixelBounds = (() => {
 
         <circle r="81" fill="none" stroke="#ffffff" strokeWidth="1" opacity="0.16" />
       </g>
-      <g className={cyberStyle ? "friend-cyber rf-laser-cyber" : undefined} transform={`translate(${TARGET_CX + laserX}, ${TARGET_CY + laserY})`}>
+      <g className={cyberStyle ? "friend-cyber rf-laser-cyber" : undefined} transform={`translate(${TARGET_CX + aimX}, ${TARGET_CY + aimY})`}>
         <circle cx="0" cy="0" r="10" fill="none" stroke={amuletColor || "#000"} strokeWidth="1.5" filter="url(#neonGlowPink)"/>
         <circle cx="0" cy="0" r="2" fill={amuletColor || "#000"} filter="url(#neonGlowPink)"/>
         <line x1="-14" y1="0" x2="14" y2="0" stroke={amuletColor || "#000"} strokeWidth="1" filter="url(#neonGlowPink)"/>
