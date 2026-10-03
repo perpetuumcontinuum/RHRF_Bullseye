@@ -596,7 +596,6 @@ const pixelBounds = (() => {
         </g>
       )}
 
-      {[]}
 
             {scorePopups.map((popup) => {
         const color = popup.color || getScoreColor(popup.score);
