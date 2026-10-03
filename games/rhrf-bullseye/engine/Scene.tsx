@@ -820,10 +820,10 @@ const pixelBounds = (() => {
             className="rf-stuck-force"
             style={{ opacity: 1, visibility: "visible", pointerEvents: "none" }}
           >
-            <line x1="-18" y1="18" x2="16" y2="-16" stroke="#ccff00" strokeWidth="4" strokeLinecap="round" />
-            <polygon points="16,-16 4,-16 16,-4" fill="#ccff00" />
-            <line x1="-18" y1="18" x2="-8" y2="18" stroke="#ccff00" strokeWidth="3" strokeLinecap="round" />
-            <line x1="-18" y1="18" x2="-18" y2="8" stroke="#ccff00" strokeWidth="3" strokeLinecap="round" />
+            <line x1="-34" y1="34" x2="-4" y2="4" stroke={arrowColor} strokeWidth="4" strokeLinecap="round" />
+            <polygon points="0,0 -4,14 -14,4" fill={arrowColor} />
+            <line x1="-34" y1="34" x2="-24" y2="34" stroke={arrowColor} strokeWidth="3" strokeLinecap="round" />
+            <line x1="-34" y1="34" x2="-34" y2="24" stroke={arrowColor} strokeWidth="3" strokeLinecap="round" />
           </g>
         ))}
 </svg>
