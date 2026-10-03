@@ -649,7 +649,24 @@ const pixelBounds = (() => {
 </g>
 )}
 {}
-      {isPaused && (
+      {stuckArrows.map((a, i) => {
+          const svx = a.x - ARROW_START_X, svy = a.y - ARROW_START_Y;
+          const slen = Math.sqrt(svx * svx + svy * svy) || 1;
+          const sux = svx / slen, suy = svy / slen;
+          const spx = -suy, spy = sux;
+          const tx = a.x, ty = a.y;
+          const tailX2 = tx - sux * 40, tailY2 = ty - suy * 40;
+          const h2x2 = tx - sux * 10 + spx * 5, h2y2 = ty - suy * 10 + spy * 5;
+          const h3x2 = tx - sux * 10 - spx * 5, h3y2 = ty - suy * 10 - spy * 5;
+          const col = a.color || arrowColor;
+          return (
+            <g key={`rf-stuck-${i}`} className="rf-stuck-force" style={{ pointerEvents: "none" }}>
+              <line x1={tailX2} y1={tailY2} x2={tx} y2={ty} stroke={col} strokeWidth="2.5" filter="url(#neonGlowCyan)" />
+              <polygon points={`${tx},${ty} ${h2x2},${h2y2} ${h3x2},${h3y2}`} fill={col} filter="url(#neonGlowYellow)" />
+            </g>
+          );
+        })}
+{isPaused && (
         <g pointerEvents="none">
           <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />
           <g className="rf-glitch-container">
@@ -813,25 +830,6 @@ const pixelBounds = (() => {
         <rect x="185" y="130" width="10" height="200" fill="#ff0000" filter="url(#neonGlowPink)" className="laser-beam" />
       )}
     
-        {stuckArrows.map((a, i) => {
-          const svx = a.x - ARROW_START_X, svy = a.y - ARROW_START_Y;
-          const slen = Math.sqrt(svx * svx + svy * svy) || 1;
-          const sux = svx / slen, suy = svy / slen;
-          const spx = -suy, spy = sux;
-          const tx = a.x, ty = a.y;
-          const tailX2 = tx - sux * 40, tailY2 = ty - suy * 40;
-          const trailX2 = tx - sux * 90, trailY2 = ty - suy * 90;
-          const h2x2 = tx - sux * 10 + spx * 5, h2y2 = ty - suy * 10 + spy * 5;
-          const h3x2 = tx - sux * 10 - spx * 5, h3y2 = ty - suy * 10 - spy * 5;
-          const col = a.color || arrowColor;
-          return (
-            <g key={`rf-stuck-${i}`} className="rf-stuck-force" style={{ pointerEvents: "none" }}>
-              <line x1={tailX2} y1={tailY2} x2={tx} y2={ty} stroke={col} strokeWidth="2.5" filter="url(#neonGlowCyan)" />
-              <polygon points={`${tx},${ty} ${h2x2},${h2y2} ${h3x2},${h3y2}`} fill={col} filter="url(#neonGlowYellow)" />
-              <line x1={trailX2} y1={trailY2} x2={tailX2} y2={tailY2} stroke={col} strokeWidth="1" opacity="0.4" filter="url(#softGlow)" strokeDasharray="4,4" />
-            </g>
-          );
-        })}
-</svg>
+        </svg>
   );
 }
