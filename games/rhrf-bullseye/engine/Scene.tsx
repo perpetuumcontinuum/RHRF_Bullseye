@@ -20,6 +20,7 @@ interface SceneProps {
   landingGlow?: { x: number; y: number; visible: boolean };
   explosion?: { x: number; y: number; visible: boolean };
   arrowProgress: number;
+  frozenLaser?: { x: number; y: number } | null;
   stuckArrows: { x: number; y: number; color?: string }[];
   scorePopups: {
     x: number;
@@ -63,6 +64,7 @@ export default function Scene({
   landingGlow,
   explosion,
   arrowProgress,
+  frozenLaser,
   stuckArrows,
   scorePopups,
   isFallen,
@@ -156,8 +158,11 @@ const pixelBounds = (() => {
   ].filter(Boolean).join(" ");
 
   
-  const hitX = TARGET_CX + laserX;
-  const hitY = TARGET_CY + laserY;
+  const aimFrozen = Boolean(frozenLaser) && (shotPhase === "AIMING" || shotPhase === "FLYING");
+  const aimX = aimFrozen && frozenLaser ? frozenLaser.x : laserX;
+  const aimY = aimFrozen && frozenLaser ? frozenLaser.y : laserY;
+  const hitX = TARGET_CX + aimX;
+  const hitY = TARGET_CY + aimY;
   
   const cx = ARROW_START_X + (hitX - ARROW_START_X) * arrowProgress;
   const cy = ARROW_START_Y + (hitY - ARROW_START_Y) * arrowProgress;

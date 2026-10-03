@@ -125,6 +125,9 @@ const asteroidKilledRef = useRef(false);
   const [laserPos, setLaserPos] = useState(getRandomPointInTarget());
   const [laserTarget, setLaserTarget] = useState(getRandomPointInTarget());
   const [stuckArrows, setStuckArrows] = useState<{x: number, y: number, color: string}[]>([]);
+  const laserPosRef = useRef(laserPos);
+  const shotTargetRef = useRef<{ x: number; y: number } | null>(null);
+  useEffect(() => { laserPosRef.current = laserPos; }, [laserPos]);
   const [scorePopups, setScorePopups] = useState<{x: number, y: number, score: number, isBullseye?: boolean, color?: string, dx?: number, dy?: number, id: number}[]>([]);
   const [flashColor, setFlashColor] = useState<string | null>(null);
   const CYBER_BULLSEYE_COLOR = "cyber";
@@ -487,6 +490,7 @@ const asteroidKilledRef = useRef(false);
     stateRef.current = 'SHOOTING';
 
     setStuckArrows([]);
+    shotTargetRef.current = { x: laserPosRef.current.x, y: laserPosRef.current.y };
 
     const arrowToUse = equippedArrow && getCount(equippedArrow) > 0 ? equippedArrow : null;
     setShotArrowId(arrowToUse);
@@ -538,8 +542,9 @@ const asteroidKilledRef = useRef(false);
         if (progress < 1) {
           requestAnimationFrame(animateFlight);
         } else {
-          const lx = Number((laserPos as any)?.x ?? 0);
-          const ly = Number((laserPos as any)?.y ?? 0);
+          const frozen = shotTargetRef.current ?? { x: laserPosRef.current.x, y: laserPosRef.current.y };
+          const lx = frozen.x;
+          const ly = frozen.y;
           const dist = Math.hypot(lx, ly);
           const baseScore = calculateScore(dist);
 
@@ -1419,6 +1424,7 @@ if (loading) {
         asteroidPosition={asteroidPosition}
         landingGlow={landingGlow}
         arrowProgress={arrowProgress}
+        frozenLaser={shotTargetRef.current}
         stuckArrows={stuckArrows}
         scorePopups={scorePopups}
       
