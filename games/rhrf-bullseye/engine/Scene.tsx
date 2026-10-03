@@ -20,7 +20,7 @@ interface SceneProps {
   landingGlow?: { x: number; y: number; visible: boolean };
   explosion?: { x: number; y: number; visible: boolean };
   arrowProgress: number;
-  stuckArrows: { x: number; y: number }[];
+  stuckArrows: { x: number; y: number; color?: string }[];
   scorePopups: {
     x: number;
     y: number;
@@ -813,19 +813,25 @@ const pixelBounds = (() => {
         <rect x="185" y="130" width="10" height="200" fill="#ff0000" filter="url(#neonGlowPink)" className="laser-beam" />
       )}
     
-        {stuckArrows.map((arrow, index) => (
-          <g
-            key={`rf-stuck-force-${index}`}
-            transform={`translate(${arrow.x}, ${arrow.y})`}
-            className="rf-stuck-force"
-            style={{ opacity: 1, visibility: "visible", pointerEvents: "none" }}
-          >
-            <line x1="-34" y1="34" x2="-4" y2="4" stroke={arrowColor} strokeWidth="4" strokeLinecap="round" />
-            <polygon points="0,0 -4,14 -14,4" fill={arrowColor} />
-            <line x1="-34" y1="34" x2="-24" y2="34" stroke={arrowColor} strokeWidth="3" strokeLinecap="round" />
-            <line x1="-34" y1="34" x2="-34" y2="24" stroke={arrowColor} strokeWidth="3" strokeLinecap="round" />
-          </g>
-        ))}
+        {stuckArrows.map((a, i) => {
+          const svx = a.x - ARROW_START_X, svy = a.y - ARROW_START_Y;
+          const slen = Math.sqrt(svx * svx + svy * svy) || 1;
+          const sux = svx / slen, suy = svy / slen;
+          const spx = -suy, spy = sux;
+          const tx = a.x, ty = a.y;
+          const tailX2 = tx - sux * 40, tailY2 = ty - suy * 40;
+          const trailX2 = tx - sux * 90, trailY2 = ty - suy * 90;
+          const h2x2 = tx - sux * 10 + spx * 5, h2y2 = ty - suy * 10 + spy * 5;
+          const h3x2 = tx - sux * 10 - spx * 5, h3y2 = ty - suy * 10 - spy * 5;
+          const col = a.color || arrowColor;
+          return (
+            <g key={`rf-stuck-${i}`} className="rf-stuck-force" style={{ pointerEvents: "none" }}>
+              <line x1={tailX2} y1={tailY2} x2={tx} y2={ty} stroke={col} strokeWidth="2.5" filter="url(#neonGlowCyan)" />
+              <polygon points={`${tx},${ty} ${h2x2},${h2y2} ${h3x2},${h3y2}`} fill={col} filter="url(#neonGlowYellow)" />
+              <line x1={trailX2} y1={trailY2} x2={tailX2} y2={tailY2} stroke={col} strokeWidth="1" opacity="0.4" filter="url(#softGlow)" strokeDasharray="4,4" />
+            </g>
+          );
+        })}
 </svg>
   );
 }
