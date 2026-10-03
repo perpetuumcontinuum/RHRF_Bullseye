@@ -42,6 +42,7 @@ export default function BackgroundEvents() {
     speed: GHOST_BASE_SPEED,
     hit: false,
     last: 0,
+    elapsed: 0,
   });
 
   const timersRef = useRef<number[]>([]);
@@ -52,7 +53,7 @@ export default function BackgroundEvents() {
     };
 
     const scheduleGhost = () => {
-      // Do not spawn new ghosts while paused; let existing ones finish their path honestly
+      // Spawn timer runs in real time; a ghost spawned during pause freezes at start and resumes on unpause
             const delay = GHOST_MIN_DELAY + Math.random() * (GHOST_MAX_DELAY - GHOST_MIN_DELAY);
       const id = window.setTimeout(() => startGhost(), delay);
       addTimer(id);
@@ -65,6 +66,7 @@ export default function BackgroundEvents() {
       g.speed = GHOST_BASE_SPEED;
       g.hit = false;
       g.last = performance.now();
+      g.elapsed = 0;
 
       setGhostX(GHOST_START);
       setGhostHit(false);
@@ -91,6 +93,7 @@ export default function BackgroundEvents() {
           return;
         }
 
+        g.elapsed += dt;
         g.x -= g.speed * dt;
 
         // Horizontal overlap between the player column and the ghost lethal core
@@ -124,7 +127,7 @@ export default function BackgroundEvents() {
 
         setGhostX(g.x);
 
-        if (g.x <= GHOST_END) {
+        if (g.x <= GHOST_END || g.elapsed >= GHOST_SAFETY_MS / 1000) {
           finish();
           return;
         }
@@ -133,9 +136,6 @@ export default function BackgroundEvents() {
       };
 
       g.raf = requestAnimationFrame(step);
-
-      const safety = window.setTimeout(finish, GHOST_SAFETY_MS);
-      addTimer(safety);
     };
 
     const scheduleSatellite = () => {

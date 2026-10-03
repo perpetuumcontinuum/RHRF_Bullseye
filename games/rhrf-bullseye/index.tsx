@@ -124,7 +124,7 @@ const asteroidKilledRef = useRef(false);
   const [arrowProgress, setArrowProgress] = useState(0);
   const [laserPos, setLaserPos] = useState(getRandomPointInTarget());
   const [laserTarget, setLaserTarget] = useState(getRandomPointInTarget());
-  const [stuckArrows, setStuckArrows] = useState<{x: number, y: number}[]>([]);
+  const [stuckArrows, setStuckArrows] = useState<{x: number, y: number, color: string}[]>([]);
   const [scorePopups, setScorePopups] = useState<{x: number, y: number, score: number, isBullseye?: boolean, color?: string, dx?: number, dy?: number, id: number}[]>([]);
   const [flashColor, setFlashColor] = useState<string | null>(null);
   const CYBER_BULLSEYE_COLOR = "cyber";
@@ -140,6 +140,21 @@ const asteroidKilledRef = useRef(false);
     showProfileRef.current = showProfile;
     showGuideRef.current = showGuide;
   }, [showShop, showProfile, showGuide]);
+
+  const menuOpen = showShop || showProfile || showGuide;
+  const overlayWasPausedRef = useRef<boolean | null>(null);
+
+  useEffect(() => {
+    if (menuOpen) {
+      if (overlayWasPausedRef.current === null) {
+        overlayWasPausedRef.current = pausedRef.current;
+        setIsPaused(true);
+      }
+    } else if (overlayWasPausedRef.current !== null) {
+      setIsPaused(overlayWasPausedRef.current);
+      overlayWasPausedRef.current = null;
+    }
+  }, [menuOpen]);
   const [inventory, setInventory] = useState<string[]>([]);
   const [equippedBow, setEquippedBow] = useState<string | null>(null);
   const [equippedAmulet, setEquippedAmulet] = useState<string | null>(null);
@@ -239,6 +254,7 @@ const asteroidKilledRef = useRef(false);
   };
 
   const togglePause = () => {
+    if (menuOpen) return;
     setIsPaused((prev) => {
       const next = !prev;
       pausedRef.current = next;
@@ -454,6 +470,14 @@ const asteroidKilledRef = useRef(false);
     return 1;
   };
 
+  const arrowColorById = (id: string | null) => {
+    const v = String(id || "").toLowerCase();
+    if (v.includes("legendary")) return "#ffaa00";
+    if (v.includes("epic")) return "#aa00ff";
+    if (v.includes("rare")) return "#ccff00";
+    return "#ff0000";
+  };
+
   const handleFire = () => {
     if (pausedRef.current) return;
     if (stateRef.current !== 'IDLE' || isJumping || isLaserFiring || isFallen || shotPhase !== 'IDLE') return;
@@ -529,7 +553,7 @@ const asteroidKilledRef = useRef(false);
 
             addEarnedScore(finalScore);
             playSound('impact');
-            setStuckArrows((arr) => [...arr.slice(-4), { x: hx, y: hy }]);
+            setStuckArrows((arr) => [...arr.slice(-4), { x: hx, y: hy, color: arrowColorById(shotArrowId) }]);
             const popupColor = getScoreColor(baseScore);
 const isBullseyeHit = baseScore === 10;
 const effectivePopupColor = isBullseyeHit ? CYBER_BULLSEYE_COLOR : popupColor;
