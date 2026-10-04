@@ -52,20 +52,9 @@ export default function BackgroundEvents() {
     };
 
     const scheduleGhost = () => {
-      const delay = GHOST_MIN_DELAY + Math.random() * (GHOST_MAX_DELAY - GHOST_MIN_DELAY);
-      
-      const checkAndSpawn = () => {
-        // Don't spawn ghost during pause — wait until unpaused
-        if ((window as any).__RHRF_IS_PAUSED__) {
-          const id = window.setTimeout(checkAndSpawn, 100);
-          addTimer(id);
-          return;
-        }
-        // Pause lifted — spawn now
-        startGhost();
-      };
-      
-      const id = window.setTimeout(checkAndSpawn, delay);
+      // Spawn timer runs in real time; a ghost spawned during pause freezes at start and resumes on unpause
+            const delay = GHOST_MIN_DELAY + Math.random() * (GHOST_MAX_DELAY - GHOST_MIN_DELAY);
+      const id = window.setTimeout(() => startGhost(), delay);
       addTimer(id);
     };
 
