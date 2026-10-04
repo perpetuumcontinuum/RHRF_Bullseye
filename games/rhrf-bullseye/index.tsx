@@ -171,6 +171,22 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     });
     pt(() => setStreakBanner(null), isFinalRank("time", rank.n) ? 60000 : 2500);
   }, [gameStats.totalPlayMs]);
+
+  // Test-host only: fast-forward play time to verify badge-unlock banners
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const host = window.location.hostname;
+    const isTest = /localhost|127\.0\.0\.1/.test(host) || RHRF_TEST_HOSTS.includes(host);
+    if (!isTest) return;
+    (window as any).__RHRF_ADD_HOURS__ = (h: number) => {
+      setGameStats((prev) => {
+        const next = { ...prev, totalPlayMs: prev.totalPlayMs + Math.max(0, Math.floor(h)) * 3600000 };
+        saveStats(next);
+        return next;
+      });
+    };
+    return () => { delete (window as any).__RHRF_ADD_HOURS__; };
+  }, []);
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
   const [laserTargetY, setLaserTargetY] = useState(0);

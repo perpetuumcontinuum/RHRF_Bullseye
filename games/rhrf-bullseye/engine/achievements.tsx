@@ -56,7 +56,7 @@ const CYBER_ROWS: ReadonlyArray<readonly [number, string, string]> = [
 
 // time — циферблат, заполняемый пропорционально (1h, затем 100..1000, финал 1001)
 const TIME_ROWS: ReadonlyArray<readonly [number, string, string]> = [
-  [1,    "t_1",    "FIRST TICK"],
+  [1,    "t_1",    "RARE BEGINNING"],
   [100,  "t_100",  "FIRST DIAL"],
   [200,  "t_200",  "TWIN DIALS"],
   [300,  "t_300",  "TRIPLE CHIME"],
