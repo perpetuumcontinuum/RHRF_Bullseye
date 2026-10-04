@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { rankForStreak, buildStreakMessage, streakColor, isFinalRank, BadgeIcon } from "./engine/achievements";
+import { rankForStreak, buildStreakMessage, buildTimeMessage, streakColor, isFinalRank, TIME_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
 
@@ -119,7 +119,7 @@ const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid"; badge: { icon: string; label: string } | null } | null>(null);
+  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid" | "time"; badge: { icon: string; label: string } | null } | null>(null);
   const streaksRef = useRef({ cyber: 0, ghost: 0, asteroid: 0 });
 
   const unlockBadge = (id: string) => {
@@ -144,6 +144,28 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     });
     pt(() => setStreakBanner(null), isFinalRank(kind, count) ? 60000 : 2500);
   };
+
+  const lastHoursRef = useRef<number | null>(null);
+
+  // Time-in-game badges: totalPlayMs only accrues while unpaused
+  useEffect(() => {
+    const hours = Math.floor(gameStats.totalPlayMs / 3600000);
+    if (lastHoursRef.current === null) { lastHoursRef.current = hours; return; }
+    const prevHours = lastHoursRef.current;
+    lastHoursRef.current = hours;
+    if (hours <= prevHours) return;
+    const crossed = TIME_RANKS.filter((r) => r.n > prevHours && r.n <= hours);
+    if (!crossed.length) return;
+    const rank = crossed[crossed.length - 1];
+    crossed.forEach((r) => unlockBadge(r.id));
+    setStreakBanner({
+      text: buildTimeMessage(rank.n),
+      count: rank.n,
+      kind: "time",
+      badge: { icon: rank.icon, label: rank.label },
+    });
+    pt(() => setStreakBanner(null), isFinalRank("time", rank.n) ? 60000 : 2500);
+  }, [gameStats.totalPlayMs]);
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
   const [laserTargetY, setLaserTargetY] = useState(0);

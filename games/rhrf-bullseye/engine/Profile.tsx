@@ -279,7 +279,7 @@ export default function Profile(props: any) {
         )}
 
         <div className="rf-profile-section" style={{ display: activeTab === "badges" ? undefined : "none" }}>
-          {(["asteroid", "ghost", "cyber"] as const).map((kind) => (
+          {(["asteroid", "ghost", "cyber", "time"] as const).map((kind) => (
             <div key={kind} className="rf-badge-kind-block">
               <div className="rf-profile-section-title">{kind.toUpperCase()} BADGES</div>
               <div className="rf-badge-grid">
