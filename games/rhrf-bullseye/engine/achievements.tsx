@@ -1,7 +1,7 @@
 import React from "react";
 
 export type StreakKind = "cyber" | "ghost" | "asteroid";
-export type BadgeKind = StreakKind | "time";
+export type BadgeKind = StreakKind | "time" | "rf";
 
 export interface StreakRank {
   n: number;
@@ -11,7 +11,15 @@ export interface StreakRank {
   kind: BadgeKind;
 }
 
-// GHOST — уклонения, воздух, полёт. Цвет блока: RARE #ccff00
+// RF — заработанные очки. Верхний блок, красный как базовый лук, глиф = сама сумма
+const RF_ROWS: ReadonlyArray<readonly [number, string, string]> = [
+  [1000,     "rf_1000",     "FIRST MINT"],
+  [10000,    "rf_10000",    "TEN FOLD"],
+  [100000,   "rf_100000",   "HUNDRED HASH"],
+  [1000000,  "rf_1000000",  "MEGA VAULT"],
+  [10000000, "rf_10000000", "RARE TREASURY"],
+];
+
 const GHOST_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [3,   "g_gust",    "FIRST DODGE"],
   [10,  "g_leap",    "PHASE WALKER"],
@@ -26,7 +34,6 @@ const GHOST_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [101, "g_crown",   "RARE LEGEND"],
 ];
 
-// ASTEROID — защита планеты. Цвет блока: EPIC #aa00ff
 const ASTEROID_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [3,   "spark",       "FIRST SHIELD"],
   [10,  "archer",      "ROCK BREAKER"],
@@ -41,7 +48,6 @@ const ASTEROID_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [101, "rare_legend", "RARE LEGEND"],
 ];
 
-// CYBER — точность, каждый x3..x11. Цвет блока: LEGENDARY #ffaa00
 const CYBER_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [3,  "c_aim",    "TRIPLE THREAT"],
   [4,  "c_cross4", "QUAD LOCK"],
@@ -54,7 +60,6 @@ const CYBER_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [11, "c_legend", "CYBER LEGEND"],
 ];
 
-// TIME — общее время в игре, циферблат. Цвет блока: CYBER #00ffff
 const TIME_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [1,    "t_1",    "RARE BEGINNING"],
   [100,  "t_100",  "FIRST DIAL"],
@@ -73,30 +78,32 @@ const TIME_ROWS: ReadonlyArray<readonly [number, string, string]> = [
 const build = (kind: BadgeKind, rows: ReadonlyArray<readonly [number, string, string]>): readonly StreakRank[] =>
   rows.map(([n, icon, label]) => ({ n, icon, label, kind, id: `${kind}_${n}` }));
 
-export const GHOST_RANKS     = build("ghost", GHOST_ROWS);
+export const RF_RANKS        = build("rf",       RF_ROWS);
+export const GHOST_RANKS     = build("ghost",    GHOST_ROWS);
 export const ASTEROID_RANKS  = build("asteroid", ASTEROID_ROWS);
-export const CYBER_RANKS     = build("cyber", CYBER_ROWS);
-export const TIME_RANKS      = build("time", TIME_ROWS);
+export const CYBER_RANKS     = build("cyber",    CYBER_ROWS);
+export const TIME_RANKS      = build("time",     TIME_ROWS);
 
 export const BADGES_BY_KIND: Record<BadgeKind, readonly StreakRank[]> = {
+  rf:       RF_RANKS,
   ghost:    GHOST_RANKS,
   asteroid: ASTEROID_RANKS,
   cyber:    CYBER_RANKS,
   time:     TIME_RANKS,
 };
 
-// Порядок блоков в профиле: по редкости
-export const BADGE_ORDER: readonly BadgeKind[] = ["ghost", "asteroid", "cyber", "time"];
+// Порядок блоков в профиле: RF сверху, далее по редкости
+export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "cyber", "time"];
 
-// Цвет идентичности блока = цвет редкости игры
 export const KIND_COLOR: Record<BadgeKind, string> = {
+  rf:       "#ff2d2d",  // base bow/arrow red
   ghost:    "#ccff00",  // RARE
   asteroid: "#aa00ff",  // EPIC
   cyber:    "#ffaa00",  // LEGENDARY
   time:     "#00ffff",  // CYBER
 };
 
-const KIND_HUE: Record<BadgeKind, number> = { ghost: 72, asteroid: 282, cyber: 40, time: 180 };
+const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 40, time: 180 };
 
 export function rankForStreak(kind: BadgeKind, count: number): StreakRank | null {
   for (const r of BADGES_BY_KIND[kind]) if (r.n === count) return r;
@@ -108,7 +115,8 @@ export function isFinalRank(kind: BadgeKind, count: number): boolean {
   return list.length > 0 && count >= list[list.length - 1].n;
 }
 
-// Рампа внутри блока: низшие ранги бледные, высшие — полный неон своего hue
+// Рампа внутри блока: низшие ранги бледные, высшие — полный неон своего hue.
+// RF идёт по красной шкале: темно-красный -> яркий красный.
 export function streakColor(kind: BadgeKind, count: number): string {
   const list = BADGES_BY_KIND[kind];
   const first = list[0].n;
@@ -117,9 +125,23 @@ export function streakColor(kind: BadgeKind, count: number): string {
   const t = idx >= 0
     ? idx / (list.length - 1)
     : Math.max(0, Math.min(1, (count - first) / (last - first)));
+
+  if (kind === "rf") return `hsl(0, 100%, ${(34 + 18 * t).toFixed(1)}%)`;
+
   const sat = 30 + 70 * t;
   const light = 92 - 42 * t;
   return `hsl(${KIND_HUE[kind]}, ${sat.toFixed(1)}%, ${light.toFixed(1)}%)`;
+}
+
+// Фон карточки = тон редкости этого ранга; glow = та же рампа с альфой.
+// (Раньше склеивалось `${color}55`, что ломало hsl-значение в невалидный CSS.)
+export function streakTint(kind: BadgeKind, count: number): string {
+  const a = kind === "rf" ? 0.34 : 0.16;
+  return streakColor(kind, count).replace("hsl(", "hsla(").replace(")", `, ${a})`);
+}
+
+export function streakGlow(kind: BadgeKind, count: number): string {
+  return streakColor(kind, count).replace("hsl(", "hsla(").replace(")", ", 0.45)");
 }
 
 export function streakGradient(kind: BadgeKind, count: number): { from: string; to: string; glow: string } {
@@ -197,6 +219,26 @@ export function buildTimeMessage(hours: number, rand: () => number = Math.random
   return `${phrase}! TIME SERVED ${hours}H${rank ? ` — ${rank.label}` : ""}`;
 }
 
+const RF_PHRASES = [
+  ["FIRST MINT", "RF LANDED", "COIN DROPPED", "SMALL PAYOUT", "GENESIS PROFIT"],
+  ["STACKING UP", "RF ACCRUES", "TEN FOLD SIGNAL", "QUIVER FUNDED", "VAULT FILLING"],
+  ["HUNDRED HASH", "BIG BLOCK", "RF RAIN", "TREASURY STIRRING", "WHALE INCOMING"],
+  ["MEGA VAULT", "RF FLOOD", "THE DAO NOTICES", "LEDGER BULGING", "MINT MACHINE"],
+  ["RARE TREASURY", "YOU ARE THE ECONOMY", "RF WEEPS FOR MERCY", "THE BOW PRINTS MONEY", "RARE TREASURY: FINAL FORM"],
+] as const;
+
+export function compactRf(n: number): string {
+  return n >= 1e6 ? `${n / 1e6}M` : n >= 1e3 ? `${n / 1e3}K` : String(n);
+}
+
+export function buildRfMessage(amount: number, rand: () => number = Math.random): string {
+  const idx = RF_RANKS.findIndex((r) => r.n === amount);
+  const pool = RF_PHRASES[Math.max(0, Math.min(RF_PHRASES.length - 1, idx))];
+  const phrase = pool[Math.floor(rand() * pool.length)];
+  const rank = rankForStreak("rf", amount);
+  return `${phrase}! EARNED ${compactRf(amount)} RF${rank ? ` — ${rank.label}` : ""}`;
+}
+
 export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   const p = {
     width: size, height: size, viewBox: "0 0 32 32", fill: "none",
@@ -205,6 +247,22 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   };
   const dot = { fill: "currentColor", stroke: "none" as const };
 
+  // RF: сама сумма, чёрные цифры с белой окантовкой — как отчеканенная монета
+  if (id.startsWith("rf_")) {
+    const n = Number(id.slice(3)) || 0;
+    const txt = compactRf(n);
+    const fs = txt.length <= 2 ? 13 : txt.length === 3 ? 11 : 9.5;
+    return (
+      <svg {...p}>
+        <text x="16" y="16" textAnchor="middle" dominantBaseline="central"
+          fontFamily="'Courier New', monospace" fontWeight="900" fontSize={fs}
+          fill="#000" stroke="#fff" strokeWidth="0.9" paintOrder="stroke fill markers"
+          style={{ letterSpacing: "-0.5px" }}>{txt}</text>
+      </svg>
+    );
+  }
+
+  // TIME: циферблат, заполняемый пропорционально hours/1000
   if (id.startsWith("t_")) {
     const hours = Number(id.slice(2)) || 0;
     // floor, иначе 1ч дал бы невидимый клинышек 0.36°
