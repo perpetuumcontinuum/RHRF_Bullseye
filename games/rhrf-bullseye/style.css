@@ -2158,3 +2158,15 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   cursor: pointer;
 }
 .rf-notice-btn:hover{ background: #ffc83d; }
+
+/* ---- Explicit "back to base" (unequip) button in the right HUD panel ---- */
+.rf-hud-base{
+  border-style: dashed;
+  opacity: 0.85;
+}
+.rf-hud-base:hover{
+  opacity: 1;
+  border-color: #ff2d2d;
+  color: #ff2d2d;
+}
+.rf-hud-base .rf-hud-mini-icon{ color: inherit; }

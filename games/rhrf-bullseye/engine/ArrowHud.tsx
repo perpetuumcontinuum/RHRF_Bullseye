@@ -43,6 +43,18 @@ function ArrowGlyph({ className }: { className: string }) {
   );
 }
 
+function BaseGlyph({ className }: { className: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true"
+      fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <line x1="8" y1="8" x2="16" y2="16" />
+      <line x1="16" y1="8" x2="8" y2="16" />
+    </svg>
+  );
+}
+
 function CollapsibleSlot(props: {
   prefix: "arrow" | "armor" | "energy";
   icon: string;
@@ -66,6 +78,14 @@ function CollapsibleSlot(props: {
     if (activeRow?.id === row.id) { props.onEquip?.(row.id); setOpen(false); return; }
     if (row.count <= 0) return;
     props.onEquip?.(row.id);
+    setOpen(false);
+  };
+
+  // Явное «на базу»: снимает активный расходник тем же путём, что и повторный
+  // клик по активному ряду (onEquip тоглит по контракту handlePick).
+  const handleBase = () => {
+    if (!props.equipped) return;
+    props.onEquip?.(props.equipped);
     setOpen(false);
   };
 
@@ -107,6 +127,17 @@ function CollapsibleSlot(props: {
             <span className="rf-hud-mini-count">{row.count}</span>
           </button>
         ))}
+        {props.equipped && (
+          <button
+            type="button"
+            className="rf-hud-mini rf-hud-base"
+            onClick={handleBase}
+            aria-label={`${props.prefix} base`}
+            title="BASE"
+          >
+            <BaseGlyph className="rf-hud-mini-icon" />
+          </button>
+        )}
       </div>
     </div>
   );

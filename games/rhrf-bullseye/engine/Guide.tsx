@@ -1,49 +1,124 @@
 import React, { useEffect } from "react";
+import { useT } from "./i18n";
 
 type GuideProps = { onClose: () => void };
+type Tone = "key" | "cyber" | undefined;
+
+// Переводчик правит ТОЛЬКО значения в locales/*.ts. Токены хоткеев (1/Numpad1, Esc)
+// живут здесь и не переводятся намеренно.
+const SECTIONS: ReadonlyArray<{
+  id: string;
+  titleKey: string;
+  rows: ReadonlyArray<{ k: string; tone: Tone }>;
+}> = [
+  { id: "controls", titleKey: "guide.controls.title", rows: [
+    { k: "guide.controls.shot", tone: "key" },
+    { k: "guide.controls.jump", tone: "key" },
+    { k: "guide.controls.laser", tone: "key" },
+    { k: "guide.controls.shop", tone: "key" },
+    { k: "guide.controls.profile", tone: "key" },
+    { k: "guide.controls.guide", tone: "key" },
+    { k: "guide.controls.mute", tone: "key" },
+    { k: "guide.controls.pause", tone: "key" },
+    { k: "guide.controls.share", tone: "key" },
+  ]},
+  { id: "profile", titleKey: "guide.profile.title", rows: [
+    { k: "guide.profile.score", tone: undefined },
+    { k: "guide.profile.items", tone: undefined },
+    { k: "guide.profile.equipped", tone: undefined },
+    { k: "guide.profile.total", tone: undefined },
+  ]},
+  { id: "score", titleKey: "guide.score.title", rows: [
+    { k: "guide.score.bull", tone: undefined },
+    { k: "guide.score.epic", tone: undefined },
+    { k: "guide.score.rare", tone: undefined },
+    { k: "guide.score.common", tone: undefined },
+  ]},
+  { id: "rarity", titleKey: "guide.rarity.title", rows: [
+    { k: "guide.rarity.rare", tone: undefined },
+    { k: "guide.rarity.epic", tone: undefined },
+    { k: "guide.rarity.legendary", tone: undefined },
+    { k: "guide.rarity.cyber", tone: "cyber" },
+  ]},
+  { id: "lasers", titleKey: "guide.lasers.title", rows: [
+    { k: "guide.lasers.drop", tone: undefined },
+    { k: "guide.lasers.cap", tone: undefined },
+    { k: "guide.lasers.use", tone: undefined },
+    { k: "guide.lasers.sell", tone: undefined },
+    { k: "guide.lasers.paused", tone: undefined },
+  ]},
+  { id: "economy", titleKey: "guide.economy.title", rows: [
+    { k: "guide.economy.bows", tone: undefined },
+    { k: "guide.economy.outfits", tone: undefined },
+    { k: "guide.economy.amulets", tone: undefined },
+    { k: "guide.economy.arrows", tone: undefined },
+    { k: "guide.economy.energy", tone: undefined },
+    { k: "guide.economy.armor", tone: undefined },
+    { k: "guide.economy.sell", tone: undefined },
+    { k: "guide.economy.note", tone: undefined },
+  ]},
+  { id: "cyber", titleKey: "guide.cyber.title", rows: [
+    { k: "guide.cyber.req", tone: "cyber" },
+    { k: "guide.cyber.shake", tone: "cyber" },
+    { k: "guide.cyber.shimmer", tone: "cyber" },
+  ]},
+];
+
+// Хоткеи: токены не переводятся, описания — да
+const HOTKEYS: ReadonlyArray<{ tokens: string; act: string }> = [
+  { tokens: "1 / Numpad1", act: "guide.hotkeys.laser" },
+  { tokens: "2 / Numpad2", act: "guide.hotkeys.shot" },
+  { tokens: "3 / Numpad3", act: "guide.hotkeys.jump" },
+  { tokens: "4 / Space",   act: "guide.hotkeys.pause" },
+  { tokens: "5 / M",       act: "guide.hotkeys.mute" },
+  { tokens: "6 / S",       act: "guide.hotkeys.shop" },
+  { tokens: "7 / P",       act: "guide.hotkeys.profile" },
+  { tokens: "8 / G",       act: "guide.hotkeys.guide" },
+  { tokens: "Esc",         act: "guide.hotkeys.close" },
+];
 
 export default function Guide({ onClose }: GuideProps) {
+  const t = useT();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const sections = [
-    { title: "CONTROLS", lines: ["SHOT: fire arrow.", "JUMP: dodge ghost.", "LASER: destroy asteroid.", "SHOP: buy, equip or sell.", "PROFILE: stats and cyber style.", "GUIDE: open this screen.", "MUTE: toggle audio.", "PAUSE: freeze gameplay.", "X: share screenshot."] },
-    { title: "PROFILE", lines: ["S: score.", "I: items.", "E: equipped.", "T: total."] },
-    { title: "SCORE", lines: ["10: bullseye, cyber shimmer.", "9-7: epic zone.", "6-4: rare zone.", "3-1: common zone."] },
-    { title: "RARITY", lines: ["Rare: basic boost.", "Epic: stronger boost.", "Legendary: best boost.", "Three legendaries unlock cyber style."] },
-    { title: "LASERS", lines: ["Satellites drop laser consumables.", "Laser cap is 100.", "Use lasers for tower defense.", "Sell lasers in shop for RF.", "Lasers can accumulate while paused."] },
-    { title: "ECONOMY", lines: ["Bows: 400 / 900 / 1800 RF.", "Outfits: 350 / 800 / 1600 RF.", "Amulets: 450 / 1000 / 2000 RF.", "Arrows: 60 / 150 / 300 RF.", "Energy: 300 / 800 / 1600 RF.", "Armor: 100 / 220 / 400 RF.", "Sell: 50% / offer: 60%.", "Current price tuning is modest; stat persistence will make the economy deeper."] },
-    { title: "CYBER", lines: ["Requires legendary bow, outfit and amulet.", "Reduces screen shake.", "Bullseye shimmer is always visible."] },
-    { title: "HOTKEYS", lines: ["1 / Numpad1 — Tower Laser", "2 / Numpad2 — Shot", "3 / Numpad3 — Jump", "4 / Space — Pause / Resume", "5 / M — Toggle mute", "6 / S — Open Shop", "7 / P — Open Profile", "8 / G — Open Guide", "Esc — Close overlays"] },
-  ];
-
   return (
     <div className="rf-guide-overlay" onClick={onClose}>
       <div className="rf-guide-panel" onClick={(e) => e.stopPropagation()}>
         <div className="rf-guide-header">
           <div className="rf-guide-title">RHRF BULLSEYE</div>
-          <button className="rf-guide-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="rf-guide-close" onClick={onClose} aria-label={t("guide.close")}>✕</button>
         </div>
         <div className="rf-guide-body">
-          {sections.map((section) => (
-            <div key={section.title} className="rf-guide-section">
-              <div className="rf-guide-section-title">{section.title}</div>
+          {SECTIONS.map((section) => (
+            <div key={section.id} className="rf-guide-section">
+              <div className="rf-guide-section-title">{t(section.titleKey)}</div>
               <ul className="rf-guide-list">
-                {section.lines.map((line) => {
-                  const isKey = /^(SHOT|JUMP|LASER|SHOP|PROFILE|GUIDE|MUTE|PAUSE|X):/.test(line);
-                  const isCyber = section.title === "CYBER" || /cyber/i.test(line);
-                  return (
-                    <li key={line}>
-                      <span className={isKey ? "rf-guide-key" : isCyber ? "rf-guide-cyber" : undefined}>{line}</span>
-                    </li>
-                  );
-                })}
+                {section.rows.map((row) => (
+                  <li key={row.k}>
+                    <span className={row.tone === "key" ? "rf-guide-key" : row.tone === "cyber" ? "rf-guide-cyber" : undefined}>
+                      {t(row.k)}
+                    </span>
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
+          <div className="rf-guide-section">
+            <div className="rf-guide-section-title">{t("guide.hotkeys.title")}</div>
+            <ul className="rf-guide-list">
+              {HOTKEYS.map((hk) => (
+                <li key={hk.tokens}>
+                  <span className="rf-guide-key">{hk.tokens}</span>
+                  <span> — </span>
+                  <span>{t(hk.act)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
