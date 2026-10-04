@@ -132,10 +132,10 @@ export default function Shop(props: any) {
                   <ItemIcon item={item} />
                   <div className="rf-shop-item-main">
                     <div className="rf-shop-item-heading">
-                    <div className="rf-shop-item-name">{item.name}</div>
+                    <div className="rf-shop-item-name">{t("item." + item.id + ".name", undefined, item.name)}</div>
                     <div className="rf-shop-item-price-inline">{item.price} RF</div>
                   </div>
-                    <div className="rf-shop-item-desc">{item.description}</div>
+                    <div className="rf-shop-item-desc">{t("item." + item.id + ".desc", undefined, item.description)}</div>
                   </div>
 
                   <div className="rf-shop-item-side rf-shop-consumable-side">
@@ -166,10 +166,10 @@ export default function Shop(props: any) {
                   <ItemIcon item={item} />
                 <div className="rf-shop-item-main">
                   <div className="rf-shop-item-heading">
-                    <div className="rf-shop-item-name">{item.name}</div>
+                    <div className="rf-shop-item-name">{t("item." + item.id + ".name", undefined, item.name)}</div>
                     <div className="rf-shop-item-price-inline">{item.price} RF</div>
                   </div>
-                  <div className="rf-shop-item-desc">{item.description}</div>
+                  <div className="rf-shop-item-desc">{t("item." + item.id + ".desc", undefined, item.description)}</div>
                 </div>
 
                 <div className="rf-shop-item-side">

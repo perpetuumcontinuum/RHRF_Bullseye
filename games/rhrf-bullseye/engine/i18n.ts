@@ -41,15 +41,15 @@ export function useLang(): string {
 }
 
 // t("streak.banner", { count: 5 }) -> "...x5..." ; missing key falls back en -> raw key
-export function translate(lang: string, key: string, params?: Record<string, string | number>): string {
-  const raw = (REGISTRY[lang] && REGISTRY[lang][key]) || REGISTRY[FALLBACK][key] || key;
+export function translate(lang: string, key: string, params?: Record<string, string | number>, fallback?: string): string {
+  const raw = (REGISTRY[lang] && REGISTRY[lang][key]) || REGISTRY[FALLBACK][key] || fallback || key;
   if (!params) return raw;
   return raw.replace(/\{(\w+)\}/g, (_, p) => (p in params ? String(params[p]) : `{${p}}`));
 }
 
 export function useT() {
   const lang = useLang();
-  return (key: string, params?: Record<string, string | number>) => translate(lang, key, params);
+  return (key: string, params?: Record<string, string | number>, fallback?: string) => translate(lang, key, params, fallback);
 }
 
 

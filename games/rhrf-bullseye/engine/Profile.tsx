@@ -449,13 +449,13 @@ export default function Profile(props: any) {
                       >
                         <ItemIcon item={item} />
                         <div className="rf-profile-card-top">
-                          <div className="rf-profile-card-name">{item.name}</div>
+                          <div className="rf-profile-card-name">{t("item." + item.id + ".name", undefined, item.name)}</div>
                           {(item.category === "consumable" || count > 1) && (
                             <div className="rf-profile-card-count">x{count}</div>
                           )}
                         </div>
 
-                        <div className="rf-profile-card-desc">{item.description}</div>
+                        <div className="rf-profile-card-desc">{t("item." + item.id + ".desc", undefined, item.description)}</div>
 
                         <div className="rf-profile-card-bottom">
                           <div className="rf-profile-card-rarity">{t("rarity." + item.rarity.toLowerCase())}</div>
@@ -502,7 +502,7 @@ export default function Profile(props: any) {
             <div className="rf-sell-confirm-box">
               <div className="rf-sell-confirm-title">{t("profile.confirmSale")}</div>
               <div className="rf-sell-confirm-text">
-                {t("profile.sellAmount", { amount: pendingSale.amount, name: pendingSale.item.name })}
+                {t("profile.sellAmount", { amount: pendingSale.amount, name: t("item." + pendingSale.item.id + ".name", undefined, pendingSale.item.name) })}
                 <br />
                 {t("profile.sellFor")} <strong>{pendingSale.revenue} RF</strong>?
                 <br />
