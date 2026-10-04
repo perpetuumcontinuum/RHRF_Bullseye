@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { rankForStreak, buildStreakMessage, streakGradient, isFinalRank, BadgeIcon } from "./engine/achievements";
+import { rankForStreak, buildStreakMessage, streakColor, isFinalRank, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
 
@@ -119,7 +119,7 @@ const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid" } | null>(null);
+  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid"; badge: { icon: string; label: string } | null } | null>(null);
   const streaksRef = useRef({ cyber: 0, ghost: 0, asteroid: 0 });
 
   const unlockBadge = (id: string) => {
@@ -136,7 +136,12 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     const rank = rankForStreak(kind, count);
     if (!rank) return; // asteroid/ghost: 3,10,...,101; cyber: каждый 3..11
     unlockBadge(rank.id);
-    setStreakBanner({ text: buildStreakMessage(kind, count), count, kind });
+    setStreakBanner({
+      text: buildStreakMessage(kind, count),
+      count,
+      kind,
+      badge: { icon: rank.icon, label: rank.label },
+    });
     pt(() => setStreakBanner(null), isFinalRank(kind, count) ? 60000 : 2500);
   };
 const impactTimersRef = useRef<number[]>([]);
@@ -1502,23 +1507,19 @@ if (loading) {
 
 
       {streakBanner && (() => {
-        const g = streakGradient(streakBanner.kind, streakBanner.count);
         const isFinal = isFinalRank(streakBanner.kind, streakBanner.count);
         return (
           <div
             className={`rf-overlay-msg rf-streak-msg rf-shake-text${isFinal ? " rf-streak-final" : ""}`}
-            style={{
-              ["--rf-streak-bg" as any]: `linear-gradient(90deg, ${g.from}, ${g.to}, ${g.from})`,
-              ["--rf-streak-glow" as any]: g.glow,
-              ...(isFinal ? { backgroundSize: "300% 100%" } : {}),
-            } as any}
+            style={{ ["--rf-streak-color" as any]: streakColor(streakBanner.kind, streakBanner.count) } as any}
           >
-            {isFinal && (
-              <span className="rf-streak-final-icon">
-                <BadgeIcon id={streakBanner.kind === "cyber" ? "cyber_legend" : "rare_legend"} size={26} />
-              </span>
+            <div className="rf-streak-line">{streakBanner.text}</div>
+            {streakBanner.badge && (
+              <div className="rf-streak-badge">
+                <BadgeIcon id={streakBanner.badge.icon} size={22} />
+                <span>BADGE UNLOCKED: {streakBanner.badge.label}</span>
+              </div>
             )}
-            {streakBanner.text}
           </div>
         );
       })()}

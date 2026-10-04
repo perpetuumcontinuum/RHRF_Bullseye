@@ -1945,3 +1945,35 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
     background: transparent !important;
   }
 }
+
+/* Streak banner: solid neon + text-shadow. The earlier background-clip:text variant
+   was invisible because .rf-overlay-msg forces `background: transparent !important`.
+   Later rule, same specificity -> wins the !important war. No filter here so the
+   pause overlay grayscale still applies. */
+.rf-streak-msg{
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  color: var(--rf-streak-color, #ccff00) !important;
+  text-shadow: 0 0 8px currentColor, 0 0 18px currentColor, 0 0 2px #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.rf-streak-line{ font-size: 0.92em; }
+.rf-streak-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.6em;
+  letter-spacing: 2px;
+}
+.rf-streak-badge svg{ filter: drop-shadow(0 0 6px currentColor); }
+.rf-streak-final{
+  animation: rfStreakHue 2.4s linear infinite, rfTextVibrate 0.11s infinite ease-in-out;
+}
+@keyframes rfStreakHue{
+  0%{ filter: hue-rotate(0deg); }
+  100%{ filter: hue-rotate(360deg); }
+}
