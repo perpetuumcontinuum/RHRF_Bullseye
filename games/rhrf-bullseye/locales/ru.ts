@@ -233,4 +233,5 @@ export default {
   "sdk.chooseFriend": "Выберите Friend для игры",
   "item.unknown": "Неизвестный предмет инвентаря.",
   "share.latestBadge": "Последнее достижение: {badge}",
+  "session.beta": "Бета — сохранения скоро.",
 };

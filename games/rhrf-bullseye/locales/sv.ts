@@ -195,4 +195,5 @@ export default {
   "sdk.chooseFriend": "Choose a Friend to play",
   "item.unknown": "Unknown inventory item.",
   "share.latestBadge": "Latest Achievement: {badge}",
+  "session.beta": "Beta — sparande kommer snart.",
 };
