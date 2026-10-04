@@ -1921,3 +1921,8 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-badge-card.locked .rf-badge-state{
   color: #666688;
 }
+
+/* Separation between asteroid/ghost/cyber badge blocks in profile */
+.rf-badge-kind-block{
+  margin-bottom: 14px;
+}

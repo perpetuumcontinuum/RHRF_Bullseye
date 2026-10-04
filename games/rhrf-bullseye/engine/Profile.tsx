@@ -9,7 +9,7 @@ import {
   type ShopItem,
 } from "./catalog";
 import { type GameStats, formatDuration } from "./stats"
-import { STREAK_RANKS, streakColor, BadgeIcon } from "./achievements";
+import { BADGES_BY_KIND, streakColor, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 
 const fmtCompact = (n: number): string => {
@@ -279,25 +279,29 @@ export default function Profile(props: any) {
         )}
 
         <div className="rf-profile-section" style={{ display: activeTab === "badges" ? undefined : "none" }}>
-          <div className="rf-profile-section-title">STREAK BADGES</div>
-          <div className="rf-badge-grid">
-            {STREAK_RANKS.map((rank) => {
-              const unlocked = Boolean(gameStats?.earnedBadges.includes(rank.id));
-              const color = streakColor(rank.n);
-              return (
-                <div
-                  key={rank.id}
-                  className={`rf-badge-card ${unlocked ? "unlocked" : "locked"}`}
-                  style={unlocked ? { color, borderColor: color, boxShadow: `0 0 12px ${color}55` } : undefined}
-                >
-                  <div className="rf-badge-icon"><BadgeIcon id={rank.id} size={30} /></div>
-                  <div className="rf-badge-name">{rank.label}</div>
-                  <div className="rf-badge-desc">x{rank.n} streak</div>
-                  <div className="rf-badge-state">{unlocked ? "UNLOCKED" : "LOCKED"}</div>
-                </div>
-              );
-            })}
-          </div>
+          {(["asteroid", "ghost", "cyber"] as const).map((kind) => (
+            <div key={kind} className="rf-badge-kind-block">
+              <div className="rf-profile-section-title">{kind.toUpperCase()} BADGES</div>
+              <div className="rf-badge-grid">
+                {BADGES_BY_KIND[kind].map((rank) => {
+                  const unlocked = Boolean(gameStats?.earnedBadges.includes(rank.id));
+                  const color = streakColor(kind, rank.n);
+                  return (
+                    <div
+                      key={rank.id}
+                      className={`rf-badge-card ${unlocked ? "unlocked" : "locked"}`}
+                      style={unlocked ? { color, borderColor: color, boxShadow: `0 0 12px ${color}55` } : undefined}
+                    >
+                      <div className="rf-badge-icon"><BadgeIcon id={rank.icon} size={30} /></div>
+                      <div className="rf-badge-name">{rank.label}</div>
+                      <div className="rf-badge-desc">x{rank.n} streak</div>
+                      <div className="rf-badge-state">{unlocked ? "UNLOCKED" : "LOCKED"}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
         <div className="rf-profile-section" style={{ display: activeTab === "cyber" ? undefined : "none" }}>
             <div className="rf-profile-section-title">CYBER STYLE</div>
