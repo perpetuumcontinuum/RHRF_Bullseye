@@ -9,7 +9,7 @@ import {
   type ShopItem,
 } from "./catalog";
 import { type GameStats, formatDuration } from "./stats"
-import { STREAK_RANKS, streakColor, BadgeIcon } from "./achievements";;
+import { STREAK_RANKS, streakColor, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 
 const fmtCompact = (n: number): string => {

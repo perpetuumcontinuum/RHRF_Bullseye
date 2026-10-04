@@ -211,6 +211,20 @@ const asteroidKilledRef = useRef(false);
     pausedRef.current = isPaused;
   }, [isPaused]);
   const pausedRef = useRef(false);
+  useEffect(() => {
+    // Freeze the simulation when the browser tab is hidden. Otherwise rAF stops
+    // but Date.now keeps running, so on return the asteroid can instantly reach
+    // the planet and queued effect timers can dump stale banners.
+    const onVisibility = () => {
+      if (document.hidden) {
+        pausedRef.current = true;
+        (window as any).__RHRF_IS_PAUSED__ = true;
+        setIsPaused(true);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
   // Effect timers (messages, shake, explosion) must not expire behind the
   // pause overlay: remaining time only drains while unpaused
   const ptSeqRef = useRef(0);
@@ -981,7 +995,7 @@ flashTimerRef.current = window.setTimeout(() => {
   };
 
   useEffect(() => {
-    if (!isLaserFiring || !asteroidVisible) return;
+    if (pausedRef.current || !isLaserFiring || !asteroidVisible) return;
     const ax = asteroidPosition.x;
     const ay = asteroidPosition.y;
     if (Math.abs(ax - 190) <= 45 && ay <= 330) {
