@@ -134,10 +134,10 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
   const showStreakAlert = (kind: "cyber" | "ghost" | "asteroid") => {
     const count = streaksRef.current[kind];
     const rank = rankForStreak(count);
-    if (!rank) return; // только пороги: 3, 10, 50, 100, 200 ... 1000
+    if (!rank) return; // только пороги: 3, 10, 20, 30, 40, 50, 60, 70, 80, 90, 101
     unlockBadge(rank.id);
     setStreakBanner({ text: buildStreakMessage(kind, count), count });
-    pt(() => setStreakBanner(null), count >= 100 ? 60000 : 2500);
+    pt(() => setStreakBanner(null), count >= 101 ? 60000 : 2500);
   };
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
@@ -1503,7 +1503,7 @@ if (loading) {
 
       {streakBanner && (() => {
         const g = streakGradient(streakBanner.count);
-        const isFinal = streakBanner.count >= 100;
+        const isFinal = streakBanner.count >= 101;
         return (
           <div
             className={`rf-overlay-msg rf-streak-msg rf-shake-text${isFinal ? " rf-streak-final" : ""}`}

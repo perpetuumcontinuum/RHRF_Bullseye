@@ -8,7 +8,7 @@ export interface StreakRank {
   label: string;
 }
 
-// 11 рангов стрика, финал — RARE LEGEND на x100
+// 11 рангов стрика, финал — RARE LEGEND на x101
 export const STREAK_RANKS: readonly StreakRank[] = [
   { n: 3,   id: "spark",       label: "SPARK" },
   { n: 10,  id: "archer",      label: "ARCHER" },
@@ -20,7 +20,7 @@ export const STREAK_RANKS: readonly StreakRank[] = [
   { n: 70,  id: "oracle",      label: "ORACLE" },
   { n: 80,  id: "legend",      label: "LEGEND" },
   { n: 90,  id: "mythic",      label: "MYTHIC" },
-  { n: 100, id: "rare_legend", label: "RARE LEGEND" },
+  { n: 101, id: "rare_legend", label: "RARE LEGEND" },
 ];
 
 export function rankForStreak(count: number): StreakRank | null {
@@ -34,7 +34,7 @@ const KEYS = [
   { n: 10,  h: 72,  s: 100, l: 50 },  // #ccff00 rare
   { n: 50,  h: 282, s: 100, l: 50 },  // #aa00ff epic
   { n: 80,  h: 40,  s: 100, l: 50 },  // #ffaa00 legendary
-  { n: 100, h: 180, s: 100, l: 50 },  // #00ffff cyber
+  { n: 101, h: 180, s: 100, l: 50 },  // #00ffff cyber
 ];
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -47,7 +47,7 @@ const lerpHue = (a: number, b: number, t: number) => {
 };
 
 export function streakColor(count: number): string {
-  const n = Math.max(3, Math.min(100, count));
+  const n = Math.max(3, Math.min(101, count));
   let i = 0;
   while (i < KEYS.length - 1 && KEYS[i + 1].n < n) i++;
   const a = KEYS[i];
@@ -57,11 +57,11 @@ export function streakColor(count: number): string {
 }
 
 export function streakGradient(count: number): { from: string; to: string; glow: string } {
-  if (count >= 100) return { from: "#00ffff", to: "#ff00ff", glow: "#00ffff" };
+  if (count >= 101) return { from: "#00ffff", to: "#ff00ff", glow: "#00ffff" };
   const nextRank = STREAK_RANKS.find((r) => r.n > count);
   return {
     from: streakColor(count),
-    to: nextRank ? streakColor(nextRank.n) : streakColor(100),
+    to: nextRank ? streakColor(nextRank.n) : streakColor(101),
     glow: streakColor(count),
   };
 }
@@ -92,7 +92,7 @@ const PHRASES = {
     "QUANTUM QUIVER", "ASTEROID LEGEND", "GHOST LEGEND", "CYBER LEGEND", "BULLSEYE IMMORTAL",
     "CHAINBOUND ARCHER", "WALLET OF THE RANGE", "NONCE LEGEND", "SIGMA SHOOTER", "RARE ROUND GOD",
   ],
-  tier5: [ // x80–x100
+  tier5: [ // x80–x101
     "MYTHIC FRIEND", "PLANET SHIELD", "NEON PLANET SAVER", "RARE LEGEND PROTOCOL", "THE ARROW KNOWS YOUR NAME",
     "THE TARGET FEARS YOU", "THE GHOSTS LEAVE NOTES", "ASTEROIDS FILE A COMPLAINT", "YOUR NICKNAME IS HASHED IN BULLSEYE", "RF DAO WROTE YOU A SONG",
     "THE MOON SALUTES YOU", "THE TOWER LASER ASKS FOR ADVICE", "YOUR QUIVER IS A SECOND BLOCKCHAIN", "EVERY RELEASE IS A GENESIS EVENT", "YOU ARE THE RARE IN RARE FRIENDS",
@@ -117,7 +117,7 @@ export function buildStreakMessage(
   const kindLabel = kind.toUpperCase();
   const pool = PHRASES[tierForCount(count)];
   const phrase = pool[Math.floor(rand() * pool.length)];
-  if (count >= 100) return `${phrase}! ${kindLabel} STREAK x${count} — RARE LEGEND`;
+  if (count >= 101) return `${phrase}! ${kindLabel} STREAK x${count} — RARE LEGEND`;
   return `${phrase}! ${kindLabel} STREAK x${count}${rank ? ` — ${rank.label}` : ""}`;
 }
 
