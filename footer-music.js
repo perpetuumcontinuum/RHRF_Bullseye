@@ -1,4 +1,12 @@
 (function () {
+  if (window.self !== window.top) {
+    var c = document.getElementById("rf-music-container");
+    if (c && c.parentNode) c.parentNode.removeChild(c);
+    var a = document.getElementById("rf-bg-music");
+    if (a && a.parentNode) a.parentNode.removeChild(a);
+    return;
+  }
+
   function ready(fn) {
     if (document.readyState !== "loading") fn();
     else document.addEventListener("DOMContentLoaded", fn);
