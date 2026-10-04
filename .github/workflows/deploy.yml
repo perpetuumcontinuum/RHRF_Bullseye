@@ -186,6 +186,9 @@ jobs:
       - name: Validate game bundle
         run: npx friendsdk check ./games/rhrf-bullseye
 
+      - name: Guard jump arc invariant
+        run: node scripts/check-jump-arc.mjs
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
