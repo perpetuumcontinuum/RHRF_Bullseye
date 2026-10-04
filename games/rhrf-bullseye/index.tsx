@@ -119,7 +119,16 @@ const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [streakMessage, setStreakMessage] = useState<string | null>(null);
-  const prevStreaksRef = useRef<{ cyber: number; ghost: number; asteroid: number } | null>(null);
+  const streaksRef = useRef({ cyber: 0, ghost: 0, asteroid: 0 });
+
+  const showStreakAlert = (kind: "cyber" | "ghost" | "asteroid") => {
+    const count = streaksRef.current[kind];
+    if (count === 3 || (count >= 5 && count % 5 === 0)) {
+      const label = kind === "cyber" ? "CYBER" : kind === "ghost" ? "GHOST" : "ASTEROID";
+      setStreakMessage(`${label} STREAK x${count}`);
+      pt(() => setStreakMessage(null), 2500);
+    }
+  };
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
   const [laserTargetY, setLaserTargetY] = useState(0);
@@ -555,6 +564,7 @@ const asteroidKilledRef = useRef(false);
             const multiplier = (cyberRef.current ? 4 : getRarityMult(bowRef.current ?? equippedBow)) * getRarityMult(arrowToUse);
             const finalScore = Math.max(1, Math.floor(calculateFinalScore(baseScore, multiplier)));
             recordEvent("cyber", baseScore === 10);
+      if (baseScore === 10) showStreakAlert("cyber");
 
             const hx = TARGET_CX + lx;
             const hy = TARGET_CY + ly;
@@ -898,6 +908,10 @@ flashTimerRef.current = window.setTimeout(() => {
   }, []);
 
   const recordEvent = (type: "cyber" | "apple" | "asteroid" | "ghost", success: boolean) => {
+    // Mirror streak counters into a ref for synchronous reads by showStreakAlert
+    if (type === "cyber" || type === "apple") streaksRef.current.cyber = success ? streaksRef.current.cyber + 1 : 0;
+    if (type === "asteroid") streaksRef.current.asteroid = success ? streaksRef.current.asteroid + 1 : 0;
+    if (type === "ghost") streaksRef.current.ghost = success ? streaksRef.current.ghost + 1 : 0;
     setGameStats((prev) => {
       const next: GameStats = { ...prev };
 
@@ -934,34 +948,10 @@ flashTimerRef.current = window.setTimeout(() => {
   };
 
   useEffect(() => {
-    const onGhostDodged = () => recordEvent("ghost", true);
+    const onGhostDodged = () => { recordEvent("ghost", true); showStreakAlert("ghost"); };
     window.addEventListener("rhrf-ghost-dodged", onGhostDodged);
     return () => window.removeEventListener("rhrf-ghost-dodged", onGhostDodged);
 
-  // Surface streak milestones in the same banner style as asteroid success/fail
-  useEffect(() => {
-    const snap = {
-      cyber: gameStats.currentCyberStreak,
-      ghost: gameStats.currentGhostStreak,
-      asteroid: gameStats.currentAsteroidStreak,
-    };
-    const prev = prevStreaksRef.current;
-    prevStreaksRef.current = snap;
-    if (!prev) return; // swallow restored session on mount
-
-    const labels: Array<[keyof typeof snap, string]> = [
-      ["cyber", "CYBER"],
-      ["ghost", "GHOST"],
-      ["asteroid", "ASTEROID"],
-    ];
-    for (const [key, label] of labels) {
-      if (snap[key] > prev[key] && snap[key] >= 3) {
-        setStreakMessage(`${label} STREAK x${snap[key]}`);
-        pt(() => setStreakMessage(null), 2500);
-        break; // one banner at a time, like successMessage
-      }
-    }
-  }, [gameStats]);
   }, []);
 
   const handleTowerFire = () => {
@@ -990,6 +980,7 @@ asteroidKilledRef.current = true;
 setExplosion({x: ax, y: ay, visible: true});
           setSuccessMessage("ASTEROID DEFLECTED!");
           recordEvent("asteroid", true);
+          pt(() => showStreakAlert("asteroid"), 300);
           pt(() => setSuccessMessage(null), 2500);
 impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false}), 1500));
       const mult = equippedEnergy?.includes("legendary") ? 4 : equippedEnergy?.includes("epic") ? 3 : equippedEnergy?.includes("rare") ? 2 : 1;
