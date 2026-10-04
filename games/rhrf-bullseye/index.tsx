@@ -966,15 +966,15 @@ flashTimerRef.current = window.setTimeout(() => {
         : window.location.origin + window.location.pathname;
 
       
-      const cyberStatus = effectiveCyberStyle ? "CYBER ACTIVATED" : "STANDARD LOADOUT";
+      const cyberStatus = effectiveCyberStyle ? t("share.cyberOn") : t("share.standard");
       const scoreStr = totalScore.toLocaleString();
       
       const messageParts = [
-        "DEFEND THE PLANET.",
-        "Asteroids incoming. Ghosts hunting.",
+        t("share.tagline1"),
+        t("share.tagline2"),
         `My Score: ${scoreStr} RF`,
         `Mode: ${cyberStatus}`,
-        "Master reaction. Climb ranks. Earn RF.",
+        t("share.tagline3"),
         "#RareFriends #RHRFBullseye",
         gameLink
       ];
@@ -987,7 +987,7 @@ flashTimerRef.current = window.setTimeout(() => {
         if (nav.canShare && nav.canShare({ files: [file] }) && nav.share) {
           await nav.share({
             files: [file],
-            title: "RHRF Bullseye",
+            title: t("share.title"),
             text,
           });
           return;

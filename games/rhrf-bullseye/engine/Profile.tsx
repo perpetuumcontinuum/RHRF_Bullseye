@@ -200,10 +200,10 @@ export default function Profile(props: any) {
   }));
 
   const equipmentTabs: { id: ShopCategory; label: string; count: number }[] = [
-    { id: "bow", label: "BOWS", count: catalogItems.filter((item) => item.category === "bow").length },
-    { id: "hat", label: "CLOTHES", count: catalogItems.filter((item) => item.category === "hat").length },
-    { id: "amulet", label: "AMULET", count: catalogItems.filter((item) => item.category === "amulet").length },
-    { id: "consumable", label: "CONSUMABLES", count: catalogItems.filter((item) => item.category === "consumable").length },
+    { id: "bow", label: t("profile.cat.bow"), count: catalogItems.filter((item) => item.category === "bow").length },
+    { id: "hat", label: t("profile.cat.hat"), count: catalogItems.filter((item) => item.category === "hat").length },
+    { id: "amulet", label: t("profile.cat.amulet"), count: catalogItems.filter((item) => item.category === "amulet").length },
+    { id: "consumable", label: t("profile.cat.consumable"), count: catalogItems.filter((item) => item.category === "consumable").length },
   ];
 
   const close = () => {
@@ -311,21 +311,21 @@ export default function Profile(props: any) {
           ))}
         </div>
         <div className="rf-profile-section" style={{ display: activeTab === "cyber" ? undefined : "none" }}>
-            <div className="rf-profile-section-title">CYBER STYLE</div>
+            <div className="rf-profile-section-title">{t("profile.cyberStyle")}</div>
             <div className="rf-profile-grid">
               <div className={`rf-profile-card rf-profile-card--icon rarity-legendary ${cyberOn ? "equipped" : ""}`}>
             <ItemIcon item={{ id: "cyber_style", category: "cyber", icon: "cyber" }} />
                 <div className="rf-profile-card-top">
-                  <div className="rf-profile-card-name">CYBER STYLE</div>
-                  <div className="rf-profile-card-count">{cyberOn ? "ON" : "OFF"}</div>
+                  <div className="rf-profile-card-name">{t("profile.cyberStyle")}</div>
+                  <div className="rf-profile-card-count">{cyberOn ? t("ui.on") : t("ui.off")}</div>
                 </div>
                 <div className="rf-profile-card-desc">
                   Requires LEGENDARY BOW, LEGENDARY OUTFIT and LEGENDARY AMULET in inventory.
                   Grants legendary bow / outfit / amulet effects and disables asteroid screen shake.
                 </div>
                 <div className="rf-profile-card-bottom">
-                  <div className="rf-profile-card-rarity">LEGENDARY</div>
-                  {cyberOn && <div className="rf-profile-card-equipped">ACTIVE</div>}
+                  <div className="rf-profile-card-rarity">{t("profile.legendary")}</div>
+                  {cyberOn && <div className="rf-profile-card-equipped">{t("ui.active")}</div>}
                 </div>
                 <div className="rf-profile-card-actions">
                   <button
@@ -333,7 +333,7 @@ export default function Profile(props: any) {
                     disabled={!cyberUnlock}
                     onClick={() => { if (typeof props.onToggleCyber === "function") props.onToggleCyber(); else window.dispatchEvent(new CustomEvent("rhrf-toggle-cyber")); }}
                   >
-                    {cyberOn ? "UNEQUIP" : "EQUIP"}
+                    {cyberOn ? t("ui.unequip") : t("ui.equip")}
                   </button>
                 </div>
               </div>
@@ -342,30 +342,30 @@ export default function Profile(props: any) {
         <div className="rf-profile-section" style={{ display: activeTab === "stats" ? undefined : "none" }}>
           <div className="rf-profile-stats">
             <div className="rf-profile-stat">
-              <span title="SCORE">S</span>
+              <span title={t("stat.score")}>S</span>
               <strong>{fmtCompact(totalScore)}</strong>
             </div>
             <div className="rf-profile-stat">
-              <span title="ITEMS">I</span>
+              <span title={t("stat.items")}>I</span>
               <strong>{fmtCompact(catalogItems.length)}</strong>
             </div>
             <div className="rf-profile-stat">
-              <span title="EQUIPPED">E</span>
+              <span title={t("ui.equipped")}>E</span>
               <strong>{fmtCompact(equippedCount)}</strong>
             </div>
             <div className="rf-profile-stat">
-              <span title="TOTAL">T</span>
+              <span title={t("ui.total")}>T</span>
               <strong>{fmtCompact(inventory.length)}</strong>
             </div>
           </div>
           <div className="rf-stat-tabs">
-            {STAT_TABS.map((t) => (
+            {STAT_TABS.map((tab) => (
               <button
-                key={t.id}
-                className={`rf-stat-tab ${activeStat === t.id ? "active" : ""}`}
-                onClick={() => setActiveStat(t.id)}
+                key={tab.id}
+                className={`rf-stat-tab ${activeStat === tab.id ? "active" : ""}`}
+                onClick={() => setActiveStat(tab.id)}
               >
-                {t.label}
+                {tab.label}
               </button>
             ))}
           </div>
@@ -374,8 +374,8 @@ export default function Profile(props: any) {
             <thead>
               <tr>
                 <th>PLAYER</th>
-                <th>{STAT_TABS.find((t) => t.id === activeStat)!.cols[0]}</th>
-                <th>{STAT_TABS.find((t) => t.id === activeStat)!.cols[1]}</th>
+                <th>{STAT_TABS.find((s) => s.id === activeStat)!.cols[0]}</th>
+                <th>{STAT_TABS.find((s) => s.id === activeStat)!.cols[1]}</th>
               </tr>
             </thead>
             <tbody>
@@ -413,7 +413,7 @@ export default function Profile(props: any) {
             <section key={section.id} className="rf-profile-section">
               {section.id === "consumable" && (
                 <div className="rf-profile-subtabs">
-                  {([["arrow", "ARROWS"], ["armor", "ARMOR"], ["energy", "ENERGY"]] as const).map(([id, label]) => {
+                  {([["arrow", "hud.arrows"], ["armor", "ui.armor"], ["energy", "ui.energy"]] as const).map(([id, lk]) => {
                     const subCount = section.items
                       .filter((item) => rfConsumableType(item) === id)
                       .reduce((sum, item) => sum + (counts.get(item.id) ?? 0), 0);
@@ -423,7 +423,7 @@ export default function Profile(props: any) {
                         className={`rf-profile-subtab ${activeConsumableTab === id ? "active" : ""}`}
                         onClick={() => setActiveConsumableTab(id)}
                       >
-                        {label} ({subCount})
+                        {t(lk)} ({subCount})
                       </button>
                     );
                   })}
@@ -432,7 +432,7 @@ export default function Profile(props: any) {
               
 
               {displayItems.length === 0 ? (
-                <div className="rf-profile-empty">NO ITEMS</div>
+                <div className="rf-profile-empty">{t("ui.noItems")}</div>
               ) : (
                 <div className="rf-profile-grid">
                   {displayItems.map((item) => {
@@ -459,7 +459,7 @@ export default function Profile(props: any) {
 
                         <div className="rf-profile-card-bottom">
                           <div className="rf-profile-card-rarity">{item.rarity.toUpperCase()}</div>
-                          {equipped && <div className="rf-profile-card-equipped">EQUIPPED</div>}
+                          {equipped && <div className="rf-profile-card-equipped">{t("ui.equipped")}</div>}
                         </div>
 
                         <div className="rf-profile-card-actions">
@@ -467,14 +467,14 @@ export default function Profile(props: any) {
                             className="rf-profile-action equip"
                             onClick={() => toggleEquip(item)}
                           >
-                            {equipped ? "UNEQUIP" : "EQUIP"}
+                            {equipped ? t("ui.unequip") : t("ui.equip")}
                           </button>
 
                           <button
                             className="rf-profile-action sell"
                             onClick={() => openSellConfirm(item, 0.5)}
                           >
-                            SELL 50%
+                            {t("ui.sell")} 50%
                             <span>{sell50} RF</span>
                           </button>
 
@@ -483,7 +483,7 @@ export default function Profile(props: any) {
                             disabled={count <= 0}
                             onClick={() => openSellConfirm(item, 0.6)}
                           >
-                            OFFER 60%
+                            {t("profile.offer60")}
                             <span>{sell60} RF</span>
                           </button>
                         </div>
@@ -500,21 +500,21 @@ export default function Profile(props: any) {
         {pendingSale && (
           <div className="rf-sell-confirm" onClick={(e) => e.stopPropagation()}>
             <div className="rf-sell-confirm-box">
-              <div className="rf-sell-confirm-title">CONFIRM SALE</div>
+              <div className="rf-sell-confirm-title">{t("profile.confirmSale")}</div>
               <div className="rf-sell-confirm-text">
                 Sell {pendingSale.amount} x {pendingSale.item.name}
                 <br />
                 for <strong>{pendingSale.revenue} RF</strong>?
                 <br />
-                Mode: {pendingSale.rate >= 0.6 ? "OFFER 60%" : "QUICK 50%"}
+                Mode: {pendingSale.rate >= 0.6 ? t("profile.offer60") : t("profile.quick50")}
               </div>
 
               <div className="rf-sell-confirm-actions">
                 <button className="rf-sell-confirm-cancel" onClick={cancelSell}>
-                  CANCEL
+                  {t("ui.cancel")}
                 </button>
                 <button className="rf-sell-confirm-ok" onClick={confirmSell}>
-                  SELL
+                  {t("ui.sell")}
                 </button>
               </div>
             </div>

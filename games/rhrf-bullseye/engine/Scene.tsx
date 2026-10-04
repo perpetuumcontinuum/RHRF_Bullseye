@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import BackgroundEvents from "./BackgroundEvents";
 import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
 import React from "react";
@@ -81,6 +82,7 @@ export default function Scene({
   onPopupDone,
   onTogglePause,
 }: SceneProps) {
+  const t = useT();
   const cyberStyle = Boolean(isCyberStyle ?? (typeof window !== 'undefined' && (window as any).__RHRF_IS_CYBER__));
 const pixelBounds = (() => {
     if (!friendPixels || friendPixels.length === 0) {
@@ -686,7 +688,7 @@ const pixelBounds = (() => {
               letterSpacing="4"
               className="rf-glitch-text-base"
             >
-              PAUSED
+              {t("scene.paused")}
             </text>
             <text
               x="500"
@@ -699,7 +701,7 @@ const pixelBounds = (() => {
               letterSpacing="4"
               className="rf-glitch-text-r"
             >
-              PAUSED
+              {t("scene.paused")}
             </text>
             <text
               x="500"
@@ -712,7 +714,7 @@ const pixelBounds = (() => {
               letterSpacing="4"
               className="rf-glitch-text-g"
             >
-              PAUSED
+              {t("scene.paused")}
             </text>
           </g>
         </g>

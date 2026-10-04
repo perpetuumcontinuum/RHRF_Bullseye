@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import React, { useMemo, useState } from "react";
 import {
 
@@ -26,13 +27,14 @@ const rfCyberBlocksItem = (cyberActive: boolean, item: any) =>
   Boolean(cyberActive) && !rfIsConsumableItem(item);
 
 const TABS = [
-  { id: "bow", label: "BOWS" },
-  { id: "hat", label: "CLOTHES" },
-  { id: "amulet", label: "AMULETS" },
-  { id: "consumable", label: "ITEMS" },
+  { id: "bow", labelKey: "shop.tab.bow" },
+  { id: "hat", labelKey: "shop.tab.hat" },
+  { id: "amulet", labelKey: "shop.tab.amulet" },
+  { id: "consumable", labelKey: "shop.tab.consumable" },
 ] as const;
 
 export default function Shop(props: any) {
+  const t = useT();
   const [activeTab, setActiveTab] = useState<string>("bow");
   const [page, setPage] = useState(0);
 
@@ -95,7 +97,7 @@ export default function Shop(props: any) {
     <div className="rf-shop-overlay" onClick={close}>
       <div className="rf-shop-panel" onClick={(e) => e.stopPropagation()}>
         <div className="rf-shop-header">
-          <div className="rf-shop-title">SHOP</div>
+          <div className="rf-shop-title">{t("shop.title")}</div>
           <div className="rf-shop-balance">{Math.floor(totalScore)} RF</div>
           <button className="rf-shop-close" onClick={close}>X</button>
         </div>
@@ -107,13 +109,13 @@ export default function Shop(props: any) {
               className={`rf-shop-tab ${activeTab === tab.id ? "active" : ""}`}
               onClick={() => { setActiveTab(tab.id); setPage(0); }}
             >
-              {tab.label}
+              {t(tab.labelKey)}
             </button>
           ))}
         </div>
 
         <div className="rf-shop-scroll">
-          {visibleItems.length === 0 && <div className="rf-shop-empty">NO ITEMS</div>}
+          {visibleItems.length === 0 && <div className="rf-shop-empty">{t("ui.noItems")}</div>}
 
           {pageItems.map((item) => {
             const count = getItemCount(inventory, item.id);
@@ -138,7 +140,7 @@ export default function Shop(props: any) {
 
                   <div className="rf-shop-item-side rf-shop-consumable-side">
                     
-                    <div className="rf-shop-item-count">IN STOCK: {count} / {CONSUMABLE_CAP}</div>
+                    <div className="rf-shop-item-count">{t("shop.inStockLabel")}: {count} / {CONSUMABLE_CAP}</div>
 
                     <div className="rf-shop-consumable-controls">
                       <button disabled={!canPlus1} onClick={() => addConsumable(item, 1)}>
@@ -151,7 +153,7 @@ export default function Shop(props: any) {
                         className="rf-shop-item-btn rf-shop-equip-btn"
                         onClick={() => toggleEquip(item)}
                       >
-                        {equipped ? "UNEQUIP" : "EQUIP"}
+                        {equipped ? t("ui.unequip") : t("ui.equip")}
                       </button>
                     </div>
                   </div>
@@ -179,14 +181,14 @@ export default function Shop(props: any) {
                       disabled={!canAfford(item.price, 1)}
                       onClick={() => buyNonConsumable(item)}
                     >
-                      BUY
+                      {t("shop.buy")}
                     </button>
                   ) : (
                     <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item)}
                       className="rf-shop-item-btn rf-shop-equip-btn"
                       onClick={() => toggleEquip(item)}
                     >
-                      {equipped ? "UNEQUIP" : "EQUIP"}
+                      {equipped ? t("ui.unequip") : t("ui.equip")}
                     </button>
                   )}
                 </div>
@@ -197,9 +199,9 @@ export default function Shop(props: any) {
 
         {totalPages > 1 && (
           <div className="rf-shop-pager">
-            <button className="rf-shop-pager-btn" disabled={safePage <= 0} onClick={() => setPage(safePage - 1)}>PREV</button>
+            <button className="rf-shop-pager-btn" disabled={safePage <= 0} onClick={() => setPage(safePage - 1)}>{t("shop.prev")}</button>
             <span className="rf-shop-pager-info">{safePage + 1} / {totalPages}</span>
-            <button className="rf-shop-pager-btn" disabled={safePage >= totalPages - 1} onClick={() => setPage(safePage + 1)}>NEXT</button>
+            <button className="rf-shop-pager-btn" disabled={safePage >= totalPages - 1} onClick={() => setPage(safePage + 1)}>{t("shop.next")}</button>
           </div>
         )}
       </div>

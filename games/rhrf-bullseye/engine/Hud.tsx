@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import React from "react";
 
 type HudProps = {
@@ -8,9 +9,9 @@ type HudProps = {
 };
 
 const ARROW_ORDER = [
-  { id: "arrow_rare", label: "RARE", color: "#ccff00" },
-  { id: "arrow_epic", label: "EPIC", color: "#aa00ff" },
-  { id: "arrow_legendary", label: "LEG", color: "#ffaa00" },
+  { id: "arrow_rare", labelKey: "hud.rare", color: "#ccff00" },
+  { id: "arrow_epic", labelKey: "hud.epic", color: "#aa00ff" },
+  { id: "arrow_legendary", labelKey: "hud.leg", color: "#ffaa00" },
 ];
 
 function normalizeCounts(
@@ -43,13 +44,14 @@ function normalizeCounts(
 }
 
 export default function Hud(props: HudProps) {
+  const t = useT();
   const counts = normalizeCounts(props.counts, props.inventory);
   const equippedArrow = props.equippedArrow ?? null;
   const onEquipArrow = props.onEquipArrow ?? (() => {});
 
   return (
     <div className="rf-hud-right">
-      <div className="rf-hud-title">ARROWS</div>
+      <div className="rf-hud-title">{t("hud.arrows")}</div>
 
       <div className="rf-hud-row">
         {ARROW_ORDER.map((arrow) => {
@@ -64,14 +66,14 @@ export default function Hud(props: HudProps) {
               }`}
               disabled={count <= 0}
               onClick={() => onEquipArrow(arrow.id)}
-              title={`${arrow.label} ARROWS: ${count}`}
+              title={`${t(arrow.labelKey)} ${t("hud.arrows")}: ${count}`}
             >
               <svg viewBox="0 0 24 24" className="rf-hud-icon" aria-hidden="true">
                 <path d="M4 11h10V7l6 5-6 5v-4H4z" fill="currentColor" />
               </svg>
 
               <div className="rf-hud-count">{count}</div>
-              <div className="rf-hud-label">{arrow.label}</div>
+              <div className="rf-hud-label">{t(arrow.labelKey)}</div>
             </button>
           );
         })}

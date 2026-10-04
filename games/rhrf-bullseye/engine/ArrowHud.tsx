@@ -1,3 +1,4 @@
+import { useT } from "./i18n";
 import React, { useState } from "react";
 
 type Rarity = "rare" | "epic" | "legendary";
@@ -63,6 +64,7 @@ function CollapsibleSlot(props: {
   onEquip?: (id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const t = useT();
 
   const rows = RARITIES.map((rarity) => {
     const id = `${props.prefix}_${rarity}`;
@@ -133,7 +135,7 @@ function CollapsibleSlot(props: {
             className="rf-hud-mini rf-hud-base"
             onClick={handleBase}
             aria-label={`${props.prefix} base`}
-            title="BASE"
+            title={t("hud.base")}
           >
             <BaseGlyph className="rf-hud-mini-icon" />
           </button>
