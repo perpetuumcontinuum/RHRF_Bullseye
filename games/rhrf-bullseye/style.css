@@ -2192,3 +2192,41 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   border-color: #ffffff;
   box-shadow: 0 0 12px rgba(0,255,255,0.6);
 }
+
+/* =================================================================
+   MULTILINGUAL BUTTON SCALING FIX
+   Allows buttons to grow to fit long translations (DE, RU, EL, UK)
+   while remaining strictly scalable (vmin/rem) and mobile-safe.
+   ================================================================= */
+
+/* 1. Tabs: allow wrapping and prevent shrinking below text size */
+.rf-shop-tabs, .rf-profile-tabs, .rf-profile-subtabs, .rf-stat-tabs, .rf-equipment-subtabs {
+  flex-wrap: wrap !important;
+  gap: clamp(0.3rem, 1vmin, 0.6rem) !important;
+}
+.rf-shop-tab, .rf-profile-tab, .rf-profile-subtab, .rf-stat-tab {
+  flex: 0 0 auto !important;       /* Don't shrink below content */
+  min-width: max-content !important; /* Grow to fit the longest translation */
+  padding: 0 clamp(0.4rem, 1.5vmin, 0.8rem) !important;
+}
+
+/* 2. Action Buttons (Shop/Profile/Sell): grow to fit text, wrap if needed on tiny screens */
+.rf-shop-item-btn, .rf-profile-action, .rf-sell-confirm-cancel, .rf-sell-confirm-ok, .rf-shop-pager-btn {
+  min-width: max-content !important;
+  width: auto !important;
+  padding: 0 clamp(0.4rem, 1.5vmin, 0.8rem) !important;
+  /* white-space: nowrap is kept to prevent ugly multi-line buttons, 
+     but min-width ensures the button expands to hold the text */
+}
+
+/* 3. Ensure parent containers of action buttons can wrap on small screens (iPhone) */
+.rf-shop-consumable-controls, .rf-profile-card-actions, .rf-sell-confirm-actions {
+  flex-wrap: wrap !important;
+  gap: clamp(0.3rem, 1vmin, 0.6rem) !important;
+}
+
+/* 4. Safety net for item names/prices: keep them single-line but ensure ellipsis works */
+.rf-shop-item-name, .rf-profile-card-name {
+  /* Already has ellipsis in base CSS, reinforcing it */
+  min-width: 0 !important;
+}
