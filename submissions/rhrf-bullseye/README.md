@@ -165,3 +165,19 @@ Dependencies install from the v0.1.4 GitHub release tarball declared in package.
 - Selling item: 50 percent of listed price.
 - Offer sale: 60 percent of listed price.
 - Current price tuning is modest; when stat persistence arrives, the economy will become deeper and new features will appear.
+
+## Addendum — post-vibeathon polish
+
+### Localization
+27 locales in `games/rhrf-bullseye/locales/` (ar cs da de el en es fi fr hi hu id it ja ko nl no pl pt ro ru sv th tr uk vi zh). UI chrome + Guide translated; flavor text (streak/time/RF phrases, badge titles) still English by design — see open decision below. `scripts/check-locales.mjs` enforces key parity vs `en.ts` and registry sync; runtime falls back `lang -> en -> raw key`. RTL (`ar`, reserved `he/fa/ur`) flips text direction via `isRTL()` + `.rf-rtl`. Language choice persists in `localStorage` where available, else per-session.
+
+### Badges & persistence groundwork
+48 badges in 5 rarity-colored blocks: RF 5 (red, top), Ghost 11 (lime), Asteroid 11 (purple), Cyber 9 (orange), Time 12 (cyan, shimmering dial). IDs are `${kind}_${n}` (`time_1001`, `ghost_101`, `rf_1000`) and are **independent of label/icon/color** — so renaming or restyling never breaks unlock state or a future on-chain mapping. When the SDK ships a save API, the mint path is a pure diff: `local.earnedBadges − wallet.minted = queue`. Badges are cosmetic with no RF redemption promise, so per event rules they need **no prize reserve** — only mint gas. Today (v0.1.4: no save API, no localStorage in sandbox) progress is session-only; the start banner says so honestly.
+
+### Verification hooks (localhost/test hosts only)
+Console: `__RHRF_ADD_HOURS__(n)` fast-forwards play time; `__RHRF_ADD_RF__(n)` fast-forwards earned RF. Both drive the real crossing->unlock->banner path, so badge reveals are testable without grinding.
+
+### Design invariants & known traps
+- Jump arc is single-sourced in `engine/jump.ts`: `JUMP_ARC_MS=1155` equals the CSS `archerJumpSpin360 1.155s`; safe-dodge window `200..955ms` is symmetric inside it. Do not edit the CSS duration without editing `JUMP_ARC_MS` (and vice versa) — the prior 1200ms outlier created a "visually airborne but vulnerable" tail.
+- `GHOST_START=1155` in `BackgroundEvents.tsx` is a spawn **X coordinate**, numerically colliding with the arc ms. Unrelated; do not "unify" it.
+- CI pins `node-version: 22` (SDK requirement) and `runs-on: ubuntu-24.04`. Node20 was removed from runners 23.09.2026; the lingering "Node 20 deprecated" annotation is action *metadata* being force-run on Node24 — deploys are green, bumping majors is cosmetic, deferred. `ubuntu-latest` migrates to 26.04 starting 19.10.2026; the pin is the documented mitigation.

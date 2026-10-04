@@ -17,7 +17,7 @@
 Cyber archery minigame for the Rare Friends Vibeathon. The selected Generations NFT is the archer; RF is a simulated score label.
 
 - **Category:** Character Spotlight
-- **Stack:** React, TypeScript, FriendSDK v0.1.4, SVG renderer
+- **Stack:** React, TypeScript, FriendSDK v0.1.4, SVG renderer, i18n (27 locales)
 - **License:** MIT
 
 ## Quick start
@@ -36,7 +36,7 @@ Dependencies install from the v0.1.4 GitHub release tarball declared in package.
 
 ## Submission
 
-Full rules, controls, simulated economy tables, checks and known issues live in submissions/rhrf-bullseye/README.md.
+Full rules, controls, simulated economy tables, checks and known issues live in games/rhrf-bullseye/README.md.
 
 Playable preview: https://perpetuumcontinuum.github.io/RHRF_Bullseye/
 
