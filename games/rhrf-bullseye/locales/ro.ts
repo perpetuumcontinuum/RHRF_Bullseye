@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Săritură", "guide.hotkeys.pause": "Pauză / Continuă", "guide.hotkeys.mute": "Comută silențiul",
   "guide.hotkeys.shop": "Deschide magazinul", "guide.hotkeys.profile": "Deschide profilul", "guide.hotkeys.guide": "Deschide ghidul",
   "guide.hotkeys.close": "Închide suprapunerile",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

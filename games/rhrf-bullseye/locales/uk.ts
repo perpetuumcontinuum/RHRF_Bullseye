@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Стрибок", "guide.hotkeys.pause": "Пауза / Продовжити", "guide.hotkeys.mute": "Перемкнути звук",
   "guide.hotkeys.shop": "Відкрити магазин", "guide.hotkeys.profile": "Відкрити профіль", "guide.hotkeys.guide": "Відкрити довідник",
   "guide.hotkeys.close": "Закрити вікна",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Sprong", "guide.hotkeys.pause": "Pauze / Hervatten", "guide.hotkeys.mute": "Dempt schakelen",
   "guide.hotkeys.shop": "Winkel openen", "guide.hotkeys.profile": "Profiel openen", "guide.hotkeys.guide": "Gids openen",
   "guide.hotkeys.close": "Overlays sluiten",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

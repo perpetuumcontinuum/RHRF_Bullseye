@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "ジャンプ", "guide.hotkeys.pause": "ポーズ / 再開", "guide.hotkeys.mute": "ミュート切替",
   "guide.hotkeys.shop": "ショップを開く", "guide.hotkeys.profile": "プロフィールを開く", "guide.hotkeys.guide": "ガイドを開く",
   "guide.hotkeys.close": "オーバーレイを閉じる",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

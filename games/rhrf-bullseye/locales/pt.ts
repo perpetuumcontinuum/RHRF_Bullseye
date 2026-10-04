@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Salto", "guide.hotkeys.pause": "Pausar / Continuar", "guide.hotkeys.mute": "Alternar mudo",
   "guide.hotkeys.shop": "Abrir loja", "guide.hotkeys.profile": "Abrir perfil", "guide.hotkeys.guide": "Abrir guia",
   "guide.hotkeys.close": "Fechar painéis",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

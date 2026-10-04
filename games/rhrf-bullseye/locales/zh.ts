@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "跳跃", "guide.hotkeys.pause": "暂停 / 继续", "guide.hotkeys.mute": "切换静音",
   "guide.hotkeys.shop": "打开商店", "guide.hotkeys.profile": "打开资料", "guide.hotkeys.guide": "打开指南",
   "guide.hotkeys.close": "关闭面板",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

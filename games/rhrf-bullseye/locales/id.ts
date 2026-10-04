@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Lompat", "guide.hotkeys.pause": "Jeda / Lanjut", "guide.hotkeys.mute": "Alihkan bisu",
   "guide.hotkeys.shop": "Buka toko", "guide.hotkeys.profile": "Buka profil", "guide.hotkeys.guide": "Buka panduan",
   "guide.hotkeys.close": "Tutup overlay",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

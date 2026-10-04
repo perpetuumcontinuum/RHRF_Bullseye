@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "กระโดด", "guide.hotkeys.pause": "หยุด / เล่นต่อ", "guide.hotkeys.mute": "สลับเงียบ",
   "guide.hotkeys.shop": "เปิดร้าน", "guide.hotkeys.profile": "เปิดโปรไฟล์", "guide.hotkeys.guide": "เปิดคู่มือ",
   "guide.hotkeys.close": "ปิดโอเวอร์เลย์",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

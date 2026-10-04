@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Άλμα", "guide.hotkeys.pause": "Παύση / Συνέχεια", "guide.hotkeys.mute": "Εναλλαγή σίγασης",
   "guide.hotkeys.shop": "Άνοιγμα καταστήματος", "guide.hotkeys.profile": "Άνοιγμα προφίλ", "guide.hotkeys.guide": "Άνοιγμα οδηγού",
   "guide.hotkeys.close": "Κλείσιμο επικαλύψεων",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

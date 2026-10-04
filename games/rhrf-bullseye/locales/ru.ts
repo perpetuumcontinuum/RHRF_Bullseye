@@ -70,4 +70,10 @@ export default {
   "guide.hotkeys.profile": "Открыть профиль",
   "guide.hotkeys.guide": "Открыть гайд",
   "guide.hotkeys.close": "Закрыть оверлеи",
+  "topbar.shop": "МАГАЗИН",
+  "topbar.guide": "ГАЙД",
+  "topbar.profile": "ПРОФИЛЬ",
+  "btn.fire": "ОГОНЬ",
+  "btn.shot": "ВЫСТРЕЛ",
+  "btn.jump": "ПРЫЖОК",
 };

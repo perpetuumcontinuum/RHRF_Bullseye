@@ -12,7 +12,6 @@ interface HUDProps {
 
 export default function HUD({ score, onShop, onGuide, onProfile, onLang, flashColor }: HUDProps) {
   const isCyberFlash = flashColor === "cyber";
-  // null = дефолт из CSS (--score-flash fallback #00ffff); кибер красит анимацией
   const flash = isCyberFlash ? null : flashColor;
   const lang = useLang();
   const t = useT();
@@ -25,13 +24,9 @@ export default function HUD({ score, onShop, onGuide, onProfile, onLang, flashCo
       >
         {score.toLocaleString()}
       </div>
-      <button className="rf-top-bar__btn rf-top-bar__btn--shop" onClick={onShop}>SHOP</button>
-      <button className="rf-top-bar__btn rf-top-bar__btn--guide" onClick={onGuide}>GUIDE</button>
-      <button className="rf-top-bar__btn rf-top-bar__btn--profile" onClick={onProfile}>PROFILE</button>
-      {/* Language lives in the HTML bar, not the SVG row: z-index cannot bridge
-          the HTML-over-SVG layers, so an SVG globe was unclickable under this bar.
-          data-rf-skip-space keeps the capture-phase Space handler from stealing
-          the keypress (it preventDefaults before the BUTTON guard). */}
+      <button className="rf-top-bar__btn rf-top-bar__btn--shop" onClick={onShop}>{t("topbar.shop")}</button>
+      <button className="rf-top-bar__btn rf-top-bar__btn--guide" onClick={onGuide}>{t("topbar.guide")}</button>
+      <button className="rf-top-bar__btn rf-top-bar__btn--profile" onClick={onProfile}>{t("topbar.profile")}</button>
       <button
         className="rf-top-bar__btn rf-top-bar__btn--lang"
         onClick={onLang}

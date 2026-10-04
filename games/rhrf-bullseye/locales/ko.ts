@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "점프", "guide.hotkeys.pause": "일시정지 / 재개", "guide.hotkeys.mute": "음소거 전환",
   "guide.hotkeys.shop": "상점 열기", "guide.hotkeys.profile": "프로필 열기", "guide.hotkeys.guide": "가이드 열기",
   "guide.hotkeys.close": "오버레이 닫기",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

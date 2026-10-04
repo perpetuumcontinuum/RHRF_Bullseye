@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Hopp", "guide.hotkeys.pause": "Paus / Fortsätt", "guide.hotkeys.mute": "Växla ljudlöst",
   "guide.hotkeys.shop": "Öppna butik", "guide.hotkeys.profile": "Öppna profil", "guide.hotkeys.guide": "Öppna guide",
   "guide.hotkeys.close": "Stäng överlägg",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

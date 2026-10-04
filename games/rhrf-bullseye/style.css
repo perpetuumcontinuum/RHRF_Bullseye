@@ -2171,25 +2171,6 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }
 .rf-hud-base .rf-hud-mini-icon{ color: inherit; }
 
-/* ---- Language globe button: was unstyled (no hover), now matches the row ---- */
-.rf-lang-btn{
-  color: #00ffff;
-  cursor: pointer;
-  transition: color 0.15s ease, filter 0.15s ease;
-}
-.rf-lang-btn:hover,
-.rf-lang-btn:focus-visible{
-  color: #ffffff;
-  filter: drop-shadow(0 0 8px #00ffff);
-  outline: none;
-}
-.rf-lang-btn:focus-visible circle:first-of-type{
-  stroke: #ccff00;
-  stroke-width: 1.5;
-}
-@media (prefers-reduced-motion: reduce){
-  .rf-lang-btn{ transition: none; }
-}
 
 /* ---- RTL: mirror text alignment inside panels; layout stays centered ---- */
 .rf-rtl .rf-guide-list, .rf-rtl .rf-guide-section-title, .rf-rtl .rf-notice-text,

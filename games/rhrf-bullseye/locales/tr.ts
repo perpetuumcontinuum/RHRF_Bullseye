@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Zıplama", "guide.hotkeys.pause": "Duraklat / Devam", "guide.hotkeys.mute": "Sesi Aç/Kapa",
   "guide.hotkeys.shop": "Mağazayı Aç", "guide.hotkeys.profile": "Profili Aç", "guide.hotkeys.guide": "Rehberi Aç",
   "guide.hotkeys.close": "Panelleri Kapat",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

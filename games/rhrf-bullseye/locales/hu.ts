@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Ugrás", "guide.hotkeys.pause": "Szünet / Folytatás", "guide.hotkeys.mute": "Némítás váltás",
   "guide.hotkeys.shop": "Bolt megnyitása", "guide.hotkeys.profile": "Profil megnyitása", "guide.hotkeys.guide": "Útmutató megnyitása",
   "guide.hotkeys.close": "Átfedések bezárása",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

@@ -1642,13 +1642,13 @@ if (loading) {
       <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
         <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>
-          FIRE
+          {t("btn.fire")}
         </button>
         <button className="shot-btn" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring} onClick={handleFire}>
-          SHOT
+          {t("btn.shot")}
         </button>
         <button className="jump-btn" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isShooting || isLaserFiring} onClick={handleJump}>
-          JUMP
+          {t("btn.jump")}
         </button>
       </div>
 

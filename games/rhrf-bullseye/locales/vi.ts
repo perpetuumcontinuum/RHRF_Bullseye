@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Nhảy", "guide.hotkeys.pause": "Tạm dừng / Tiếp tục", "guide.hotkeys.mute": "Bật/tắt tiếng",
   "guide.hotkeys.shop": "Mở cửa hàng", "guide.hotkeys.profile": "Mở hồ sơ", "guide.hotkeys.guide": "Mở hướng dẫn",
   "guide.hotkeys.close": "Đóng lớp phủ",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

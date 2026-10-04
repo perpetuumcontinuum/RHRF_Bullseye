@@ -72,4 +72,10 @@ export default {
   "guide.hotkeys.profile": "Open Profile",
   "guide.hotkeys.guide": "Open Guide",
   "guide.hotkeys.close": "Close overlays",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

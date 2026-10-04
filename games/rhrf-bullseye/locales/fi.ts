@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Hyppy", "guide.hotkeys.pause": "Tauko / Jatka", "guide.hotkeys.mute": "Vaihda mykistys",
   "guide.hotkeys.shop": "Avaa kauppa", "guide.hotkeys.profile": "Avaa profiili", "guide.hotkeys.guide": "Avaa opas",
   "guide.hotkeys.close": "Sulje päällekkäiset",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

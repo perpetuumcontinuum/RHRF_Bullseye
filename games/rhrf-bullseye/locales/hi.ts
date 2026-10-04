@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "जंप", "guide.hotkeys.pause": "पॉज़ / जारी", "guide.hotkeys.mute": "म्यूट टॉगल",
   "guide.hotkeys.shop": "शॉप खोलें", "guide.hotkeys.profile": "प्रोफ़ाइल खोलें", "guide.hotkeys.guide": "गाइड खोलें",
   "guide.hotkeys.close": "ओवरले बंद करें",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

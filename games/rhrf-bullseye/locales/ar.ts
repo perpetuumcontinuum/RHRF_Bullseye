@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "قفزة", "guide.hotkeys.pause": "إيقاف / متابعة", "guide.hotkeys.mute": "تبديل الكتم",
   "guide.hotkeys.shop": "فتح المتجر", "guide.hotkeys.profile": "فتح الملف", "guide.hotkeys.guide": "فتح الدليل",
   "guide.hotkeys.close": "إغلاق النوافذ",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };

@@ -32,4 +32,10 @@ export default {
   "guide.hotkeys.jump": "Skok", "guide.hotkeys.pause": "Pauza / Pokračovat", "guide.hotkeys.mute": "Přepnout zvuk",
   "guide.hotkeys.shop": "Otevřít obchod", "guide.hotkeys.profile": "Otevřít profil", "guide.hotkeys.guide": "Otevřít průvodce",
   "guide.hotkeys.close": "Zavřít překryvy",
+  "topbar.shop": "SHOP",
+  "topbar.guide": "GUIDE",
+  "topbar.profile": "PROFILE",
+  "btn.fire": "FIRE",
+  "btn.shot": "SHOT",
+  "btn.jump": "JUMP",
 };
