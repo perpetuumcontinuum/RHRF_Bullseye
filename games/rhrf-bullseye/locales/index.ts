@@ -1,36 +1,36 @@
 import en from "./en";
-import ru from "./ru";
-import es from "./es";
 import zh from "./zh";
-import hi from "./hi";
+import es from "./es";
 import ar from "./ar";
 import pt from "./pt";
+import id from "./id";
 import ja from "./ja";
+import ru from "./ru";
 import de from "./de";
-import ko from "./ko";
 import fr from "./fr";
 import tr from "./tr";
 import vi from "./vi";
-import it from "./it";
-import id from "./id";
+import ko from "./ko";
 import pl from "./pl";
-import uk from "./uk";
-import th from "./th";
+import it from "./it";
 import nl from "./nl";
+import th from "./th";
 import ro from "./ro";
 import el from "./el";
 import cs from "./cs";
 import sv from "./sv";
-import fi from "./fi";
-import no from "./no";
 import da from "./da";
+import no from "./no";
+import fi from "./fi";
+import uk from "./uk";
+import hi from "./hi";
 import hu from "./hu";
 
 // Add a language: drop locales/<code>.ts, then one import + one entry below.
 // scripts/check-locales.mjs fails the build if a file is missing here.
 export const REGISTRY: Record<string, Record<string, string>> = {
-  en, ru, es, zh, hi, ar, pt, ja, de, ko, fr, tr, vi, it, id,
-  pl, uk, th, nl, ro, el, cs, sv, fi, no, da, hu,
+  en, zh, es, ar, pt, id, ja, ru, de, fr, tr, vi, ko, pl, it, nl, th, ro, el,
+  cs, sv, da, no, fi, uk, hi, hu,
 };
 export const FALLBACK = "en";
 export const LANG_CODES: string[] = Object.keys(REGISTRY);
