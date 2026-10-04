@@ -214,7 +214,14 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
         return next;
       });
     };
-    return () => { delete (window as any).__RHRF_ADD_HOURS__; };
+    (window as any).__RHRF_ADD_RF__ = (v: number) => {
+      setGameStats((prev) => {
+        const next = { ...prev, earnedScore: prev.earnedScore + Math.max(0, Math.floor(v)) };
+        saveStats(next);
+        return next;
+      });
+    };
+    return () => { delete (window as any).__RHRF_ADD_HOURS__; delete (window as any).__RHRF_ADD_RF__; };
   }, []);
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
