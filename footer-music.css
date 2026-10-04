@@ -74,3 +74,17 @@
   background: currentColor;
   cursor: pointer;
 }
+
+/* footer music slider placement hotfix */
+#rf-music-container.rf-theme-switch {
+  position: relative;
+  z-index: 2147483647;
+  overflow: visible;
+}
+
+.rf-volume-wrapper {
+  left: auto;
+  right: 9%;
+  transform: translateX(-50%);
+  z-index: 2147483647;
+}
