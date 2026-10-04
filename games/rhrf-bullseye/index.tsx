@@ -1508,13 +1508,10 @@ if (loading) {
           <div
             className={`rf-overlay-msg rf-streak-msg rf-shake-text${isFinal ? " rf-streak-final" : ""}`}
             style={{
-              background: `linear-gradient(90deg, ${g.from}, ${g.to}, ${g.from})`,
+              ["--rf-streak-bg" as any]: `linear-gradient(90deg, ${g.from}, ${g.to}, ${g.from})`,
+              ["--rf-streak-glow" as any]: g.glow,
               ...(isFinal ? { backgroundSize: "300% 100%" } : {}),
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-              filter: `drop-shadow(0 0 6px ${g.glow}) drop-shadow(0 0 16px ${g.glow})`,
-            }}
+            } as any}
           >
             {isFinal && (
               <span className="rf-streak-final-icon">
