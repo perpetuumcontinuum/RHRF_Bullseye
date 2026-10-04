@@ -83,11 +83,11 @@ const rfIsConsumableItem = (item: any) => {
 const rfCyberBlocksItem = (cyberActive: boolean, item: any) =>
   Boolean(cyberActive) && !rfIsConsumableItem(item);
 
-const CATEGORY_ORDER: { id: ShopCategory; label: string }[] = [
-  { id: "bow", label: "BOWS" },
-  { id: "hat", label: "CLOTHES" },
-  { id: "amulet", label: "AMULET" },
-  { id: "consumable", label: "CONSUMABLES" },
+const CATEGORY_ORDER: { id: ShopCategory }[] = [
+  { id: "bow" },
+  { id: "hat" },
+  { id: "amulet" },
+  { id: "consumable" },
 ];
 
 type PendingSale = {

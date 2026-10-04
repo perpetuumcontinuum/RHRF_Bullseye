@@ -203,3 +203,6 @@ Console: `__RHRF_ADD_HOURS__(n)` fast-forwards play time, `__RHRF_ADD_RF__(n)` f
 
 ### Badge localization contract
 Badge **titles** are translated in the UI via `t("badge." + id)` with fallback to the English `rank.label`. But on-chain **mint metadata** (when/if a save-API mint lands) is always English: `name` = the English `rank.label`, plus image, rarity, id and the ordinal of the first minter, and the English `description`. The English string is the source of truth for the chain; the locale is display-only. This prevents an accidental non-English mint and keeps `local.earnedBadges - wallet.minted` diffing stable regardless of the player's UI language.
+
+### Catalog source-of-truth
+`engine/catalog.ts` keeps English `name`/`description` literals on purpose: they are the source the AST seeder reads into `item.<id>.name/desc` and the runtime `fallback` when a locale key is absent. Translate by editing `locales/<code>.ts`, never by rewriting `catalog.ts` — otherwise the next `seed-catalog` run diverges from the data the engine matches ids against.
