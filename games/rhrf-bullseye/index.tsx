@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import LangMenu from "./engine/LangMenu";
+import SessionNotice from "./engine/SessionNotice";
 import { initI18n, useT } from "./engine/i18n";
 import { rankForStreak, buildStreakMessage, buildTimeMessage, buildRfMessage, streakColor, isFinalRank, TIME_RANKS, RF_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
@@ -1611,6 +1612,7 @@ if (loading) {
         );
       })()}
 
+      <SessionNotice />
       <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
         <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>

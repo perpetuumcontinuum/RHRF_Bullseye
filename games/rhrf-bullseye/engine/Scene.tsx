@@ -133,7 +133,7 @@ const pixelBounds = (() => {
   };
 
   const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || "#ff0000";
-  const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || "#ff3366";
+  const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || "#ff0000";
   const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || "#ff0000";
 
   const getArmorColor = (id?: string | null) => {

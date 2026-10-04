@@ -2124,3 +2124,37 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-badge-kind-block--rf .rf-badge-card.unlocked{
   border-color: #ffffff;
 }
+
+/* ---- Session-only notice: non-blocking top banner inside the scene ---- */
+.rf-notice-bar{
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 92%;
+  padding: 6px 10px;
+  border: 1px solid #ffaa00;
+  border-radius: 8px;
+  background: rgba(20, 0, 10, 0.9);
+  box-shadow: 0 0 16px rgba(255, 170, 0, 0.3);
+  font-family: "Courier New", monospace;
+  color: #ffd9a0;
+  pointer-events: auto;
+}
+.rf-notice-text{ font-size: clamp(10px, 2.4vw, 12px); letter-spacing: .4px; line-height: 1.3; }
+.rf-notice-btn{
+  flex: 0 0 auto;
+  font: 900 11px/1 "Courier New", monospace;
+  letter-spacing: 1px;
+  color: #050015;
+  background: #ffaa00;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.rf-notice-btn:hover{ background: #ffc83d; }

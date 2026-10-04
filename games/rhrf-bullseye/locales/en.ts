@@ -15,4 +15,6 @@ export default {
   "lang.self": "English",
   "msg.asteroidDeflected": "ASTEROID DEFLECTED!",
   "msg.asteroidReached": "ASTEROID REACHED THE PLANET SURFACE",
+  "notice.session": "PROGRESS IS SIMULATED AND SAVED FOR THIS SESSION ONLY. IT MAY BE LOST ON RELOAD.",
+  "notice.ok": "GOT IT",
 };
