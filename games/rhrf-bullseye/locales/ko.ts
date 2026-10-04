@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "잠금 해제", "badge.locked": "잠김", "badge.unlockedPrefix": "배지 잠금 해제:",
   "lang.label": "언어", "lang.title": "언어 선택", "lang.self": "한국어",
   "msg.asteroidDeflected": "소행성 방어 성공!", "msg.asteroidReached": "소행성이 표면에 도달",
-  "notice.session": "진행률은 시뮬레이션이며 이번 세션에만 저장됩니다. 새로고침 시 사라질 수 있습니다.",
+  "notice.session": "테스트 버전. 페이지 새로고침 시 통계 초기화. 베타에서 저장 기능 예정.",
   "notice.ok": "확인",
   "guide.close": "닫기", "guide.controls.title": "조작",
   "guide.controls.shot": "발사: 화살을 쏜다.", "guide.controls.jump": "점프: 유령 회피.",

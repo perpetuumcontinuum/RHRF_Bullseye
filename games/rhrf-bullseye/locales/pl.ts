@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ODBLOKOWANE", "badge.locked": "ZABLOKOWANE", "badge.unlockedPrefix": "ODZNAKA ODBLOKOWANA:",
   "lang.label": "JĘZYK", "lang.title": "Wybór języka", "lang.self": "Polski",
   "msg.asteroidDeflected": "ASTEROIDA ODBITA!", "msg.asteroidReached": "ASTEROIDA DOTARŁA DO POWIERZCHNI PLANETY",
-  "notice.session": "POSTĘP JEST SYMULOWANY I ZAPISYWANY TYLKO W TEJ SESJI. MOŻE ZNIKNĄĆ PRZEZ ODŚWIEŻENIE.",
+  "notice.session": "Wersja testowa. Statystyki resetują się przy odświeżeniu. Zapisywanie wkrótce w beta.",
   "notice.ok": "ROZUMIEM",
   "guide.close": "Zamknij", "guide.controls.title": "STEROWANIE",
   "guide.controls.shot": "STRZAŁ: wystrzel strzałę.", "guide.controls.jump": "SKOK: uniknij ducha.",

@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ВІДКРИТО", "badge.locked": "ЗАКРИТО", "badge.unlockedPrefix": "ЗНАЧОК ВІДКРИТО:",
   "lang.label": "МОВА", "lang.title": "Вибір мови", "lang.self": "Українська",
   "msg.asteroidDeflected": "АСТЕРОЇД ВІДХИЛЕНО!", "msg.asteroidReached": "АСТЕРОЇД ДОСЯГ ПОВЕРХНІ ПЛАНЕТИ",
-  "notice.session": "ПРОГРЕС СИМУЛЬОВАНИЙ І ЗБЕРІГАЄТЬСЯ ЛИШЕ В ЦІЙ СЕСІЇ. МОЖЕ ЗНИКНУТИ ПІСЛЯ ПЕРЕЗВАНТАЖЕННЯ.",
+  "notice.session": "Тестова версія. Статистика обнулиться при перезавантаженні сторінки. Збереження з'явиться в бета-версії.",
   "notice.ok": "ЗРОЗУМІЛО",
   "guide.close": "Закрити", "guide.controls.title": "КЕРУВАННЯ",
   "guide.controls.shot": "ПОСТРІЛ: випустити стрілу.", "guide.controls.jump": "стрібок: ухилитися від привида.",

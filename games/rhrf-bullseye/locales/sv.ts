@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "UPPLÅST", "badge.locked": "LÅST", "badge.unlockedPrefix": "EMBLEM UPPLÅST:",
   "lang.label": "SPRÅK", "lang.title": "Välj språk", "lang.self": "Svenska",
   "msg.asteroidDeflected": "ASTEROID AVLEDD!", "msg.asteroidReached": "ASTEROID NÅDDDE PLANETENS YTA",
-  "notice.session": "FLOPPET ÄR SIMULERAT OCH SPARAS ENDAST I DENNA SESSION. KAN FÖRLORAS VID OMLOADNING.",
+  "notice.session": "Testversion. Statistik nollställs vid omladdning. Sparande kommer snart i beta.",
   "notice.ok": "FÖRSTÅTT",
   "guide.close": "Stäng", "guide.controls.title": "KONTROLLER",
   "guide.controls.shot": "SKOTT: avfyva pil.", "guide.controls.jump": "HOPP: undvik spöke.",

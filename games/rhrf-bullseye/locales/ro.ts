@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "DEBLOCAT", "badge.locked": "BLOCAT", "badge.unlockedPrefix": "INSEMNĂ DEBLOCATĂ:",
   "lang.label": "LIMBĂ", "lang.title": "Selectează limba", "lang.self": "Română",
   "msg.asteroidDeflected": "ASTERIOD DEVIAT!", "msg.asteroidReached": "ASTERIODUL A ATINS SUPRAFAȚA PLANETEI",
-  "notice.session": "PROGRESUL ESTE SIMULAT ȘI SALVAT DOAR PENTRU ACEASTĂ SESIUNE. SE POATE PIERDE LA REÎNCĂRCARE.",
+  "notice.session": "Versiune de test. Statisticile se resetează la reîncărcare. Salvare în curând în beta.",
   "notice.ok": "AM ÎNȚELES",
   "guide.close": "Închide", "guide.controls.title": "COMENZI",
   "guide.controls.shot": "LOVITURĂ: trage o săgeată.", "guide.controls.jump": "SĂRITURĂ: evită fantoma.",

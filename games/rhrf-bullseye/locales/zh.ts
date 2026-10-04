@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "已解锁", "badge.locked": "已锁定", "badge.unlockedPrefix": "徽章解锁：",
   "lang.label": "语言", "lang.title": "选择语言", "lang.self": "中文",
   "msg.asteroidDeflected": "小行星被偏转！", "msg.asteroidReached": "小行星抵达行星表面",
-  "notice.session": "进度为模拟数据，仅在本次会话中保存。刷新后可能丢失。",
+  "notice.session": "测试版本。页面刷新时统计重置。测试版即将支持存档。",
   "notice.ok": "知道了",
   "guide.close": "关闭", "guide.controls.title": "操作",
   "guide.controls.shot": "射击：射出箭矢。", "guide.controls.jump": "跳跃：躲避幽灵。",

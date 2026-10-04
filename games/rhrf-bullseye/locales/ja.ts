@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ロック解除", "badge.locked": "ロック中", "badge.unlockedPrefix": "バッジ解除:",
   "lang.label": "言語", "lang.title": "言語を選択", "lang.self": "日本語",
   "msg.asteroidDeflected": "小惑星を逸らした！", "msg.asteroidReached": "小惑星が地表に到達",
-  "notice.session": "進行度はシミュレートで、このセッションのみ保存されます。再読み込みで失われる可能性があります。",
+  "notice.session": "テスト版。ページ再読み込みで統計リセット。ベータでセーブ機能実装予定。",
   "notice.ok": "了解",
   "guide.close": "閉じる", "guide.controls.title": "操作",
   "guide.controls.shot": "ショット: 矢を放つ。", "guide.controls.jump": "ジャンプ: 幽霊を回避。",

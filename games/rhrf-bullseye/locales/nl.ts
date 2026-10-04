@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ontgrendeld", "badge.locked": "vergrendeld", "badge.unlockedPrefix": "BADGE ONTGRENDELD:",
   "lang.label": "TAAL", "lang.title": "Taalselectie", "lang.self": "Nederlands",
   "msg.asteroidDeflected": "ASTEROÏDE AFGEWERPT!", "msg.asteroidReached": "ASTEROÏDE BEREIKT PLANETOBERVLAK",
-  "notice.session": "VOORTGANG IS GESIMULEERD EN ALLEEN IN DEZE SESSIE OPGESLAGEN. RAAKT VERLOREN BIJ HERLADEN.",
+  "notice.session": "Testversie. Statistieken resetten bij herladen. Opslag binnenkort in bèta.",
   "notice.ok": "BEGRIPEN",
   "guide.close": "Sluiten", "guide.controls.title": "BEDIENING",
   "guide.controls.shot": "SCHOT: schiet pijl af.", "guide.controls.jump": "SPRONG: ontwijk geest.",

@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "MỞ KHÓA", "badge.locked": "KHÓA", "badge.unlockedPrefix": "MỞ KHÓA HUY HIỆU:",
   "lang.label": "NGÔN NGỮ", "lang.title": "Chọn ngôn ngữ", "lang.self": "Tiếng Việt",
   "msg.asteroidDeflected": "TIỂU HÀNH TINH ĐỔI HƯỚNG!", "msg.asteroidReached": "TIỂU HÀNH TINH ĐẾN BỀ MẶT HÀNH TINH",
-  "notice.session": "TIẾN TRÌNH CHỈ LÀ MÔ PHỎNG VÀ ĐƯỢC LƯU TRONG PHIÊN NÀY. CÓ THỂ MẤT KHI TẢI LẠI.",
+  "notice.session": "Phiên bản thử. Thống kê reset khi tải lại trang. Lưu sắp có trong beta.",
   "notice.ok": "ĐÃ HIỂU",
   "guide.close": "Đóng", "guide.controls.title": "ĐIỀU KHIỂN",
   "guide.controls.shot": "BẮN: bắn tên.", "guide.controls.jump": "NHẢY: tránh ma.",

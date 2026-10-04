@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ULÅST", "badge.locked": "LÅST", "badge.unlockedPrefix": "EMBLEM ULÅST:",
   "lang.label": "SPRÅK", "lang.title": "Velg språk", "lang.self": "Norsk",
   "msg.asteroidDeflected": "ASTEROID AVBØYET!", "msg.asteroidReached": "ASTEROID NÅDDDE PLANETOVERFLATEN",
-  "notice.session": "FREMGANGEN ER SIMULERT OG LAGRES BARE I ØKT. KAN MISTES VED OMLASTING.",
+  "notice.session": "Testversjon. Statistikk tilbakestilles ved sideoppdatering. Lagring kommer snart i beta.",
   "notice.ok": "SKJØNNER",
   "guide.close": "Lukk", "guide.controls.title": "KONTROLL",
   "guide.controls.shot": "SKUD: skyt pil.", "guide.controls.jump": "HOPP: unngå spøkelse.",

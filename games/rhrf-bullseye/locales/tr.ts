@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "AÇILDI", "badge.locked": "KİLİTLİ", "badge.unlockedPrefix": "ROZET AÇILDI:",
   "lang.label": "DİL", "lang.title": "Dil seçimi", "lang.self": "Türkçe",
   "msg.asteroidDeflected": "ASTEROİT SAPTIRILDI!", "msg.asteroidReached": "ASTEROİT GEZEGEN YÜZEYİNE ULAŞTI",
-  "notice.session": "İLERLEME SİMÜLEDİR VE YALNIZCA BU OTURUMDA KAYDEDİLİR. YENİLEMEDE KAYBOLABİLİR.",
+  "notice.session": "Test sürümü. Sayfa yenilendiğinde istatistikler sıfırlanır. Beta'da yakında kayıt.",
   "notice.ok": "ANLADIM",
   "guide.close": "Kapat", "guide.controls.title": "KONTROLLER",
   "guide.controls.shot": "ATIŞ: ok fırlat.", "guide.controls.jump": "ZIPLA: hayaletten kaç.",

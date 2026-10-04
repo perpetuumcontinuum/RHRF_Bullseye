@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ปลดล็อก", "badge.locked": "ล็อก", "badge.unlockedPrefix": "ปลดล็อกตรา:",
   "lang.label": "ภาษา", "lang.title": "เลือกภาษา", "lang.self": "ไทย",
   "msg.asteroidDeflected": "ดาวเคราะห์น้อยถูกเบน!", "msg.asteroidReached": "ดาวเคราะห์น้อยถึงพื้นผิว planet",
-  "notice.session": "ความคืบหน้าเป็นการจำลองและบันทึกเฉพาะเซสชันนี้ อาจหายเมื่อโหลดใหม่",
+  "notice.session": "เวอร์ชันทดสอบ สถิตรีเซ็ตเมื่อโหลดหน้าใหม่ เซฟในเบต้าเร็วๆ นี้",
   "notice.ok": "เข้าใจแล้ว",
   "guide.close": "ปิด", "guide.controls.title": "การควบคุม",
   "guide.controls.shot": "ยิง: ปลดลูกศร", "guide.controls.jump": "กระโดด: หลบผี",
