@@ -189,6 +189,9 @@ jobs:
       - name: Guard jump arc invariant
         run: node scripts/check-jump-arc.mjs
 
+      - name: Copy footer music into deploy root
+        run: cp 8bit-loop.mp3 games/rhrf-bullseye/.friendsdk/8bit-loop.mp3
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
