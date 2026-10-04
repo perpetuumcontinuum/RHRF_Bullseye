@@ -1927,25 +1927,6 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   margin-bottom: 14px;
 }
 
-/* Streak banner paint: .rf-overlay-msg forces `background: transparent !important`,
-   which killed the inline gradient and left background-clip:text with nothing to
-   clip -> invisible text. Re-declare here (later in source, same specificity) so
-   the gradient wins the !important war. Filter stays non-!important on purpose so
-   the pause overlay's grayscale rule still applies. */
-.rf-streak-msg{
-  background: var(--rf-streak-bg) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  color: transparent !important;
-  filter: drop-shadow(0 0 6px var(--rf-streak-glow)) drop-shadow(0 0 16px var(--rf-streak-glow));
-}
-@supports not ((-webkit-background-clip: text) or (background-clip: text)){
-  .rf-streak-msg{
-    color: var(--rf-streak-glow) !important;
-    background: transparent !important;
-  }
-}
-
 /* Streak banner: solid neon + text-shadow. The earlier background-clip:text variant
    was invisible because .rf-overlay-msg forces `background: transparent !important`.
    Later rule, same specificity -> wins the !important war. No filter here so the
