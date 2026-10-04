@@ -42,7 +42,7 @@
     align-items: center;
   }
   #rf-music-toggle {
-    background: none; border: none; color: inherit; cursor: pointer;
+    background: none; border: none; cursor: pointer;
     padding: 4px 8px; display: inline-flex; align-items: center;
     justify-content: center; transition: opacity 0.2s; text-decoration: none;
   }
@@ -93,23 +93,9 @@
     cursor: pointer;
     border: none;
   }
-
-  /* Make footer music icon behave like other transparent SVG icons */
-  #rf-music-toggle {
-    color: var(--rf-footer-icon, var(--rf-accent, #00ffff)) !important;
-    filter: drop-shadow(0 0 .25vmin currentColor);
-  }
-  #rf-music-toggle:hover {
-    filter: drop-shadow(0 0 .45vmin currentColor);
-  }
-  #rf-music-toggle svg,
-  #rf-music-toggle svg path {
-    fill: currentColor !important;
-    display: block;
-  }
 </style>
 
-<div id="rf-music-container">
+<div id="rf-music-container" class="rf-theme-switch">
   <button id="rf-music-toggle" aria-label="Toggle 8-bit Music" data-tip="8-bit music">
     <svg id="rf-icon-playing" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
