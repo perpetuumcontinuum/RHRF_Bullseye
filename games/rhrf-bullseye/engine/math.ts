@@ -40,35 +40,6 @@ export interface ShopItem {
   description: string;
 }
 
-export const SHOP_ITEMS: ShopItem[] = [
-  {
-    id: 'bow_legendary',
-    name: "Robin Hood's Bow",
-    rarity: 'Legendary',
-    type: 'bow',
-    price: 500,
-    multiplier: 3.0,
-    description: 'x3.0 score multiplier'
-  },
-  {
-    id: 'amulet_legendary',
-    name: 'Ethereum Amulet',
-    rarity: 'Legendary',
-    type: 'amulet',
-    price: 500,
-    speedModifier: 0.5,
-    description: 'Slows crosshair by 50% (#ccff00)'
-  },
-  {
-    id: 'hat_legendary',
-    name: 'Robin Hood Hat',
-    rarity: 'Legendary',
-    type: 'hat',
-    price: 500,
-    accuracyBonus: 0.5,
-    description: 'Laser stays near center 50% more often'
-  }
-];
 
 export function calculateFinalScore(baseScore: number, bowMultiplier: number): number {
   return Math.floor(baseScore * bowMultiplier);

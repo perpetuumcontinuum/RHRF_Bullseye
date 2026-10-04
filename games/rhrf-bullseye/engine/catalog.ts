@@ -1,3 +1,4 @@
+import { getLang, translate } from "./i18n";
 export type ShopCategory = "bow" | "hat" | "amulet" | "consumable";
 export type ShopRarity = "rare" | "epic" | "legendary";
 
@@ -60,6 +61,6 @@ export function fallbackItem(id: string, category: ShopCategory): ShopItem {
     category,
     rarity: "rare",
     price: 0,
-    description: "Unknown inventory item.",
+    description: translate(getLang(), "item.unknown", undefined, "Unknown inventory item."),
   };
 }

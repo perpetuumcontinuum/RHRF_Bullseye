@@ -232,4 +232,6 @@ export default {
   "item.armor_epic.desc": "x0.5 stun",
   "item.armor_legendary.name": "LEGENDARY ARMOR",
   "item.armor_legendary.desc": "x0.25 stun",
+  "sdk.chooseFriend": "Choose a Friend to play",
+  "item.unknown": "Unknown inventory item.",
 };

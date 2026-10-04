@@ -230,4 +230,6 @@ export default {
   "item.armor_epic.desc": "x0.5 оглушение",
   "item.armor_legendary.name": "ЛЕГЕНДАРНАЯ БРОНЯ",
   "item.armor_legendary.desc": "x0.25 оглушение",
+  "sdk.chooseFriend": "Выберите Friend для игры",
+  "item.unknown": "Неизвестный предмет инвентаря.",
 };

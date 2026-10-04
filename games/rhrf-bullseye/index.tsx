@@ -2,7 +2,7 @@ import { JUMP_ARC_MS } from "./engine/jump";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import LangMenu from "./engine/LangMenu";
 import SessionNotice from "./engine/SessionNotice";
-import { initI18n, useT, isRTL, useLang } from "./engine/i18n";
+import { initI18n, useT, isRTL, useLang, getLang, translate } from "./engine/i18n";
 import { rankForStreak, buildStreakMessage, buildTimeMessage, buildRfMessage, streakColor, isFinalRank, TIME_RANKS, RF_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
@@ -46,7 +46,7 @@ import Hud from "./engine/Hud";
 import ArrowHud from "./engine/ArrowHud";
 import { SCORE_TARGET_X, SCORE_TARGET_Y, ARROW_POPUP_X, ARROW_POPUP_Y } from "./engine/geometry";
 import TopHud from "./engine/TopBar";
-import { SHOP_ITEMS, calculateFinalScore, calculateScore, TARGET_CX, TARGET_CY, getRarityMult, TARGET_R, ARROW_START_X, ARROW_START_Y, getRandomPointInTarget, getScoreColor } from "./engine/math";
+import { calculateFinalScore, calculateScore, TARGET_CX, TARGET_CY, getRarityMult, TARGET_R, ARROW_START_X, ARROW_START_Y, getRandomPointInTarget, getScoreColor } from "./engine/math";
 import Guide from "./engine/Guide";
 import Profile from "./engine/Profile";
 import Scene from "./engine/Scene";
@@ -82,7 +82,7 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
   }, []);
 
   if (friendId === null || friendId === undefined) {
-    return <div style={{ padding: 24, color: "#fff", fontFamily: "monospace" }}>Choose a Friend to play</div>;
+    return <div style={{ padding: 24, color: "#fff", fontFamily: "monospace" }}>{translate(getLang(), "sdk.chooseFriend", undefined, "Choose a Friend to play")}</div>;
   }
 
   const sounds = useMemo(() => createFriendSoundKit({ volume: 0.6 }), []);
