@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import LangPicker from "./engine/LangPicker";
+import { initI18n, useT } from "./engine/i18n";
 import { rankForStreak, buildStreakMessage, buildTimeMessage, streakColor, isFinalRank, TIME_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
@@ -259,6 +261,8 @@ const asteroidKilledRef = useRef(false);
     pausedRef.current = isPaused;
   }, [isPaused]);
   const pausedRef = useRef(false);
+  useEffect(() => { initI18n(); }, []);
+  const t = useT();
   useEffect(() => {
     // Freeze the simulation when the browser tab is hidden. Otherwise rAF stops
     // but Date.now keeps running, so on return the asteroid can instantly reach
@@ -1050,7 +1054,7 @@ flashTimerRef.current = window.setTimeout(() => {
       setAsteroidVisible(false);
 asteroidKilledRef.current = true;
 setExplosion({x: ax, y: ay, visible: true});
-          setSuccessMessage("ASTEROID DEFLECTED!");
+          setSuccessMessage(t("msg.asteroidDeflected"));
           recordEvent("asteroid", true);
           pt(() => showStreakAlert("asteroid"), 300);
           pt(() => setSuccessMessage(null), 2500);
@@ -1538,7 +1542,7 @@ if (loading) {
       </div>
       {asteroidWarning && (
         <div className="rf-overlay-msg rf-msg-red rf-shake-text">
-           ASTEROID REACHED THE PLANET SURFACE
+           {t("msg.asteroidReached")}
         </div>
       )}
 
@@ -1560,13 +1564,14 @@ if (loading) {
             {streakBanner.badge && (
               <div className="rf-streak-badge">
                 <BadgeIcon id={streakBanner.badge.icon} size={22} />
-                <span>BADGE UNLOCKED: {streakBanner.badge.label}</span>
+                <span>{t("badge.unlockedPrefix")} {streakBanner.badge.label}</span>
               </div>
             )}
           </div>
         );
       })()}
 
+      <LangPicker />
       <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
         <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>

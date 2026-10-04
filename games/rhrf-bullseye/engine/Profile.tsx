@@ -11,6 +11,7 @@ import {
 import { type GameStats, formatDuration } from "./stats"
 import { BADGES_BY_KIND, BADGE_ORDER, streakColor, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
+import { useT } from "./i18n";
 
 const fmtCompact = (n: number): string => {
   const v = Math.floor(Number(n) || 0);
@@ -147,6 +148,7 @@ const rfLimitByRarity = (items: ShopItem[]): ShopItem[] => {
 };
 
 export default function Profile(props: any) {
+  const t = useT();
   const [pendingSale, setPendingSale] = useState<PendingSale>(null);
   const [activeTab, setActiveTab] = useState<"equipment" | "stats" | "badges" | "cyber">("equipment");
   const [activeStat, setActiveStat] = useState<StatTabId>("time");
@@ -246,7 +248,7 @@ export default function Profile(props: any) {
     <div className="rf-profile-overlay" onClick={close}>
       <div className="rf-profile-panel" onClick={(event) => event.stopPropagation()}>
         <div className="rf-profile-header">
-          <div className="rf-profile-title">PROFILE</div>
+          <div className="rf-profile-title">{t("profile.title")}</div>
           <div className="rf-profile-balance">{Math.floor(totalScore)} RF</div>
           <button className="rf-profile-close" onClick={close}>X</button>
         </div>
@@ -258,7 +260,7 @@ export default function Profile(props: any) {
               className={`rf-profile-tab ${activeTab === tab ? "active" : ""}`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab.toUpperCase()}
+              {t(`profile.tab.${tab}`)}
             </button>
           ))}
         </div>
@@ -300,7 +302,7 @@ export default function Profile(props: any) {
                       <div className="rf-badge-icon"><BadgeIcon id={rank.icon} size={30} /></div>
                       <div className="rf-badge-name">{rank.label}</div>
                       <div className="rf-badge-desc">x{rank.n} streak</div>
-                      <div className="rf-badge-state">{unlocked ? "UNLOCKED" : "LOCKED"}</div>
+                      <div className="rf-badge-state">{unlocked ? t("badge.unlocked") : t("badge.locked")}</div>
                     </div>
                   );
                 })}

@@ -1993,3 +1993,31 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-badge-kind-block--time .rf-badge-card.unlocked .rf-badge-icon{
   animation: rfTimeShimmer 3.2s ease-in-out infinite;
 }
+
+/* ---- Language picker: fixed top-left, clear of runtime toolbar (bottom-left/right) ---- */
+.rf-lang-picker{
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 700 11px/1 "Courier New", monospace;
+  letter-spacing: 1px;
+  color: #ccff00;
+  background: rgba(5, 0, 21, 0.6);
+  border: 1px solid #2a0050;
+  border-radius: 6px;
+  padding: 4px 6px;
+}
+.rf-lang-tag{ opacity: 0.7; }
+.rf-lang-picker select{
+  font: inherit;
+  color: #ccff00;
+  background: #0a0014;
+  border: 1px solid #ccff00;
+  border-radius: 4px;
+  padding: 2px 4px;
+  cursor: pointer;
+}

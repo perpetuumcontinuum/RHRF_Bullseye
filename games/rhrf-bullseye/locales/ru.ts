@@ -1,0 +1,14 @@
+export default {
+  "profile.title": "ПРОФИЛЬ",
+  "profile.tab.equipment": "СНАРЯЖЕНИЕ",
+  "profile.tab.stats": "СТАТИСТИКА",
+  "profile.tab.badges": "ЗНАЧКИ",
+  "profile.tab.cyber": "КИБЕР",
+  "badges.title": "ЗНАЧКИ СЕРИЙ",
+  "badge.unlocked": "ОТКРЫТО",
+  "badge.locked": "ЗАКРЫТО",
+  "badge.unlockedPrefix": "ЗНАЧОК ОТКРЫТ:",
+  "lang.label": "ЯЗЫК",
+  "msg.asteroidDeflected": "АСТЕРОИД ОТРАЖЁН!",
+  "msg.asteroidReached": "АСТЕРОИД ДОСТИГ ПОВЕРХНОСТИ ПЛАНЕТЫ",
+};
