@@ -137,7 +137,7 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     if (!rank) return; // только пороги: 3, 10, 50, 100, 200 ... 1000
     unlockBadge(rank.id);
     setStreakBanner({ text: buildStreakMessage(kind, count), count });
-    pt(() => setStreakBanner(null), count >= 1000 ? 60000 : 2500);
+    pt(() => setStreakBanner(null), count >= 100 ? 60000 : 2500);
   };
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
@@ -1503,7 +1503,7 @@ if (loading) {
 
       {streakBanner && (() => {
         const g = streakGradient(streakBanner.count);
-        const isFinal = streakBanner.count >= 1000;
+        const isFinal = streakBanner.count >= 100;
         return (
           <div
             className={`rf-overlay-msg rf-streak-msg rf-shake-text${isFinal ? " rf-streak-final" : ""}`}
