@@ -18,6 +18,7 @@ interface SceneProps {
   energyQualityId?: string | null;
   asteroidVisible: boolean;
   asteroidPosition: { x: number; y: number };
+  explosions?: Array<{id: number, x: number, y: number, particles: any[]}>;
   landingGlow?: { x: number; y: number; visible: boolean };
   explosion?: { x: number; y: number; visible: boolean };
   arrowProgress: number;
@@ -62,6 +63,7 @@ export default function Scene({
   energyQualityId,
   asteroidVisible,
   asteroidPosition,
+  explosions,
   landingGlow,
   explosion,
   arrowProgress,
@@ -837,6 +839,23 @@ const pixelBounds = (() => {
         <rect x="185" y="130" width="10" height="200" fill="#ff0000" filter="url(#neonGlowPink)" className="laser-beam" />
       )}
     
-        </svg>
+        
+      {/* Asteroid explosion particles */}
+      {(explosions || []).map(exp => (
+        <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
+          {exp.particles.map((p, i) => (
+            <rect
+              key={i}
+              width={p.size}
+              height={p.size}
+              x={-p.size / 2}
+              y={-p.size / 2}
+              className="rf-asteroid-particle"
+              style={{ '--dx': `${p.dx}px`, '--dy': `${p.dy}px`, animationDelay: `${p.delay}s` } as React.CSSProperties}
+            />
+          ))}
+        </g>
+      ))}
+    </svg>
   );
 }

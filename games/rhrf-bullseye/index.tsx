@@ -118,6 +118,26 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
   const [laserCooldown, setLaserCooldown] = useState(false);
   const [asteroidPosition, setAsteroidPosition] = useState({ x: 0, y: 0 });
   const [asteroidVisible, setAsteroidVisible] = useState(false);
+  const [explosions, setExplosions] = useState<Array<{id: number, x: number, y: number, particles: any[]}>>([]);
+  // Asteroid explosion listener
+  useEffect(() => {
+    const onAsteroidExplode = (e: CustomEvent<{x: number, y: number}>) => {
+      const id = Date.now() + Math.random();
+      const particles = Array.from({ length: 14 }).map(() => ({
+        dx: (Math.random() - 0.5) * 70,
+        dy: (Math.random() - 0.5) * 70,
+        size: Math.random() * 4 + 2,
+        delay: Math.random() * 0.15
+      }));
+      setExplosions(prev => [...prev, { id, x: e.detail.x, y: e.detail.y, particles }]);
+      setTimeout(() => {
+        setExplosions(prev => prev.filter(exp => exp.id !== id));
+      }, 700);
+    };
+    window.addEventListener("rhrf-asteroid-explode", onAsteroidExplode as EventListener);
+    return () => window.removeEventListener("rhrf-asteroid-explode", onAsteroidExplode as EventListener);
+  }, []);
+
   const [landingGlow, setLandingGlow] = useState({ x: 0, y: 480, visible: false });
 const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
@@ -1113,6 +1133,7 @@ flashTimerRef.current = window.setTimeout(() => {
     if (Math.abs(ax - 190) <= 45 && ay <= 330) {
       setAsteroidVisible(false);
 asteroidKilledRef.current = true;
+          window.dispatchEvent(new CustomEvent("rhrf-asteroid-explode", { detail: { x: ax, y: ay } }));
 setExplosion({x: ax, y: ay, visible: true});
           setSuccessMessage(t("msg.asteroidDeflected"));
           recordEvent("asteroid", true);
@@ -1586,6 +1607,7 @@ if (loading) {
         isLaserFiring={isLaserFiring}
         asteroidVisible={asteroidVisible}
         asteroidPosition={asteroidPosition}
+        explosions={explosions}
         landingGlow={landingGlow}
         arrowProgress={arrowProgress}
         frozenLaser={shotTargetRef.current}
