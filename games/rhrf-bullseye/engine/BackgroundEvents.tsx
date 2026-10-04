@@ -1,3 +1,4 @@
+import { JUMP_SAFE_START_MS, JUMP_SAFE_END_MS } from "./jump";
 import React, { useEffect, useRef, useState } from "react";
 import { PLAYER_X, PLAYER_WIDTH } from "./geometry";
 
@@ -17,9 +18,7 @@ const GHOST_LETHAL_PAD = (GHOST_BODY_LEN * (1 - GHOST_LETHAL_RATIO)) / 2;
 const GHOST_LETHAL_MIN = GHOST_BODY_MIN + GHOST_LETHAL_PAD;
 const GHOST_LETHAL_MAX = GHOST_BODY_MAX - GHOST_LETHAL_PAD;
 
-// Jump arc lasts 1155ms; outside this window the player is not clear of the ghost
-const JUMP_SAFE_START_MS = 200;
-const JUMP_SAFE_END_MS = 955;
+
 
 const GHOST_SAFETY_MS = 9000;
 const GHOST_MIN_DELAY = 30000;

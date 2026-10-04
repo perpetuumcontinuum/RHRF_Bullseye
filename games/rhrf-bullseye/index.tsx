@@ -1,3 +1,4 @@
+import { JUMP_ARC_MS } from "./engine/jump";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import LangMenu from "./engine/LangMenu";
 import SessionNotice from "./engine/SessionNotice";
@@ -773,7 +774,7 @@ flashTimerRef.current = window.setTimeout(() => {
         jumpPauseAccumRef.current += Date.now() - jumpPauseSinceRef.current;
         jumpPausedRef.current = false;
       }
-      if (Date.now() - jumpT0 - jumpPauseAccumRef.current >= 1200) {
+      if (Date.now() - jumpT0 - jumpPauseAccumRef.current >= JUMP_ARC_MS) {
         jumpingRef.current = false;
         jumpRafRef.current = 0;
         (window as any).__RHRF_JUMP_STARTED_AT__ = 0;
