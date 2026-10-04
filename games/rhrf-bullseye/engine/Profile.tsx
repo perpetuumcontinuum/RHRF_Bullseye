@@ -284,7 +284,7 @@ export default function Profile(props: any) {
           {BADGE_ORDER.map((kind) => (
             <div key={kind} className={`rf-badge-kind-block rf-badge-kind-block--${kind}`}>
               <div className="rf-profile-section-title">
-                {kind.toUpperCase()} BADGES
+                {t("profile.badgesHeading", { kind: kind.toUpperCase() })}
                 <span className="rf-badge-progress">
                   {BADGES_BY_KIND[kind].filter((r) => Boolean(gameStats?.earnedBadges.includes(r.id))).length}/{BADGES_BY_KIND[kind].length}
                 </span>
@@ -300,8 +300,8 @@ export default function Profile(props: any) {
                       style={unlocked ? { background: streakTint(kind, rank.n), borderColor: color, color: "#fff", boxShadow: `0 0 12px ${streakGlow(kind, rank.n)}` } : undefined}
                     >
                       <div className="rf-badge-icon"><BadgeIcon id={rank.icon} size={30} /></div>
-                      <div className="rf-badge-name">{rank.label}</div>
-                      <div className="rf-badge-desc">x{rank.n} streak</div>
+                      <div className="rf-badge-name">{t("badge." + rank.id)}</div>
+                      <div className="rf-badge-desc">{t("profile.badgeStreak", { count: rank.n })}</div>
                       <div className="rf-badge-state">{unlocked ? t("badge.unlocked") : t("badge.locked")}</div>
                     </div>
                   );
@@ -458,7 +458,7 @@ export default function Profile(props: any) {
                         <div className="rf-profile-card-desc">{item.description}</div>
 
                         <div className="rf-profile-card-bottom">
-                          <div className="rf-profile-card-rarity">{item.rarity.toUpperCase()}</div>
+                          <div className="rf-profile-card-rarity">{t("rarity." + item.rarity.toLowerCase())}</div>
                           {equipped && <div className="rf-profile-card-equipped">{t("ui.equipped")}</div>}
                         </div>
 
