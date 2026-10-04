@@ -12,6 +12,8 @@ export interface GameStats {
 
   currentAsteroidStreak: number;
   bestAsteroidStreak: number;
+
+  earnedBadges: string[];
 }
 
 const MIN_STREAK = 3;
@@ -32,6 +34,7 @@ export const defaultStats: GameStats = {
 
   currentAsteroidStreak: 0,
   bestAsteroidStreak: 0,
+  earnedBadges: [],
 };
 
 function migrate(raw: any): GameStats {
@@ -52,6 +55,7 @@ function migrate(raw: any): GameStats {
 
   next.currentAsteroidStreak = Number(raw.currentAsteroidStreak ?? raw.currentAsteroidKillStreak) || 0;
   next.bestAsteroidStreak = Number(raw.bestAsteroidStreak ?? raw.maxAsteroidKillStreak) || 0;
+  next.earnedBadges = Array.isArray(raw.earnedBadges) ? raw.earnedBadges.map(String) : [];
 
   return next;
 }

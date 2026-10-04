@@ -1847,3 +1847,77 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-streak-msg{
   top: 26%;
 }
+
+/* ---- Streak banner: dynamic gradient text (color set inline from streakGradient) ---- */
+.rf-streak-final{
+  animation: rfStreakShift 2.4s linear infinite, rfTextVibrate 0.11s infinite ease-in-out;
+}
+@keyframes rfStreakShift{
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.rf-streak-final-icon{
+  display: inline-flex;
+  vertical-align: -6px;
+  margin-right: 8px;
+  color: #00ffff;
+  filter: drop-shadow(0 0 6px #00ffff);
+}
+
+/* ---- Badges grid in profile ---- */
+.rf-badge-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  padding: 12px;
+}
+.rf-badge-card{
+  border: 1px solid #2a0050;
+  border-radius: 10px;
+  padding: 12px 10px;
+  background: rgba(10, 0, 25, 0.72);
+  text-align: center;
+  font-family: "Courier New", monospace;
+  color: #8888aa;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.rf-badge-card.unlocked{
+  color: inherit;
+}
+.rf-badge-card.locked{
+  opacity: 0.32;
+  filter: grayscale(0.9);
+}
+.rf-badge-card:hover{
+  transform: translateY(-2px);
+}
+.rf-badge-icon{
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.rf-badge-card.unlocked .rf-badge-icon{
+  filter: drop-shadow(0 0 6px currentColor);
+}
+.rf-badge-name{
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+.rf-badge-desc{
+  margin-top: 4px;
+  font-size: 11px;
+  color: #aaaacc;
+}
+.rf-badge-state{
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #ccff00;
+}
+.rf-badge-card.locked .rf-badge-state{
+  color: #666688;
+}

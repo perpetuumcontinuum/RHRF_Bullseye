@@ -8,7 +8,8 @@ import {
   type ShopCategory,
   type ShopItem,
 } from "./catalog";
-import { type GameStats, formatDuration } from "./stats";
+import { type GameStats, formatDuration } from "./stats"
+import { STREAK_RANKS, streakColor, BadgeIcon } from "./achievements";;
 import ItemIcon from "./ItemIcon";
 
 const fmtCompact = (n: number): string => {
@@ -147,7 +148,7 @@ const rfLimitByRarity = (items: ShopItem[]): ShopItem[] => {
 
 export default function Profile(props: any) {
   const [pendingSale, setPendingSale] = useState<PendingSale>(null);
-  const [activeTab, setActiveTab] = useState<"equipment" | "stats" | "cyber">("equipment");
+  const [activeTab, setActiveTab] = useState<"equipment" | "stats" | "badges" | "cyber">("equipment");
   const [activeStat, setActiveStat] = useState<StatTabId>("time");
   const [activeEquipmentTab, setActiveEquipmentTab] = useState<ShopCategory>("bow");
   const [activeConsumableTab, setActiveConsumableTab] = useState<"arrow" | "armor" | "energy">("arrow");
@@ -251,7 +252,7 @@ export default function Profile(props: any) {
         </div>
 
           <div className="rf-profile-tabs">
-          {(["equipment", "stats", "cyber"] as const).map((tab) => (
+          {(["equipment", "stats", "badges", "cyber"] as const).map((tab) => (
             <button
               key={tab}
               className={`rf-profile-tab ${activeTab === tab ? "active" : ""}`}
@@ -277,6 +278,27 @@ export default function Profile(props: any) {
           </div>
         )}
 
+        <div className="rf-profile-section" style={{ display: activeTab === "badges" ? undefined : "none" }}>
+          <div className="rf-profile-section-title">STREAK BADGES</div>
+          <div className="rf-badge-grid">
+            {STREAK_RANKS.map((rank) => {
+              const unlocked = Boolean(gameStats?.earnedBadges.includes(rank.id));
+              const color = streakColor(rank.n);
+              return (
+                <div
+                  key={rank.id}
+                  className={`rf-badge-card ${unlocked ? "unlocked" : "locked"}`}
+                  style={unlocked ? { color, borderColor: color, boxShadow: `0 0 12px ${color}55` } : undefined}
+                >
+                  <div className="rf-badge-icon"><BadgeIcon id={rank.id} size={30} /></div>
+                  <div className="rf-badge-name">{rank.label}</div>
+                  <div className="rf-badge-desc">x{rank.n} streak</div>
+                  <div className="rf-badge-state">{unlocked ? "UNLOCKED" : "LOCKED"}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <div className="rf-profile-section" style={{ display: activeTab === "cyber" ? undefined : "none" }}>
             <div className="rf-profile-section-title">CYBER STYLE</div>
             <div className="rf-profile-grid">

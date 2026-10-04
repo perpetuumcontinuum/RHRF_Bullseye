@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { rankForStreak, buildStreakMessage, streakGradient, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
 
@@ -118,16 +119,25 @@ const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [streakMessage, setStreakMessage] = useState<string | null>(null);
+  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number } | null>(null);
   const streaksRef = useRef({ cyber: 0, ghost: 0, asteroid: 0 });
+
+  const unlockBadge = (id: string) => {
+    setGameStats((prev) => {
+      if (prev.earnedBadges.includes(id)) return prev;
+      const next = { ...prev, earnedBadges: [...prev.earnedBadges, id] };
+      saveStats(next);
+      return next;
+    });
+  };
 
   const showStreakAlert = (kind: "cyber" | "ghost" | "asteroid") => {
     const count = streaksRef.current[kind];
-    if (count === 3 || (count >= 5 && count % 5 === 0)) {
-      const label = kind === "cyber" ? "CYBER" : kind === "ghost" ? "GHOST" : "ASTEROID";
-      setStreakMessage(`${label} STREAK x${count}`);
-      pt(() => setStreakMessage(null), 2500);
-    }
+    const rank = rankForStreak(count);
+    if (!rank) return; // только пороги: 3, 10, 50, 100, 200 ... 1000
+    unlockBadge(rank.id);
+    setStreakBanner({ text: buildStreakMessage(kind, count), count });
+    pt(() => setStreakBanner(null), count >= 1000 ? 60000 : 2500);
   };
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
@@ -1476,11 +1486,31 @@ if (loading) {
         </div>
       )}
 
-      {streakMessage && (
-        <div className="rf-overlay-msg rf-streak-msg rf-msg-green rf-shake-text">
-          {streakMessage}
-        </div>
-      )}
+
+      {streakBanner && (() => {
+        const g = streakGradient(streakBanner.count);
+        const isFinal = streakBanner.count >= 1000;
+        return (
+          <div
+            className={`rf-overlay-msg rf-streak-msg rf-shake-text${isFinal ? " rf-streak-final" : ""}`}
+            style={{
+              background: `linear-gradient(90deg, ${g.from}, ${g.to}, ${g.from})`,
+              ...(isFinal ? { backgroundSize: "300% 100%" } : {}),
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+              filter: `drop-shadow(0 0 6px ${g.glow}) drop-shadow(0 0 16px ${g.glow})`,
+            }}
+          >
+            {isFinal && (
+              <span className="rf-streak-final-icon">
+                <BadgeIcon id="rare_legend" size={26} />
+              </span>
+            )}
+            {streakBanner.text}
+          </div>
+        );
+      })()}
 
       <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
