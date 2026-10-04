@@ -4,14 +4,14 @@ export type StreakKind = "cyber" | "ghost" | "asteroid";
 
 export interface StreakRank {
   n: number;
-  id: string;    // уникальный для разблокировки: "asteroid_spark", "cyber_3"
-  icon: string;  // суффикс формы для BadgeIcon
+  id: string;    // стабильный ключ разблокировки: "<kind>_<n>"
+  icon: string;  // форма для BadgeIcon
   label: string;
   kind: StreakKind;
 }
 
-// asteroid / ghost: 11 порогов, финал RARE LEGEND на x101
-const GENERIC: ReadonlyArray<readonly [number, string, string]> = [
+// asteroid — защита планеты, луки, неон (11 порогов, финал x101)
+const ASTEROID_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [3,   "spark",       "SPARK"],
   [10,  "archer",      "ARCHER"],
   [20,  "hero",        "HERO"],
@@ -25,28 +25,40 @@ const GENERIC: ReadonlyArray<readonly [number, string, string]> = [
   [101, "rare_legend", "RARE LEGEND"],
 ];
 
-// cyber: каждый стрик x3..x11 = достижение, финал CYBER LEGEND на x11
-const CYBER: ReadonlyArray<readonly [number, string, string]> = [
-  [3,  "c_spark",  "FIRST TRIPLE"],
-  [4,  "c_quad",   "QUAD DRAW"],
-  [5,  "c_focus",  "FOCUS LOCK"],
-  [6,  "c_six",    "SIX SENSE"],
-  [7,  "c_seven",  "LUCKY SEVEN"],
+// ghost — воздух, прыжки, ветер, полёт (11 порогов, финал x101)
+const GHOST_ROWS: ReadonlyArray<readonly [number, string, string]> = [
+  [3,   "g_gust",    "SPARK"],
+  [10,  "g_leap",    "ARCHER"],
+  [20,  "g_feather", "HERO"],
+  [30,  "g_spiral",  "ACE"],
+  [40,  "g_cloud",   "CHAINWARD"],
+  [50,  "g_dart",    "MASTER"],
+  [60,  "g_wing",    "EPIC"],
+  [70,  "g_eye",     "ORACLE"],
+  [80,  "g_comet",   "LEGEND"],
+  [90,  "g_phantom", "MYTHIC"],
+  [101, "g_crown",   "RARE LEGEND"],
+];
+
+// cyber — меткость, перекрестья, точки попадания (каждый x3..x11, финал x11)
+const CYBER_ROWS: ReadonlyArray<readonly [number, string, string]> = [
+  [3,  "c_aim",    "FIRST TRIPLE"],
+  [4,  "c_cross4", "QUAD DRAW"],
+  [5,  "c_eye",    "FOCUS LOCK"],
+  [6,  "c_rings",  "SIX SENSE"],
+  [7,  "c_arrow",  "LUCKY SEVEN"],
   [8,  "c_octa",   "OVERCLOCK"],
   [9,  "c_nine",   "RARE PULSE"],
   [10, "c_ten",    "PERFECT TEN"],
-  [11, "cyber_legend", "CYBER LEGEND"],
+  [11, "c_legend", "CYBER LEGEND"],
 ];
 
 const build = (kind: StreakKind, rows: ReadonlyArray<readonly [number, string, string]>): readonly StreakRank[] =>
-  rows.map(([n, icon, label]) => ({
-    n, icon, label, kind,
-    id: kind === "cyber" ? `cyber_${n}` : `${kind}_${icon}`,
-  }));
+  rows.map(([n, icon, label]) => ({ n, icon, label, kind, id: `${kind}_${n}` }));
 
-export const ASTEROID_RANKS = build("asteroid", GENERIC);
-export const GHOST_RANKS    = build("ghost",    GENERIC);
-export const CYBER_RANKS    = build("cyber",    CYBER);
+export const ASTEROID_RANKS = build("asteroid", ASTEROID_ROWS);
+export const GHOST_RANKS    = build("ghost",    GHOST_ROWS);
+export const CYBER_RANKS    = build("cyber",    CYBER_ROWS);
 
 export const BADGES_BY_KIND: Record<StreakKind, readonly StreakRank[]> = {
   asteroid: ASTEROID_RANKS,
@@ -65,15 +77,13 @@ export function isFinalRank(kind: StreakKind, count: number): boolean {
 }
 
 // ---- Цветовые шкалы (HSL, лерп по короткой дуге hue)
-// asteroid/ghost: белый неон -> rare lime -> epic purple -> legendary orange -> cyber cyan
 const GENERIC_KEYS = [
   { n: 3,   h: 72,  s: 0,   l: 100 },
-  { n: 10,  h: 72,  s: 100, l: 50 },  // #ccff00
-  { n: 50,  h: 282, s: 100, l: 50 },  // #aa00ff
-  { n: 80,  h: 40,  s: 100, l: 50 },  // #ffaa00
-  { n: 101, h: 180, s: 100, l: 50 },  // #00ffff
+  { n: 10,  h: 72,  s: 100, l: 50 },  // #ccff00 rare
+  { n: 50,  h: 282, s: 100, l: 50 },  // #aa00ff epic
+  { n: 80,  h: 40,  s: 100, l: 50 },  // #ffaa00 legendary
+  { n: 101, h: 180, s: 100, l: 50 },  // #00ffff cyber
 ];
-// cyber: белый -> cyan (короткая шкала x3..x11)
 const CYBER_KEYS = [
   { n: 3,  h: 180, s: 0,   l: 100 },
   { n: 7,  h: 180, s: 70,  l: 62 },
@@ -161,14 +171,17 @@ export function buildStreakMessage(kind: StreakKind, count: number, rand: () => 
   return `${phrase}! ${kindLabel} STREAK x${count}${rank ? ` — ${rank.label}` : ""}`;
 }
 
-// ---- SVG-иконки (currentColor, неоновый stroke). Формы asteroid/ghost общие, cyber — свои.
+// ---- SVG-иконки: три оригинальных набора. asteroid — защита/луки,
+// ghost — воздух/прыжок/ветер/полёт, cyber — перекрестья/мишени/меткость.
 export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   const p = {
     width: size, height: size, viewBox: "0 0 32 32", fill: "none",
     stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
+  const dot = { fill: "currentColor", stroke: "none" as const };
   switch (id) {
+    // ===== ASTEROID: щит планеты, лук, неон =====
     case "spark":       return <svg {...p}><path d="M16 4 L18 13 L27 16 L18 19 L16 28 L14 19 L5 16 L14 13 Z" /></svg>;
     case "archer":      return <svg {...p}><path d="M8 4 Q22 16 8 28" /><line x1="8" y1="4" x2="8" y2="28" /><line x1="6" y1="16" x2="26" y2="16" /><path d="M22 12 L26 16 L22 20" /></svg>;
     case "hero":        return <svg {...p}><path d="M16 4 L26 8 V16 Q26 25 16 29 Q6 25 6 16 V8 Z" /><path d="M12 16 L15 19 L21 12" /></svg>;
@@ -180,16 +193,31 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
     case "legend":      return <svg {...p}><path d="M16 3 L19.5 12 L29 12.5 L21.5 18.5 L24 28 L16 22.5 L8 28 L10.5 18.5 L3 12.5 L12.5 12 Z" /></svg>;
     case "mythic":      return <svg {...p}><path d="M16 3 L29 27 L3 27 Z" /><path d="M16 12 L22 23 L10 23 Z" /></svg>;
     case "rare_legend": return <svg {...p}><path d="M5 24 L5 12 L11 17 L16 8 L21 17 L27 12 L27 24 Z" /><line x1="5" y1="27" x2="27" y2="27" /><circle cx="16" cy="20" r="1.6" /></svg>;
-    // cyber-форма
-    case "c_spark":     return <svg {...p}><circle cx="16" cy="16" r="9" /><line x1="16" y1="2" x2="16" y2="9" /><line x1="16" y1="23" x2="16" y2="30" /><line x1="2" y1="16" x2="9" y2="16" /><line x1="23" y1="16" x2="30" y2="16" /></svg>;
-    case "c_quad":      return <svg {...p}><line x1="6" y1="26" x2="24" y2="8" /><path d="M20 6 L26 6 L26 12" /><circle cx="6" cy="26" r="2" /></svg>;
-    case "c_focus":     return <svg {...p}><path d="M3 16 Q16 6 29 16 Q16 26 3 16 Z" /><circle cx="16" cy="16" r="3" /></svg>;
-    case "c_six":       return <svg {...p}><path d="M18 3 L9 17 H16 L13 29 L23 14 H16 Z" /></svg>;
-    case "c_seven":     return <svg {...p}><path d="M16 4 L26 9 V17 Q26 25 16 29 Q6 25 6 17 V9 Z" /><text x="16" y="20" textAnchor="middle" fontSize="12" fill="currentColor" stroke="none">7</text></svg>;
-    case "c_octa":      return <svg {...p}><rect x="8" y="8" width="16" height="16" rx="2" /><line x1="4" y1="12" x2="8" y2="12" /><line x1="4" y1="20" x2="8" y2="20" /><line x1="24" y1="12" x2="28" y2="12" /><line x1="24" y1="20" x2="28" y2="20" /></svg>;
-    case "c_nine":      return <svg {...p}><circle cx="9" cy="9" r="2" /><circle cx="16" cy="9" r="2" /><circle cx="23" cy="9" r="2" /><circle cx="9" cy="16" r="2" /><circle cx="16" cy="16" r="2" /><circle cx="23" cy="16" r="2" /><circle cx="9" cy="23" r="2" /><circle cx="16" cy="23" r="2" /><circle cx="23" cy="23" r="2" /></svg>;
-    case "c_ten":       return <svg {...p}><circle cx="16" cy="16" r="11" /><circle cx="16" cy="16" r="6" /><circle cx="16" cy="16" r="1.5" /></svg>;
-    case "cyber_legend":return <svg {...p}><path d="M5 22 L5 12 L11 16 L16 8 L21 16 L27 12 L27 22 Z" /><path d="M18 24 L13 30 H17 L15 31" /></svg>;
+
+    // ===== GHOST: ветер, прыжок, перо, полёт =====
+    case "g_gust":    return <svg {...p}><path d="M5 11 Q13 8 21 11 Q25 12 27 9" /><path d="M4 17 Q12 14 20 17 Q24 18 28 15" /><path d="M7 23 Q14 20 21 23" /></svg>;
+    case "g_leap":    return <svg {...p}><path d="M6 26 Q16 4 26 26" /><circle cx="6" cy="26" r="2.2" {...dot} /><circle cx="26" cy="26" r="2.2" {...dot} /></svg>;
+    case "g_feather": return <svg {...p}><path d="M23 7 Q9 11 8 25 Q19 23 23 7 Z" /><line x1="23" y1="7" x2="10" y2="24" /><path d="M18 11 L14 13 M20 15 L15 18" /></svg>;
+    case "g_spiral":  return <svg {...p}><path d="M16 16 m-2 0 a2 2 0 1 1 4 0" /><path d="M16 16 m-5 0 a5 5 0 1 1 10 0" /><path d="M16 16 m-9 0 a9 9 0 1 1 18 0" /></svg>;
+    case "g_cloud":   return <svg {...p}><path d="M8 20 Q8 14 13 14 Q14 9 20 10 Q25 10 25 15 Q28 16 27 20 Z" /><line x1="10" y1="24" x2="24" y2="24" /></svg>;
+    case "g_dart":    return <svg {...p}><path d="M20 12 L28 16 L20 20 Z" /><line x1="4" y1="16" x2="20" y2="16" /><line x1="6" y1="11" x2="13" y2="11" /><line x1="6" y1="21" x2="13" y2="21" /></svg>;
+    case "g_wing":    return <svg {...p}><path d="M6 22 Q9 11 22 8 Q17 13 19 17 Q13 18 6 22 Z" /><line x1="6" y1="22" x2="27" y2="22" /></svg>;
+    case "g_eye":     return <svg {...p}><path d="M4 16 Q16 7 28 16 Q16 25 4 16 Z" /><circle cx="16" cy="16" r="3" /><path d="M9 23 Q16 26 23 23" /></svg>;
+    case "g_comet":   return <svg {...p}><circle cx="21" cy="11" r="4" /><line x1="17" y1="15" x2="6" y2="26" /><line x1="20" y1="18" x2="12" y2="26" /><line x1="14" y1="12" x2="6" y2="20" /></svg>;
+    case "g_phantom": return <svg {...p}><path d="M16 4 Q26 7 26 17 Q26 24 22 24 Q20 24 20 21 Q18 24 16 24 Q14 24 14 21 Q12 24 10 24 Q6 24 6 17 Q6 7 16 4 Z" /><circle cx="12" cy="14" r="1.6" {...dot} /><circle cx="20" cy="14" r="1.6" {...dot} /></svg>;
+    case "g_crown":   return <svg {...p}><path d="M6 21 L6 12 L11 16 L16 8 L21 16 L26 12 L26 21 Z" /><path d="M9 25 Q16 28 23 25" /></svg>;
+
+    // ===== CYBER: перекрестья, мишени, точка попадания =====
+    case "c_aim":    return <svg {...p}><circle cx="16" cy="16" r="8" /><circle cx="16" cy="16" r="2" {...dot} /></svg>;
+    case "c_cross4": return <svg {...p}><circle cx="16" cy="16" r="7" /><line x1="16" y1="3" x2="16" y2="10" /><line x1="16" y1="22" x2="16" y2="29" /><line x1="3" y1="16" x2="10" y2="16" /><line x1="22" y1="16" x2="29" y2="16" /></svg>;
+    case "c_eye":    return <svg {...p}><path d="M4 16 Q16 7 28 16 Q16 25 4 16 Z" /><circle cx="16" cy="16" r="3.5" /><circle cx="16" cy="16" r="1.2" {...dot} /></svg>;
+    case "c_rings":  return <svg {...p}><circle cx="16" cy="16" r="11" /><circle cx="16" cy="16" r="7" /><circle cx="16" cy="16" r="3" /></svg>;
+    case "c_arrow":  return <svg {...p}><circle cx="18" cy="14" r="8" /><line x1="4" y1="28" x2="14" y2="18" /><path d="M13 16 L19 13 L16 19" /><circle cx="18" cy="14" r="1.5" {...dot} /></svg>;
+    case "c_octa":   return <svg {...p}><circle cx="16" cy="16" r="6" /><line x1="16" y1="2" x2="16" y2="9" /><line x1="16" y1="23" x2="16" y2="30" /><line x1="2" y1="16" x2="9" y2="16" /><line x1="23" y1="16" x2="30" y2="16" /><line x1="6" y1="6" x2="10" y2="10" /><line x1="22" y1="22" x2="26" y2="26" /><line x1="26" y1="6" x2="22" y2="10" /><line x1="10" y1="22" x2="6" y2="26" /></svg>;
+    case "c_nine":   return <svg {...p}><rect x="6" y="6" width="20" height="20" rx="1" /><line x1="6" y1="12.7" x2="26" y2="12.7" /><line x1="6" y1="19.3" x2="26" y2="19.3" /><line x1="12.7" y1="6" x2="12.7" y2="26" /><line x1="19.3" y1="6" x2="19.3" y2="26" /><circle cx="16" cy="16" r="1.5" {...dot} /></svg>;
+    case "c_ten":    return <svg {...p}><circle cx="16" cy="15" r="8" /><circle cx="16" cy="15" r="4" /><circle cx="16" cy="15" r="1" {...dot} /><path d="M6 25 Q3 17 7 11" /><path d="M26 25 Q29 17 25 11" /></svg>;
+    case "c_legend": return <svg {...p}><path d="M6 19 L6 11 L11 14 L16 7 L21 14 L26 11 L26 19 Z" /><circle cx="16" cy="24" r="3.5" /><circle cx="16" cy="24" r="1.2" {...dot} /></svg>;
+
     default:            return <svg {...p}><circle cx="16" cy="16" r="11" /></svg>;
   }
 }
