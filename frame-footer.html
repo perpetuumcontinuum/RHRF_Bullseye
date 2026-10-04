@@ -34,46 +34,160 @@
   </div>
   <span class="rf-gap" aria-hidden="true"></span>
 
-<!-- 8-bit Music Toggle -->
+<!-- 8-bit Music Toggle with SVG icon and volume slider -->
 <style>
+  #rf-music-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
   #rf-music-toggle {
     background: none; border: none; color: inherit; cursor: pointer;
-    font-size: 1.2rem; padding: 4px 8px; display: inline-flex;
-    align-items: center; justify-content: center; transition: opacity 0.2s;
-    text-decoration: none;
+    padding: 4px 8px; display: inline-flex; align-items: center;
+    justify-content: center; transition: opacity 0.2s; text-decoration: none;
   }
   #rf-music-toggle:hover { opacity: 0.7; }
-  #rf-music-toggle.muted { opacity: 0.4; }
+  #rf-music-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+  
+  .rf-volume-wrapper {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    padding: 12px 8px;
+    background: #0a0014e6;
+    border: 1px solid #00ffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2);
+    z-index: 100;
+  }
+  #rf-music-container:hover .rf-volume-wrapper,
+  .rf-volume-wrapper:hover {
+    display: block;
+  }
+  
+  .rf-volume-slider {
+    -webkit-appearance: slider-vertical;
+    appearance: slider-vertical;
+    writing-mode: bt-lr;
+    width: 8px;
+    height: 80px;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+  }
+  .rf-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #00ffff;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .rf-volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #00ffff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
 </style>
-<button id="rf-music-toggle" aria-label="Toggle 8-bit Music" data-tip="Включить/выключить 8-бит музыку">🎵</button>
+
+<div id="rf-music-container">
+  <button id="rf-music-toggle" aria-label="Toggle 8-bit Music" data-tip="8-bit music">
+    <svg id="rf-icon-playing" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+    </svg>
+    <svg id="rf-icon-muted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+    </svg>
+  </button>
+  
+  <div class="rf-volume-wrapper">
+    <input type="range" min="0" max="100" value="20" class="rf-volume-slider" id="rf-volume-slider">
+  </div>
+</div>
+
 <audio id="rf-bg-music" loop src="./8bit-loop.mp3"></audio>
+
 <script>
-  (function() {
-    const btn = document.getElementById('rf-music-toggle');
-    const audio = document.getElementById('rf-bg-music');
-    if (!btn || !audio) return;
-    
-    // Проверяем сохраненное состояние
-    const isMuted = localStorage.getItem('rf-music-muted') === 'true';
-    if (isMuted) { 
-      btn.textContent = '🔇'; 
-      btn.classList.add('muted'); 
-    }
-    
-    btn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play().catch(() => {}); // Игнорируем ошибки автоплея до первого клика
-        btn.textContent = '🎵';
-        btn.classList.remove('muted');
+(function() {
+  const btn = document.getElementById('rf-music-toggle');
+  const audio = document.getElementById('rf-bg-music');
+  const slider = document.getElementById('rf-volume-slider');
+  const iconPlaying = document.getElementById('rf-icon-playing');
+  const iconMuted = document.getElementById('rf-icon-muted');
+  
+  if (!btn || !audio || !slider) return;
+  
+  // Начальная громкость 20%
+  const savedVolume = localStorage.getItem('rf-music-volume');
+  audio.volume = savedVolume ? parseFloat(savedVolume) / 100 : 0.2;
+  slider.value = audio.volume * 100;
+  
+  const updateIcons = (isPlaying) => {
+    iconPlaying.style.display = isPlaying ? 'block' : 'none';
+    iconMuted.style.display = isPlaying ? 'none' : 'block';
+  };
+  
+  const tryAutoplay = () => {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        updateIcons(true);
         localStorage.setItem('rf-music-muted', 'false');
-      } else {
-        audio.pause();
-        btn.textContent = '🔇';
-        btn.classList.add('muted');
-        localStorage.setItem('rf-music-muted', 'true');
-      }
-    });
-  })();
+      }).catch(() => {
+        // Автоплей заблокирован, ждём первого user interaction
+        updateIcons(false);
+        const unlock = () => {
+          audio.play().then(() => {
+            updateIcons(true);
+            localStorage.setItem('rf-music-muted', 'false');
+          }).catch(() => {});
+          document.removeEventListener('click', unlock);
+          document.removeEventListener('keydown', unlock);
+          document.removeEventListener('touchstart', unlock);
+        };
+        document.addEventListener('click', unlock, { once: true });
+        document.addEventListener('keydown', unlock, { once: true });
+        document.addEventListener('touchstart', unlock, { once: true });
+      });
+    }
+  };
+  
+  // Проверяем сохранённое состояние
+  const isMuted = localStorage.getItem('rf-music-muted') === 'true';
+  if (isMuted) {
+    updateIcons(false);
+  } else {
+    tryAutoplay();
+  }
+  
+  // Toggle play/pause
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (audio.paused) {
+      audio.play().then(() => {
+        updateIcons(true);
+        localStorage.setItem('rf-music-muted', 'false');
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      updateIcons(false);
+      localStorage.setItem('rf-music-muted', 'true');
+    }
+  });
+  
+  // Volume slider
+  slider.addEventListener('input', (e) => {
+    const vol = parseInt(e.target.value) / 100;
+    audio.volume = vol;
+    localStorage.setItem('rf-music-volume', e.target.value);
+    updateIcons(!audio.paused);
+  });
+})();
 </script>
 
 </footer>
