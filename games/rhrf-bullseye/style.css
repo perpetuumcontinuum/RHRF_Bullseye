@@ -2198,3 +2198,9 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   text-align: right;
 }
 .rf-rtl .rf-streak-line, .rf-rtl .rf-streak-badge{ direction: rtl; }
+
+/* rf-top-bar is an HTML width-reserve sitting above the SVG; it swallowed the
+   language globe's clicks (z-index cannot bridge HTML-over-SVG layers).
+   Make the reserve click-through, re-enable its real controls only. */
+.rf-top-bar{ pointer-events: none; }
+.rf-top-bar button, .rf-top-bar a, .rf-top-bar select, .rf-top-bar [role="button"]{ pointer-events: auto; }
