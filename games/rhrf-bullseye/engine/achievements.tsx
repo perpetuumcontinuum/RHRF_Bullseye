@@ -54,8 +54,9 @@ const CYBER_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [11, "c_legend", "CYBER LEGEND"],
 ];
 
-// time — циферблат, заполняемый пропорционально (100..1000 по 100, финал 1010)
+// time — циферблат, заполняемый пропорционально (1h, затем 100..1000, финал 1001)
 const TIME_ROWS: ReadonlyArray<readonly [number, string, string]> = [
+  [1,    "t_1",    "FIRST TICK"],
   [100,  "t_100",  "FIRST DIAL"],
   [200,  "t_200",  "TWIN DIALS"],
   [300,  "t_300",  "TRIPLE CHIME"],
@@ -66,7 +67,7 @@ const TIME_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [800,  "t_800",  "OCTA CHIME"],
   [900,  "t_900",  "NINE HANDS"],
   [1000, "t_1000", "MILLENNIUM DIAL"],
-  [1010, "t_1010", "RARE TIME LEGEND"],
+  [1001, "t_1001", "RARE TIME LEGEND"],
 ];
 
 const build = (kind: BadgeKind, rows: ReadonlyArray<readonly [number, string, string]>): readonly StreakRank[] =>
@@ -109,10 +110,11 @@ const CYBER_KEYS = [
 ];
 // time: бледное золото -> янтарь legendary -> циан на финале
 const TIME_KEYS = [
-  { n: 100,  h: 45,  s: 0,   l: 100 },
-  { n: 500,  h: 45,  s: 90,  l: 58 },
-  { n: 1000, h: 33,  s: 100, l: 50 },
-  { n: 1010, h: 180, s: 100, l: 50 },
+  { n: 1,    h: 45,  s: 0,   l: 100 },  // белый
+  { n: 100,  h: 45,  s: 80,  l: 70 },   // бледное золото
+  { n: 500,  h: 45,  s: 90,  l: 58 },   // янтарь
+  { n: 1000, h: 33,  s: 100, l: 50 },   // #ffaa00 legendary
+  { n: 1001, h: 180, s: 100, l: 50 },   // #00ffff cyber
 ];
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -224,8 +226,9 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   // time: круг заполняется сектором на fill = hours/1000, финал — корона
   if (id.startsWith("t_")) {
     const hours = Number(id.slice(2)) || 0;
-    const fill = Math.min(1, hours / 1000);
-    const crown = hours >= 1010;
+    // floor so the 1h badge shows a visible sliver instead of an invisible 0.36° wedge
+    const fill = Math.max(0.02, Math.min(1, hours / 1000));
+    const crown = hours >= 1001;
     const C = 16, R = 11;
     const ang = fill * 2 * Math.PI;
     const ex = C + R * Math.sin(ang);

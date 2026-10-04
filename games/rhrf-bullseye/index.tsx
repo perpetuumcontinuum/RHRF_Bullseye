@@ -150,7 +150,12 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
   // Time-in-game badges: totalPlayMs only accrues while unpaused
   useEffect(() => {
     const hours = Math.floor(gameStats.totalPlayMs / 3600000);
-    if (lastHoursRef.current === null) { lastHoursRef.current = hours; return; }
+    if (lastHoursRef.current === null) {
+      // Restore: silently unlock everything already earned in a previous session
+      TIME_RANKS.filter((r) => r.n <= hours).forEach((r) => unlockBadge(r.id));
+      lastHoursRef.current = hours;
+      return;
+    }
     const prevHours = lastHoursRef.current;
     lastHoursRef.current = hours;
     if (hours <= prevHours) return;
