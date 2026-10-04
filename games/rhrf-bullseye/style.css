@@ -2021,3 +2021,94 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   padding: 2px 4px;
   cursor: pointer;
 }
+
+/* ---- Language overlay menu (4th in Shop/Profile/Guide row) ---- */
+.rf-lang-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 0, 21, 0.78);
+  backdrop-filter: blur(3px);
+}
+.rf-lang-panel{
+  width: min(92vw, 760px);
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #00ffff;
+  border-radius: 12px;
+  background: rgba(10, 0, 20, 0.92);
+  box-shadow: 0 0 24px rgba(0, 255, 255, 0.25);
+  font-family: "Courier New", monospace;
+  color: #efead8;
+}
+.rf-lang-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #2a0050;
+}
+.rf-lang-title{
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #00ffff;
+  text-shadow: 0 0 8px rgba(0,255,255,0.8);
+}
+.rf-lang-close{
+  font: 700 13px/1 "Courier New", monospace;
+  color: #00ffff;
+  background: transparent;
+  border: 1px solid #00ffff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.rf-lang-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 132px);
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  overflow-y: auto;
+}
+.rf-lang-option{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  border: 1px solid #2a0050;
+  border-radius: 8px;
+  background: rgba(10, 0, 25, 0.7);
+  color: #aaaacc;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  animation: rfLangIn 0.28s ease both;
+  animation-delay: calc(var(--i) * 30ms);
+}
+.rf-lang-option:hover{
+  border-color: #00ffff;
+  color: #00ffff;
+  box-shadow: 0 0 12px rgba(0,255,255,0.4);
+}
+.rf-lang-option.active{
+  border-color: #ccff00;
+  color: #ccff00;
+  box-shadow: 0 0 14px rgba(204,255,0,0.5);
+}
+.rf-lang-code{ font-weight: 900; font-size: 15px; letter-spacing: 1px; }
+.rf-lang-name{ font-size: 11px; opacity: 0.85; }
+
+/* Staggered "cloud" appearance: opacity+scale only, no translate (no drift) */
+@keyframes rfLangIn{
+  from{ opacity: 0; transform: scale(0.9); }
+  to  { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce){
+  .rf-lang-option{ animation: none; opacity: 1; }
+}

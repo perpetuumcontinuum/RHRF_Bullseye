@@ -45,6 +45,7 @@ interface SceneProps {
   isPaused?: boolean;
   onPopupDone?: (id: number) => void;
   onTogglePause?: () => void;
+  onOpenLang?: () => void;
 }
 
 export default function Scene({
@@ -80,6 +81,7 @@ export default function Scene({
   isPaused,
   onPopupDone,
   onTogglePause,
+  onOpenLang,
 }: SceneProps) {
   const cyberStyle = Boolean(isCyberStyle ?? (typeof window !== 'undefined' && (window as any).__RHRF_IS_CYBER__));
 const pixelBounds = (() => {
@@ -809,6 +811,24 @@ const pixelBounds = (() => {
             <line x1="4" y1="-7" x2="4" y2="7" stroke="#ccff00" strokeWidth="2.5" strokeLinecap="round" />
           </>
         )}
+      </g>
+      <g
+        className="rf-lang-btn"
+        transform="translate(770, 45)"
+        role="button"
+        tabIndex={0}
+        pointerEvents="all"
+        onClick={() => onOpenLang?.()}
+        onKeyDown={(e: any) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpenLang?.(); } }}
+        style={{ cursor: "pointer" }}
+      >
+        <circle cx="0" cy="0" r="18" fill="transparent" stroke="none" />
+        <circle cx="0" cy="0" r="14.5" fill="#0a0014" stroke="#00ffff" strokeWidth="1.5" />
+        <circle cx="0" cy="0" r="8" fill="none" stroke="#00ffff" strokeWidth="1.4" />
+        <ellipse cx="0" cy="0" rx="3.4" ry="8" fill="none" stroke="#00ffff" strokeWidth="1.2" />
+        <line x1="-8" y1="0" x2="8" y2="0" stroke="#00ffff" strokeWidth="1.2" />
+        <path d="M -7 -3.4 Q 0 -1.4 7 -3.4" fill="none" stroke="#00ffff" strokeWidth="1" />
+        <path d="M -7 3.4 Q 0 1.4 7 3.4" fill="none" stroke="#00ffff" strokeWidth="1" />
       </g>
       <g
         className="rf-share-btn"

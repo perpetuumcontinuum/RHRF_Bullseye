@@ -11,6 +11,8 @@ export default {
   "badge.locked": "LOCKED",
   "badge.unlockedPrefix": "BADGE UNLOCKED:",
   "lang.label": "LANG",
+  "lang.title": "LANGUAGE",
+  "lang.self": "English",
   "msg.asteroidDeflected": "ASTEROID DEFLECTED!",
   "msg.asteroidReached": "ASTEROID REACHED THE PLANET SURFACE",
 };

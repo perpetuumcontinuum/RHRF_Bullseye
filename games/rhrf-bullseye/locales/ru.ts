@@ -9,6 +9,8 @@ export default {
   "badge.locked": "ЗАКРЫТО",
   "badge.unlockedPrefix": "ЗНАЧОК ОТКРЫТ:",
   "lang.label": "ЯЗЫК",
+  "lang.title": "ЯЗЫК",
+  "lang.self": "Русский",
   "msg.asteroidDeflected": "АСТЕРОИД ОТРАЖЁН!",
   "msg.asteroidReached": "АСТЕРОИД ДОСТИГ ПОВЕРХНОСТИ ПЛАНЕТЫ",
 };

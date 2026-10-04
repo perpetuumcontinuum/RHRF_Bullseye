@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import LangPicker from "./engine/LangPicker";
+import LangMenu from "./engine/LangMenu";
 import { initI18n, useT } from "./engine/i18n";
 import { rankForStreak, buildStreakMessage, buildTimeMessage, streakColor, isFinalRank, TIME_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
@@ -204,20 +204,23 @@ const asteroidKilledRef = useRef(false);
   const [showShop, setShowShop] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showLang, setShowLang] = useState(false);
   const showShopRef = useRef(false);
   const showProfileRef = useRef(false);
   const showGuideRef = useRef(false);
+  const showLangRef = useRef(false);
 
   const isMenuOpenRef = () =>
-    showShopRef.current || showProfileRef.current || showGuideRef.current;
+    showShopRef.current || showProfileRef.current || showGuideRef.current || showLangRef.current;
 
   useEffect(() => {
     showShopRef.current = showShop;
     showProfileRef.current = showProfile;
     showGuideRef.current = showGuide;
-  }, [showShop, showProfile, showGuide]);
+    showLangRef.current = showLang;
+  }, [showShop, showProfile, showGuide, showLang]);
 
-  const menuOpen = showShop || showProfile || showGuide;
+  const menuOpen = showShop || showProfile || showGuide || showLang;
   const overlayWasPausedRef = useRef<boolean | null>(null);
 
   useEffect(() => {
@@ -1107,7 +1110,7 @@ impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false})
           if (!asteroidKilledRef.current) {
           recordEvent("asteroid", false);
             impactTimersRef.current.push(pt(() => {
-              if (!cyberRef.current && !pausedRef.current && !showShopRef.current && !showProfileRef.current && !showGuideRef.current) setScreenShake(true);
+              if (!cyberRef.current && !pausedRef.current && !showShopRef.current && !showProfileRef.current && !showGuideRef.current && !showLangRef.current) setScreenShake(true);
               setAsteroidWarning(true);
               setLandingGlow({ x: asteroidFinalXRef.current, y: 480, visible: true });
               playSound('impact');
@@ -1150,6 +1153,7 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
         setShowShop(false);
         setShowProfile(false);
         setShowGuide(false);
+        setShowLang(false);
         if (isMenuOpenRef()) playSound('select');
         return;
       }
@@ -1188,6 +1192,7 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
         else if (k === 'KeyS' || k === 'Digit6' || k === 'Numpad6') { setShowShop(true); playSound('select'); }
         else if (k === 'KeyP' || k === 'Digit7' || k === 'Numpad7') { setShowProfile(true); playSound('select'); }
         else if (k === 'KeyG' || k === 'Digit8' || k === 'Numpad8') { setShowGuide(true); playSound('select'); }
+        else if (k === 'KeyL' || k === 'Digit9' || k === 'Numpad9') { setShowLang(true); playSound('select'); }
         return;
       }
 
@@ -1475,7 +1480,7 @@ if (loading) {
   }
 
   return (
-    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "") + ((showShop || showProfile || showGuide) ? " rf-overlay-open" : "")}>
+    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "") + ((showShop || showProfile || showGuide || showLang) ? " rf-overlay-open" : "")}>
       
 
       <div className="scanline-overlay" />
@@ -1537,6 +1542,7 @@ if (loading) {
         isPaused={isPaused}
         onPopupDone={(id) => setScorePopups((arr) => arr.filter((p) => p.id !== id))}
         onTogglePause={togglePause}
+        onOpenLang={() => { setShowLang(true); playSound('select'); }}
       />
 
       </div>
@@ -1571,7 +1577,6 @@ if (loading) {
         );
       })()}
 
-      <LangPicker />
       <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
         <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>
@@ -1616,6 +1621,7 @@ if (loading) {
       </div>
 
       {showGuide && <Guide onClose={() => { setShowGuide(false); playSound('select'); }} />}
+      {showLang && <LangMenu onClose={() => { setShowLang(false); playSound('select'); }} onSelect={() => playSound('select')} />}
       
       {showProfile && (
         <Profile
