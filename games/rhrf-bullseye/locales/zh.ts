@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF 靶心",
   "profile.title": "个人资料",
   "profile.tab.equipment": "装备",
   "profile.tab.stats": "统计",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "稀有弓",
   "item.bow_rare.desc": "x2 分数",
   "item.bow_epic.name": "史诗弓",

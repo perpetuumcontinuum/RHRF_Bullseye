@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF VOLLTREFFER",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "AUSRÜSTUNG",
   "profile.tab.stats": "STATISTIK",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "SELTENER BOGEN",
   "item.bow_rare.desc": "x2 Punkte",
   "item.bow_epic.name": "EPISCHER BOGEN",

@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF ВЛУЧАННЯ",
   "profile.title": "ПРОФІЛЬ",
   "profile.tab.equipment": "СПРИЯДНЕННЯ",
   "profile.tab.stats": "СТАТИСТИКА",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "РІДКІСНИЙ ЛУК",
   "item.bow_rare.desc": "x2 очки",
   "item.bow_epic.name": "ЕПІЧНИЙ ЛУК",

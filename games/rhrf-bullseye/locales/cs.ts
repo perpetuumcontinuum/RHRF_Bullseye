@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF TERČ",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "VÝBAVA",
   "profile.tab.stats": "STATISTIKY",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "VZÁCNÝ LUK",
   "item.bow_rare.desc": "x2 body",
   "item.bow_epic.name": "EPICKÝ LUK",

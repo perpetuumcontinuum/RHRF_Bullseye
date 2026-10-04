@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF ブルズアイ",
   "profile.title": "プロフィール",
   "profile.tab.equipment": "装備",
   "profile.tab.stats": "統計",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "レアの弓",
   "item.bow_rare.desc": "スコアx2",
   "item.bow_epic.name": "エピックの弓",

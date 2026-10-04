@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF HỒNG TÂM",
   "profile.title": "HỒ SƠ",
   "profile.tab.equipment": "TRANG BỊ",
   "profile.tab.stats": "THỐNG KÊ",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "CUNG HIẾM",
   "item.bow_rare.desc": "điểm x2",
   "item.bow_epic.name": "CUNG SỬ THI",

@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF MILLE",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "ÉQUIPEMENT",
   "profile.tab.stats": "STATISTIQUES",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "ARC RARE",
   "item.bow_rare.desc": "x2 points",
   "item.bow_epic.name": "ARC ÉPIQUE",

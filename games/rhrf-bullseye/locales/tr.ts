@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF HEDEF",
   "profile.title": "PROFİL",
   "profile.tab.equipment": "EKİPMAN",
   "profile.tab.stats": "İSTATİSTİK",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "NADİR YAY",
   "item.bow_rare.desc": "x2 puan",
   "item.bow_epic.name": "EPİK YAY",

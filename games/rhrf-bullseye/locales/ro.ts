@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF ȚINTĂ",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "ECHIPAMENT",
   "profile.tab.stats": "STATISTICI",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "ARC RAR",
   "item.bow_rare.desc": "x2 puncte",
   "item.bow_epic.name": "ARC EPIC",

@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF CENTRO",
   "profile.title": "PROFILO",
   "profile.tab.equipment": "EQUIPAGGIAMENTO",
   "profile.tab.stats": "STATISTICHE",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "ARCO RARO",
   "item.bow_rare.desc": "x2 punti",
   "item.bow_epic.name": "ARCO EPICO",

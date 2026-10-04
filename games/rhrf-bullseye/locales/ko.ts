@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF 과녁",
   "profile.title": "프로필",
   "profile.tab.equipment": "장비",
   "profile.tab.stats": "통계",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "희귀 활",
   "item.bow_rare.desc": "점수 x2",
   "item.bow_epic.name": "에픽 활",

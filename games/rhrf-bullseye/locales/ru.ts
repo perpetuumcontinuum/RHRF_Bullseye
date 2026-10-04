@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF БУЛЛСАЙ",
   "profile.title": "ПРОФИЛЬ",
   "profile.tab.equipment": "СНАРЯЖЕНИЕ",
   "profile.tab.stats": "СТАТИСТИКА",

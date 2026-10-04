@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF TELITALÁLAT",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "FELSZERELÉS",
   "profile.tab.stats": "STATISZTIKA",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "RITKA ÍJ",
   "item.bow_rare.desc": "x2 pont",
   "item.bow_epic.name": "EPIKUS ÍJ",

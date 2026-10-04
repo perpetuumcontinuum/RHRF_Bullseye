@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF NAPAKYMPPÄ",
   "profile.title": "PROFIILI",
   "profile.tab.equipment": "VARUSTEET",
   "profile.tab.stats": "TILASTOT",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "HARVINAINEN JOUSI",
   "item.bow_rare.desc": "x2 pistettä",
   "item.bow_epic.name": "EEPPINEN JOUSI",

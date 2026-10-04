@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF เป้า",
   "profile.title": "โปรไฟล์",
   "profile.tab.equipment": "อุปกรณ์",
   "profile.tab.stats": "สถิติ",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "ธนูหายาก",
   "item.bow_rare.desc": "คะแนน x2",
   "item.bow_epic.name": "ธนูมหากาพย์",

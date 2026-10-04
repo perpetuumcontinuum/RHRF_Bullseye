@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF SASARAN",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "PERALATAN",
   "profile.tab.stats": "STATISTIK",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "BUSUR LANGKA",
   "item.bow_rare.desc": "skor x2",
   "item.bow_epic.name": "BUSUR EPIK",

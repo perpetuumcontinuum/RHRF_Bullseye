@@ -1,6 +1,7 @@
 // Source of truth. Translators: edit ONLY the text after the colon.
 // Body is valid JSON; keys must stay identical across all locale files.
 export default {
+  "guide.title": "RHRF BULLSEYE",
   "profile.title": "PROFILE",
   "profile.tab.equipment": "EQUIPMENT",
   "profile.tab.stats": "STATS",

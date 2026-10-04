@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF ΣΤΟΧΟΣ",
   "profile.title": "ΠΡΟΦΙΛ",
   "profile.tab.equipment": "ΕΞΟΠΛΙΣΜΟΣ",
   "profile.tab.stats": "ΣΤΑΤΙΣΤΙΚΑ",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "ΣΠΑΝΙΟ ΤΟΞΟ",
   "item.bow_rare.desc": "x2 πόντοι",
   "item.bow_epic.name": "ΕΠΙΚΟ ΤΟΞΟ",

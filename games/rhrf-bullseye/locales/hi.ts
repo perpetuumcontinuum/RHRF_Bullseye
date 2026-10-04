@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF लक्ष्य",
   "profile.title": "प्रोफ़ाइल",
   "profile.tab.equipment": "उपकरण",
   "profile.tab.stats": "आँकड़े",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "दुर्लभ धनुष",
   "item.bow_rare.desc": "x2 अंक",
   "item.bow_epic.name": "महाकाव्य धनुष",

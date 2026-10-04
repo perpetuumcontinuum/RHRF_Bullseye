@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF ROOS",
   "profile.title": "PROFIEL",
   "profile.tab.equipment": "UITRUSTING",
   "profile.tab.stats": "STATISTIEKEN",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "ZELDZAME BOOG",
   "item.bow_rare.desc": "x2 punten",
   "item.bow_epic.name": "EPISCHE BOOG",

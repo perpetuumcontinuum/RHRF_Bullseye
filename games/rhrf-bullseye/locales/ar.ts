@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF هدف",
   "profile.title": "الملف الشخصي",
   "profile.tab.equipment": "العتاد",
   "profile.tab.stats": "الإحصائيات",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "قوس نادر",
   "item.bow_rare.desc": "نقاط x2",
   "item.bow_epic.name": "قوس ملحمي",

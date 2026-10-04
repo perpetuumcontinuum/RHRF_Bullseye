@@ -1,4 +1,5 @@
 export default {
+  "guide.title": "RHRF TRAFIONY",
   "profile.title": "PROFIL",
   "profile.tab.equipment": "WYPOSAŻENIE",
   "profile.tab.stats": "STATYSTYKI",
@@ -193,7 +194,7 @@ export default {
   "stat.total": "TOTAL",
   "stat.current": "CURRENT",
   "stat.best": "BEST",
-  "stat.none": "\\\\u2014",
+  "stat.none": "\\\\\\\\u2014",
   "item.bow_rare.name": "RZADKI ŁUK",
   "item.bow_rare.desc": "x2 pkt",
   "item.bow_epic.name": "EPICKI ŁUK",
