@@ -19,6 +19,24 @@
     var iconPlaying = document.getElementById("rf-icon-playing");
     var iconMuted = document.getElementById("rf-icon-muted");
     if (!btn || !audio || !slider || !iconPlaying || !iconMuted) return;
+    function syncIconColor() {
+      var ref = document.querySelector(".rf-theme-switch button, .rf-theme-switch [data-set]");
+      if (ref) btn.style.color = getComputedStyle(ref).color;
+    }
+    syncIconColor();
+
+    try {
+      var mo = new MutationObserver(syncIconColor);
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme"] });
+      if (document.body) mo.observe(document.body, { attributes: true, attributeFilter: ["class", "data-theme"] });
+    } catch (e) {}
+
+    document.addEventListener("click", function (ev) {
+      if (ev.target && ev.target.closest && ev.target.closest(".rf-theme-switch")) {
+        setTimeout(syncIconColor, 0);
+      }
+    }, true);
+
 
     function getStore() {
       try {
@@ -124,7 +142,7 @@
     }
 
     btn.addEventListener("click", function (e) {
-      e.stopPropagation();
+      e.stopPropagation(); e.stopImmediatePropagation();
 
       if (audio.paused) {
         try {

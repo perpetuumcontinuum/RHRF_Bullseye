@@ -1,4 +1,4 @@
-#rf-music-container.rf-theme-switch {
+#rf-music-container.rf-music-shell {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -76,7 +76,7 @@
 }
 
 /* footer music slider placement hotfix */
-#rf-music-container.rf-theme-switch {
+#rf-music-container.rf-music-shell {
   position: relative;
   z-index: 2147483647;
   overflow: visible;
