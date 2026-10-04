@@ -9,7 +9,7 @@ import {
   type ShopItem,
 } from "./catalog";
 import { type GameStats, formatDuration } from "./stats"
-import { BADGES_BY_KIND, streakColor, BadgeIcon } from "./achievements";
+import { BADGES_BY_KIND, BADGE_ORDER, streakColor, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 
 const fmtCompact = (n: number): string => {
@@ -279,9 +279,14 @@ export default function Profile(props: any) {
         )}
 
         <div className="rf-profile-section" style={{ display: activeTab === "badges" ? undefined : "none" }}>
-          {(["asteroid", "ghost", "cyber", "time"] as const).map((kind) => (
-            <div key={kind} className="rf-badge-kind-block">
-              <div className="rf-profile-section-title">{kind.toUpperCase()} BADGES</div>
+          {BADGE_ORDER.map((kind) => (
+            <div key={kind} className={`rf-badge-kind-block rf-badge-kind-block--${kind}`}>
+              <div className="rf-profile-section-title">
+                {kind.toUpperCase()} BADGES
+                <span className="rf-badge-progress">
+                  {BADGES_BY_KIND[kind].filter((r) => Boolean(gameStats?.earnedBadges.includes(r.id))).length}/{BADGES_BY_KIND[kind].length}
+                </span>
+              </div>
               <div className="rf-badge-grid">
                 {BADGES_BY_KIND[kind].map((rank) => {
                   const unlocked = Boolean(gameStats?.earnedBadges.includes(rank.id));
