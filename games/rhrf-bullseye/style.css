@@ -1842,3 +1842,8 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   opacity: 1 !important;
   visibility: visible !important;
 }
+
+/* Streak banner reuses .rf-overlay-msg look, sits below the action banner */
+.rf-streak-msg{
+  top: 26%;
+}

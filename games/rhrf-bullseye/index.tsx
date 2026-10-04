@@ -118,6 +118,8 @@ const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [streakMessage, setStreakMessage] = useState<string | null>(null);
+  const prevStreaksRef = useRef<{ cyber: number; ghost: number; asteroid: number } | null>(null);
 const impactTimersRef = useRef<number[]>([]);
 const asteroidKilledRef = useRef(false);
   const [laserTargetY, setLaserTargetY] = useState(0);
@@ -935,6 +937,31 @@ flashTimerRef.current = window.setTimeout(() => {
     const onGhostDodged = () => recordEvent("ghost", true);
     window.addEventListener("rhrf-ghost-dodged", onGhostDodged);
     return () => window.removeEventListener("rhrf-ghost-dodged", onGhostDodged);
+
+  // Surface streak milestones in the same banner style as asteroid success/fail
+  useEffect(() => {
+    const snap = {
+      cyber: gameStats.currentCyberStreak,
+      ghost: gameStats.currentGhostStreak,
+      asteroid: gameStats.currentAsteroidStreak,
+    };
+    const prev = prevStreaksRef.current;
+    prevStreaksRef.current = snap;
+    if (!prev) return; // swallow restored session on mount
+
+    const labels: Array<[keyof typeof snap, string]> = [
+      ["cyber", "CYBER"],
+      ["ghost", "GHOST"],
+      ["asteroid", "ASTEROID"],
+    ];
+    for (const [key, label] of labels) {
+      if (snap[key] > prev[key] && snap[key] >= 3) {
+        setStreakMessage(`${label} STREAK x${snap[key]}`);
+        pt(() => setStreakMessage(null), 2500);
+        break; // one banner at a time, like successMessage
+      }
+    }
+  }, [gameStats]);
   }, []);
 
   const handleTowerFire = () => {
@@ -1455,6 +1482,12 @@ if (loading) {
       {successMessage && (
         <div className="rf-overlay-msg rf-msg-green rf-shake-text">
            {successMessage}
+        </div>
+      )}
+
+      {streakMessage && (
+        <div className="rf-overlay-msg rf-streak-msg rf-msg-green rf-shake-text">
+          {streakMessage}
         </div>
       )}
 
