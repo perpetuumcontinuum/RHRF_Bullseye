@@ -18,10 +18,11 @@ export default function SessionNotice() {
   };
   return (
     <div className="rf-notice-bar" role="alert">
-      <span className="rf-notice-text">{t("notice.session")}</span>
+      <div className="rf-notice-copy">
+        <span className="rf-notice-text">{t("notice.session")}</span>
+        <span className="rf-notice-beta">{t("session.beta")}</span>
+      </div>
       <button className="rf-notice-btn" onClick={dismiss}>{t("notice.ok")}</button>
-    
-      <div className="rf-notice-beta">{t("session.beta")}</div>
     </div>
   );
 }

@@ -2294,4 +2294,23 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   }
 }
 
-.rf-notice-beta{ font-size:clamp(9px,1.8vmin,11px); opacity:.75; letter-spacing:.05vmin; }
+.rf-notice-copy{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+  flex:1 1 auto;
+}
+.rf-notice-text{
+  min-width:0;
+}
+.rf-notice-beta{
+  font-size:clamp(9px,1.8vmin,11px);
+  opacity:.75;
+  line-height:1.15;
+  letter-spacing:.02em;
+  white-space:normal;
+}
+.rf-notice-btn{
+  flex:0 0 auto;
+}
