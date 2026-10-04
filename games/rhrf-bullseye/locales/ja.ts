@@ -194,4 +194,5 @@ export default {
   "item.armor_legendary.desc": "x0.25 stun",
   "sdk.chooseFriend": "Choose a Friend to play",
   "item.unknown": "Unknown inventory item.",
+  "share.latestBadge": "Latest Achievement: {badge}",
 };

@@ -232,4 +232,5 @@ export default {
   "item.armor_legendary.desc": "x0.25 оглушение",
   "sdk.chooseFriend": "Выберите Friend для игры",
   "item.unknown": "Неизвестный предмет инвентаря.",
+  "share.latestBadge": "Последнее достижение: {badge}",
 };

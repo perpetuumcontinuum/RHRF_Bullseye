@@ -989,11 +989,18 @@ flashTimerRef.current = window.setTimeout(() => {
       const cyberStatus = effectiveCyberStyle ? t("share.cyberOn") : t("share.standard");
       const scoreStr = totalScore.toLocaleString();
       
+      let latestBadgeText = "";
+      if (gameStats?.earnedBadges && gameStats.earnedBadges.length > 0) {
+        const lastId = gameStats.earnedBadges[gameStats.earnedBadges.length - 1];
+        latestBadgeText = t("share.latestBadge", { badge: t("badge." + lastId) });
+      }
+
       const messageParts = [
         t("share.tagline1"),
         t("share.tagline2"),
         t("share.score", { score: scoreStr }),
         t("share.mode", { mode: cyberStatus }),
+        ...(latestBadgeText ? [latestBadgeText] : []),
         t("share.tagline3"),
         "#RareFriends #RHRFBullseye",
         gameLink
@@ -1019,7 +1026,7 @@ flashTimerRef.current = window.setTimeout(() => {
 
       try {
         window.open(
-          `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+          `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`,
           "_blank",
           "noopener,noreferrer"
         );
