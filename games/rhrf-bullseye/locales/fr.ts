@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "DÉBLOQUÉ", "badge.locked": "VERROUILLÉ", "badge.unlockedPrefix": "BADGE DÉBLOQUÉ :",
   "lang.label": "LANGUE", "lang.title": "Sélection de langue", "lang.self": "Français",
   "msg.asteroidDeflected": "ASTÉROÏDE DÉVIÉ !", "msg.asteroidReached": "ASTÉROÏDE A ATTEINT LA SURFACE",
-  "notice.session": "LA PROGRESSION EST SIMULÉE ET SAUVEGUARDÉE UNIQUEMENT POUR CETTE SESSION. ELLE PEUT ÊTRE PERDUE AU RECHARGEMENT.",
+  "notice.session": "Version de test. Les statistiques sont réinitialisées au rechargement. Sauvegarde bientôt en bêta.",
   "notice.ok": "COMPRIS",
   "guide.close": "Fermer", "guide.controls.title": "CONTRÔLES",
   "guide.controls.shot": "TIR : décoche une flèche.", "guide.controls.jump": "SAUT : esquive le fantôme.",

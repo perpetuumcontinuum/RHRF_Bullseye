@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "अनलॉक", "badge.locked": "लॉक", "badge.unlockedPrefix": "बैज अनलॉक:",
   "lang.label": "भाषा", "lang.title": "भाषा चुनें", "lang.self": "हिन्दी",
   "msg.asteroidDeflected": "क्षुद्रग्रह विक्षेपित!", "msg.asteroidReached": "क्षुद्रग्रह ग्रह की सतह पर पहुंचा",
-  "notice.session": "प्रगति सिम्युलेटेड है और केवल इस सत्र में सहेजी जाती है। रीलोड पर खो सकती है।",
+  "notice.session": "परीक्षण संस्करण। पेज रीलोड पर आँकड़े रीसेट। बीटा में जल्द सेव।",
   "notice.ok": "समझ गया",
   "guide.close": "बंद करें", "guide.controls.title": "नियंत्रण",
   "guide.controls.shot": "शॉट: तीर चलाएँ।", "guide.controls.jump": "जंप: भूत से बचें।",

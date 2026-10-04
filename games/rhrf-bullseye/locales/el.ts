@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ΞΕΚΛΕΙΔΩΜΕΝΟ", "badge.locked": "ΚΛΕΙΔΩΜΕΝΟ", "badge.unlockedPrefix": "ΞΕΚΛΕΙΔΩΜΑ ΣΗΜΑΙΟΥ:",
   "lang.label": "ΓΛΩΣΣΑ", "lang.title": "Επιλογή γλώσσας", "lang.self": "Ελληνικά",
   "msg.asteroidDeflected": "ΑΣΤΕΡΟΕΙΔΗΣ ΑΠΟΚΡΟΥΣΤΗΚΕ!", "msg.asteroidReached": "Ο ΑΣΤΕΡΟΕΙΔΗΣ ΈΦΤΑΣΕ ΣΤΗΝ ΕΠΙΦΑΝΕΙΑ",
-  "notice.session": "Η ΠΡΟΟΔΟΣ ΕΙΝΑΙ ΠΡΟΟΣΟΜΟΙΩΜΕΝΗ ΚΑΙ ΑΠΟΘΗΚΕΥΕΤΑΙ ΜΟΝΟ ΣΕ ΑΥΤΗ ΤΗ ΣΥΝΕΔΡΙΑ. ΜΠΟΡΕΙ ΝΑ ΧΑΘΕΙ ΣΤΗΝ ΑΝΑΦΟΡΤΩΣΗ.",
+  "notice.session": "Δοκιμαστική έκδοση. Τα στατιστικά μηδενίζονται στην επαναφόρτωση. Αποθήκευση σύντομα σε beta.",
   "notice.ok": "ΚΑΤΑΛΑΒΑ",
   "guide.close": "Κλείσιμο", "guide.controls.title": "ΧΕΙΡΙΣΜΟΣ",
   "guide.controls.shot": "ΒΟΛΗ: εκτόξευση βέλους.", "guide.controls.jump": "ΑΛΜΑ: απόφυγε το φάντασμα.",

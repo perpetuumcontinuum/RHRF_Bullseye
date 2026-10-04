@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "DESBLOQUEADO", "badge.locked": "BLOQUEADO", "badge.unlockedPrefix": "INSIGNIA DESBLOQUEADA:",
   "lang.label": "IDIOMA", "lang.title": "Selección de idioma", "lang.self": "Español",
   "msg.asteroidDeflected": "¡ASTEROIDE DESVIADO!", "msg.asteroidReached": "ASTEROIDE ALCANZÓ LA SUPERFICIE",
-  "notice.session": "EL PROGRESO ES SIMULADO Y SE GUARDA SOLO EN ESTA SESIÓN. PUEDE PERDERSE AL RECARGAR.",
+  "notice.session": "Versión de prueba. Las estadísticas se reinician al recargar. Guardado próximamente en beta.",
   "notice.ok": "ENTENDIDO",
   "guide.close": "Cerrar", "guide.controls.title": "CONTROLES",
   "guide.controls.shot": "TIRO: dispara flecha.", "guide.controls.jump": "SALTO: esquiva fantasma.",

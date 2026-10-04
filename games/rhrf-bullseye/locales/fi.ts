@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "AVATTU", "badge.locked": "LUETTU", "badge.unlockedPrefix": "MERKKI AVATTU:",
   "lang.label": "KIELI", "lang.title": "Kielen valinta", "lang.self": "Suomi",
   "msg.asteroidDeflected": "ASTEROIDI TORJUTTU!", "msg.asteroidReached": "ASTEROIDI SAAPUI PLANETAN PINNALLE",
-  "notice.session": "EDISTYMINEN ON SIMULOITU JA TALLENTUU VAIN TÄSSÄ ISTUNNOSSA. VOI HÄVITÄ LATAUKSESSA.",
+  "notice.session": "Testiversio. Tilastot nollautuvat sivun päivityksessä. Tallennus tulossa pian beta-versiossa.",
   "notice.ok": "SELVÄ",
   "guide.close": "Sulje", "guide.controls.title": "OHJAUS",
   "guide.controls.shot": "LAUKAUS: ammu nuoli.", "guide.controls.jump": "HYPPY: väistä haamu.",

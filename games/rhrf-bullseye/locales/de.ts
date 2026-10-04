@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "FREIGESCHALTET", "badge.locked": "GESPERRT", "badge.unlockedPrefix": "ABZEICHEN FREIGESCHALTET:",
   "lang.label": "SPRACHE", "lang.title": "Sprachauswahl", "lang.self": "Deutsch",
   "msg.asteroidDeflected": "ASTEROID ABGEWEHRT!", "msg.asteroidReached": "ASTEROID ERREICHT PLANETENOBFLÄCHE",
-  "notice.session": "FORTSCHRITT IST SIMULIERT UND NUR IN DIESER SITZUNG GESPEICHERT. BEI NEULADUNG VERLOREN.",
+  "notice.session": "Testversion. Statistik wird beim Neuladen zurückgesetzt. Speichern bald in Beta.",
   "notice.ok": "VERSTANDEN",
   "guide.close": "Schließen", "guide.controls.title": "STEUERUNG",
   "guide.controls.shot": "SCHUSS: Pfeil abschießen.", "guide.controls.jump": "SPRUNG: Geist ausweichen.",

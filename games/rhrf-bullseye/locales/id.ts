@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "TERBUKA", "badge.locked": "TERTUTUP", "badge.unlockedPrefix": "LENCANA TERBUKA:",
   "lang.label": "BAHASA", "lang.title": "Pilih bahasa", "lang.self": "Bahasa Indonesia",
   "msg.asteroidDeflected": "ASTEROID DIALIHKAN!", "msg.asteroidReached": "ASTEROID MENCAPAI PERMUKAAN PLANET",
-  "notice.session": "PROGRES BERSIFAT SIMULASI DAN HANYA DISIMPAN UNTUK SESI INI. BISA HILANG SAAT MUAT ULANG.",
+  "notice.session": "Versi uji. Statistik reset saat muat ulang halaman. Penyimpanan segera hadir di beta.",
   "notice.ok": "MENGERTI",
   "guide.close": "Tutup", "guide.controls.title": "KONTROL",
   "guide.controls.shot": "TEMBAK: lepaskan panah.", "guide.controls.jump": "LOMPAT: hindari hantu.",

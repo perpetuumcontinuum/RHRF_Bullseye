@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "ODEMČENO", "badge.locked": "UZAMČENO", "badge.unlockedPrefix": "ODZNAK ODEMČEN:",
   "lang.label": "JAZYK", "lang.title": "Výběr jazyka", "lang.self": "Čeština",
   "msg.asteroidDeflected": "ASTEROID ODRAŽEN!", "msg.asteroidReached": "ASTEROID DORAZIL NA POVRCH PLANETY",
-  "notice.session": "PROGRES JE SIMULOVÁNÝ A UKLÁDÁNÝ POUZE V TÉTO RELACI. PŘI OBNOVĚ MŮŽE ZMIZET.",
+  "notice.session": "Testovací verze. Statistiky se resetují při obnovení stránky. Ukládání brzy v beta verzi.",
   "notice.ok": "ROZUMÍM",
   "guide.close": "Zavřít", "guide.controls.title": "OVLÁDÁNÍ",
   "guide.controls.shot": "VÝSTŘEL: vypusť šíp.", "guide.controls.jump": "SKOK: uhni duchovi.",

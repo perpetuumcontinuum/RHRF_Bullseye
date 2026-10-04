@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "FELOLDVA", "badge.locked": "ZÁRVA", "badge.unlockedPrefix": "JELVÉNY FELOLDVA:",
   "lang.label": "NYELV", "lang.title": "Nyelvválasztás", "lang.self": "Magyar",
   "msg.asteroidDeflected": "ASZTEROIDA ELTÉRÍTVE!", "msg.asteroidReached": "AZ ASZTEROIDA ELÉRTE A BOLYGÓ FELSZÍNÉT",
-  "notice.session": "A HALADÁS SZIMULÁLT, ÉS CSAK EBBEN A MENETBEN MENNYEL. ÚJTÖLTÉSKOR ELTUNHET.",
+  "notice.session": "Tesztverzió. Statisztika törlődik oldalfrissítéskor. Mentés hamarosan bétában.",
   "notice.ok": "ÉRTEM",
   "guide.close": "Bezárás", "guide.controls.title": "IRÁNYÍTÁS",
   "guide.controls.shot": "LÖVÉS: nyíl kilövése.", "guide.controls.jump": "UGRÁS: szellem kikerülése.",

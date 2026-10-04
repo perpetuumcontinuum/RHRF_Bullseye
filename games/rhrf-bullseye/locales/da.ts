@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "LÅSET OP", "badge.locked": "LÅST", "badge.unlockedPrefix": "EMBLEM LÅSET OP:",
   "lang.label": "SPROG", "lang.title": "Vælg sprog", "lang.self": "Dansk",
   "msg.asteroidDeflected": "ASTEROIDE AFVIST!", "msg.asteroidReached": "ASTEROIDE NÅEDE PLANETTOVERFLADE",
-  "notice.session": "FREMGANG ER SIMULERET OG GEMMES KUN I DENNE SESSION. KAN GÅ TABT VED GENINDLÆSNING.",
+  "notice.session": "Testversion. Statistik nulstilles ved sidegenindlæsning. Gemmes snart i beta.",
   "notice.ok": "FORSTÅET",
   "guide.close": "Luk", "guide.controls.title": "KONTROL",
   "guide.controls.shot": "SKUD: affyr pil.", "guide.controls.jump": "HOP: undvig spøgelse.",

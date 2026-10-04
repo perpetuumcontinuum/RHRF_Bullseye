@@ -4,7 +4,7 @@ export default {
   "badge.unlocked": "مفتوحة", "badge.locked": "مقفلة", "badge.unlockedPrefix": "فتحت الشارة:",
   "lang.label": "اللغة", "lang.title": "اختيار اللغة", "lang.self": "العربية",
   "msg.asteroidDeflected": "تم صد الكويكب!", "msg.asteroidReached": "وصل الكويكب سطح الكوكب",
-  "notice.session": "التقدم محاكى ويُحفظ في هذه الجلسة فقط. قد يضيع عند إعادة التحميل.",
+  "notice.session": "نسخة تجريبية. تُعاد ضبط الإحصائيات عند إعادة تحميل الصفحة. الحفظ قريبًا في الإصدار التجريبي.",
   "notice.ok": "فهمت",
   "guide.close": "إغلاق", "guide.controls.title": "التحكم",
   "guide.controls.shot": "رمي: أطلق السهم.", "guide.controls.jump": "قفز: تفادى الشبح.",
