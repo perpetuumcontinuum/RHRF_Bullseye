@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { REGISTRY, FALLBACK, LANG_CODES } from "../locales/index";
+import { REGISTRY, FALLBACK, LANG_CODES, RTL_LANGS } from "../locales/index";
 
 // Storage key is isolated here on purpose: when the SDK ships a save API,
 // only this function changes and the choice becomes per-wallet persistent.
@@ -50,4 +50,9 @@ export function translate(lang: string, key: string, params?: Record<string, str
 export function useT() {
   const lang = useLang();
   return (key: string, params?: Record<string, string | number>) => translate(lang, key, params);
+}
+
+
+export function isRTL(lang: string = current): boolean {
+  return RTL_LANGS.has(lang);
 }

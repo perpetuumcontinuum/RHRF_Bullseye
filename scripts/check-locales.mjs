@@ -2,7 +2,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 const dir = new URL("../games/rhrf-bullseye/locales/", import.meta.url).pathname;
 const files = readdirSync(dir).filter((f) => f.endsWith(".ts") && f !== "index.ts");
-const keysOf = (f) => [...readFileSync(dir + f, "utf8").matchAll(/^\s*"([^"]+)"\s*:/gm)].map((m) => m[1]);
+const keysOf = (f) => [...readFileSync(dir + f, "utf8").matchAll(/"([^"]+)"\s*:/g)].map((m) => m[1]);
 
 // registry: every locale file must be imported in locales/index.ts
 const reg = readFileSync(dir + "index.ts", "utf8");

@@ -2190,3 +2190,11 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 @media (prefers-reduced-motion: reduce){
   .rf-lang-btn{ transition: none; }
 }
+
+/* ---- RTL: mirror text alignment inside panels; layout stays centered ---- */
+.rf-rtl .rf-guide-list, .rf-rtl .rf-guide-section-title, .rf-rtl .rf-notice-text,
+.rf-rtl .rf-badge-name, .rf-rtl .rf-badge-desc, .rf-rtl .rf-profile-section-title{
+  direction: rtl;
+  text-align: right;
+}
+.rf-rtl .rf-streak-line, .rf-rtl .rf-streak-badge{ direction: rtl; }

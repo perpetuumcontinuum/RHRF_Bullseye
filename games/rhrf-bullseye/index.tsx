@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import LangMenu from "./engine/LangMenu";
 import SessionNotice from "./engine/SessionNotice";
-import { initI18n, useT } from "./engine/i18n";
+import { initI18n, useT, isRTL, useLang } from "./engine/i18n";
 import { rankForStreak, buildStreakMessage, buildTimeMessage, buildRfMessage, streakColor, isFinalRank, TIME_RANKS, RF_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
@@ -300,6 +300,11 @@ const asteroidKilledRef = useRef(false);
   }, [isPaused]);
   const pausedRef = useRef(false);
   useEffect(() => { initI18n(); }, []);
+  const langCode = useLang();
+  useEffect(() => {
+    const el = gameContainerRef.current;
+    if (el) el.classList.toggle("rf-rtl", isRTL(langCode));
+  }, [langCode]);
   const t = useT();
   useEffect(() => {
     // Freeze the simulation when the browser tab is hidden. Otherwise rAF stops
