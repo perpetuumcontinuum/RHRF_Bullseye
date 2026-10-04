@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import LangMenu from "./engine/LangMenu";
 import { initI18n, useT } from "./engine/i18n";
-import { rankForStreak, buildStreakMessage, buildTimeMessage, streakColor, isFinalRank, TIME_RANKS, BadgeIcon } from "./engine/achievements";
+import { rankForStreak, buildStreakMessage, buildTimeMessage, buildRfMessage, streakColor, isFinalRank, TIME_RANKS, RF_RANKS, BadgeIcon } from "./engine/achievements";
 import { type GameStats, loadStats, saveStats } from "./engine/stats";
 import { createFriendSoundKit } from "@rarefriends/friendsdk/sounds";
 
@@ -121,7 +121,7 @@ const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid" | "time"; badge: { icon: string; label: string } | null } | null>(null);
+  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid" | "time" | "rf"; badge: { icon: string; label: string } | null } | null>(null);
   const streaksRef = useRef({ cyber: 0, ghost: 0, asteroid: 0 });
 
   const unlockBadge = (id: string) => {
@@ -173,6 +173,33 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     });
     pt(() => setStreakBanner(null), isFinalRank("time", rank.n) ? 60000 : 2500);
   }, [gameStats.totalPlayMs]);
+
+  const lastRfRef = useRef<number | null>(null);
+
+  // RF-earnings badges: earnedScore only ever grows (sales do not reduce it)
+  useEffect(() => {
+    const earned = gameStats.earnedScore;
+    if (lastRfRef.current === null) {
+      // Restore: silently unlock everything already earned in a previous session
+      RF_RANKS.filter((r) => r.n <= earned).forEach((r) => unlockBadge(r.id));
+      lastRfRef.current = earned;
+      return;
+    }
+    const prev = lastRfRef.current;
+    lastRfRef.current = earned;
+    if (earned <= prev) return;
+    const crossed = RF_RANKS.filter((r) => r.n > prev && r.n <= earned);
+    if (!crossed.length) return;
+    const rank = crossed[crossed.length - 1];
+    crossed.forEach((r) => unlockBadge(r.id));
+    setStreakBanner({
+      text: buildRfMessage(rank.n),
+      count: rank.n,
+      kind: "rf",
+      badge: { icon: rank.icon, label: rank.label },
+    });
+    pt(() => setStreakBanner(null), isFinalRank("rf", rank.n) ? 60000 : 2500);
+  }, [gameStats.earnedScore]);
 
   // Test-host only: fast-forward play time to verify badge-unlock banners
   useEffect(() => {
