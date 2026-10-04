@@ -2230,3 +2230,48 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   /* Already has ellipsis in base CSS, reinforcing it */
   min-width: 0 !important;
 }
+
+/* ---- Top bar buttons rarity colors ---- */
+.rf-top-bar__btn--shop {
+  color: #ccff00 !important;
+  border-color: #ccff00 !important;
+  text-shadow: 0 0 8px rgba(204, 255, 0, 0.7) !important;
+}
+.rf-top-bar__btn--shop:hover {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(204, 255, 0, 0.6) !important;
+}
+
+.rf-top-bar__btn--guide {
+  color: #aa00ff !important;
+  border-color: #aa00ff !important;
+  text-shadow: 0 0 8px rgba(170, 0, 255, 0.7) !important;
+}
+.rf-top-bar__btn--guide:hover {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(170, 0, 255, 0.6) !important;
+}
+
+.rf-top-bar__btn--profile {
+  color: #ffaa00 !important;
+  border-color: #ffaa00 !important;
+  text-shadow: 0 0 8px rgba(255, 170, 0, 0.7) !important;
+}
+.rf-top-bar__btn--profile:hover {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(255, 170, 0, 0.6) !important;
+}
+
+.rf-top-bar__btn--lang {
+  color: #00ffff !important;
+  border-color: #00ffff !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.7) !important;
+}
+.rf-top-bar__btn--lang:hover {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.6) !important;
+}
