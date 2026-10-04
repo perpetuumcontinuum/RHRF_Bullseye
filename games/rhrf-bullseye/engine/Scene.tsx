@@ -815,6 +815,7 @@ const pixelBounds = (() => {
       <g
         className="rf-lang-btn"
         transform="translate(770, 45)"
+        data-rf-skip-space="true"
         role="button"
         tabIndex={0}
         pointerEvents="all"
@@ -823,12 +824,12 @@ const pixelBounds = (() => {
         style={{ cursor: "pointer" }}
       >
         <circle cx="0" cy="0" r="18" fill="transparent" stroke="none" />
-        <circle cx="0" cy="0" r="14.5" fill="#0a0014" stroke="#00ffff" strokeWidth="1.5" />
-        <circle cx="0" cy="0" r="8" fill="none" stroke="#00ffff" strokeWidth="1.4" />
-        <ellipse cx="0" cy="0" rx="3.4" ry="8" fill="none" stroke="#00ffff" strokeWidth="1.2" />
-        <line x1="-8" y1="0" x2="8" y2="0" stroke="#00ffff" strokeWidth="1.2" />
-        <path d="M -7 -3.4 Q 0 -1.4 7 -3.4" fill="none" stroke="#00ffff" strokeWidth="1" />
-        <path d="M -7 3.4 Q 0 1.4 7 3.4" fill="none" stroke="#00ffff" strokeWidth="1" />
+        <circle cx="0" cy="0" r="14.5" fill="#0a0014" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="0" cy="0" r="8" fill="none" stroke="currentColor" strokeWidth="1.4" />
+        <ellipse cx="0" cy="0" rx="3.4" ry="8" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        <line x1="-8" y1="0" x2="8" y2="0" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M -7 -3.4 Q 0 -1.4 7 -3.4" fill="none" stroke="currentColor" strokeWidth="1" />
+        <path d="M -7 3.4 Q 0 1.4 7 3.4" fill="none" stroke="currentColor" strokeWidth="1" />
       </g>
       <g
         className="rf-share-btn"

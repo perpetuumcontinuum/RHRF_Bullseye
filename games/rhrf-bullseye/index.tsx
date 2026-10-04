@@ -1211,6 +1211,10 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
       const t = e.target as HTMLElement | null;
       // Text entry fields never trigger hotkeys
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      // Focused SVG controls (language globe) handle their own Space/Enter:
+      // this listener runs in capture phase, so without this guard Space would
+      // both toggle pause and open the language menu.
+      if (t && typeof (t as Element).closest === "function" && (t as Element).closest("[data-rf-skip-space]")) return;
       const h = handlersRef.current;
 
       // Every game hotkey is dispatched BEFORE the BUTTON guard. After a mouse
