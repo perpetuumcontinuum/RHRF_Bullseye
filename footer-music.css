@@ -82,9 +82,13 @@
   overflow: visible;
 }
 
-.rf-volume-wrapper {
-  left: auto;
-  right: -30%;
-  transform: translateX(-50%);
-  z-index: 2147483647;
+/* hover bridge: covers the 18px gap so cursor never loses :hover */
+.rf-volume-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -19px;
+  height: 19px;
+  background: transparent;
 }
