@@ -93,6 +93,20 @@
     cursor: pointer;
     border: none;
   }
+
+  /* Make footer music icon behave like other transparent SVG icons */
+  #rf-music-toggle {
+    color: var(--rf-footer-icon, var(--rf-accent, #00ffff)) !important;
+    filter: drop-shadow(0 0 .25vmin currentColor);
+  }
+  #rf-music-toggle:hover {
+    filter: drop-shadow(0 0 .45vmin currentColor);
+  }
+  #rf-music-toggle svg,
+  #rf-music-toggle svg path {
+    fill: currentColor !important;
+    display: block;
+  }
 </style>
 
 <div id="rf-music-container">
