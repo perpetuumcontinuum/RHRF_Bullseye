@@ -972,8 +972,8 @@ flashTimerRef.current = window.setTimeout(() => {
       const messageParts = [
         t("share.tagline1"),
         t("share.tagline2"),
-        `My Score: ${scoreStr} RF`,
-        `Mode: ${cyberStatus}`,
+        t("share.score", { score: scoreStr }),
+        t("share.mode", { mode: cyberStatus }),
         t("share.tagline3"),
         "#RareFriends #RHRFBullseye",
         gameLink

@@ -66,7 +66,7 @@ export default function Hud(props: HudProps) {
               }`}
               disabled={count <= 0}
               onClick={() => onEquipArrow(arrow.id)}
-              title={`${t(arrow.labelKey)} ${t("hud.arrows")}: ${count}`}
+              title={t("hud.arrowsTitle", { label: t(arrow.labelKey), count })}
             >
               <svg viewBox="0 0 24 24" className="rf-hud-icon" aria-hidden="true">
                 <path d="M4 11h10V7l6 5-6 5v-4H4z" fill="currentColor" />

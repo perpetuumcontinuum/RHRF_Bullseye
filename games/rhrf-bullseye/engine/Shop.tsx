@@ -140,7 +140,7 @@ export default function Shop(props: any) {
 
                   <div className="rf-shop-item-side rf-shop-consumable-side">
                     
-                    <div className="rf-shop-item-count">{t("shop.inStockLabel")}: {count} / {CONSUMABLE_CAP}</div>
+                    <div className="rf-shop-item-count">{t("shop.inStock", { count, cap: CONSUMABLE_CAP })}</div>
 
                     <div className="rf-shop-consumable-controls">
                       <button disabled={!canPlus1} onClick={() => addConsumable(item, 1)}>

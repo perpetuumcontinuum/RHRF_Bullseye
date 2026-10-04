@@ -37,11 +37,11 @@ const fmtCompact = (n: number): string => {
 };
 
 const STAT_TABS = [
-  { id: "time", label: "TOTAL TIME", cols: ["SESSION", "ALL TIME"] },
-  { id: "rf", label: "EARNED RF", cols: ["TOTAL", "—"] },
-  { id: "cyber", label: "CYBER STREAK", cols: ["CURRENT", "BEST"] },
-  { id: "ghost", label: "GHOST STREAK", cols: ["CURRENT", "BEST"] },
-  { id: "asteroid", label: "ASTEROID STREAK", cols: ["CURRENT", "BEST"] },
+  { id: "time", labelKey: "stat.time", colKeys: ["stat.session", "stat.allTime"] },
+  { id: "rf", labelKey: "stat.rf", colKeys: ["stat.total", "stat.none"] },
+  { id: "cyber", labelKey: "stat.cyber", colKeys: ["stat.current", "stat.best"] },
+  { id: "ghost", labelKey: "stat.ghost", colKeys: ["stat.current", "stat.best"] },
+  { id: "asteroid", labelKey: "stat.asteroid", colKeys: ["stat.current", "stat.best"] },
 ] as const;
 
 type StatTabId = (typeof STAT_TABS)[number]["id"];
@@ -365,7 +365,7 @@ export default function Profile(props: any) {
                 className={`rf-stat-tab ${activeStat === tab.id ? "active" : ""}`}
                 onClick={() => setActiveStat(tab.id)}
               >
-                {tab.label}
+                {t(tab.labelKey)}
               </button>
             ))}
           </div>
@@ -374,8 +374,8 @@ export default function Profile(props: any) {
             <thead>
               <tr>
                 <th>PLAYER</th>
-                <th>{STAT_TABS.find((s) => s.id === activeStat)!.cols[0]}</th>
-                <th>{STAT_TABS.find((s) => s.id === activeStat)!.cols[1]}</th>
+                <th>{t(STAT_TABS.find((s) => s.id === activeStat)!.colKeys[0])}</th>
+                <th>{t(STAT_TABS.find((s) => s.id === activeStat)!.colKeys[1])}</th>
               </tr>
             </thead>
             <tbody>
@@ -474,7 +474,7 @@ export default function Profile(props: any) {
                             className="rf-profile-action sell"
                             onClick={() => openSellConfirm(item, 0.5)}
                           >
-                            {t("ui.sell")} 50%
+                            {t("profile.sell50")}
                             <span>{sell50} RF</span>
                           </button>
 
@@ -502,11 +502,11 @@ export default function Profile(props: any) {
             <div className="rf-sell-confirm-box">
               <div className="rf-sell-confirm-title">{t("profile.confirmSale")}</div>
               <div className="rf-sell-confirm-text">
-                Sell {pendingSale.amount} x {pendingSale.item.name}
+                {t("profile.sellAmount", { amount: pendingSale.amount, name: pendingSale.item.name })}
                 <br />
-                for <strong>{pendingSale.revenue} RF</strong>?
+                {t("profile.sellFor")} <strong>{pendingSale.revenue} RF</strong>?
                 <br />
-                Mode: {pendingSale.rate >= 0.6 ? t("profile.offer60") : t("profile.quick50")}
+                {t("profile.sellMode", { mode: pendingSale.rate >= 0.6 ? t("profile.offer60") : t("profile.quick50") })}
               </div>
 
               <div className="rf-sell-confirm-actions">
