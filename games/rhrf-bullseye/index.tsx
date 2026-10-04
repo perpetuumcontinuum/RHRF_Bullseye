@@ -735,9 +735,18 @@ flashTimerRef.current = window.setTimeout(() => {
     }, aimTime);
   };
 
+  const jumpingRef = useRef(false);
+  const jumpRafRef = useRef(0);
+
   const handleJump = () => {
     if (pausedRef.current) return;
-    if (stateRef.current !== 'IDLE' || isJumping || isShooting || isLaserFiring || isFallen) return;
+    // Ref, не state: setIsJumping батчится, и два вызова в один тик иначе
+    // оба прочитали бы isJumping === false и завели по rAF-цепочке.
+    if (stateRef.current !== 'IDLE' || jumpingRef.current || isShooting || isLaserFiring || isFallen) return;
+    jumpingRef.current = true;
+    // Отменяем предыдущую цепочку: иначе её старый jumpT0 преждевременно
+    // завершит уже новый прыжок.
+    cancelAnimationFrame(jumpRafRef.current);
     setIsJumping(true);
     (window as any).__RHRF_JUMP_STARTED_AT__ = Date.now();
     playSound('select');
@@ -752,7 +761,7 @@ flashTimerRef.current = window.setTimeout(() => {
           jumpPausedRef.current = true;
           jumpPauseSinceRef.current = Date.now();
         }
-        requestAnimationFrame(checkJumpEnd);
+        jumpRafRef.current = requestAnimationFrame(checkJumpEnd);
         return;
       }
       if (jumpPausedRef.current) {
@@ -760,12 +769,15 @@ flashTimerRef.current = window.setTimeout(() => {
         jumpPausedRef.current = false;
       }
       if (Date.now() - jumpT0 - jumpPauseAccumRef.current >= 1200) {
+        jumpingRef.current = false;
+        jumpRafRef.current = 0;
+        (window as any).__RHRF_JUMP_STARTED_AT__ = 0;
         setIsJumping(false);
       } else {
-        requestAnimationFrame(checkJumpEnd);
+        jumpRafRef.current = requestAnimationFrame(checkJumpEnd);
       }
     };
-    requestAnimationFrame(checkJumpEnd);
+    jumpRafRef.current = requestAnimationFrame(checkJumpEnd);
   };
 
   useEffect(() => {
@@ -784,6 +796,10 @@ flashTimerRef.current = window.setTimeout(() => {
         removeOneFromInventory(armorId);
       }
 
+      cancelAnimationFrame(jumpRafRef.current);
+      jumpRafRef.current = 0;
+      jumpingRef.current = false;
+      (window as any).__RHRF_JUMP_STARTED_AT__ = 0;
       setIsJumping(false);
       setIsFallen(true);
       playSound('impact');
@@ -792,7 +808,7 @@ flashTimerRef.current = window.setTimeout(() => {
 
     window.addEventListener("rhrf-ghost-hit", onGhostHit);
     return () => window.removeEventListener("rhrf-ghost-hit", onGhostHit);
-  }, [isJumping, isFallen, equippedArmor]);
+  }, [equippedArmor]);
 
   useEffect(() => {
     if (!isFallen) return;
