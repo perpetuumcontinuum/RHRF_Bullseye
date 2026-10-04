@@ -1572,6 +1572,7 @@ if (loading) {
         onShop={() => { setShowShop(true); playSound('select'); }}
         onGuide={() => { setShowGuide(true); playSound('select'); }}
         onProfile={() => { setShowProfile(true); playSound('select'); }}
+        onLang={() => { setShowLang(true); playSound('select'); }}
         flashColor={flashColor}
       />
 
@@ -1603,7 +1604,6 @@ if (loading) {
         isPaused={isPaused}
         onPopupDone={(id) => setScorePopups((arr) => arr.filter((p) => p.id !== id))}
         onTogglePause={togglePause}
-        onOpenLang={() => { setShowLang(true); playSound('select'); }}
       />
 
       </div>
