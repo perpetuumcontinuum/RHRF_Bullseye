@@ -320,8 +320,7 @@ export default function Profile(props: any) {
                   <div className="rf-profile-card-count">{cyberOn ? t("ui.on") : t("ui.off")}</div>
                 </div>
                 <div className="rf-profile-card-desc">
-                  Requires LEGENDARY BOW, LEGENDARY OUTFIT and LEGENDARY AMULET in inventory.
-                  Grants legendary bow / outfit / amulet effects and disables asteroid screen shake.
+                  {t("profile.cyberReq")} {t("profile.cyberGrants")}
                 </div>
                 <div className="rf-profile-card-bottom">
                   <div className="rf-profile-card-rarity">{t("profile.legendary")}</div>
