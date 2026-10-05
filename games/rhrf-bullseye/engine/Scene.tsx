@@ -871,6 +871,77 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
   const pages = getDialogPages("intro");
   const [page, setPage] = useState(0);
   const [visible, setVisible] = useState(true);
+  const [anchor, setAnchor] = useState<{ cx: number; top: number; h: number } | null>(null);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    let raf = 0;
+
+    const measure = () => {
+      const svg = document.getElementById("rhrf-scene-svg") as SVGSVGElement | null;
+      const el = svg?.querySelector(".nft-archer") as Element | null;
+      if (!svg || !el) return;
+
+      const sr = svg.getBoundingClientRect();
+      const er = el.getBoundingClientRect();
+      if (!sr.width || !sr.height || !er.width) return;
+
+      const vb = svg.viewBox.baseVal;
+      const sx = vb.width / sr.width;
+      const sy = vb.height / sr.height;
+
+      const next = {
+        cx: (er.left + er.width / 2 - sr.left) * sx,
+        top: (er.top - sr.top) * sy,
+        h: er.height * sy,
+      };
+
+      setAnchor((prev) =>
+        prev &&
+        Math.abs(prev.cx - next.cx) < 0.5 &&
+        Math.abs(prev.top - next.top) < 0.5 &&
+        Math.abs(prev.h - next.h) < 0.5
+          ? prev
+          : next
+      );
+    };
+
+    const schedule = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+
+    schedule();
+    const t1 = window.setTimeout(schedule, 120);
+    const t2 = window.setTimeout(schedule, 500);
+
+    window.addEventListener("resize", schedule);
+
+    const obs = new MutationObserver(schedule);
+    obs.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "style", "transform"],
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.removeEventListener("resize", schedule);
+      obs.disconnect();
+    };
+  }, [visible]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const dismiss = () => setVisible(false);
+    window.addEventListener("rhrf:dismiss-dialog", dismiss);
+    return () => window.removeEventListener("rhrf:dismiss-dialog", dismiss);
+  }, [visible]);
 
   useEffect(() => {
     if (!visible) return;
@@ -879,22 +950,15 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
       const target = event.target as Element | null;
       if (!target) return;
 
+      // Исключаем только верхнее меню и языковой picker.
+      if (target.closest(".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]")) {
+        return;
+      }
+
       if (target.closest(".rf-speech-skip")) {
-        event.stopPropagation();
         setVisible(false);
         return;
       }
-
-      if (
-        target.closest(
-          "button, a, input, select, textarea, [role='button'], " +
-          ".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]"
-        )
-      ) {
-        return;
-      }
-
-      event.stopPropagation();
 
       if (pages.length > 1 && page < pages.length - 1) {
         setPage((prev) => prev + 1);
@@ -911,11 +975,20 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
 
   const lines = pages[page] || [];
   const isDialog = pages.length > 1 || lines.length > 1;
+
   const bw = 320;
   const bh = 38 + lines.length * 22;
-  const bx = x - bw / 2;
-  const by = y - 185;
-  const tx = bx + bw / 2;
+
+  const cx = anchor?.cx ?? x;
+  const top = anchor?.top ?? (y - 80);
+  const ph = anchor?.h ?? 120;
+
+  // Масштабируемый отступ: минимум 40 юнитов SVG, плюс пропорционально высоте персонажа.
+  const gap = Math.max(40, ph * 0.12);
+
+  const bx = cx - bw / 2;
+  const by = Math.max(4, top - bh - gap);
+  const tx = cx;
   const tailY = by + bh;
   const tailPoints = `${tx - 12},${tailY} ${tx + 12},${tailY} ${tx},${tailY + 18}`;
 

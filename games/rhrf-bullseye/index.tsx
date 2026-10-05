@@ -1241,6 +1241,27 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
   useEffect(() => {
 
     const handleKey = (e: KeyboardEvent) => {
+      const active = document.activeElement;
+      if (
+        active &&
+        !active.closest(".rf-top-bar, .rf-lang-picker") &&
+        [
+          "Space",
+          "ArrowUp",
+          "KeyW",
+          "Digit1",
+          "Numpad1",
+          "Digit2",
+          "Numpad2",
+          "Digit3",
+          "Numpad3",
+          "KeyF",
+          "KeyJ",
+          "KeyK",
+        ].includes(e.code)
+      ) {
+        window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
+      }
       const k = e.code;
       if (e.repeat) return;
       // Escape closes overlays regardless of focused element (buttons keep focus after click)
@@ -1504,9 +1525,18 @@ const handleToggleCyberStyle = () => {
   };
 
   
-  handlersRef.current.fire = handleFire;
-  handlersRef.current.towerFire = handleTowerFire;
-  handlersRef.current.jump = handleJump;
+  handlersRef.current.fire = (...args: any[]) => {
+      window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
+      return (handleFire as any)(...args);
+    };
+  handlersRef.current.towerFire = (...args: any[]) => {
+      window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
+      return (handleTowerFire as any)(...args);
+    };
+  handlersRef.current.jump = (...args: any[]) => {
+      window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
+      return (handleJump as any)(...args);
+    };
 
   useEffect(() => {
     if (gameContainerRef.current) {
@@ -1680,7 +1710,10 @@ if (loading) {
       <SessionNotice />
       <div className="rf-bottom-row">
       <div className={`controls-row${isPaused ? " rf-paused-lock" : ""}`}>
-        <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={handleTowerFire}>
+        <button className={`fire-tower-btn${laserCooldown ? " rf-on-cd" : ""}`} disabled={laserCooldown || isLaserFiring} onClick={() => {
+            window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
+            handleTowerFire();
+          }}>
           {t("btn.fire")}
         </button>
         <button className="shot-btn" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring} onClick={handleFire}>
