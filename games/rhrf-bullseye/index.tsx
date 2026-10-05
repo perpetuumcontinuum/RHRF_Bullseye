@@ -159,12 +159,13 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     const count = streaksRef.current[kind];
     const rank = rankForStreak(kind, count);
     if (!rank) return; // asteroid/ghost: 3,10,...,101; cyber: каждый 3..11
+    const already = gameStats.earnedBadges.includes(rank.id);
     unlockBadge(rank.id);
     setStreakBanner({
-      text: buildStreakMessage(kind, count),
+      text: buildStreakMessage(kind, count, undefined, already),
       count,
       kind,
-      badge: { icon: rank.icon, label: rank.label },
+      badge: already ? null : { icon: rank.icon, label: rank.label },
     });
     pt(() => setStreakBanner(null), isFinalRank(kind, count) ? 60000 : 2500);
   };
@@ -186,12 +187,13 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     const crossed = TIME_RANKS.filter((r) => r.n > prevHours && r.n <= hours);
     if (!crossed.length) return;
     const rank = crossed[crossed.length - 1];
+    const already = gameStats.earnedBadges.includes(rank.id);
     crossed.forEach((r) => unlockBadge(r.id));
     setStreakBanner({
-      text: buildTimeMessage(rank.n),
+      text: buildTimeMessage(rank.n, undefined, already),
       count: rank.n,
       kind: "time",
-      badge: { icon: rank.icon, label: rank.label },
+      badge: already ? null : { icon: rank.icon, label: rank.label },
     });
     pt(() => setStreakBanner(null), isFinalRank("time", rank.n) ? 60000 : 2500);
   }, [gameStats.totalPlayMs]);

@@ -196,13 +196,14 @@ function tierForCount(n: number): keyof typeof PHRASES {
   return "tier1";
 }
 
-export function buildStreakMessage(kind: StreakKind, count: number, rand: () => number = Math.random): string {
+export function buildStreakMessage(kind: StreakKind, count: number, rand: () => number = Math.random, hideRank = false): string {
   const rank = rankForStreak(kind, count);
   const kindLabel = kind.toUpperCase();
   const pool = PHRASES[tierForCount(count)];
   const phrase = pool[Math.floor(rand() * pool.length)];
-  if (rank && isFinalRank(kind, count)) return `${phrase}! ${kindLabel} STREAK x${count} — ${rank.label}`;
-  return `${phrase}! ${kindLabel} STREAK x${count}${rank ? ` — ${rank.label}` : ""}`;
+  const show = rank && !hideRank;
+  if (show && isFinalRank(kind, count)) return `${phrase}! ${kindLabel} STREAK x${count} — ${rank!.label}`;
+  return `${phrase}! ${kindLabel} STREAK x${count}${show ? ` — ${rank!.label}` : ""}`;
 }
 
 const TIME_PHRASES = [
@@ -211,12 +212,12 @@ const TIME_PHRASES = [
   ["ONE WITH THE CLOCK", "SLOW BURN LEGEND", "THE TOWER TICKS FOR YOU", "DIAL FULL, QUIVER FULL", "THE GHOSTS GOT OLD", "ASTEROIDS LOST COUNT", "RARE TIME LEGEND: FINAL FORM"],
 ] as const;
 
-export function buildTimeMessage(hours: number, rand: () => number = Math.random): string {
+export function buildTimeMessage(hours: number, rand: () => number = Math.random, hideRank = false): string {
   const group = hours <= 300 ? 0 : hours <= 700 ? 1 : 2;
   const pool = TIME_PHRASES[group];
   const phrase = pool[Math.floor(rand() * pool.length)];
   const rank = rankForStreak("time", hours);
-  return `${phrase}! TIME SERVED ${hours}H${rank ? ` — ${rank.label}` : ""}`;
+  return `${phrase}! TIME SERVED ${hours}H${rank && !hideRank ? ` — ${rank.label}` : ""}`;
 }
 
 const RF_PHRASES = [
