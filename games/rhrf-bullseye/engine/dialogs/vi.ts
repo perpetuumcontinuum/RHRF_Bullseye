@@ -1,6 +1,6 @@
 const intro: string[][] = [
   [
-    "XIN CHÀO NGƯỜI CHƠI!",
+    "GM NGƯỜI CHƠI!",
     "ĐI THÔI?",
     "BẮN TRUNG MỤC TIÊU,",
     "NÂNG KỸ NĂNG,",

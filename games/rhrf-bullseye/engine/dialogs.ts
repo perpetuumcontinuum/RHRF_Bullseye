@@ -1,62 +1,62 @@
-import en from "./dialogs/en";
-import ru from "./dialogs/ru";
-import es from "./dialogs/es";
-import zh from "./dialogs/zh";
-import hi from "./dialogs/hi";
 import ar from "./dialogs/ar";
-import pt from "./dialogs/pt";
+import cs from "./dialogs/cs";
+import da from "./dialogs/da";
+import el from "./dialogs/el";
+import en from "./dialogs/en";
+import es from "./dialogs/es";
+import fi from "./dialogs/fi";
+import fr from "./dialogs/fr";
+import hi from "./dialogs/hi";
+import hu from "./dialogs/hu";
+import id from "./dialogs/id";
+import it from "./dialogs/it";
 import ja from "./dialogs/ja";
 import ko from "./dialogs/ko";
-import fr from "./dialogs/fr";
-import tr from "./dialogs/tr";
-import vi from "./dialogs/vi";
-import it from "./dialogs/it";
-import id from "./dialogs/id";
-import pl from "./dialogs/pl";
-import uk from "./dialogs/uk";
-import th from "./dialogs/th";
 import nl from "./dialogs/nl";
-import ro from "./dialogs/ro";
-import el from "./dialogs/el";
-import cs from "./dialogs/cs";
-import sv from "./dialogs/sv";
-import fi from "./dialogs/fi";
 import no from "./dialogs/no";
-import da from "./dialogs/da";
-import hu from "./dialogs/hu";
+import pl from "./dialogs/pl";
+import pt from "./dialogs/pt";
+import ro from "./dialogs/ro";
+import ru from "./dialogs/ru";
+import sv from "./dialogs/sv";
+import th from "./dialogs/th";
+import tr from "./dialogs/tr";
+import uk from "./dialogs/uk";
+import vi from "./dialogs/vi";
+import zh from "./dialogs/zh";
 
-type DialogPages = { intro: string[][] };
+type DialogModule = { intro: string[][] };
 
-const DIALOGS: Record<string, DialogPages> = {
-  en,,
-  ru,,
-  es,,
-  zh,,
-  hi,,
-  ar,,
-  pt,,
-  ja,,
-  ko,,
-  fr,,
-  tr,,
-  vi,,
-  it,,
-  id,,
-  pl,,
-  uk,,
-  th,,
-  nl,,
-  ro,,
-  el,,
-  cs,,
-  sv,,
-  fi,,
-  no,,
-  da,,
+const DIALOGS: Record<string, DialogModule> = {
+  ar,
+  cs,
+  da,
+  el,
+  en,
+  es,
+  fi,
+  fr,
+  hi,
   hu,
+  id,
+  it,
+  ja,
+  ko,
+  nl,
+  no,
+  pl,
+  pt,
+  ro,
+  ru,
+  sv,
+  th,
+  tr,
+  uk,
+  vi,
+  zh,
 };
 
-export type DialogKey = keyof DialogPages;
+export type DialogKey = keyof DialogModule;
 
 function normalize(lang?: string): string {
   const docLang =
@@ -71,6 +71,6 @@ function normalize(lang?: string): string {
 }
 
 export function getDialogPages(key: DialogKey, lang?: string): string[][] {
-  const mod = DIALOGS[normalize(lang)] || en;
-  return mod[key] || en[key] || [["..."]];
+  const mod = DIALOGS[normalize(lang)] || DIALOGS.en;
+  return mod[key] || DIALOGS.en[key] || [["..."]];
 }

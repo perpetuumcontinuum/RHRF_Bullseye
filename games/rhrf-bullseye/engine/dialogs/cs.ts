@@ -1,6 +1,6 @@
 const intro: string[][] = [
   [
-    "AHOJ, HRÁČI!",
+    "GM, HRÁČI!",
     "JDEME NA TO?",
     "STŘÍLEJ NA CÍL,",
     "ZLEPŠI SE,",

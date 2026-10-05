@@ -1,6 +1,6 @@
 const intro: string[][] = [
   [
-    "HEI, PELAAJA!",
+    "GM, PELAAJA!",
     "ALETEKO?",
     "AMMU TAVOITTEA,",
     "KEHITÄ TAITOJASI,",

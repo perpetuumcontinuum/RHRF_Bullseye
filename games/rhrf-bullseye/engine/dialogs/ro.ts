@@ -1,6 +1,6 @@
 const intro: string[][] = [
   [
-    "SALUT, JUCĂTOR!",
+    "GM, JUCĂTOR!",
     "HAI SĂ ÎNCEPEM?",
     "LOVEȘTE ȚINTA,",
     "DEZVOLTĂ-ȚI ABILITĂȚILE,",
