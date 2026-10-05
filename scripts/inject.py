@@ -7,6 +7,16 @@ out = src / ".friendsdk"
 for f in ("favicon.svg", "site.webmanifest", "theme-boot.js"):
     shutil.copy(src / f, out / f)
 
+# выносим инлайн-скрипт frame-maintenance.html во внешний JS, чтобы не нарушать CSP SDK
+maint_html = Path("frame-maintenance.html").read_text(encoding="utf-8")
+m = re.search(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", maint_html, re.S | re.I)
+if m:
+    js = m.group(1).lstrip("\n")
+    (out / "frame-maintenance.js").write_text(js, encoding="utf-8")
+    maint_html = maint_html[:m.start()] + '<script src="./frame-maintenance.js"></script>' + maint_html[m.end():]
+    Path("frame-maintenance.html").write_text(maint_html, encoding="utf-8")
+    print("extracted inline maintenance script -> out/frame-maintenance.js")
+
 HEAD = (
     '<meta name="description" content="Defend the planet with your Generations NFT in this cyber archery minigame. '
     'Shoot moving targets, dodge ghosts, deflect asteroids and unlock legendary gear. Built on FriendSDK v0.1.4."/>'
@@ -19,6 +29,7 @@ HEAD = (
 WIDGET = Path("frame-widget.html").read_text(encoding="utf-8")
 FOOTER = Path("frame-footer.html").read_text(encoding="utf-8")
 MAINT = Path("frame-maintenance.html").read_text(encoding="utf-8")
+assert "<script" not in MAINT or "src=" in MAINT, "maintenance HTML still contains inline script"
 
 def _ver():
     s = os.environ.get("GITHUB_SHA")
