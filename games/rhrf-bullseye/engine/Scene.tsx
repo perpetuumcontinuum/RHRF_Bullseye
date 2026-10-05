@@ -1,9 +1,10 @@
-import { useState } from "react";
+import {useState, useEffect} from "react";
 import { useT } from "./i18n";
 import BackgroundEvents from "./BackgroundEvents";
 import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
 import React from "react";
 import { TARGET_CX, TARGET_CY, ARROW_START_X, ARROW_START_Y, getScoreColor } from "./math";
+import { getDialogPages } from "./dialogs";
 
 interface SceneProps {
   nftImageUrl?: string | null;
@@ -867,51 +868,59 @@ const pixelBounds = (() => {
 }
 
 function SpeechBubble({ x, y }: { x: number; y: number }) {
-  const pages: string[][] = [
-    [
-      "HELLO, PLAYER!",
-      "LET'S GO?",
-      "SHOOT THE TARGET,",
-      "LEVEL UP SKILL,",
-      "GROW BEYOND YOURSELF :)",
-    ],
-  ];
-
+  const pages = getDialogPages("intro");
   const [page, setPage] = useState(0);
   const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target as Element | null;
+      if (!target) return;
+
+      if (target.closest(".rf-speech-skip")) {
+        event.stopPropagation();
+        setVisible(false);
+        return;
+      }
+
+      if (
+        target.closest(
+          "button, a, input, select, textarea, [role='button'], " +
+          ".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]"
+        )
+      ) {
+        return;
+      }
+
+      event.stopPropagation();
+
+      if (pages.length > 1 && page < pages.length - 1) {
+        setPage((prev) => prev + 1);
+      } else {
+        setVisible(false);
+      }
+    };
+
+    window.addEventListener("pointerdown", onPointerDown, true);
+    return () => window.removeEventListener("pointerdown", onPointerDown, true);
+  }, [visible, page, pages.length]);
 
   if (!visible) return null;
 
   const lines = pages[page] || [];
   const isDialog = pages.length > 1 || lines.length > 1;
-
   const bw = 320;
   const bh = 38 + lines.length * 22;
   const bx = x - bw / 2;
   const by = y - 185;
   const tx = bx + bw / 2;
   const tailY = by + bh;
-
-  const tap = () => {
-    if (pages.length > 1 && page < pages.length - 1) {
-      setPage(page + 1);
-    } else {
-      setVisible(false);
-    }
-  };
+  const tailPoints = `${tx - 12},${tailY} ${tx + 12},${tailY} ${tx},${tailY + 18}`;
 
   return (
     <g className="rf-speech-layer">
-      <rect
-        className="rf-speech-overlay"
-        x="0"
-        y="0"
-        width="1000"
-        height="700"
-        fill="transparent"
-        onClick={tap}
-      />
-
       <g className="rf-speech-bubble" style={{ pointerEvents: "none" }}>
         <rect
           x={bx}
@@ -925,7 +934,7 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
         />
 
         <polygon
-          points={`${tx - 12},${tailY} ${tx + 12},${tailY} ${tx},${tailY + 18}`}
+          points={tailPoints}
           fill="#000"
           stroke="#fff"
           strokeWidth="3"
@@ -959,7 +968,7 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
       </g>
 
       {isDialog && (
-        <g className="rf-speech-skip" onClick={() => setVisible(false)}>
+        <g className="rf-speech-skip">
           <rect
             x={bx + bw - 62}
             y={tailY - 28}

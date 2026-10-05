@@ -2392,3 +2392,17 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   0%{opacity:0;}
   100%{opacity:1;}
 }
+
+/* rf-speech-safe-override */
+.rf-speech-layer { pointer-events: none; }
+.rf-speech-bubble {
+  pointer-events: none;
+  animation: rfSpeechIn 0.18s ease-out;
+}
+.rf-speech-skip { pointer-events: all; cursor: pointer; }
+.rf-speech-skip:hover rect { fill: #1a0030; }
+.rf-speech-skip:hover text { fill: #ccff00; }
+@keyframes rfSpeechIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

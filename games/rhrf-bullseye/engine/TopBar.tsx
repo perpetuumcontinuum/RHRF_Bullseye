@@ -28,7 +28,7 @@ export default function HUD({ score, onShop, onGuide, onProfile, onLang, flashCo
       <button className="rf-top-bar__btn rf-top-bar__btn--guide" onClick={onGuide}>{t("topbar.guide")}</button>
       <button className="rf-top-bar__btn rf-top-bar__btn--profile" onClick={onProfile}>{t("topbar.profile")}</button>
       <button
-        className="rf-top-bar__btn rf-top-bar__btn--lang"
+        className="rf-top-bar__btn rf-top-bar__btn--lang" data-no-bubble-dismiss
         onClick={onLang}
         data-rf-skip-space="true"
         aria-label={t("lang.label")}
