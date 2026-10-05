@@ -2376,3 +2376,16 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 [class*="badge"] > * {
   scroll-snap-align: start;
 }
+
+/* ---- Generic pixel speech bubble for character dialogs ---- */
+.rf-speech-bubble{
+  pointer-events:none;
+  animation:rfSpeechBubble 5s ease-out forwards;
+}
+
+@keyframes rfSpeechBubble{
+  0%{opacity:0;}
+  8%{opacity:1;}
+  75%{opacity:1;}
+  100%{opacity:0;}
+}

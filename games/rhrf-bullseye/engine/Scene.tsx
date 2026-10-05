@@ -675,6 +675,57 @@ const pixelBounds = (() => {
             </g>
           );
         })}
+{(() => {
+  const bx = ARROW_START_X - 150;
+  const by = ARROW_START_Y - 165;
+  const bw = 300;
+  const bh = 128;
+  const tx = bx + bw / 2;
+  const lines = [
+    "ПРИВЕТ, ИГРОК!",
+    "НУ ЧТО, ПОГНАЛИ?",
+    "СТРЕЛЯЕМ ПО МИШЕНИ,",
+    "КАЧАЕМ СКИЛЛ,",
+    "РАСТЁМ НАД СОБОЙ :)",
+  ];
+  return (
+    <g className="rf-speech-bubble" style={{ pointerEvents: "none" }}>
+      <rect
+        x={bx}
+        y={by}
+        width={bw}
+        height={bh}
+        fill="#000"
+        stroke="#fff"
+        strokeWidth="3"
+        shapeRendering="crispEdges"
+      />
+      <polygon
+        points={`${tx - 12},${by + bh} ${tx + 12},${by + bh} ${tx},${by + bh + 18}`}
+        fill="#000"
+        stroke="#fff"
+        strokeWidth="3"
+        shapeRendering="crispEdges"
+      />
+      <line x1={tx - 11} y1={by + bh} x2={tx + 11} y2={by + bh} stroke="#000" strokeWidth="3" />
+      {lines.map((line, i) => (
+        <text
+          key={i}
+          x={tx}
+          y={by + 28 + i * 22}
+          textAnchor="middle"
+          fill="#fff"
+          fontFamily="'Courier New', Courier, monospace"
+          fontSize="13"
+          fontWeight="900"
+          letterSpacing="0.5"
+        >
+          {line}
+        </text>
+      ))}
+    </g>
+  );
+})()}
 {isPaused && (
         <g pointerEvents="none">
           <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />
