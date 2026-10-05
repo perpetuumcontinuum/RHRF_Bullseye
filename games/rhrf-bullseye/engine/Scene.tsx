@@ -868,14 +868,22 @@ const pixelBounds = (() => {
 }
 
 function SpeechBubble({ x, y }: { x: number; y: number }) {
+  const lang = useLang();
   const [page, setPage] = useState(0);
   const [visible, setVisible] = useState(true);
   const [anchor, setAnchor] = useState<{ cx: number; top: number; h: number } | null>(null);
 
   const visibleRef = useRef(visible);
   const pageRef = useRef(page);
+  const langRef = useRef(lang);
   visibleRef.current = visible;
   pageRef.current = page;
+  langRef.current = lang;
+
+  useEffect(() => {
+    (globalThis as any).__RHRF_LANG__ = lang;
+    setPage(0);
+  }, [lang]);
 
   useEffect(() => {
     let raf = 0;
@@ -941,18 +949,16 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
 
   useEffect(() => {
     const dismiss = () => setVisible(false);
-    const onLang = () => setPage(0);
-
     window.addEventListener("rhrf:dismiss-dialog", dismiss);
-    window.addEventListener("rhrf:lang-change", onLang);
-
-    return () => {
-      window.removeEventListener("rhrf:dismiss-dialog", dismiss);
-      window.removeEventListener("rhrf:lang-change", onLang);
-    };
+    return () => window.removeEventListener("rhrf:dismiss-dialog", dismiss);
   }, []);
 
   useEffect(() => {
+    const MENU_SELECTOR =
+      ".rf-top-bar, .rf-lang-picker, .rf-lang-overlay, .rf-lang-panel, " +
+      ".rf-lang-option, .rf-lang-close, .rf-lang-header, .rf-lang-title, " +
+      ".rf-lang-grid, .rf-lang-code, .rf-lang-name, [data-no-bubble-dismiss]";
+
     const onPointerDown = (event: PointerEvent) => {
       if (!visibleRef.current) return;
 
@@ -964,11 +970,11 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
         return;
       }
 
-      if (target.closest(".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]")) {
+      if (target.closest(MENU_SELECTOR)) {
         return;
       }
 
-      const pages = getDialogPages("intro", (globalThis as any).__RHRF_LANG__);
+      const pages = getDialogPages("intro", langRef.current);
 
       if (pages.length > 1 && pageRef.current < pages.length - 1) {
         setPage((prev) => prev + 1);
@@ -983,7 +989,7 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
 
   if (!visible) return null;
 
-  const pages = getDialogPages("intro", (globalThis as any).__RHRF_LANG__);
+  const pages = getDialogPages("intro", lang);
   const lines = pages[page] || [];
   const isDialog = pages.length > 1 || lines.length > 1;
 
