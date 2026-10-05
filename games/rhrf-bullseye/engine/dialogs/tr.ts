@@ -8,4 +8,6 @@ const intro: string[][] = [
   ]
 ];
 
-export default { intro };
+const skip = "ATLA";
+
+export default { intro, skip };

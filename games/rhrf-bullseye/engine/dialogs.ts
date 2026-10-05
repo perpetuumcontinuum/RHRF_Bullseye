@@ -25,7 +25,7 @@ import uk from "./dialogs/uk";
 import vi from "./dialogs/vi";
 import zh from "./dialogs/zh";
 
-type DialogModule = { intro: string[][] };
+type DialogModule = { intro: string[][]; skip: string };
 
 const DIALOGS: Record<string, DialogModule> = {
   ar,
@@ -56,7 +56,7 @@ const DIALOGS: Record<string, DialogModule> = {
   zh,
 };
 
-export type DialogKey = keyof DialogModule;
+export type DialogKey = "intro";
 
 function normalize(lang?: string): string {
   const docLang =
@@ -73,4 +73,9 @@ function normalize(lang?: string): string {
 export function getDialogPages(key: DialogKey, lang?: string): string[][] {
   const mod = DIALOGS[normalize(lang)] || DIALOGS.en;
   return mod[key] || DIALOGS.en[key] || [["..."]];
+}
+
+export function getDialogSkip(lang?: string): string {
+  const mod = DIALOGS[normalize(lang)] || DIALOGS.en;
+  return mod.skip || DIALOGS.en.skip || "SKIP";
 }

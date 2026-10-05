@@ -4,7 +4,7 @@ import BackgroundEvents from "./BackgroundEvents";
 import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
 import React from "react";
 import { TARGET_CX, TARGET_CY, ARROW_START_X, ARROW_START_Y, getScoreColor } from "./math";
-import { getDialogPages } from "./dialogs";
+import { getDialogPages, getDialogSkip } from "./dialogs";
 
 interface SceneProps {
   nftImageUrl?: string | null;
@@ -996,9 +996,11 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
   const pages = getDialogPages("intro", lang);
   const lines = pages[page] || [];
   const isDialog = pages.length > 1 || lines.length > 1;
+  const skipLabel = getDialogSkip(lang);
+  const skipW = Math.max(54, Math.ceil(skipLabel.length * 7.2) + 18);
 
   const maxChars = lines.reduce((m, line) => Math.max(m, line.length), 0);
-  const bw = Math.min(900, Math.max(320, maxChars * 8.2 + 40));
+  const bw = Math.min(900, Math.max(320, maxChars * 8.2 + 40, skipW + 90));
   const bh = 38 + lines.length * 22;
 
   const cx = anchor?.cx ?? x;
@@ -1063,11 +1065,11 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
       </g>
 
       {isDialog && (
-        <g className="rf-speech-skip">
+        <g className="rf-speech-skip" role="button" aria-label={skipLabel}>
           <rect
-            x={bx + bw - 62}
+            x={bx + bw - skipW - 4}
             y={tailY - 28}
-            width="54"
+            width={skipW}
             height="22"
             fill="#000"
             stroke="#fff"
@@ -1075,16 +1077,16 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
             shapeRendering="crispEdges"
           />
           <text
-            x={bx + bw - 35}
+            x={bx + bw - skipW / 2 - 4}
             y={tailY - 13}
             textAnchor="middle"
             fill="#fff"
             fontFamily="'Courier New', Courier, monospace"
             fontSize="11"
             fontWeight="900"
-            letterSpacing="1"
+            letterSpacing="0.5"
           >
-            SKIP
+            {skipLabel}
           </text>
         </g>
       )}

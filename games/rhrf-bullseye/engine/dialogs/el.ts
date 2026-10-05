@@ -8,4 +8,6 @@ const intro: string[][] = [
   ]
 ];
 
-export default { intro };
+const skip = "ΠΑΡΑΛΕΙΨΗ";
+
+export default { intro, skip };
