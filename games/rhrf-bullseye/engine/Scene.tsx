@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useT } from "./i18n";
 import BackgroundEvents from "./BackgroundEvents";
 import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
@@ -675,57 +676,7 @@ const pixelBounds = (() => {
             </g>
           );
         })}
-{(() => {
-  const bx = ARROW_START_X - 150;
-  const by = ARROW_START_Y - 165;
-  const bw = 300;
-  const bh = 128;
-  const tx = bx + bw / 2;
-  const lines = [
-    "HELLO, PLAYER!",
-    "LET'S GO?",
-    "SHOOT THE TARGET,",
-    "LEVEL UP SKILL,",
-    "GROW BEYOND YOURSELF :)"
-  ];
-  return (
-    <g className="rf-speech-bubble" style={{ pointerEvents: "none" }}>
-      <rect
-        x={bx}
-        y={by}
-        width={bw}
-        height={bh}
-        fill="#000"
-        stroke="#fff"
-        strokeWidth="3"
-        shapeRendering="crispEdges"
-      />
-      <polygon
-        points={`${tx - 12},${by + bh} ${tx + 12},${by + bh} ${tx},${by + bh + 18}`}
-        fill="#000"
-        stroke="#fff"
-        strokeWidth="3"
-        shapeRendering="crispEdges"
-      />
-      <line x1={tx - 11} y1={by + bh} x2={tx + 11} y2={by + bh} stroke="#000" strokeWidth="3" />
-      {lines.map((line, i) => (
-        <text
-          key={i}
-          x={tx}
-          y={by + 28 + i * 22}
-          textAnchor="middle"
-          fill="#fff"
-          fontFamily="'Courier New', Courier, monospace"
-          fontSize="13"
-          fontWeight="900"
-          letterSpacing="0.5"
-        >
-          {line}
-        </text>
-      ))}
-    </g>
-  );
-})()}
+<SpeechBubble x={ARROW_START_X} y={ARROW_START_Y} />
 {isPaused && (
         <g pointerEvents="none">
           <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />
@@ -912,5 +863,127 @@ const pixelBounds = (() => {
         </g>
       ))}
     </svg>
+  );
+}
+
+function SpeechBubble({ x, y }: { x: number; y: number }) {
+  const pages: string[][] = [
+    [
+      "HELLO, PLAYER!",
+      "LET'S GO?",
+      "SHOOT THE TARGET,",
+      "LEVEL UP SKILL,",
+      "GROW BEYOND YOURSELF :)",
+    ],
+  ];
+
+  const [page, setPage] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  if (!visible) return null;
+
+  const lines = pages[page] || [];
+  const isDialog = pages.length > 1 || lines.length > 1;
+
+  const bw = 320;
+  const bh = 38 + lines.length * 22;
+  const bx = x - bw / 2;
+  const by = y - 185;
+  const tx = bx + bw / 2;
+  const tailY = by + bh;
+
+  const tap = () => {
+    if (pages.length > 1 && page < pages.length - 1) {
+      setPage(page + 1);
+    } else {
+      setVisible(false);
+    }
+  };
+
+  return (
+    <g className="rf-speech-layer">
+      <rect
+        className="rf-speech-overlay"
+        x="0"
+        y="0"
+        width="1000"
+        height="700"
+        fill="transparent"
+        onClick={tap}
+      />
+
+      <g className="rf-speech-bubble" style={{ pointerEvents: "none" }}>
+        <rect
+          x={bx}
+          y={by}
+          width={bw}
+          height={bh}
+          fill="#000"
+          stroke="#fff"
+          strokeWidth="3"
+          shapeRendering="crispEdges"
+        />
+
+        <polygon
+          points={`${tx - 12},${tailY} ${tx + 12},${tailY} ${tx},${tailY + 18}`}
+          fill="#000"
+          stroke="#fff"
+          strokeWidth="3"
+          shapeRendering="crispEdges"
+        />
+
+        <line
+          x1={tx - 11}
+          y1={tailY}
+          x2={tx + 11}
+          y2={tailY}
+          stroke="#000"
+          strokeWidth="3"
+        />
+
+        {lines.map((line, i) => (
+          <text
+            key={i}
+            x={tx}
+            y={by + 28 + i * 22}
+            textAnchor="middle"
+            fill="#fff"
+            fontFamily="'Courier New', Courier, monospace"
+            fontSize="13"
+            fontWeight="900"
+            letterSpacing="0.5"
+          >
+            {line}
+          </text>
+        ))}
+      </g>
+
+      {isDialog && (
+        <g className="rf-speech-skip" onClick={() => setVisible(false)}>
+          <rect
+            x={bx + bw - 62}
+            y={tailY - 28}
+            width="54"
+            height="22"
+            fill="#000"
+            stroke="#fff"
+            strokeWidth="2"
+            shapeRendering="crispEdges"
+          />
+          <text
+            x={bx + bw - 35}
+            y={tailY - 13}
+            textAnchor="middle"
+            fill="#fff"
+            fontFamily="'Courier New', Courier, monospace"
+            fontSize="11"
+            fontWeight="900"
+            letterSpacing="1"
+          >
+            SKIP
+          </text>
+        </g>
+      )}
+    </g>
   );
 }

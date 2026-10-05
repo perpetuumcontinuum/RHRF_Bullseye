@@ -2378,14 +2378,17 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }
 
 /* ---- Generic pixel speech bubble for character dialogs ---- */
+.rf-speech-layer{ pointer-events:none; }
+.rf-speech-overlay{ pointer-events:all; cursor:pointer; }
 .rf-speech-bubble{
   pointer-events:none;
-  animation:rfSpeechBubble 5s ease-out forwards;
+  animation:rfSpeechIn 0.18s ease-out;
 }
+.rf-speech-skip{ pointer-events:all; cursor:pointer; }
+.rf-speech-skip:hover rect{ fill:#1a0030; }
+.rf-speech-skip:hover text{ fill:#ccff00; }
 
-@keyframes rfSpeechBubble{
+@keyframes rfSpeechIn{
   0%{opacity:0;}
-  8%{opacity:1;}
-  75%{opacity:1;}
-  100%{opacity:0;}
+  100%{opacity:1;}
 }
