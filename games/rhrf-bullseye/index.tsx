@@ -261,7 +261,7 @@ const asteroidKilledRef = useRef(false);
   const [arrowProgress, setArrowProgress] = useState(0);
   const [laserPos, setLaserPos] = useState(getRandomPointInTarget());
   const [laserTarget, setLaserTarget] = useState(getRandomPointInTarget());
-  const [stuckArrows, setStuckArrows] = useState<{x: number, y: number, color: string}[]>([]);
+  const [stuckArrows, setStuckArrows] = useState<{x: number, y: number, qualityId: string | null; color?: string}[]>([]);
   const shotTargetRef = useRef<{ x: number; y: number } | null>(null);
   const laserPosLiveRef = useRef(laserPos);
   const [scorePopups, setScorePopups] = useState<{x: number, y: number, score: number, isBullseye?: boolean, color?: string, dx?: number, dy?: number, id: number}[]>([]);
@@ -724,7 +724,7 @@ const asteroidKilledRef = useRef(false);
 
             addEarnedScore(finalScore);
             playSound('impact');
-            setStuckArrows((arr) => [...arr.slice(-4), { x: hx, y: hy, color: arrowColorById(shotArrowId) }]);
+            setStuckArrows((arr) => [...arr.slice(-4), { x: hx, y: hy, qualityId: shotArrowId, color: arrowColorById(shotArrowId) }]);
             const popupColor = getScoreColor(baseScore);
 const isBullseyeHit = baseScore === 10;
 const effectivePopupColor = isBullseyeHit ? CYBER_BULLSEYE_COLOR : popupColor;

@@ -23,7 +23,7 @@ interface SceneProps {
   explosion?: { x: number; y: number; visible: boolean };
   arrowProgress: number;
   frozenLaser?: { x: number; y: number } | null;
-  stuckArrows: { x: number; y: number; color?: string }[];
+  stuckArrows: { x: number; y: number; qualityId?: string | null; color?: string }[];
   scorePopups: {
     x: number;
     y: number;
@@ -667,7 +667,7 @@ const pixelBounds = (() => {
           const tailX2 = tx - sux * 40, tailY2 = ty - suy * 40;
           const h2x2 = tx - sux * 10 + spx * 5, h2y2 = ty - suy * 10 + spy * 5;
           const h3x2 = tx - sux * 10 - spx * 5, h3y2 = ty - suy * 10 - spy * 5;
-          const col = a.color || arrowColor;
+          const col = RARITY_COLORS[getRarityKey(a.qualityId) || ""] || a.color || arrowColor;
           return (
             <g key={`rf-stuck-${i}`} className="rf-stuck-force" style={{ pointerEvents: "none" }}>
               <line x1={tailX2} y1={tailY2} x2={tx} y2={ty} stroke={col} strokeWidth="2.5" filter="url(#neonGlowCyan)" />
