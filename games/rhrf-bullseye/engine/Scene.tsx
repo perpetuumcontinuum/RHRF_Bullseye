@@ -682,11 +682,11 @@ const pixelBounds = (() => {
   const bh = 128;
   const tx = bx + bw / 2;
   const lines = [
-    "ПРИВЕТ, ИГРОК!",
-    "НУ ЧТО, ПОГНАЛИ?",
-    "СТРЕЛЯЕМ ПО МИШЕНИ,",
-    "КАЧАЕМ СКИЛЛ,",
-    "РАСТЁМ НАД СОБОЙ :)",
+    "HELLO, PLAYER!",
+    "LET'S GO?",
+    "SHOOT THE TARGET,",
+    "LEVEL UP SKILL,",
+    "GROW BEYOND YOURSELF :)"
   ];
   return (
     <g className="rf-speech-bubble" style={{ pointerEvents: "none" }}>
