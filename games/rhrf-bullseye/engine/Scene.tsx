@@ -868,7 +868,7 @@ const pixelBounds = (() => {
 }
 
 function SpeechBubble({ x, y }: { x: number; y: number }) {
-  const pages = getDialogPages("intro");
+  const [langTick, setLangTick] = useState(0);
   const [page, setPage] = useState(0);
   const [visible, setVisible] = useState(true);
   const [anchor, setAnchor] = useState<{ cx: number; top: number; h: number } | null>(null);
@@ -944,53 +944,66 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
   }, [visible]);
 
   useEffect(() => {
-    if (!visible) return;
-
-    const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Element | null;
-      if (!target) return;
-
-      // Исключаем только верхнее меню и языковой picker.
-      if (target.closest(".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]")) {
-        return;
-      }
-
-      if (target.closest(".rf-speech-skip")) {
-        setVisible(false);
-        return;
-      }
-
-      if (pages.length > 1 && page < pages.length - 1) {
-        setPage((prev) => prev + 1);
-      } else {
-        setVisible(false);
-      }
+    const onLang = () => {
+      setLangTick((v) => v + 1);
+      setPage(0);
     };
 
-    window.addEventListener("pointerdown", onPointerDown, true);
-    return () => window.removeEventListener("pointerdown", onPointerDown, true);
-  }, [visible, page, pages.length]);
+    window.addEventListener("rhrf:lang-change", onLang);
+    return () => window.removeEventListener("rhrf:lang-change", onLang);
+  }, []);
+
+  useEffect(() => {
+    setPage(0);
+  }, [langTick]);
 
   if (!visible) return null;
 
+  const pages = getDialogPages("intro", (globalThis as any).__RHRF_LANG__);
   const lines = pages[page] || [];
   const isDialog = pages.length > 1 || lines.length > 1;
 
-  const bw = 320;
+  const maxChars = lines.reduce((m, line) => Math.max(m, line.length), 0);
+  const bw = Math.min(900, Math.max(320, maxChars * 8.2 + 40));
   const bh = 38 + lines.length * 22;
 
   const cx = anchor?.cx ?? x;
   const top = anchor?.top ?? (y - 80);
   const ph = anchor?.h ?? 120;
 
-  // Масштабируемый отступ: минимум 40 юнитов SVG, плюс пропорционально высоте персонажа.
   const gap = Math.max(40, ph * 0.12);
-
-  const bx = cx - bw / 2;
+  const rawBx = cx - bw / 2;
+  const bx = Math.max(4, Math.min(rawBx, 1000 - bw - 4));
   const by = Math.max(4, top - bh - gap);
-  const tx = cx;
+  const bubbleCx = bx + bw / 2;
+  const tailX = Math.max(bx + 18, Math.min(cx, bx + bw - 18));
   const tailY = by + bh;
-  const tailPoints = `${tx - 12},${tailY} ${tx + 12},${tailY} ${tx},${tailY + 18}`;
+  const tailPoints = `${tailX - 12},${tailY} ${tailX + 12},${tailY} ${tailX},${tailY + 18}`;
+
+  const onPointerDown = (event: PointerEvent) => {
+    const target = event.target as Element | null;
+    if (!target) return;
+
+    if (target.closest(".rf-speech-skip")) {
+      setVisible(false);
+      return;
+    }
+
+    if (target.closest(".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]")) {
+      return;
+    }
+
+    if (pages.length > 1 && page < pages.length - 1) {
+      setPage((prev) => prev + 1);
+    } else {
+      setVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("pointerdown", onPointerDown, true);
+    return () => window.removeEventListener("pointerdown", onPointerDown, true);
+  });
 
   return (
     <g className="rf-speech-layer">
@@ -1015,9 +1028,9 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
         />
 
         <line
-          x1={tx - 11}
+          x1={tailX - 11}
           y1={tailY}
-          x2={tx + 11}
+          x2={tailX + 11}
           y2={tailY}
           stroke="#000"
           strokeWidth="3"
@@ -1026,7 +1039,7 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
         {lines.map((line, i) => (
           <text
             key={i}
-            x={tx}
+            x={bubbleCx}
             y={by + 28 + i * 22}
             textAnchor="middle"
             fill="#fff"
