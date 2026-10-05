@@ -123,7 +123,6 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
   useEffect(() => {
     const onAsteroidExplode = (e: CustomEvent<{x: number, y: number}>) => {
       const id = Date.now() + Math.random();
-      const PAL = ["#00ffff", "#aa00ff", "#ff00c8", "#ccff00", "#ffaa00"];
       const N = 30;
       const particles = Array.from({ length: N }).map((_, i) => {
         const a = (i / N) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
@@ -135,13 +134,13 @@ export default function RhrfBullseye({ friendId, client }: { friendId?: bigint |
           rot: (Math.random() - 0.5) * 540,
           size: 4 + Math.floor(Math.random() * 4) * 2,
           delay: Math.random() * 0.08,
-          c: PAL[i % PAL.length],
+          pal: i % 10,
         };
       });
       setExplosions(prev => [...prev, { id, x: e.detail.x, y: e.detail.y, particles }]);
       setTimeout(() => {
         setExplosions(prev => prev.filter(exp => exp.id !== id));
-      }, 1100);
+      }, 2200);
     };
     window.addEventListener("rhrf-asteroid-explode", onAsteroidExplode as EventListener);
     return () => window.removeEventListener("rhrf-asteroid-explode", onAsteroidExplode as EventListener);

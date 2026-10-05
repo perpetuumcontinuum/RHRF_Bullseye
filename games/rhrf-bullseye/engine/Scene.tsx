@@ -843,18 +843,21 @@ const pixelBounds = (() => {
       {/* Asteroid explosion particles */}
       {(explosions || []).map(exp => (
         <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
-          {exp.particles.map((p, i) => (
+          {exp.particles.map((p, i) => {
+            const col = p.pal < 8 ? arrowColor : (p.pal === 8 ? "#00ffff" : "#ff00c8");
+            return (
             <rect
               key={i}
               width={p.size}
               height={p.size}
               x={-p.size / 2}
               y={-p.size / 2}
-              fill={p.c}
+              fill={col}
               className="rf-asteroid-particle"
-              style={{ '--dx': `${p.dx}px`, '--dy': `${p.dy}px`, '--fall': `${p.fall}px`, '--rot': `${p.rot}deg`, '--pc': p.c, animationDelay: `${p.delay}s` } as React.CSSProperties}
+              style={{ '--dx': `${p.dx}px`, '--dy': `${p.dy}px`, '--fall': `${p.fall}px`, '--rot': `${p.rot}deg`, '--pc': col, animationDelay: `${p.delay}s` } as React.CSSProperties}
             />
-          ))}
+            );
+          })}
         </g>
       ))}
     </svg>

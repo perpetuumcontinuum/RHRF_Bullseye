@@ -62,6 +62,22 @@ const SECTIONS: ReadonlyArray<{
     { k: "guide.cyber.shake", tone: "cyber" },
     { k: "guide.cyber.shimmer", tone: "cyber" },
   ]},
+  { id: "badges", titleKey: "guide.badges.title", rows: [
+    { k: "guide.badges.streak", tone: undefined },
+    { k: "guide.badges.time", tone: undefined },
+    { k: "guide.badges.rf", tone: undefined },
+    { k: "guide.badges.final", tone: "cyber" },
+    { k: "guide.badges.relock", tone: undefined },
+  ]},
+  { id: "session", titleKey: "guide.session.title", rows: [
+    { k: "guide.session.live", tone: undefined },
+    { k: "guide.session.reset", tone: undefined },
+    { k: "guide.session.beta", tone: undefined },
+  ]},
+  { id: "about", titleKey: "guide.about.title", rows: [
+    { k: "guide.about.rf", tone: undefined },
+    { k: "guide.about.idle", tone: undefined },
+  ]},
 ];
 
 // Хоткеи: токены не переводятся, описания — да

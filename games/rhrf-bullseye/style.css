@@ -2298,7 +2298,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   transform-box: fill-box;
   transform-origin: center;
   filter: drop-shadow(0 0 5px var(--pc, #00ffff));
-  animation: rf-pixel-pop 0.9s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
+  animation: rf-pixel-pop 1.8s cubic-bezier(0.15, 0.6, 0.3, 1) forwards;
 }
 @keyframes rf-pixel-pop {
   0%   { transform: translate(0, 0) rotate(0deg) scale(1.2); opacity: 1; }
