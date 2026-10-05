@@ -8,17 +8,13 @@ const GHOST_END = -155;
 const GHOST_BASE_SPEED = 1300 / 6;
 const COLLIDE_X = PLAYER_X + PLAYER_WIDTH - GHOST_FRONT;
 
-// Ghost body spans x=[5,50] inside its mirrored local frame (translate(55,0) scale(-1,1))
 const GHOST_BODY_MIN = 5;
 const GHOST_BODY_MAX = 50;
 const GHOST_BODY_LEN = GHOST_BODY_MAX - GHOST_BODY_MIN;
-// 4% tolerance trimmed from each end so edge grazes never feel unfair
 const GHOST_LETHAL_RATIO = 0.96;
 const GHOST_LETHAL_PAD = (GHOST_BODY_LEN * (1 - GHOST_LETHAL_RATIO)) / 2;
 const GHOST_LETHAL_MIN = GHOST_BODY_MIN + GHOST_LETHAL_PAD;
 const GHOST_LETHAL_MAX = GHOST_BODY_MAX - GHOST_LETHAL_PAD;
-
-
 
 const GHOST_SAFETY_MS = 9000;
 const GHOST_MIN_DELAY = 30000;
@@ -29,76 +25,48 @@ const SAT_MAX_DELAY = 90000;
 const SAT_PASS_MS = 6000;
 const SAT_HIDE_MS = 6900;
 
+const roll = (min: number, max: number) => min + Math.random() * (max - min);
+
 export default function BackgroundEvents() {
   const [ghostX, setGhostX] = useState<number | null>(null);
   const [ghostHit, setGhostHit] = useState(false);
   const [satelliteActive, setSatelliteActive] = useState(false);
   const [satelliteSignal, setSatelliteSignal] = useState(false);
 
-  const ghostRef = useRef({
-    raf: 0,
-    x: GHOST_START,
-    speed: GHOST_BASE_SPEED,
-    hit: false,
-    last: 0,
-    elapsed: 0,
-  });
-
+  // Pause-aware spawn: acc grows ONLY while unpaused, so a hidden tab never
+  // burns the delay. The ghost cannot be "waiting to run" on resume.
+  const waitRef = useRef({ acc: 0, delay: roll(GHOST_MIN_DELAY, GHOST_MAX_DELAY), last: 0, raf: 0 });
+  const gRef = useRef({ active: false, x: GHOST_START, speed: GHOST_BASE_SPEED, hit: false, elapsed: 0, last: 0, raf: 0 });
   const timersRef = useRef<number[]>([]);
 
   useEffect(() => {
-    const addTimer = (id: number) => {
-      timersRef.current.push(id);
-    };
-
-    const scheduleGhost = () => {
-      const delay = GHOST_MIN_DELAY + Math.random() * (GHOST_MAX_DELAY - GHOST_MIN_DELAY);
-      
-      const checkAndSpawn = () => {
-        // Don't spawn ghost during pause — wait until unpaused
-        if ((window as any).__RHRF_IS_PAUSED__) {
-          const id = window.setTimeout(checkAndSpawn, 100);
-          addTimer(id);
-          return;
-        }
-        // Pause lifted — spawn now
-        startGhost();
-      };
-      
-      const id = window.setTimeout(checkAndSpawn, delay);
-      addTimer(id);
-    };
+    const addTimer = (id: number) => timersRef.current.push(id);
 
     const startGhost = () => {
-      const g = ghostRef.current;
-
+      const g = gRef.current;
+      g.active = true;
       g.x = GHOST_START;
       g.speed = GHOST_BASE_SPEED;
       g.hit = false;
-      g.last = performance.now();
       g.elapsed = 0;
-
+      g.last = performance.now();
       setGhostX(GHOST_START);
       setGhostHit(false);
 
-      let finished = false;
-
       const finish = () => {
-        if (finished) return;
-        finished = true;
         cancelAnimationFrame(g.raf);
-        // Dodge is resolved when the ghost leaves the contact zone
+        g.active = false;
         setGhostX(null);
-        scheduleGhost();
+        const w = waitRef.current;
+        w.acc = 0;
+        w.delay = roll(GHOST_MIN_DELAY, GHOST_MAX_DELAY);
       };
 
       const step = (now: number) => {
         const dt = (now - g.last) / 1000;
-        // Always advance the clock so unpausing does not produce a time jump
         g.last = now;
 
         if ((window as any).__RHRF_IS_PAUSED__) {
-          // Ghost holds position, no collision check, no hit events
           g.raf = requestAnimationFrame(step);
           return;
         }
@@ -106,7 +74,6 @@ export default function BackgroundEvents() {
         g.elapsed += dt;
         g.x -= g.speed * dt;
 
-        // Horizontal overlap between the player column and the ghost lethal core
         const overlapsX = g.x + GHOST_LETHAL_MAX > PLAYER_X && g.x + GHOST_LETHAL_MIN < PLAYER_X + PLAYER_WIDTH;
         const ghostLeaving = g.x + GHOST_LETHAL_MAX <= PLAYER_X;
 
@@ -115,7 +82,6 @@ export default function BackgroundEvents() {
           const jumping = Boolean((window as any).__RHRF_IS_JUMPING__);
           const jumpStart = Number((window as any).__RHRF_JUMP_STARTED_AT__ || 0);
           const elapsed = jumpStart > 0 ? Date.now() - jumpStart : Infinity;
-          // Shape does not matter: only the airborne phase clears the ghost
           const safelyAirborne = jumping && !fallen
             && elapsed >= JUMP_SAFE_START_MS
             && elapsed <= JUMP_SAFE_END_MS;
@@ -129,7 +95,6 @@ export default function BackgroundEvents() {
           }
         }
 
-        // Ghost crossed the player column without a single overlap hit
         if (!g.hit && ghostLeaving) {
           g.hit = true;
           window.dispatchEvent(new CustomEvent("rhrf-ghost-dodged"));
@@ -141,44 +106,48 @@ export default function BackgroundEvents() {
           finish();
           return;
         }
-
         g.raf = requestAnimationFrame(step);
       };
 
       g.raf = requestAnimationFrame(step);
     };
 
+    const waitTick = (now: number) => {
+      const w = waitRef.current;
+      const dt = now - w.last;
+      w.last = now;
+      if (!(window as any).__RHRF_IS_PAUSED__) w.acc += dt;
+      if (!gRef.current.active && w.acc >= w.delay) startGhost();
+      w.raf = requestAnimationFrame(waitTick);
+    };
+    waitRef.current.last = performance.now();
+    waitRef.current.raf = requestAnimationFrame(waitTick);
+
+    // Satellite stays on real-time timers (cosmetic, not gameplay-critical)
     const scheduleSatellite = () => {
-      const delay = SAT_MIN_DELAY + Math.random() * (SAT_MAX_DELAY - SAT_MIN_DELAY);
       const id = window.setTimeout(() => {
         setSatelliteActive(true);
         setSatelliteSignal(false);
-
         const pass = window.setTimeout(() => {
           setSatelliteSignal(true);
           window.dispatchEvent(new CustomEvent("rhrf-satellite-pass"));
         }, SAT_PASS_MS);
-
         const hide = window.setTimeout(() => {
           setSatelliteSignal(false);
           setSatelliteActive(false);
           scheduleSatellite();
         }, SAT_HIDE_MS);
-
-        addTimer(pass);
-        addTimer(hide);
-      }, delay);
-
+        addTimer(pass); addTimer(hide);
+      }, roll(SAT_MIN_DELAY, SAT_MAX_DELAY));
       addTimer(id);
     };
-
-    scheduleGhost();
     scheduleSatellite();
 
     return () => {
+      cancelAnimationFrame(waitRef.current.raf);
+      cancelAnimationFrame(gRef.current.raf);
       timersRef.current.forEach((id) => window.clearTimeout(id));
       timersRef.current = [];
-      cancelAnimationFrame(ghostRef.current.raf);
     };
   }, []);
 
@@ -196,18 +165,8 @@ export default function BackgroundEvents() {
               strokeWidth="2.5"
               filter="url(#neonGlowCyan)"
             />
-            <path
-              d="M 25,15 L 22,5 M 30,10 L 33,2"
-              stroke={ghostStroke}
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M 10,25 Q 0,20 5,15"
-              fill="none"
-              stroke={ghostStroke}
-              strokeWidth="1.5"
-            />
+            <path d="M 25,15 L 22,5 M 30,10 L 33,2" stroke={ghostStroke} strokeWidth="2" strokeLinecap="round" />
+            <path d="M 10,25 Q 0,20 5,15" fill="none" stroke={ghostStroke} strokeWidth="1.5" />
             <circle cx="42" cy="18" r="1.5" fill="#ccff00" />
           </g>
         </g>
@@ -226,16 +185,8 @@ export default function BackgroundEvents() {
               </circle>
             </g>
           </g>
-
           {satelliteSignal && (
-            <rect
-              className="sat-beam-css"
-              x="187"
-              y="200"
-              width="6"
-              height="40"
-              fill="#ccff00"
-            />
+            <rect className="sat-beam-css" x="187" y="200" width="6" height="40" fill="#ccff00" />
           )}
         </>
       )}
