@@ -1867,7 +1867,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   text-align: center;
   font-family: "Courier New", monospace;
   color: #8888aa;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 .rf-badge-card.unlocked{
   color: inherit;
@@ -1877,7 +1877,8 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   filter: grayscale(0.9);
 }
 .rf-badge-card:hover{
-  transform: translateY(-2px);
+  border-color: color-mix(in srgb, currentColor 45%, #2a0050);
+  background: rgba(12, 0, 30, 0.78);
 }
 .rf-badge-icon{
   height: 34px;
