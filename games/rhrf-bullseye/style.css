@@ -434,7 +434,7 @@
   max-width: calc(100vw - 16px - var(--rf-safe-left) - var(--rf-safe-right));
   pointer-events: auto;
 }.rf-top-bar__score{
-  --sf: var(--score-flash, #00ffff);
+  --sf: var(--score-flash, #ff2d2d);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -1956,8 +1956,8 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }
 .rf-badge-kind-block--ghost{    --blk: #ccff00; }  /* RARE      */
 .rf-badge-kind-block--asteroid{ --blk: #aa00ff; }  /* EPIC      */
-.rf-badge-kind-block--cyber{    --blk: #ffaa00; }  /* LEGENDARY */
-.rf-badge-kind-block--time{     --blk: #00ffff; }  /* CYBER     */
+.rf-badge-kind-block--cyber{    --blk: #00ffff; }  /* CYBER     */
+.rf-badge-kind-block--time{     --blk: #ffaa00; }  /* LEGENDARY */
 
 .rf-badge-kind-block .rf-profile-section-title{
   color: var(--blk);
@@ -1980,13 +1980,32 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   border-color: var(--blk);
 }
 
-/* Time block is cyber: unlocked dials shimmer continuously */
-@keyframes rfTimeShimmer{
+/* Cyber block shimmers ALWAYS: strip + title + unlocked icons */
+@keyframes rfCyberStrip{
+  0%,100%{ border-left-color:#ccff00; }
+  12%{ border-left-color:#7dff2a; }
+  25%{ border-left-color:#aa00ff; }
+  37%{ border-left-color:#ff00c8; }
+  50%{ border-left-color:#00ffff; }
+  62%{ border-left-color:#00a0ff; }
+  75%{ border-left-color:#ffaa00; }
+  87%{ border-left-color:#ff5e00; }
+}
+@keyframes rfCyberTitle{ 0%{ background-position:0% 50%; } 100%{ background-position:200% 50%; } }
+@keyframes rfCyberIcon{
   0%,100%{ filter: drop-shadow(0 0 6px #00ffff) hue-rotate(0deg); }
   50%    { filter: drop-shadow(0 0 12px #00ffff) hue-rotate(-30deg); }
 }
-.rf-badge-kind-block--time .rf-badge-card.unlocked .rf-badge-icon{
-  animation: rfTimeShimmer 3.2s ease-in-out infinite;
+.rf-badge-kind-block--cyber{ animation: rfCyberStrip 4s linear infinite; }
+.rf-badge-kind-block--cyber .rf-profile-section-title{
+  background: linear-gradient(90deg,#ccff00,#aa00ff,#00ffff,#ff00c8,#ccff00);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; text-shadow: none;
+  animation: rfCyberTitle 3s linear infinite;
+}
+.rf-badge-kind-block--cyber .rf-badge-card.unlocked .rf-badge-icon{
+  animation: rfCyberIcon 3.2s ease-in-out infinite;
 }
 
 /* ---- Language picker: fixed top-left, clear of runtime toolbar (bottom-left/right) ---- */
