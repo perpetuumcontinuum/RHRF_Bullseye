@@ -948,7 +948,10 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
   }, []);
 
   useEffect(() => {
-    const dismiss = () => setVisible(false);
+    const dismiss = () => {
+      if ((window as any).__RHRF_IS_PAUSED__) return;
+      setVisible(false);
+    };
     window.addEventListener("rhrf:dismiss-dialog", dismiss);
     return () => window.removeEventListener("rhrf:dismiss-dialog", dismiss);
   }, []);
@@ -961,6 +964,7 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
 
     const onPointerDown = (event: PointerEvent) => {
       if (!visibleRef.current) return;
+      if ((window as any).__RHRF_IS_PAUSED__) return;
 
       const target = event.target as Element | null;
       if (!target) return;
