@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import { useT } from "./i18n";
 import BackgroundEvents from "./BackgroundEvents";
 import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
@@ -868,17 +868,21 @@ const pixelBounds = (() => {
 }
 
 function SpeechBubble({ x, y }: { x: number; y: number }) {
-  const [langTick, setLangTick] = useState(0);
   const [page, setPage] = useState(0);
   const [visible, setVisible] = useState(true);
   const [anchor, setAnchor] = useState<{ cx: number; top: number; h: number } | null>(null);
 
-  useEffect(() => {
-    if (!visible) return;
+  const visibleRef = useRef(visible);
+  const pageRef = useRef(page);
+  visibleRef.current = visible;
+  pageRef.current = page;
 
+  useEffect(() => {
     let raf = 0;
 
     const measure = () => {
+      if (!visibleRef.current) return;
+
       const svg = document.getElementById("rhrf-scene-svg") as SVGSVGElement | null;
       const el = svg?.querySelector(".nft-archer") as Element | null;
       if (!svg || !el) return;
@@ -933,29 +937,49 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
       window.removeEventListener("resize", schedule);
       obs.disconnect();
     };
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible) return;
-
-    const dismiss = () => setVisible(false);
-    window.addEventListener("rhrf:dismiss-dialog", dismiss);
-    return () => window.removeEventListener("rhrf:dismiss-dialog", dismiss);
-  }, [visible]);
-
-  useEffect(() => {
-    const onLang = () => {
-      setLangTick((v) => v + 1);
-      setPage(0);
-    };
-
-    window.addEventListener("rhrf:lang-change", onLang);
-    return () => window.removeEventListener("rhrf:lang-change", onLang);
   }, []);
 
   useEffect(() => {
-    setPage(0);
-  }, [langTick]);
+    const dismiss = () => setVisible(false);
+    const onLang = () => setPage(0);
+
+    window.addEventListener("rhrf:dismiss-dialog", dismiss);
+    window.addEventListener("rhrf:lang-change", onLang);
+
+    return () => {
+      window.removeEventListener("rhrf:dismiss-dialog", dismiss);
+      window.removeEventListener("rhrf:lang-change", onLang);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      if (!visibleRef.current) return;
+
+      const target = event.target as Element | null;
+      if (!target) return;
+
+      if (target.closest(".rf-speech-skip")) {
+        setVisible(false);
+        return;
+      }
+
+      if (target.closest(".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]")) {
+        return;
+      }
+
+      const pages = getDialogPages("intro", (globalThis as any).__RHRF_LANG__);
+
+      if (pages.length > 1 && pageRef.current < pages.length - 1) {
+        setPage((prev) => prev + 1);
+      } else {
+        setVisible(false);
+      }
+    };
+
+    window.addEventListener("pointerdown", onPointerDown, true);
+    return () => window.removeEventListener("pointerdown", onPointerDown, true);
+  }, []);
 
   if (!visible) return null;
 
@@ -979,31 +1003,6 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
   const tailX = Math.max(bx + 18, Math.min(cx, bx + bw - 18));
   const tailY = by + bh;
   const tailPoints = `${tailX - 12},${tailY} ${tailX + 12},${tailY} ${tailX},${tailY + 18}`;
-
-  const onPointerDown = (event: PointerEvent) => {
-    const target = event.target as Element | null;
-    if (!target) return;
-
-    if (target.closest(".rf-speech-skip")) {
-      setVisible(false);
-      return;
-    }
-
-    if (target.closest(".rf-top-bar, .rf-lang-picker, [data-no-bubble-dismiss]")) {
-      return;
-    }
-
-    if (pages.length > 1 && page < pages.length - 1) {
-      setPage((prev) => prev + 1);
-    } else {
-      setVisible(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("pointerdown", onPointerDown, true);
-    return () => window.removeEventListener("pointerdown", onPointerDown, true);
-  });
 
   return (
     <g className="rf-speech-layer">
