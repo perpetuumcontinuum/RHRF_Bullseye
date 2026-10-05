@@ -36,7 +36,7 @@ Dependencies install from the v0.1.4 GitHub release tarball declared in package.
 
 ## Submission
 
-Full rules, controls, simulated economy tables, checks and known issues live in games/rhrf-bullseye/README.md.
+Full rules, controls, simulated economy tables, checks and known issues live in submissions/rhrf-bullseye/README.md.
 
 Playable preview: https://perpetuumcontinuum.github.io/RHRF_Bullseye/
 
