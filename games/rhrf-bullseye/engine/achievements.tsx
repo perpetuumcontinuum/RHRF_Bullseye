@@ -93,17 +93,17 @@ export const BADGES_BY_KIND: Record<BadgeKind, readonly StreakRank[]> = {
 };
 
 // Порядок блоков в профиле: RF сверху, далее по редкости
-export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "cyber", "time"];
+export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "time", "cyber"];
 
 export const KIND_COLOR: Record<BadgeKind, string> = {
   rf:       "#ff2d2d",  // base bow/arrow red
   ghost:    "#ccff00",  // RARE
   asteroid: "#aa00ff",  // EPIC
-  cyber:    "#ffaa00",  // LEGENDARY
-  time:     "#00ffff",  // CYBER
+  cyber:    "#00ffff",  // CYBER
+  time:     "#ffaa00",  // LEGENDARY
 };
 
-const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 40, time: 180 };
+const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 180, time: 40 };
 
 export function rankForStreak(kind: BadgeKind, count: number): StreakRank | null {
   for (const r of BADGES_BY_KIND[kind]) if (r.n === count) return r;
