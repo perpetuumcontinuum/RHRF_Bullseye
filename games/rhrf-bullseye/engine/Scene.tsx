@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from "react";
-import { useT } from "./i18n";
+import { useT, useLang } from "./i18n";
 import BackgroundEvents from "./BackgroundEvents";
 import { PLAYER_X, PLAYER_Y, PLAYER_WIDTH, PLAYER_HEIGHT } from "./geometry";
 import React from "react";
