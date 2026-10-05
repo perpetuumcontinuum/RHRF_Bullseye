@@ -2326,3 +2326,52 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-notice-btn{
   flex:0 0 auto;
 }
+
+/* rf-cyber-scrollbar */
+[class*="rf-profile"], [class*="badge"],
+[class*="rf-profile"] *, [class*="badge"] * {
+  scrollbar-width: thin;
+  scrollbar-color: #00ffff rgba(5, 0, 21, 0.55);
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+[class*="rf-profile"] ::-webkit-scrollbar,
+[class*="badge"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+[class*="rf-profile"] ::-webkit-scrollbar-track,
+[class*="badge"] ::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, rgba(5, 0, 21, 0.72), rgba(26, 0, 68, 0.55));
+  border-left: 1px solid rgba(0, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+[class*="rf-profile"] ::-webkit-scrollbar-thumb,
+[class*="badge"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ffff 0%, #aa00ff 55%, #ff00c8 100%);
+  border: 2px solid rgba(5, 0, 21, 0.72);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.45), inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+[class*="rf-profile"] ::-webkit-scrollbar-thumb:hover,
+[class*="badge"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8fffff 0%, #c45cff 55%, #ff6ee0 100%);
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.65), 0 0 22px rgba(255, 0, 200, 0.35);
+}
+
+[class*="rf-profile"] ::-webkit-scrollbar-corner,
+[class*="badge"] ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+[class*="badge"] {
+  scroll-snap-type: y proximity;
+}
+
+[class*="badge"] > * {
+  scroll-snap-align: start;
+}
