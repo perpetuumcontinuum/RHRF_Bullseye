@@ -151,4 +151,79 @@
   addEventListener("storage", function (e) {
     if (e.key === "rhrf_theme" && OK[e.newValue]) { root.dataset.theme = e.newValue; paint(); }
   });
+
+  function rfGameFrame() {
+    return document.querySelector(".rf-game-frame") || document.querySelector("iframe");
+  }
+
+  function rfFocusGame() {
+    var f = rfGameFrame();
+    if (!f) return;
+    try { if (f.contentWindow) f.contentWindow.focus(); } catch (e) {}
+    try { f.focus({ preventScroll: true }); } catch (e) { try { f.focus(); } catch (_) {} }
+  }
+
+  function rfNoFocusSteal(el) {
+    if (!el) return;
+    var tag = el.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable) return;
+
+    el.addEventListener("mousedown", function (e) {
+      e.preventDefault();
+    });
+
+    el.addEventListener("click", function () {
+      setTimeout(rfFocusGame, 0);
+    });
+
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") setTimeout(rfFocusGame, 0);
+    });
+  }
+
+  function rfReturnFocusAfterInteraction(el) {
+    if (!el) return;
+    ["change", "pointerup", "mouseup", "touchend", "blur"].forEach(function (ev) {
+      el.addEventListener(ev, function () {
+        setTimeout(rfFocusGame, 0);
+      });
+    });
+  }
+
+  var rfFocusPending = false;
+  function rfScheduleFocusGuards() {
+    if (rfFocusPending) return;
+    rfFocusPending = true;
+    requestAnimationFrame(function () {
+      rfFocusPending = false;
+
+      document.querySelectorAll(
+        ".rf-frame-toolbar button, .rf-frame-toolbar a, " +
+        ".rf-site-footer button, .rf-site-footer a, " +
+        ".rf-theme-switch button, .rf-tools-toggle, .rf-fs-btn"
+      ).forEach(rfNoFocusSteal);
+
+      document.querySelectorAll(
+        "input[type=range], input[type=checkbox], input[type=radio], " +
+        "[role=slider], .rf-volume, .volume, .sound, .audio"
+      ).forEach(rfReturnFocusAfterInteraction);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", rfScheduleFocusGuards);
+  } else {
+    rfScheduleFocusGuards();
+  }
+
+  new MutationObserver(rfScheduleFocusGuards).observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+
+  window.addEventListener("focus", rfFocusGame);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) setTimeout(rfFocusGame, 0);
+  });
+
 })();
