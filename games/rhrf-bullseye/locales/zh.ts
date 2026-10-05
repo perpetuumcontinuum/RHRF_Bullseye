@@ -134,7 +134,7 @@ export default {
   "badge.ghost_30": "御风者",
   "badge.ghost_40": "幽灵舞者",
   "badge.ghost_50": "虚空冲浪者",
-  "badge.ghost_60": "SPECTRAL 之祸",
+  "badge.ghost_60": "幽魂之祸",
   "badge.ghost_70": "不可触碰",
   "badge.ghost_80": "幽灵恐惧",
   "badge.ghost_90": "空中传奇",

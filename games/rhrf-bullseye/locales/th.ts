@@ -165,7 +165,7 @@ export default {
   "badge.time_300": "ระฆังสาม",
   "badge.time_400": "สายแร่ควอตซ์",
   "badge.time_500": "ครึ่งสหัสนวรรษ",
-  "badge.time_600": "หก铃",
+  "badge.time_600": "หก ระฆัง",
   "badge.time_700": "เจ็ดเฟือง",
   "badge.time_800": "แปดระฆัง",
   "badge.time_900": "เก้าเข็ม",
