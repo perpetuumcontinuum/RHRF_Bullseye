@@ -844,7 +844,7 @@ const pixelBounds = (() => {
       {(explosions || []).map(exp => (
         <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
           {exp.particles.map((p, i) => {
-            const col = p.pal < 8 ? arrowColor : (p.pal === 8 ? "#00ffff" : "#ff00c8");
+            const col = p.pal < 8 ? laserColor : (p.pal === 8 ? "#00ffff" : "#ff00c8");
             return (
             <rect
               key={i}
