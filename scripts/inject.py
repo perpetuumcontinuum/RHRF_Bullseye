@@ -7,6 +7,16 @@ out = src / ".friendsdk"
 for f in ("favicon.svg", "site.webmanifest", "theme-boot.js", "frame-maintenance.js"):
     shutil.copy(src / f, out / f)
 
+# footer-ассеты живут в корне репо — копируем их в сборку вручную
+for f in ("footer-music.css", "footer-music.js"):
+    for cand in (src / f, Path(f)):
+        if cand.exists():
+            shutil.copy(cand, out / f)
+            print("copied", cand, "->", out / f)
+            break
+    else:
+        raise SystemExit(f"missing footer asset: {f}")
+
 HEAD = (
     '<meta name="description" content="Defend the planet with your Generations NFT in this cyber archery minigame. '
     'Shoot moving targets, dodge ghosts, deflect asteroids and unlock legendary gear. Built on FriendSDK v0.1.4."/>'
