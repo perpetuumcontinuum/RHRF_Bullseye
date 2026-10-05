@@ -257,7 +257,7 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
       <svg {...p}>
         <text x="16" y="16" textAnchor="middle" dominantBaseline="central"
           fontFamily="'Courier New', monospace" fontWeight="900" fontSize={fs}
-          fill="#000" stroke="#fff" strokeWidth="0.9" paintOrder="stroke fill markers"
+          fill="currentColor" stroke="rgba(0,0,0,0.78)" strokeWidth="0.9" paintOrder="stroke fill markers"
           style={{ letterSpacing: "-0.5px" }}>{txt}</text>
       </svg>
     );

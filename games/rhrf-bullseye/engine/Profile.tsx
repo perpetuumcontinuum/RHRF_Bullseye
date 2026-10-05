@@ -9,7 +9,7 @@ import {
   type ShopItem,
 } from "./catalog";
 import { type GameStats, formatDuration } from "./stats"
-import { BADGES_BY_KIND, BADGE_ORDER, streakColor, streakTint, streakGlow, BadgeIcon } from "./achievements";
+import { BADGES_BY_KIND, BADGE_ORDER, streakColor, streakGlow, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 import { useT } from "./i18n";
 
@@ -297,7 +297,7 @@ export default function Profile(props: any) {
                     <div
                       key={rank.id}
                       className={`rf-badge-card ${unlocked ? "unlocked" : "locked"}`}
-                      style={unlocked ? { background: streakTint(kind, rank.n), borderColor: color, color: "#fff", boxShadow: `0 0 12px ${streakGlow(kind, rank.n)}` } : undefined}
+                      style={unlocked ? { background: "#000", borderColor: color, color, boxShadow: `0 0 12px ${streakGlow(kind, rank.n)}` } : undefined}
                     >
                       <div className="rf-badge-icon"><BadgeIcon id={rank.icon} size={30} /></div>
                       <div className="rf-badge-name">{t("badge." + rank.id)}</div>

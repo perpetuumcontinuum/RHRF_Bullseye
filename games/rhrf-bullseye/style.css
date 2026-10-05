@@ -2130,13 +2130,13 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 /* ---- RF block: red like the base bow, sits on top of the badge stack ---- */
 .rf-badge-kind-block--rf{ --blk: #ff2d2d; }
 
-/* Unlocked cards: rarity-tinted background, white glyph (RF digits carry their
-   own black fill + white outline inside the SVG, so they ignore currentColor) */
+/* Unlocked cards: black plate, name/desc/state/icon/border use streak rarity color. */
 .rf-badge-card.unlocked .rf-badge-name,
-.rf-badge-card.unlocked .rf-badge-desc{ color: #ffffff; }
-.rf-badge-card.unlocked .rf-badge-state{ color: #ffffff; opacity: 0.75; }
+.rf-badge-card.unlocked .rf-badge-desc,
+.rf-badge-card.unlocked .rf-badge-state{ color: inherit; }
+.rf-badge-card.unlocked .rf-badge-state{ opacity: 0.78; }
 .rf-badge-kind-block--rf .rf-badge-card.unlocked{
-  border-color: #ffffff;
+  border-color: var(--blk);
 }
 
 /* ---- Session-only notice: non-blocking top banner inside the scene ---- */
