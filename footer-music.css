@@ -2,7 +2,9 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  color: var(--ic, currentColor);
+  color: var(--ic, #00eaff);
+  z-index: 2147483647;
+  overflow: visible;
 }
 
 #rf-music-toggle {
@@ -12,13 +14,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s;
+  padding: 0;
+  color: inherit;
+  transition: opacity 0.2s, filter 0.2s;
 }
-
 #rf-music-toggle:hover {
-  opacity: 0.75;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px var(--g1, rgba(0, 229, 255, 0.4)));
 }
-
 #rf-music-toggle svg {
   width: 18px;
   height: 18px;
@@ -29,91 +32,83 @@
 .rf-volume-wrapper {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 18px);
+  bottom: calc(100% + 6px);
   transform: translateX(-50%);
   display: none;
   padding: 10px 8px;
-  background: var(--cbg, #0a0014e6);
-  border: 1px solid var(--ln, currentColor);
-  border-radius: 8px;
-  box-shadow: 0 0 14px var(--g1, rgba(0, 0, 0, 0.45));
+  background: var(--cbg, #12002b);
+  border: 1px solid var(--ln, #3a1a55);
+  border-radius: 10px;
+  box-shadow: 0 0 14px var(--g1, rgba(176, 38, 255, 0.3));
+  color: inherit;
   z-index: 2147483647;
   pointer-events: auto;
 }
-
 #rf-music-container:hover .rf-volume-wrapper,
 .rf-volume-wrapper:hover {
   display: block;
 }
-
-.rf-volume-slider {
-  writing-mode: vertical-lr;
-  direction: rtl;
-  width: 8px;
-  height: 80px;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.rf-volume-slider::-webkit-slider-runnable-track {
-  width: 8px;
-  background: color-mix(in srgb, currentColor 22%, transparent);
-  border-radius: 999px;
-}
-
-.rf-volume-slider::-moz-range-track {
-  width: 8px;
-  background: color-mix(in srgb, currentColor 22%, transparent);
-  border-radius: 999px;
-}
-
-.rf-volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: currentColor;
-  cursor: pointer;
-  box-shadow: 0 0 6px color-mix(in srgb, currentColor 60%, transparent);
-  transition: box-shadow 0.18s ease;
-}
-
-#rf-music-container:hover .rf-volume-slider::-webkit-slider-thumb,
-.rf-volume-slider:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 12px currentColor;
-}
-
-.rf-volume-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border: none;
-  border-radius: 50%;
-  background: currentColor;
-  cursor: pointer;
-  box-shadow: 0 0 6px color-mix(in srgb, currentColor 60%, transparent);
-}
-
-#rf-music-container:hover .rf-volume-slider::-moz-range-thumb,
-.rf-volume-slider:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 12px currentColor;
-}
-
-/* footer music slider placement hotfix */
-#rf-music-container.rf-music-shell {
-  position: relative;
-  z-index: 2147483647;
-  overflow: visible;
-}
-
-/* hover bridge: covers the 18px gap so cursor never loses :hover */
 .rf-volume-wrapper::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -19px;
-  height: 19px;
+  bottom: -7px;
+  height: 7px;
   background: transparent;
+}
+
+.rf-volume-slider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  accent-color: var(--ic, #00eaff);
+  width: 8px;
+  height: 80px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.rf-volume-slider::-webkit-slider-runnable-track {
+  width: 8px;
+  height: 80px;
+  background: color-mix(in srgb, var(--ic, #00eaff) 22%, transparent);
+  border-radius: 999px;
+}
+.rf-volume-slider::-moz-range-track {
+  width: 8px;
+  height: 80px;
+  background: color-mix(in srgb, var(--ic, #00eaff) 22%, transparent);
+  border-radius: 999px;
+}
+.rf-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-left: -3px;
+  border: none;
+  border-radius: 50%;
+  background: var(--ic, #00eaff);
+  cursor: pointer;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--ic, #00eaff) 70%, transparent);
+  transition: box-shadow 0.18s ease;
+}
+.rf-volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: var(--ic, #00eaff);
+  cursor: pointer;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--ic, #00eaff) 70%, transparent);
+}
+#rf-music-container:hover .rf-volume-slider::-webkit-slider-thumb,
+.rf-volume-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 14px var(--ic, #00eaff);
+}
+#rf-music-container:hover .rf-volume-slider::-moz-range-thumb,
+.rf-volume-slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 14px var(--ic, #00eaff);
 }
