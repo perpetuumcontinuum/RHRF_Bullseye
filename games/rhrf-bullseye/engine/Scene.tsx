@@ -850,8 +850,9 @@ const pixelBounds = (() => {
               height={p.size}
               x={-p.size / 2}
               y={-p.size / 2}
+              fill={p.c}
               className="rf-asteroid-particle"
-              style={{ '--dx': `${p.dx}px`, '--dy': `${p.dy}px`, animationDelay: `${p.delay}s` } as React.CSSProperties}
+              style={{ '--dx': `${p.dx}px`, '--dy': `${p.dy}px`, '--fall': `${p.fall}px`, '--rot': `${p.rot}deg`, '--pc': p.c, animationDelay: `${p.delay}s` } as React.CSSProperties}
             />
           ))}
         </g>
