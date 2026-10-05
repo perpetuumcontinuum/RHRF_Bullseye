@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Adj el lézereket a boltban RF-ért.",
   "guide.lasers.paused": "A lézerek szünetben is gyűlnek.",
   "guide.economy.title": "GAZDASÁG",
-  "guide.economy.bows": "Íjak: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Íjak: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Öltözetek: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amulettek: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Nyilak: 60 / 150 / 300 RF.",

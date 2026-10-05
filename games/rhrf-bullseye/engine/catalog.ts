@@ -17,9 +17,9 @@ export type ShopItem = {
 export const CONSUMABLE_CAP = 100;
 
 export const CATALOG: ShopItem[] = [
-  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", icon: "bow", price: 400, description: "x2 score" },
-  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 900, description: "x3 score" },
-  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 1800, description: "x4 score" },
+  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", icon: "bow", price: 4000, description: "x2 score" },
+  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 20000, description: "x3 score" },
+  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 100000, description: "x4 score" },
 
   { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", icon: "clothes", price: 350, description: "x2 accuracy" },
   { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", icon: "clothes", price: 800, description: "x3 accuracy" },

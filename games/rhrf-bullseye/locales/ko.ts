@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "상점에서 레이저를 RF로 판매하세요.",
   "guide.lasers.paused": "일시정지 중에도 레이저가 쌓입니다.",
   "guide.economy.title": "경제",
-  "guide.economy.bows": "활: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "활: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "의상: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "부적: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "화살: 60 / 150 / 300 RF.",

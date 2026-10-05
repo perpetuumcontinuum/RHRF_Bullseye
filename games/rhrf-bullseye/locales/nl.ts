@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Verkoop lasers in de winkel voor RF.",
   "guide.lasers.paused": "Lasers stapelen zich ook op tijdens pauze.",
   "guide.economy.title": "ECONOMIE",
-  "guide.economy.bows": "Bogen: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Bogen: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Outfits: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amuletten: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Pijlen: 60 / 150 / 300 RF.",

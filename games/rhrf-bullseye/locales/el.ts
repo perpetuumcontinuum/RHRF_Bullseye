@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Πούλα λέιζερ στο κατάστημα για RF.",
   "guide.lasers.paused": "Τα λέιζερ συσσωρεύονται ακόμα και σε παύση.",
   "guide.economy.title": "ΟΙΚΟΝΟΜΙΑ",
-  "guide.economy.bows": "Τόξα: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Τόξα: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Στολές: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Φυλαχτά: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Βέλη: 60 / 150 / 300 RF.",

@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Jual laser di toko untuk RF.",
   "guide.lasers.paused": "Laser tetap terkumpul saat dijeda.",
   "guide.economy.title": "EKONOMI",
-  "guide.economy.bows": "Busur: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Busur: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Pakaian: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Jimat: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Panah: 60 / 150 / 300 RF.",

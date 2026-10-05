@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Vende láseres en la tienda por RF.",
   "guide.lasers.paused": "Los láseres se acumulan incluso en pausa.",
   "guide.economy.title": "ECONOMÍA",
-  "guide.economy.bows": "Arcos: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Arcos: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Trajes: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amuletos: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Flechas: 60 / 150 / 300 RF.",

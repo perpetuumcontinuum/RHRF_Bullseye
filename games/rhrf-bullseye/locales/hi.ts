@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "शॉप में लेज़र RF के लिए बेचें।",
   "guide.lasers.paused": "पॉज़ के दौरान भी लेज़र जमा होते हैं।",
   "guide.economy.title": "अर्थव्यवस्था",
-  "guide.economy.bows": "धनुष: 400 / 900 / 1800 RF।",
+  "guide.economy.bows": "धनुष: 4000 / 20000 / 100000 RF।",
   "guide.economy.outfits": "पोशाक: 350 / 800 / 1600 RF।",
   "guide.economy.amulets": "तावीज़: 450 / 1000 / 2000 RF।",
   "guide.economy.arrows": "तीर: 60 / 150 / 300 RF।",

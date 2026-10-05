@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Prodávej lasery v obchodě za RF.",
   "guide.lasers.paused": "Lasery se hromadí i během pauzy.",
   "guide.economy.title": "EKONOMIKA",
-  "guide.economy.bows": "Luky: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Luky: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Oblečení: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amulety: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Šípy: 60 / 150 / 300 RF.",

@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Sälj lasrar i butiken för RF.",
   "guide.lasers.paused": "Lasrar samlas även under paus.",
   "guide.economy.title": "EKONOMI",
-  "guide.economy.bows": "Bågar: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Bågar: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Kläder: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amuletter: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Pilar: 60 / 150 / 300 RF.",

@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "بع الليزر في المتجر مقابل RF.",
   "guide.lasers.paused": "يتراكم الليزر حتى أثناء الإيقاف.",
   "guide.economy.title": "الاقتصاد",
-  "guide.economy.bows": "أقواس: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "أقواس: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "أزياء: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "تمائم: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "سهام: 60 / 150 / 300 RF.",

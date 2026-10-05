@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Myy lasereita kaupassa RF:stä.",
   "guide.lasers.paused": "Laserit kertyvät myös tauolla.",
   "guide.economy.title": "TALOUS",
-  "guide.economy.bows": "Jouset: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Jouset: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Asut: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amuletit: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Nuolet: 60 / 150 / 300 RF.",

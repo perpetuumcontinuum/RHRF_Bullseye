@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "ショップでレーザーをRFで売却。",
   "guide.lasers.paused": "ポーズ中もレーザーは蓄積する。",
   "guide.economy.title": "経済",
-  "guide.economy.bows": "弓: 400 / 900 / 1800 RF。",
+  "guide.economy.bows": "弓: 4000 / 20000 / 100000 RF。",
   "guide.economy.outfits": "衣装: 350 / 800 / 1600 RF。",
   "guide.economy.amulets": "お守り: 450 / 1000 / 2000 RF。",
   "guide.economy.arrows": "矢: 60 / 150 / 300 RF。",

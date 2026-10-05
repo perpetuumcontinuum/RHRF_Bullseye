@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "ขายเลเซอร์ในร้านแลก RF",
   "guide.lasers.paused": "เลเซอร์สะสมได้แม้หยุดเกม",
   "guide.economy.title": "เศรษฐกิจ",
-  "guide.economy.bows": "ธนู: 400 / 900 / 1800 RF",
+  "guide.economy.bows": "ธนู: 4000 / 20000 / 100000 RF",
   "guide.economy.outfits": "ชุด: 350 / 800 / 1600 RF",
   "guide.economy.amulets": "เครื่องราง: 450 / 1000 / 2000 RF",
   "guide.economy.arrows": "ลูกศร: 60 / 150 / 300 RF",

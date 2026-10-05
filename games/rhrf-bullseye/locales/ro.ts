@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Vinde laseruri în magazin pentru RF.",
   "guide.lasers.paused": "Laserurile se adună chiar și în pauză.",
   "guide.economy.title": "ECONOMIE",
-  "guide.economy.bows": "Arcuri: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Arcuri: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Ținute: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amulete: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Săgeți: 60 / 150 / 300 RF.",

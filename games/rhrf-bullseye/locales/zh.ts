@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "在商店出售激光换取 RF。",
   "guide.lasers.paused": "暂停时激光仍会累积。",
   "guide.economy.title": "经济",
-  "guide.economy.bows": "弓：400 / 900 / 1800 RF。",
+  "guide.economy.bows": "弓：4000 / 20000 / 100000 RF。",
   "guide.economy.outfits": "服装：350 / 800 / 1600 RF。",
   "guide.economy.amulets": "护符：450 / 1000 / 2000 RF。",
   "guide.economy.arrows": "箭：60 / 150 / 300 RF。",

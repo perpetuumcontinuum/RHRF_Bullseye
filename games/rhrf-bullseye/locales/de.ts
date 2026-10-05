@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Laser im Shop für RF verkaufen.",
   "guide.lasers.paused": "Laser sammeln sich auch in der Pause.",
   "guide.economy.title": "ÖKONOMIE",
-  "guide.economy.bows": "Bögen: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Bögen: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Outfits: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amulette: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Pfeile: 60 / 150 / 300 RF.",

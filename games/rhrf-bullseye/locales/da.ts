@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Sælg lasere i butikken for RF.",
   "guide.lasers.paused": "Lasere samles også i pause.",
   "guide.economy.title": "ØKONOMI",
-  "guide.economy.bows": "Buer: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Buer: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Påklædning: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amuletter: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Pile: 60 / 150 / 300 RF.",

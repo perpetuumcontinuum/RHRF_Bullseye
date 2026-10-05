@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Bán laser ở cửa hàng lấy RF.",
   "guide.lasers.paused": "Laser vẫn tích luỹ khi tạm dừng.",
   "guide.economy.title": "KINH TẾ",
-  "guide.economy.bows": "Cung: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Cung: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Trang phục: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Bùa: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Tên: 60 / 150 / 300 RF.",

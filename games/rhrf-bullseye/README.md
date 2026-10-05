@@ -93,7 +93,7 @@ All values below are simulated score points. They are not token balances and hav
 - Asteroid destroyed: score bounty scaled by the equipped energy charge (x2 rare, x3 epic, x4 legendary) and it extends the asteroid streak.
 - Selling item: 50 percent of listed price.
 - Offer sale: 60 percent of listed price.
-- Legendary Bow: 1800 RF.
+- Legendary Bow: 100000 RF.
 - Rare Outfit: 350 RF.
 - Epic Outfit: 800 RF.
 - Legendary Outfit: 1600 RF.

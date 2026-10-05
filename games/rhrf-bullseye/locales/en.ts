@@ -51,7 +51,7 @@ export default {
   "guide.lasers.sell": "Sell lasers in shop for RF.",
   "guide.lasers.paused": "Lasers can accumulate while paused.",
   "guide.economy.title": "ECONOMY",
-  "guide.economy.bows": "Bows: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Bows: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Outfits: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amulets: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Arrows: 60 / 150 / 300 RF.",

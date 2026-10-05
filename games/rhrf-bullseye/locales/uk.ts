@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Продавайте лазери в магазині за RF.",
   "guide.lasers.paused": "Лазери накопичуються навіть на паузі.",
   "guide.economy.title": "ЕКОНОМІКА",
-  "guide.economy.bows": "Луки: 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Луки: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Убрання: 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Амулети: 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Стріли: 60 / 150 / 300 RF.",

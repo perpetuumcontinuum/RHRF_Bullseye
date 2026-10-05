@@ -49,7 +49,7 @@ export default {
   "guide.lasers.sell": "Vendez les lasers en boutique contre des RF.",
   "guide.lasers.paused": "Les lasers s'accumulent même en pause.",
   "guide.economy.title": "ÉCONOMIE",
-  "guide.economy.bows": "Arcs : 400 / 900 / 1800 RF.",
+  "guide.economy.bows": "Arcs : 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Tenues : 350 / 800 / 1600 RF.",
   "guide.economy.amulets": "Amulettes : 450 / 1000 / 2000 RF.",
   "guide.economy.arrows": "Flèches : 60 / 150 / 300 RF.",
