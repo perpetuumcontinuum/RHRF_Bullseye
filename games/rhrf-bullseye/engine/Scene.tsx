@@ -960,7 +960,7 @@ function SpeechBubble({ x, y }: { x: number; y: number }) {
     const MENU_SELECTOR =
       ".rf-top-bar, .rf-lang-picker, .rf-lang-overlay, .rf-lang-panel, " +
       ".rf-lang-option, .rf-lang-close, .rf-lang-header, .rf-lang-title, " +
-      ".rf-lang-grid, .rf-lang-code, .rf-lang-name, [data-no-bubble-dismiss]";
+      ".rf-lang-grid, .rf-lang-code, .rf-lang-name, .rf-pause-btn, .rf-share-btn, .rf-mute-btn, .rf-hud-main, .rf-hud-mini, [data-no-bubble-dismiss]";
 
     const onPointerDown = (event: PointerEvent) => {
       if (!visibleRef.current) return;

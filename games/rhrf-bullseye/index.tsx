@@ -1244,9 +1244,8 @@ impactTimersRef.current.forEach((t) => clearTimeout(t));
       const active = document.activeElement;
       if (
         active &&
-        !active.closest(".rf-top-bar, .rf-lang-picker") &&
+        !active.closest(".rf-top-bar, .rf-lang-picker, .rf-pause-btn, .rf-share-btn, .rf-mute-btn, .rf-hud-main, .rf-hud-mini, [data-no-bubble-dismiss]") &&
         [
-          "Space",
           "ArrowUp",
           "KeyW",
           "Digit1",
