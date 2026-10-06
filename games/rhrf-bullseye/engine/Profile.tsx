@@ -297,8 +297,7 @@ export default function Profile(props: any) {
                     <div
                       key={rank.id}
                       className={`rf-badge-card ${unlocked ? "unlocked" : "locked"}`}
-                      style={{ ["--badge-color" as any]: unlocked ? streakColor(kind, rank.n) : undefined } as any}
-                      style={unlocked ? { background: "#000", borderColor: color, color, boxShadow: `0 0 12px ${streakGlow(kind, rank.n)}` } : undefined}
+                      style={unlocked ? { background: "#000", borderColor: color, color, boxShadow: `0 0 12px ${streakGlow(kind, rank.n)}`, ["--badge-color" as any]: color } : undefined}
                     >
                       <div className="rf-badge-icon"><BadgeIcon id={rank.icon} size={30} /></div>
                       <div className="rf-badge-name">{t("badge." + rank.id)}</div>
