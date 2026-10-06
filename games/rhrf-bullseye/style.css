@@ -2731,3 +2731,16 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   background: #001018;
   box-shadow: 0 0 14px rgba(0, 255, 255, 0.25);
 }
+
+/* rf-entry-stage-guard */
+.rf-entry-panel[data-stage="lang"] .rf-entry-stage--mode,
+.rf-entry-panel[data-stage="lang"] .rf-entry-mode-grid,
+.rf-entry-panel[data-stage="lang"] .rf-entry-back {
+  display: none !important;
+}
+
+.rf-entry-panel[data-stage="mode"] .rf-entry-stage--lang,
+.rf-entry-panel[data-stage="mode"] .rf-entry-lang-grid,
+.rf-entry-panel[data-stage="mode"] .rf-entry-hint {
+  display: none !important;
+}

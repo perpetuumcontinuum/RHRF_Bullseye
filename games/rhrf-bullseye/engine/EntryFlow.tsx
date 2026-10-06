@@ -33,13 +33,13 @@ export default function EntryFlow({
 
   return (
     <div className="rf-entry-screen" data-no-bubble-dismiss>
-      <div className="rf-entry-panel">
+      <div className="rf-entry-panel" data-stage={stage}>
         <div className="rf-entry-logo">RHRF BULLSEYE</div>
 
         {loading && <div className="rf-entry-loading">LOADING...</div>}
 
         {stage === "lang" ? (
-          <>
+          <section className="rf-entry-stage rf-entry-stage--lang">
             <div className="rf-entry-title">{t("entry.lang.title")}</div>
             <div className="rf-entry-hint">{t("entry.lang.hint")}</div>
 
@@ -56,9 +56,9 @@ export default function EntryFlow({
                 </button>
               ))}
             </div>
-          </>
+          </section>
         ) : (
-          <>
+          <section className="rf-entry-stage rf-entry-stage--mode">
             <div className="rf-entry-title">{t("entry.mode.title")}</div>
 
             <div className="rf-entry-mode-grid">
@@ -80,7 +80,7 @@ export default function EntryFlow({
             <button type="button" className="rf-entry-back" onClick={() => setStage("lang")}>
               {t("entry.mode.back")}
             </button>
-          </>
+          </section>
         )}
       </div>
     </div>
