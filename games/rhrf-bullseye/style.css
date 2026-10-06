@@ -2744,3 +2744,20 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-entry-panel[data-stage="mode"] .rf-entry-hint {
   display: none !important;
 }
+
+/* rf-no-select-page */
+html, body, #root, .rf-app, .friendsdk-shell, .game-shell, .scene-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+input, textarea, select, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
