@@ -1,5 +1,13 @@
 export default {
   "guide.title": "RHRF БУЛЛСАЙ",
+  "entry.lang.title": "ВЫБЕРИТЕ ЯЗЫК",
+  "entry.lang.hint": "Нажмите на язык, чтобы продолжить.",
+  "entry.mode.title": "ВЫБЕРИТЕ РЕЖИМ",
+  "entry.mode.plateau": "КИБЕР ПЛАТО",
+  "entry.mode.soon": "СКОРО",
+  "entry.mode.leaderboard": "РЕЖИМ ЛИДЕРБОРДА",
+  "entry.mode.leaderboardHint": "Вольный стрелок. Фармь RF, поднимайся в рейтинге.",
+  "entry.mode.back": "НАЗАД",
   "profile.title": "ПРОФИЛЬ",
   "profile.tab.equipment": "СНАРЯЖЕНИЕ",
   "profile.tab.stats": "СТАТИСТИКА",

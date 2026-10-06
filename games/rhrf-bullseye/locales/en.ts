@@ -2,6 +2,14 @@
 // Body is valid JSON; keys must stay identical across all locale files.
 export default {
   "guide.title": "RHRF BULLSEYE",
+  "entry.lang.title": "SELECT LANGUAGE",
+  "entry.lang.hint": "Tap a language to continue.",
+  "entry.mode.title": "SELECT MODE",
+  "entry.mode.plateau": "CYBER PLATEAU",
+  "entry.mode.soon": "COMING SOON",
+  "entry.mode.leaderboard": "LEADERBOARD MODE",
+  "entry.mode.leaderboardHint": "Free shooter. Grind RF, climb ranks.",
+  "entry.mode.back": "BACK",
   "profile.title": "PROFILE",
   "profile.tab.equipment": "EQUIPMENT",
   "profile.tab.stats": "STATS",

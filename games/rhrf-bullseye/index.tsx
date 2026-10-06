@@ -1,4 +1,5 @@
 import { JUMP_ARC_MS } from "./engine/jump";
+import EntryFlow from "./engine/EntryFlow";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import LangMenu from "./engine/LangMenu";
 import SessionNotice from "./engine/SessionNotice";
@@ -324,6 +325,7 @@ const asteroidKilledRef = useRef(false);
   const [isCyberStyle, setIsCyberStyle] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [entryDone, setEntryDone] = useState(false);
   useEffect(() => {
     // Lives after the declaration to avoid a temporal dead zone hit
     (window as any).__RHRF_IS_PAUSED__ = isPaused;
@@ -1169,6 +1171,7 @@ impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false})
   }, [isLaserFiring, asteroidVisible, asteroidPosition, equippedEnergy]);
 
   useEffect(() => {
+    if (!entryDone) return;
     const spawnAsteroid = () => {
       // Hold off spawning while paused; the scheduler will retry
       if (pausedRef.current) return;
@@ -1237,7 +1240,7 @@ let asteroidTimer: ReturnType<typeof setTimeout> | undefined;
 if (asteroidTimer) clearTimeout(asteroidTimer);
 impactTimersRef.current.forEach((t) => clearTimeout(t));
 };
-  }, []);
+  }, [entryDone]);
   useEffect(() => {
 
     const handleKey = (e: KeyboardEvent) => {
@@ -1603,8 +1606,8 @@ const handleToggleCyberStyle = () => {
     return () => { delete w.__RHRF_TEST__; };
   }, []);
 
-if (loading) {
-    return <div className="rf-loading-screen">LOADING RHRF BULLSEYE...</div>;
+if (loading || !entryDone) {
+    return <EntryFlow onEnterGame={() => setEntryDone(true)} loading={loading} />;
   }
 
   return (

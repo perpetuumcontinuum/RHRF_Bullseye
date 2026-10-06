@@ -31,6 +31,16 @@ import hu from "./hu";
 export const REGISTRY: Record<string, Record<string, string>> = {
   en, zh, es, ar, pt, id, ja, ru, de, fr, tr, vi, ko, pl, it, nl, th, ro, el,
   cs, sv, da, no, fi, uk, hi, hu,
+
+  "entry.lang.title": "SELECT LANGUAGE",
+  "entry.lang.hint": "Tap a language to continue.",
+  "entry.mode.title": "SELECT MODE",
+  "entry.mode.plateau": "CYBER PLATEAU",
+  "entry.mode.soon": "COMING SOON",
+  "entry.mode.leaderboard": "LEADERBOARD MODE",
+  "entry.mode.leaderboardHint": "Free shooter. Grind RF, climb ranks.",
+  "entry.mode.back": "BACK",
+
 };
 export const FALLBACK = "en";
 export const LANG_CODES: string[] = Object.keys(REGISTRY);

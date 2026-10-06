@@ -1,5 +1,13 @@
 export default {
   "guide.title": "RHRF 靶心",
+  "entry.lang.title": "SELECT LANGUAGE",
+  "entry.lang.hint": "Tap a language to continue.",
+  "entry.mode.title": "SELECT MODE",
+  "entry.mode.plateau": "CYBER PLATEAU",
+  "entry.mode.soon": "COMING SOON",
+  "entry.mode.leaderboard": "LEADERBOARD MODE",
+  "entry.mode.leaderboardHint": "Free shooter. Grind RF, climb ranks.",
+  "entry.mode.back": "BACK",
   "profile.title": "个人资料",
   "profile.tab.equipment": "装备",
   "profile.tab.stats": "统计",

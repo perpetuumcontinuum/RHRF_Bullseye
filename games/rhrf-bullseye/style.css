@@ -2552,3 +2552,182 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   outline: 2px solid currentColor;
   outline-offset: 1px;
 }
+
+/* rf-entry-screen */
+.rf-entry-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 3vmin, 28px);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 0, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 20% 70%, rgba(0, 255, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, #050015 0%, #12002a 55%, #050015 100%);
+  color: #fff;
+  font-family: "Courier New", monospace;
+}
+
+.rf-entry-panel {
+  width: min(960px, 96vw);
+  max-height: 92vh;
+  overflow: auto;
+  padding: clamp(14px, 3.2vmin, 28px);
+  border: 2px solid #ff00ff;
+  border-radius: clamp(12px, 2.4vmin, 18px);
+  background: rgba(8, 0, 18, 0.88);
+  box-shadow:
+    0 0 28px rgba(255, 0, 255, 0.28),
+    inset 0 0 28px rgba(0, 255, 255, 0.08);
+}
+
+.rf-entry-logo {
+  margin-bottom: clamp(10px, 2.4vmin, 18px);
+  text-align: center;
+  font-size: clamp(24px, 6.2vmin, 48px);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #00ffff;
+  text-shadow: 0 0 14px rgba(0, 255, 255, 0.65);
+}
+
+.rf-entry-loading {
+  margin-bottom: 10px;
+  text-align: center;
+  color: #ccff00;
+  font-size: clamp(11px, 2.2vmin, 14px);
+  letter-spacing: 0.12em;
+}
+
+.rf-entry-title {
+  margin-bottom: clamp(8px, 1.8vmin, 14px);
+  text-align: center;
+  font-size: clamp(16px, 3.6vmin, 26px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ffaa00;
+  text-shadow: 0 0 12px rgba(255, 170, 0, 0.45);
+}
+
+.rf-entry-hint {
+  margin-bottom: clamp(10px, 2.2vmin, 16px);
+  text-align: center;
+  font-size: clamp(11px, 2.2vmin, 14px);
+  color: #b8a8d8;
+}
+
+.rf-entry-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: clamp(6px, 1.4vmin, 10px);
+}
+
+.rf-entry-lang,
+.rf-entry-mode,
+.rf-entry-back {
+  appearance: none;
+  border: 1px solid #ffffff33;
+  background: #000;
+  color: #fff;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.rf-entry-lang {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: clamp(54px, 10vmin, 72px);
+  padding: clamp(7px, 1.5vmin, 10px);
+  border-radius: clamp(8px, 1.4vmin, 10px);
+}
+
+.rf-entry-lang:hover,
+.rf-entry-lang.active {
+  border-color: #00ffff;
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.28);
+}
+
+.rf-entry-lang-code {
+  font-size: clamp(13px, 2.6vmin, 18px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #ccff00;
+}
+
+.rf-entry-lang-name {
+  font-size: clamp(10px, 1.9vmin, 12px);
+  color: #d8d8ff;
+  opacity: 0.86;
+}
+
+.rf-entry-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: clamp(10px, 2.2vmin, 16px);
+  margin-top: clamp(8px, 1.8vmin, 14px);
+}
+
+.rf-entry-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.8vmin, 14px);
+  min-height: clamp(126px, 24vmin, 190px);
+  padding: clamp(12px, 2.8vmin, 20px);
+  border-radius: clamp(10px, 2vmin, 14px);
+  text-align: center;
+}
+
+.rf-entry-mode-title {
+  font-size: clamp(16px, 3.4vmin, 24px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.rf-entry-mode-sub {
+  font-size: clamp(10px, 2.1vmin, 13px);
+  line-height: 1.35;
+  opacity: 0.88;
+}
+
+.rf-entry-mode--plateau {
+  border-color: #555;
+  color: #8f8fa8;
+  opacity: 0.58;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.rf-entry-mode--leaderboard {
+  border-color: #ccff00;
+  color: #ccff00;
+  box-shadow: 0 0 18px rgba(204, 255, 0, 0.22);
+}
+
+.rf-entry-mode--leaderboard:hover {
+  background: #101000;
+  box-shadow: 0 0 24px rgba(204, 255, 0, 0.35);
+}
+
+.rf-entry-back {
+  display: block;
+  margin: clamp(12px, 2.4vmin, 18px) auto 0;
+  padding: clamp(7px, 1.5vmin, 10px) clamp(14px, 3vmin, 22px);
+  border-radius: 999px;
+  font-size: clamp(11px, 2.2vmin, 14px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #00ffff;
+  border-color: #00ffff55;
+}
+
+.rf-entry-back:hover {
+  background: #001018;
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.25);
+}
