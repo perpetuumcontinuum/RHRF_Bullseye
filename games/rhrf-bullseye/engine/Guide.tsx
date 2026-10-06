@@ -55,19 +55,16 @@ const SECTIONS: ReadonlyArray<{
     { k: "guide.economy.energy", tone: undefined },
     { k: "guide.economy.armor", tone: undefined },
     { k: "guide.economy.sell", tone: undefined },
-    { k: "guide.economy.note", tone: undefined },
   ]},
   { id: "cyber", titleKey: "guide.cyber.title", rows: [
     { k: "guide.cyber.req", tone: "cyber" },
     { k: "guide.cyber.shake", tone: "cyber" },
-    { k: "guide.cyber.shimmer", tone: "cyber" },
   ]},
   { id: "badges", titleKey: "guide.badges.title", rows: [
     { k: "guide.badges.streak", tone: undefined },
     { k: "guide.badges.time", tone: undefined },
     { k: "guide.badges.rf", tone: undefined },
     { k: "guide.badges.final", tone: "cyber" },
-    { k: "guide.badges.relock", tone: undefined },
   ]},
   { id: "session", titleKey: "guide.session.title", rows: [
     { k: "guide.session.live", tone: undefined },
