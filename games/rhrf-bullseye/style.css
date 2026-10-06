@@ -2545,3 +2545,10 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   color: var(--rf-streak-color, #ccff00);
   filter: drop-shadow(0 0 6px currentColor);
 }
+
+/* rf-hud-base-removed */
+.rf-hud-base { display: none !important; }
+.rf-hud-mini.equipped {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
