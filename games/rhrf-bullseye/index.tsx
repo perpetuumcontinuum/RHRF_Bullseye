@@ -1158,7 +1158,7 @@ setExplosion({x: ax, y: ay, visible: true});
           pt(() => setSuccessMessage(null), 2500);
 impactTimersRef.current.push(pt(() => setExplosion({x: 0, y: 0, visible: false}), 1500));
       const mult = equippedEnergy?.includes("legendary") ? 4 : equippedEnergy?.includes("epic") ? 3 : equippedEnergy?.includes("rare") ? 2 : 1;
-      const reward = 25 * mult;
+      const reward = (({ energy_rare: 50, energy_epic: 100, energy_legendary: 200 } as Record<string, number>)[equippedEnergy ?? ""] ?? 25);
       const energyColor = equippedEnergy?.includes("legendary") ? "#ffaa00" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : "#ff3366";
       setTotalScore((s) => s + reward);
       addEarnedScore(reward);
