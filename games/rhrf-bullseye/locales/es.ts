@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Arcos: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Trajes: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amuletos: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Flechas: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Flechas: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energía: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Armadura: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Venta: 50% / oferta: 60%.",

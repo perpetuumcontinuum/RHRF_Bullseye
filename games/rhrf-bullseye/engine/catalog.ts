@@ -29,9 +29,9 @@ export const CATALOG: ShopItem[] = [
   { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", icon: "amulet", price: 20000, description: "x3 slow aim" },
   { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", icon: "amulet", price: 100000, description: "x4 slow aim" },
 
-  { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", icon: "arrow", price: 60, description: "x2 score, fast draw" },
-  { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", icon: "arrow", price: 300, description: "x3 score, faster draw" },
-  { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", icon: "arrow", price: 1500, description: "x4 score, instant draw" },
+  { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", icon: "arrow", price: 15, description: "x2 score, fast draw" },
+  { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", icon: "arrow", price: 30, description: "x3 score, faster draw" },
+  { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", icon: "arrow", price: 60, description: "x4 score, instant draw" },
 
   { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", icon: "energy", price: 40, description: "+50 RF per asteroid" },
   { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", icon: "energy", price: 80, description: "+100 RF per asteroid" },

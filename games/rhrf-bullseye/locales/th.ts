@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "ธนู: 4000 / 20000 / 100000 RF",
   "guide.economy.outfits": "ชุด: 4000 / 20000 / 100000 RF",
   "guide.economy.amulets": "เครื่องราง: 4000 / 20000 / 100000 RF",
-  "guide.economy.arrows": "ลูกศร: 60 / 300 / 1500 RF",
+  "guide.economy.arrows": "ลูกศร: 15 / 30 / 60 RF",
   "guide.economy.energy": "พลังงาน: 40 / 80 / 150 RF",
   "guide.economy.armor": "เกราะ: 5 / 10 / 15 RF",
   "guide.economy.sell": "ขาย: 50% / ข้อเสนอ: 60%",

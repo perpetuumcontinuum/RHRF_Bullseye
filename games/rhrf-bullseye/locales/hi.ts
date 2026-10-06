@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "धनुष: 4000 / 20000 / 100000 RF।",
   "guide.economy.outfits": "पोशाक: 4000 / 20000 / 100000 RF।",
   "guide.economy.amulets": "तावीज़: 4000 / 20000 / 100000 RF।",
-  "guide.economy.arrows": "तीर: 60 / 300 / 1500 RF।",
+  "guide.economy.arrows": "तीर: 15 / 30 / 60 RF।",
   "guide.economy.energy": "ऊर्जा: 40 / 80 / 150 RF।",
   "guide.economy.armor": "कवच: 5 / 10 / 15 RF।",
   "guide.economy.sell": "बिक्री: 50% / प्रस्ताव: 60%।",

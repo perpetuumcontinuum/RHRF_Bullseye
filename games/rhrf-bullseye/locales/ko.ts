@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "활: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "의상: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "부적: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "화살: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "화살: 15 / 30 / 60 RF.",
   "guide.economy.energy": "에너지: 40 / 80 / 150 RF.",
   "guide.economy.armor": "방어구: 5 / 10 / 15 RF.",
   "guide.economy.sell": "판매: 50% / 오퍼: 60%.",

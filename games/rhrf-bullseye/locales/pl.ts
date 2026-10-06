@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Łuki: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Stroje: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amulety: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Strzały: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Strzały: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energia: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Zbroja: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Sprzedaż: 50% / oferta: 60%.",

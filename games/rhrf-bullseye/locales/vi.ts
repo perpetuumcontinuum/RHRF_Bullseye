@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Cung: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Trang phục: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Bùa: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Tên: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Tên: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Năng lượng: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Giáp: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Bán: 50% / chào giá: 60%.",

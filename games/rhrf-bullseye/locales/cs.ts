@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Luky: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Oblečení: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amulety: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Šípy: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Šípy: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energie: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Brnění: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Prodej: 50% / nabídka: 60%.",

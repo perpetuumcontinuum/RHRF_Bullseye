@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Yaylar: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Kıyafetler: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Muska: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Oklar: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Oklar: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Enerji: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Zırh: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Satış: %50 / teklif: %60.",

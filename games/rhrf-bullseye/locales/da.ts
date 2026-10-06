@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Buer: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Påklædning: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amuletter: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Pile: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Pile: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energi: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Rustning: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Salg: 50% / bud: 60%.",

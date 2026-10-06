@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Busur: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Pakaian: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Jimat: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Panah: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Panah: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energi: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Baju zirah: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Jual: 50% / tawaran: 60%.",

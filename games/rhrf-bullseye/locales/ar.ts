@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "أقواس: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "أزياء: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "تمائم: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "سهام: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "سهام: 15 / 30 / 60 RF.",
   "guide.economy.energy": "طاقة: 40 / 80 / 150 RF.",
   "guide.economy.armor": "دروع: 5 / 10 / 15 RF.",
   "guide.economy.sell": "بيع: 50% / عرض: 60%.",

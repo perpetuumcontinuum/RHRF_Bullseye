@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Луки: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Убрання: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Амулети: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Стріли: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Стріли: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Енергія: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Обладунок: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Продаж: 50% / офер: 60%.",

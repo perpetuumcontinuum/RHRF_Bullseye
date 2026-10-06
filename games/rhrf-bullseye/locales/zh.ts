@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "弓：4000 / 20000 / 100000 RF。",
   "guide.economy.outfits": "服装：4000 / 20000 / 100000 RF。",
   "guide.economy.amulets": "护符：4000 / 20000 / 100000 RF。",
-  "guide.economy.arrows": "箭：60 / 300 / 1500 RF。",
+  "guide.economy.arrows": "箭：15 / 30 / 60 RF。",
   "guide.economy.energy": "能量：40 / 80 / 150 RF。",
   "guide.economy.armor": "护甲：5 / 10 / 15 RF。",
   "guide.economy.sell": "出售：50% / 报价：60%。",

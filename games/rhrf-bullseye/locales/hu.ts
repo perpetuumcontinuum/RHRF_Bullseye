@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Íjak: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Öltözetek: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amulettek: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Nyilak: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Nyilak: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energia: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Páncél: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Eladás: 50% / ajánlat: 60%.",

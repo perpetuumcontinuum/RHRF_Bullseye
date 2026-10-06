@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "弓: 4000 / 20000 / 100000 RF。",
   "guide.economy.outfits": "衣装: 4000 / 20000 / 100000 RF。",
   "guide.economy.amulets": "お守り: 4000 / 20000 / 100000 RF。",
-  "guide.economy.arrows": "矢: 60 / 300 / 1500 RF。",
+  "guide.economy.arrows": "矢: 15 / 30 / 60 RF。",
   "guide.economy.energy": "エネルギー: 40 / 80 / 150 RF。",
   "guide.economy.armor": "防具: 5 / 10 / 15 RF。",
   "guide.economy.sell": "売却: 50% / オファー: 60%。",

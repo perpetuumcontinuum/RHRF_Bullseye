@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Jouset: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Asut: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amuletit: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Nuolet: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Nuolet: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energia: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Haarniska: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Myynti: 50% / tarjous: 60%.",

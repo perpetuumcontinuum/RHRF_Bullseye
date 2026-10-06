@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Τόξα: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Στολές: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Φυλαχτά: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Βέλη: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Βέλη: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Ενέργεια: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Πανοπλία: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Πώληση: 50% / προσφορά: 60%.",

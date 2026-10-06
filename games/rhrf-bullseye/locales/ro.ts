@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Arcuri: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Ținute: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amulete: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Săgeți: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Săgeți: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energie: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Armură: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Vânzare: 50% / ofertă: 60%.",

@@ -52,7 +52,7 @@ export default {
   "guide.economy.bows": "Bogen: 4000 / 20000 / 100000 RF.",
   "guide.economy.outfits": "Outfits: 4000 / 20000 / 100000 RF.",
   "guide.economy.amulets": "Amuletten: 4000 / 20000 / 100000 RF.",
-  "guide.economy.arrows": "Pijlen: 60 / 300 / 1500 RF.",
+  "guide.economy.arrows": "Pijlen: 15 / 30 / 60 RF.",
   "guide.economy.energy": "Energie: 40 / 80 / 150 RF.",
   "guide.economy.armor": "Harnas: 5 / 10 / 15 RF.",
   "guide.economy.sell": "Verkopen: 50% / bod: 60%.",
