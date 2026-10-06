@@ -100,7 +100,7 @@ All values below are simulated score points. They are not token balances and hav
 - Rare Amulet: 450 RF.
 - Epic Amulet: 1000 RF.
 - Legendary Amulet: 2000 RF.
-- Consumables: arrows 60/150/300 RF, energy 300/800/1600 RF, armor 100/220/400 RF (rare/epic/legendary).
+- Consumables: arrows 60/300/1500 RF, energy 300/800/1600 RF, armor 5/10/15 RF (rare/epic/legendary).
 - Current price tuning is modest; when stat persistence arrives, the economy will become deeper and new features will appear.
 
 Consumables are split into arrows, armor and energy. Arrows affect shot rarity and color, armor affects protection, and energy affects tower laser availability or power.

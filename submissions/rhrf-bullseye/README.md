@@ -161,7 +161,7 @@ Dependencies install from the v0.1.4 GitHub release tarball declared in package.
 - Bows: 4000 / 20000 / 100000 RF (rare/epic/legendary).
 - Outfits: 4000 / 20000 / 100000 RF (rare/epic/legendary).
 - Amulets: 4000 / 20000 / 100000 RF (rare/epic/legendary).
-- Consumables: arrows 60/150/300 RF, energy 300/800/1600 RF, armor 100/220/400 RF (rare/epic/legendary).
+- Consumables: arrows 60/300/1500 RF, energy 300/800/1600 RF, armor 5/10/15 RF (rare/epic/legendary).
 - Selling item: 50 percent of listed price.
 - Offer sale: 60 percent of listed price.
 - Current price tuning is modest; when stat persistence arrives, the economy will become deeper and new features will appear.
