@@ -21,13 +21,13 @@ export const CATALOG: ShopItem[] = [
   { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 20000, description: "x3 score" },
   { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 100000, description: "x4 score" },
 
-  { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", icon: "clothes", price: 350, description: "x2 accuracy" },
-  { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", icon: "clothes", price: 800, description: "x3 accuracy" },
-  { id: "hat_legendary", name: "LEGENDARY OUTFIT", category: "hat", rarity: "legendary", icon: "clothes", price: 1600, description: "x4 accuracy" },
+  { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", icon: "clothes", price: 4000, description: "x2 accuracy" },
+  { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", icon: "clothes", price: 20000, description: "x3 accuracy" },
+  { id: "hat_legendary", name: "LEGENDARY OUTFIT", category: "hat", rarity: "legendary", icon: "clothes", price: 100000, description: "x4 accuracy" },
 
-  { id: "amulet_rare", name: "RARE AMULET", category: "amulet", rarity: "rare", icon: "amulet", price: 450, description: "x2 slow aim" },
-  { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", icon: "amulet", price: 1000, description: "x3 slow aim" },
-  { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", icon: "amulet", price: 2000, description: "x4 slow aim" },
+  { id: "amulet_rare", name: "RARE AMULET", category: "amulet", rarity: "rare", icon: "amulet", price: 4000, description: "x2 slow aim" },
+  { id: "amulet_epic", name: "EPIC AMULET", category: "amulet", rarity: "epic", icon: "amulet", price: 20000, description: "x3 slow aim" },
+  { id: "amulet_legendary", name: "LEGENDARY AMULET", category: "amulet", rarity: "legendary", icon: "amulet", price: 100000, description: "x4 slow aim" },
 
   { id: "arrow_rare", name: "RARE ARROWS", category: "consumable", rarity: "rare", icon: "arrow", price: 60, description: "x2 score, fast draw" },
   { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", icon: "arrow", price: 150, description: "x3 score, faster draw" },

@@ -91,4 +91,3 @@ export function formatDuration(ms: number): string {
 
   return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 }
-
