@@ -2478,3 +2478,30 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 .rf-paused-root .rf-speech-skip{
   pointer-events: none !important;
 }
+
+/* rf-no-select */
+.scene-container,
+.scene-container *,
+.rf-site-footer,
+.rf-site-footer * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.scene-container input,
+.scene-container textarea,
+.scene-container select,
+.scene-container [contenteditable="true"],
+.rf-site-footer input,
+.rf-site-footer textarea,
+.rf-site-footer select,
+.rf-site-footer [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
