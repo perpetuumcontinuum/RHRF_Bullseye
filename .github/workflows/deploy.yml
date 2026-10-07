@@ -190,7 +190,7 @@ jobs:
         run: node scripts/check-jump-arc.mjs
 
       - name: Copy footer music into deploy root
-        run: mkdir -p games/rhrf-bullseye/.friendsdk && cp 8bit-loop.mp3 footer-music.js layout.css page-shell.js game-shell.css
+        run: mkdir -p games/rhrf-bullseye/.friendsdk && cp 8bit-loop.mp3 footer-music.js layout.css page-shell.js game-shell.css games/rhrf-bullseye/.friendsdk/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
