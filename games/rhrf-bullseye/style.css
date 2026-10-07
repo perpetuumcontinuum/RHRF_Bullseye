@@ -431,7 +431,7 @@
   gap: clamp(6px, 1.6vw, 12px);
   z-index: 50;
   font-family: monospace;
-  max-width: calc(100vw - 16px - var(--rf-safe-left) - var(--rf-safe-right));
+  max-width: 61%;
   pointer-events: auto;
 }.rf-top-bar__score{
   --sf: var(--score-flash, #ff2d2d);
