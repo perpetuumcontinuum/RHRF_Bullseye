@@ -22,3 +22,6 @@ list.txt
 meta.txt
 README.rst
 vendor/
+*.bak-*
+*.broken-*
+layout.live.css

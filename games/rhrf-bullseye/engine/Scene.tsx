@@ -86,6 +86,30 @@ export default function Scene({
   onPopupDone,
   onTogglePause,
 }: SceneProps) {
+  // rfDynamicViewBox
+  const sceneRef = useRef<SVGSVGElement | null>(null);
+  const [viewBox, setViewBox] = useState("0 0 960 640");
+  useEffect(() => {
+    const el = sceneRef.current;
+    if (!el) return;
+    const BW = 960, BH = 640, MAX = 20000;
+    const upd = () => {
+      const r = el.getBoundingClientRect();
+      const cw = Math.max(1, r.width), ch = Math.max(1, r.height);
+      const ar = cw / ch, ba = BW / BH;
+      let x = 0, y = 0, w = BW, h = BH;
+      if (ar > ba) { h = BH; w = Math.min(MAX, BH * ar); x = (BW - w) / 2; }
+      else { w = BW; h = Math.min(MAX, BW / ar); y = (BH - h) / 2; }
+      setViewBox(`${x} ${y} ${w} ${h}`);
+    };
+    upd();
+    const RO = (window as any).ResizeObserver;
+    const ro = RO ? new RO(upd) : null;
+    if (ro) ro.observe(el);
+    window.addEventListener("resize", upd);
+    return () => { if (ro) ro.disconnect(); window.removeEventListener("resize", upd); };
+  }, []);
+
   const t = useT();
   const cyberStyle = Boolean(isCyberStyle ?? (typeof window !== 'undefined' && (window as any).__RHRF_IS_CYBER__));
 const pixelBounds = (() => {
@@ -260,13 +284,13 @@ const pixelBounds = (() => {
   };
 
   return (
-    <svg id="rhrf-scene-svg" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg" style={{ color: arrowColor, ["--rf-arrow-color" as any]: arrowColor, ["--rf-laser-color" as any]: laserColor } as any}>
+    <svg id="rhrf-scene-svg" ref={sceneRef} viewBox={viewBox} preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style={{ color: arrowColor, ["--rf-arrow-color" as any]: arrowColor, ["--rf-laser-color" as any]: laserColor } as any}>
       <defs>
-        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="skyGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="640">
           <stop offset="0%" stopColor="#0a0020"/><stop offset="30%" stopColor="#1a0040"/>
           <stop offset="60%" stopColor="#0d0030"/><stop offset="100%" stopColor="#050015"/>
         </linearGradient>
-        <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="groundGrad" gradientUnits="userSpaceOnUse" x1="0" y1="480" x2="0" y2="700">
           <stop offset="0%" stopColor="#1a0044"/><stop offset="50%" stopColor="#0d0022"/>
           <stop offset="100%" stopColor="#050010"/>
         </linearGradient>
@@ -300,7 +324,7 @@ const pixelBounds = (() => {
         </linearGradient>
       </defs>
 
-      <rect width="1000" height="700" fill="url(#skyGrad)"/>
+      <rect x="-20000" y="-20000" width="60000" height="60000" fill="url(#skyGrad)"/>
       
       <g opacity="0.8">
         <rect x="50" y="380" width="30" height="100" fill="#1a0044" stroke="#ff00ff33" strokeWidth="0.5"/>
@@ -373,8 +397,8 @@ const pixelBounds = (() => {
           />
         </g>
       )}
-      <rect x="0" y="480" width="1000" height="220" fill="url(#groundGrad)"/>
-      <line x1="0" y1="480" x2="1000" y2="480" stroke="#ff00ff" strokeWidth="2" filter="url(#neonGlowPink)" opacity="0.6"/>
+      <rect x="-20000" y="480" width="60000" height="20000" fill="url(#groundGrad)"/>
+      <line x1="-20000" y1="480" x2="20000" y2="480" stroke="#ff00ff" strokeWidth="2" filter="url(#neonGlowPink)" opacity="0.6"/>
       
       <g filter="url(#softGlow)">
         <line x1="100" y1="490" x2="95" y2="470" stroke="#00ff88" strokeWidth="1.5" opacity="0.6"/>
@@ -421,6 +445,34 @@ const pixelBounds = (() => {
         <rect x="855" y="385" width="4" height="4" fill="#00ffff" opacity="0.8"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></rect>
         <rect x="925" y="395" width="4" height="4" fill="#ffff00" opacity="0.6"><animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/></rect>
       </g>
+      {/* rfProceduralBackdrop */}
+      {(() => {
+        const p = viewBox.split(" ").map(Number);
+        const vx = Number.isFinite(p[0]) ? p[0] : 0;
+        const vy = Number.isFinite(p[1]) ? p[1] : 0;
+        const vw = Number.isFinite(p[2]) && p[2] > 0 ? p[2] : 960;
+        const vh = Number.isFinite(p[3]) && p[3] > 0 ? p[3] : 640;
+        if (vw <= 960.5 && vh <= 640.5) return null;
+
+        const stars: React.ReactElement[] = [];
+        const sc = Math.max(60, Math.min(360, Math.round(vw / 10)));
+        for (let i = 0; i < sc; i++) {
+          const x = vx - 120 + ((i * 173.317) % (vw + 240));
+          const y = vy - 80 + ((i * 91.713) % Math.max(240, vh * 0.58));
+          stars.push(<circle key={"s"+i} cx={x} cy={y} r={0.45+((i*17)%13)/10} fill="#fff" opacity={0.14+((i*7)%16)/45} />);
+        }
+
+        const step = 82, b: React.ReactElement[] = [];
+        const bc = Math.max(0, Math.ceil((vw + step * 2) / step));
+        for (let i = 0; i < bc; i++) {
+          const x = vx - step + i * step;
+          const w = 22 + ((i * 31) % 38);
+          if (!(x + w < 0 || x > 960)) continue; // только крылья
+          const h = 58 + ((i * 47) % 132);
+          b.push(<rect key={"b"+i} x={x} y={480 - h} width={w} height={h} fill="#1a0044" stroke={i%2?"#ff00ff33":"#00ffff33"} strokeWidth="0.5" />);
+        }
+        return (<><g opacity="0.5">{stars}</g><g opacity="0.62">{b}</g></>);
+      })()}
       <BackgroundEvents />
 
       <g transform={`translate(${PLAYER_X}, ${PLAYER_Y})`}>
@@ -680,11 +732,11 @@ const pixelBounds = (() => {
 <SpeechBubble x={ARROW_START_X} y={ARROW_START_Y} />
 {isPaused && (
         <g pointerEvents="none">
-          <rect x="0" y="0" width="1000" height="700" fill="#050015" opacity="0.72" />
+          <rect x="-20000" y="-20000" width="60000" height="60000" fill="#050015" opacity="0.72" />
           <g className="rf-glitch-container">
             <text
-              x="500"
-              y="355"
+              x="480"
+              y="335"
               textAnchor="middle"
               fontFamily="'Courier New', Courier, monospace"
               fontSize="54"
@@ -696,8 +748,8 @@ const pixelBounds = (() => {
               {t("scene.paused")}
             </text>
             <text
-              x="500"
-              y="355"
+              x="480"
+              y="335"
               textAnchor="middle"
               fontFamily="'Courier New', Courier, monospace"
               fontSize="54"
@@ -709,8 +761,8 @@ const pixelBounds = (() => {
               {t("scene.paused")}
             </text>
             <text
-              x="500"
-              y="355"
+              x="480"
+              y="335"
               textAnchor="middle"
               fontFamily="'Courier New', Courier, monospace"
               fontSize="54"

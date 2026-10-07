@@ -36,7 +36,7 @@ export default function EntryFlow({
       <div className="rf-entry-panel" data-stage={stage}>
         <div className="rf-entry-logo">RHRF BULLSEYE</div>
 
-        {loading && <div className="rf-entry-loading">LOADING...</div>}
+        {loading && <div className="rf-entry-loading" role="status" aria-label="Loading" />}
 
         {stage === "lang" ? (
           <section className="rf-entry-stage rf-entry-stage--lang">
