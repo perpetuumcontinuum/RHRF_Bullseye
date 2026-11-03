@@ -12,7 +12,7 @@ export type SaveData = Readonly<{
   bow: number;
   amulet: number;
   rareArrow: boolean;
-  rareLeft: number;       // remaining Rare Arrow charges this session (starts at PACK uses? no: 1/shot while unlocked)
+  rareLeft: number;
   bundlesStarter: boolean;
   bundlesChampion: boolean;
   bestRing: number;

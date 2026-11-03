@@ -1,3 +1,4 @@
+import { getItemPrice } from "./catalog";
 import React, { useState } from "react";
 import {
 
@@ -9,7 +10,7 @@ import {
   type ShopItem,
 } from "./catalog";
 import { type GameStats, formatDuration } from "./stats"
-import { BADGES_BY_KIND, BADGE_ORDER, streakColor, streakGlow, BadgeIcon } from "./achievements";
+import { BADGES_BY_KIND, BADGE_ORDER, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 import { useT } from "./i18n";
 
@@ -150,7 +151,14 @@ const rfLimitByRarity = (items: ShopItem[]): ShopItem[] => {
 export default function Profile(props: any) {
   const t = useT();
   const [pendingSale, setPendingSale] = useState<PendingSale>(null);
-  const [activeTab, setActiveTab] = useState<"equipment" | "stats" | "badges" | "cyber">("equipment");
+  const [activeTab, setActiveTab] = useState<"equipment" | "stats" | "badges" | "cyber">(() => {
+    const forced = (window as any).__RHRF_PROFILE_TAB__;
+    if (forced === "cyber" || forced === "stats" || forced === "badges") {
+      (window as any).__RHRF_PROFILE_TAB__ = null;
+      return forced;
+    }
+    return "equipment";
+  });
   const [activeStat, setActiveStat] = useState<StatTabId>("time");
   const [activeEquipmentTab, setActiveEquipmentTab] = useState<ShopCategory>("bow");
   const [activeConsumableTab, setActiveConsumableTab] = useState<"arrow" | "armor" | "energy">("arrow");
@@ -226,7 +234,7 @@ export default function Profile(props: any) {
     const amount = item.category === "consumable" ? count : 1;
     if (amount <= 0) return;
 
-    const revenue = sellValue(item.price, rate, amount);
+    const revenue = sellValue(getItemPrice(item), rate, amount);
     setPendingSale({ item, amount, rate, revenue });
   };
 
@@ -284,7 +292,9 @@ export default function Profile(props: any) {
           {BADGE_ORDER.map((kind) => (
             <div key={kind} className={`rf-badge-kind-block rf-badge-kind-block--${kind}`}>
               <div className="rf-profile-section-title">
-                {t("profile.badgesHeading", { kind: kind.toUpperCase() })}
+                {t("profile.badgesHeading", { kind: kind === "ghost" ? t("badge.kind.anomaly", undefined, "ANOMALY")
+                    : kind === "arcade" ? t("badge.kind.arcade", undefined, "ARCADE")
+                    : kind.toUpperCase() })}
                 <span className="rf-badge-progress">
                   {BADGES_BY_KIND[kind].filter((r) => Boolean(gameStats?.earnedBadges.includes(r.id))).length}/{BADGES_BY_KIND[kind].length}
                 </span>
@@ -292,16 +302,30 @@ export default function Profile(props: any) {
               <div className="rf-badge-grid">
                 {BADGES_BY_KIND[kind].map((rank) => {
                   const unlocked = Boolean(gameStats?.earnedBadges.includes(rank.id));
-                  const color = streakColor(kind, rank.n);
+                  const color = kind === "cyber"
+                    ? "var(--cyber-fill, #00ffff)"
+                    : kind === "ghost"
+                    ? "#ccff00"
+                    : kind === "asteroid"
+                    ? "#aa00ff"
+                    : kind === "time"
+                    ? "#F7931A"
+                    : "#ffffff";
                   return (
                     <div
                       key={rank.id}
                       className={`rf-badge-card ${unlocked ? "unlocked" : "locked"}`}
-                      style={unlocked ? { background: "#000", borderColor: color, color, boxShadow: `0 0 12px ${streakGlow(kind, rank.n)}`, ["--badge-color" as any]: color } : undefined}
+                      style={{
+                        background: "#000",
+                        borderColor: color,
+                        color,
+                        boxShadow: unlocked ? `0 0 12px ${color}` : "none",
+                        ["--badge-color" as any]: color,
+                      }}
                     >
                       <div className="rf-badge-icon"><BadgeIcon id={rank.icon} size={30} /></div>
                       <div className="rf-badge-name">{t("badge." + rank.id)}</div>
-                      <div className="rf-badge-desc">{t("profile.badgeStreak", { count: rank.n })}</div>
+                      <div className="rf-badge-desc">{kind === "arcade" ? t("badge.arcade.desc") : t("profile.badgeStreak", { count: rank.n })}</div>
                       <div className="rf-badge-state">{unlocked ? t("badge.unlocked") : t("badge.locked")}</div>
                     </div>
                   );
@@ -428,7 +452,6 @@ export default function Profile(props: any) {
                   })}
                 </div>
               )}
-              
 
               {displayItems.length === 0 ? (
                 <div className="rf-profile-empty">{t("ui.noItems")}</div>
@@ -438,8 +461,8 @@ export default function Profile(props: any) {
                     const count = getItemCount(inventory, item.id);
                     const equipped = isEquipped(props, item);
                     const sellAmount = item.category === "consumable" ? count : 1;
-                    const sell50 = sellValue(item.price, 0.5, sellAmount);
-                    const sell60 = sellValue(item.price, 0.6, sellAmount);
+                    const sell50 = sellValue(getItemPrice(item), 0.5, sellAmount);
+                    const sell60 = sellValue(getItemPrice(item), 0.6, sellAmount);
 
                     return (
                       <div
@@ -462,7 +485,7 @@ export default function Profile(props: any) {
                         </div>
 
                         <div className="rf-profile-card-actions">
-                          <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (count <= 0)}
+                          <button disabled={false && rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (count <= 0)}
                             className="rf-profile-action equip"
                             onClick={() => toggleEquip(item)}
                           >

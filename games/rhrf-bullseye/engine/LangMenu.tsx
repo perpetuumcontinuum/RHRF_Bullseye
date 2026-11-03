@@ -1,8 +1,6 @@
 import React from "react";
 import { langs, setLang, useLang, translate } from "./i18n";
 
-// Четвёртый оверлей в ряду Shop/Profile/Guide: паузу/звук/hotkey-lock даёт
-// isMenuOpenRef() в index.tsx, здесь только выбор языка.
 export default function LangMenu({ onClose, onSelect }: { onClose: () => void; onSelect: () => void }) {
   const lang = useLang();
   const title = translate(lang, "lang.title");

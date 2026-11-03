@@ -103,10 +103,50 @@
     return tools;
   }
 
+/* rf-planet-broadcast */
+  var planetTimer = 0;
+
+  function getPlanetParam() {
+    var p = new URLSearchParams(location.search).get("planet");
+    if (!p) {
+      try { p = localStorage.getItem("rf-planet"); } catch (e) {}
+    }
+    return p || "";
+  }
+
+  function broadcastPlanet() {
+    var p = getPlanetParam();
+    if (!p) return;
+
+    try { localStorage.setItem("rf-planet", p); } catch (e) {}
+
+    var frames = document.querySelectorAll("iframe");
+    for (var i = 0; i < frames.length; i++) {
+      try {
+        frames[i].contentWindow.postMessage({ type: "rf:set-planet", planet: p }, "*");
+      } catch (e) {}
+    }
+  }
+
+  function startPlanetPoll() {
+    if (planetTimer) return;
+    var tries = 0;
+    planetTimer = setInterval(function () {
+      tries++;
+      broadcastPlanet();
+      if (tries >= 30) {
+        clearInterval(planetTimer);
+        planetTimer = 0;
+      }
+    }, 150);
+  }
+
   function ready() {
     if (document.body) document.body.classList.add("rf-page-body");
     ensureFS();
     ensureTools();
+    broadcastPlanet();
+    startPlanetPoll();
   }
 
   if (document.readyState === "loading") {

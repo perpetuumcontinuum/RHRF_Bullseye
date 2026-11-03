@@ -1,5 +1,4 @@
 
-
 import { createFriendReader, spriteFrame, type GenerationSprites } from "@rarefriends/friendsdk/sprites";
 
 export function friendFrame(rows: readonly string[]): HTMLCanvasElement {
@@ -26,11 +25,11 @@ export async function loadFriendSprite(friendId: bigint): Promise<HTMLCanvasElem
   try {
     const reader = createFriendReader();
     const sprites: GenerationSprites = await reader.read(friendId);
-    
+
     const frame = spriteFrame(sprites, "down", false, 0, "right").frame;
     if (frame.rows && frame.rows.length > 0) {
     }
-    
+
     const canvas = friendFrame(frame.rows);
     return canvas;
   } catch (err) {
@@ -53,7 +52,7 @@ export interface RenderState {
 }
 
 export function renderScene(ctx: CanvasRenderingContext2D, state: RenderState, canvasW: number, canvasH: number): void {
-  
+
   ctx.save();
   ctx.imageSmoothingEnabled = false;
 

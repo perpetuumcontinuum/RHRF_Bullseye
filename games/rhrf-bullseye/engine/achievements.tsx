@@ -1,7 +1,7 @@
 import React from "react";
 
 export type StreakKind = "cyber" | "ghost" | "asteroid";
-export type BadgeKind = StreakKind | "time" | "rf";
+export type BadgeKind = StreakKind | "time" | "rf" | "arcade";
 
 export interface StreakRank {
   n: number;
@@ -11,7 +11,6 @@ export interface StreakRank {
   kind: BadgeKind;
 }
 
-// RF — заработанные очки. Верхний блок, красный как базовый лук, глиф = сама сумма
 const RF_ROWS: ReadonlyArray<readonly [number, string, string]> = [
   [1000,     "rf_1000",     "FIRST MINT"],
   [10000,    "rf_10000",    "TEN FOLD"],
@@ -49,15 +48,21 @@ const ASTEROID_ROWS: ReadonlyArray<readonly [number, string, string]> = [
 ];
 
 const CYBER_ROWS: ReadonlyArray<readonly [number, string, string]> = [
-  [3,  "c_aim",    "TRIPLE THREAT"],
-  [4,  "c_cross4", "QUAD LOCK"],
-  [5,  "c_eye",    "FIVE STAR AIM"],
-  [6,  "c_rings",  "SIXTH SENSE"],
-  [7,  "c_arrow",  "LUCKY SEVEN"],
-  [8,  "c_octa",   "OVERCLOCK"],
-  [9,  "c_nine",   "RARE PULSE"],
-  [10, "c_ten",    "PERFECT TEN"],
-  [11, "c_legend", "CYBER LEGEND"],
+  [10,  "c_aim",    "APPLE PULSE"],
+  [20,  "c_cross4", "DOUBLE LOCK"],
+  [30,  "c_eye",    "TRIPLE THREAT"],
+  [40,  "c_rings",  "QUAD LOCK"],
+  [50,  "c_arrow",  "FIVE STAR AIM"],
+  [60,  "c_octa",   "SIXTH SENSE"],
+  [70,  "c_nine",   "LUCKY SEVEN"],
+  [80,  "c_ten",    "OVERCLOCK"],
+  [90,  "c_legend", "RARE PULSE"],
+  [100, "c_ten",    "PERFECT HUNDRED"],
+  [101, "c_legend", "CYBER LEGEND"],
+];
+
+const ARCADE_ROWS: ReadonlyArray<readonly [number, string, string]> = [
+  [1, "c_plateau", "CYBER PLATEAU LEGEND"],
 ];
 
 const TIME_ROWS: ReadonlyArray<readonly [number, string, string]> = [
@@ -83,6 +88,7 @@ export const GHOST_RANKS     = build("ghost",    GHOST_ROWS);
 export const ASTEROID_RANKS  = build("asteroid", ASTEROID_ROWS);
 export const CYBER_RANKS     = build("cyber",    CYBER_ROWS);
 export const TIME_RANKS      = build("time",     TIME_ROWS);
+export const ARCADE_RANKS    = build("arcade", ARCADE_ROWS);
 
 export const BADGES_BY_KIND: Record<BadgeKind, readonly StreakRank[]> = {
   rf:       RF_RANKS,
@@ -90,20 +96,21 @@ export const BADGES_BY_KIND: Record<BadgeKind, readonly StreakRank[]> = {
   asteroid: ASTEROID_RANKS,
   cyber:    CYBER_RANKS,
   time:     TIME_RANKS,
+  arcade:   ARCADE_RANKS,
 };
 
-// Порядок блоков в профиле: RF сверху, далее по редкости
-export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "time", "cyber"];
+export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "time", "cyber", "arcade"];
 
 export const KIND_COLOR: Record<BadgeKind, string> = {
-  rf:       "#ff2d2d",  // base bow/arrow red
-  ghost:    "#ccff00",  // RARE
-  asteroid: "#aa00ff",  // EPIC
-  cyber:    "#00ffff",  // CYBER
-  time:     "#ffaa00",  // LEGENDARY
+  rf:       "#ffffff",
+  ghost:    "#ccff00",
+  asteroid: "#aa00ff",
+  cyber:    "#00ffff",
+  time:     "#F7931A",
+  arcade:     "#ffffff",
 };
 
-const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 180, time: 40 };
+const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 180, time: 33, arcade: 0 };
 
 export function rankForStreak(kind: BadgeKind, count: number): StreakRank | null {
   for (const r of BADGES_BY_KIND[kind]) if (r.n === count) return r;
@@ -115,8 +122,6 @@ export function isFinalRank(kind: BadgeKind, count: number): boolean {
   return list.length > 0 && count >= list[list.length - 1].n;
 }
 
-// Рампа внутри блока: низшие ранги бледные, высшие — полный неон своего hue.
-// RF идёт по красной шкале: темно-красный -> яркий красный.
 export function streakColor(kind: BadgeKind, count: number): string {
   const list = BADGES_BY_KIND[kind];
   const first = list[0].n;
@@ -126,15 +131,13 @@ export function streakColor(kind: BadgeKind, count: number): string {
     ? idx / (list.length - 1)
     : Math.max(0, Math.min(1, (count - first) / (last - first)));
 
-  if (kind === "rf") return `hsl(0, 100%, ${(34 + 18 * t).toFixed(1)}%)`;
+  if (kind === "rf" || list.length < 2) return KIND_COLOR[kind] ?? "#ffffff";
 
   const sat = 30 + 70 * t;
   const light = 92 - 42 * t;
   return `hsl(${KIND_HUE[kind]}, ${sat.toFixed(1)}%, ${light.toFixed(1)}%)`;
 }
 
-// Фон карточки = тон редкости этого ранга; glow = та же рампа с альфой.
-// (Раньше склеивалось `${color}55`, что ломало hsl-значение в невалидный CSS.)
 export function streakTint(kind: BadgeKind, count: number): string {
   const a = kind === "rf" ? 0.34 : 0.16;
   return streakColor(kind, count).replace("hsl(", "hsla(").replace(")", `, ${a})`);
@@ -248,7 +251,6 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   };
   const dot = { fill: "currentColor", stroke: "none" as const };
 
-  // RF: сама сумма, чёрные цифры с белой окантовкой — как отчеканенная монета
   if (id.startsWith("rf_")) {
     const n = Number(id.slice(3)) || 0;
     const txt = compactRf(n);
@@ -263,10 +265,8 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
     );
   }
 
-  // TIME: циферблат, заполняемый пропорционально hours/1000
   if (id.startsWith("t_")) {
     const hours = Number(id.slice(2)) || 0;
-    // floor, иначе 1ч дал бы невидимый клинышек 0.36°
     const fill = Math.max(0.02, Math.min(1, hours / 1000));
     const crown = hours >= 1001;
     const C = 16, R = 11;
@@ -297,7 +297,7 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   }
 
   switch (id) {
-    // ===== GHOST =====
+
     case "g_gust":    return <svg {...p}><path d="M5 11 Q13 8 21 11 Q25 12 27 9" /><path d="M4 17 Q12 14 20 17 Q24 18 28 15" /><path d="M7 23 Q14 20 21 23" /></svg>;
     case "g_leap":    return <svg {...p}><path d="M6 26 Q16 4 26 26" /><circle cx="6" cy="26" r="2.2" {...dot} /><circle cx="26" cy="26" r="2.2" {...dot} /></svg>;
     case "g_feather": return <svg {...p}><path d="M23 7 Q9 11 8 25 Q19 23 23 7 Z" /><line x1="23" y1="7" x2="10" y2="24" /><path d="M18 11 L14 13 M20 15 L15 18" /></svg>;
@@ -310,7 +310,6 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
     case "g_phantom": return <svg {...p}><path d="M16 4 Q26 7 26 17 Q26 24 22 24 Q20 24 20 21 Q18 24 16 24 Q14 24 14 21 Q12 24 10 24 Q6 24 6 17 Q6 7 16 4 Z" /><circle cx="12" cy="14" r="1.6" {...dot} /><circle cx="20" cy="14" r="1.6" {...dot} /></svg>;
     case "g_crown":   return <svg {...p}><path d="M6 21 L6 12 L11 16 L16 8 L21 16 L26 12 L26 21 Z" /><path d="M9 25 Q16 28 23 25" /></svg>;
 
-    // ===== ASTEROID =====
     case "spark":       return <svg {...p}><path d="M16 4 L18 13 L27 16 L18 19 L16 28 L14 19 L5 16 L14 13 Z" /></svg>;
     case "archer":      return <svg {...p}><path d="M8 4 Q22 16 8 28" /><line x1="8" y1="4" x2="8" y2="28" /><line x1="6" y1="16" x2="26" y2="16" /><path d="M22 12 L26 16 L22 20" /></svg>;
     case "hero":        return <svg {...p}><path d="M16 4 L26 8 V16 Q26 25 16 29 Q6 25 6 16 V8 Z" /><path d="M12 16 L15 19 L21 12" /></svg>;
@@ -323,7 +322,6 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
     case "mythic":      return <svg {...p}><path d="M16 3 L29 27 L3 27 Z" /><path d="M16 12 L22 23 L10 23 Z" /></svg>;
     case "rare_legend": return <svg {...p}><path d="M5 24 L5 12 L11 17 L16 8 L21 17 L27 12 L27 24 Z" /><line x1="5" y1="27" x2="27" y2="27" /><circle cx="16" cy="20" r="1.6" /></svg>;
 
-    // ===== CYBER =====
     case "c_aim":    return <svg {...p}><circle cx="16" cy="16" r="8" /><circle cx="16" cy="16" r="2" {...dot} /></svg>;
     case "c_cross4": return <svg {...p}><circle cx="16" cy="16" r="7" /><line x1="16" y1="3" x2="16" y2="10" /><line x1="16" y1="22" x2="16" y2="29" /><line x1="3" y1="16" x2="10" y2="16" /><line x1="22" y1="16" x2="29" y2="16" /></svg>;
     case "c_eye":    return <svg {...p}><path d="M4 16 Q16 7 28 16 Q16 25 4 16 Z" /><circle cx="16" cy="16" r="3.5" /><circle cx="16" cy="16" r="1.2" {...dot} /></svg>;
@@ -332,6 +330,7 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
     case "c_octa":   return <svg {...p}><circle cx="16" cy="16" r="6" /><line x1="16" y1="2" x2="16" y2="9" /><line x1="16" y1="23" x2="16" y2="30" /><line x1="2" y1="16" x2="9" y2="16" /><line x1="23" y1="16" x2="30" y2="16" /><line x1="6" y1="6" x2="10" y2="10" /><line x1="22" y1="22" x2="26" y2="26" /><line x1="26" y1="6" x2="22" y2="10" /><line x1="10" y1="22" x2="6" y2="26" /></svg>;
     case "c_nine":   return <svg {...p}><rect x="6" y="6" width="20" height="20" rx="1" /><line x1="6" y1="12.7" x2="26" y2="12.7" /><line x1="6" y1="19.3" x2="26" y2="19.3" /><line x1="12.7" y1="6" x2="12.7" y2="26" /><line x1="19.3" y1="6" x2="19.3" y2="26" /><circle cx="16" cy="16" r="1.5" {...dot} /></svg>;
     case "c_ten":    return <svg {...p}><circle cx="16" cy="15" r="8" /><circle cx="16" cy="15" r="4" /><circle cx="16" cy="15" r="1" {...dot} /><path d="M6 25 Q3 17 7 11" /><path d="M26 25 Q29 17 25 11" /></svg>;
+    case "c_plateau": return <svg {...p}><path d="M3 27 L10 15 L22 15 L29 27" /><line x1="10" y1="15" x2="22" y2="15" /><path d="M10 11 L12 6 L14 9 L16 5 L18 9 L20 6 L22 11 Z" /><line x1="10" y1="11" x2="22" y2="11" /></svg>;
     case "c_legend": return <svg {...p}><path d="M6 19 L6 11 L11 14 L16 7 L21 14 L26 11 L26 19 Z" /><circle cx="16" cy="24" r="3.5" /><circle cx="16" cy="24" r="1.2" {...dot} /></svg>;
 
     default:            return <svg {...p}><circle cx="16" cy="16" r="11" /></svg>;

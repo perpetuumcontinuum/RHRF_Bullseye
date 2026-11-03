@@ -1,8 +1,12 @@
 import { useSyncExternalStore } from "react";
-import { REGISTRY, FALLBACK, LANG_CODES, RTL_LANGS } from "../locales/index";
+import { LANGS, RTL_LANGS } from "../lang";
 
-// Storage key is isolated here on purpose: when the SDK ships a save API,
-// only this function changes and the choice becomes per-wallet persistent.
+const REGISTRY: Record<string, Record<string, string>> = Object.fromEntries(
+  Object.entries(LANGS).map(([k, v]) => [k, v.ui]),
+);
+const FALLBACK = "en";
+const LANG_CODES: string[] = Object.keys(REGISTRY);
+
 const GLOBAL_KEY = "rhrf-bullseye:lang";
 let storageKey = GLOBAL_KEY;
 
@@ -40,7 +44,6 @@ export function useLang(): string {
   return useSyncExternalStore(sub, () => current, () => current);
 }
 
-// t("streak.banner", { count: 5 }) -> "...x5..." ; missing key falls back en -> raw key
 export function translate(lang: string, key: string, params?: Record<string, string | number>, fallback?: string): string {
   const raw = (REGISTRY[lang] && REGISTRY[lang][key]) || REGISTRY[FALLBACK][key] || fallback || key;
   if (!params) return raw;
@@ -51,7 +54,6 @@ export function useT() {
   const lang = useLang();
   return (key: string, params?: Record<string, string | number>, fallback?: string) => translate(lang, key, params, fallback);
 }
-
 
 export function isRTL(lang: string = current): boolean {
   return RTL_LANGS.has(lang);

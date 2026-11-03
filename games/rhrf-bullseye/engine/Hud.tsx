@@ -11,7 +11,7 @@ type HudProps = {
 const ARROW_ORDER = [
   { id: "arrow_rare", labelKey: "hud.rare", color: "#ccff00" },
   { id: "arrow_epic", labelKey: "hud.epic", color: "#aa00ff" },
-  { id: "arrow_legendary", labelKey: "hud.leg", color: "#ffaa00" },
+  { id: "arrow_legendary", labelKey: "hud.leg", color: "#F7931A" },
 ];
 
 function normalizeCounts(

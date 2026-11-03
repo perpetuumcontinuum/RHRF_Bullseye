@@ -1,6 +1,4 @@
 
-// TYPES
-
 export type Screen = "home" | "range" | "shop" | "guide" | "profile";
 export type ShopTab = "bow" | "hat" | "amulet";
 export type Rarity = "Common" | "Rare" | "Epic" | "Legendary";

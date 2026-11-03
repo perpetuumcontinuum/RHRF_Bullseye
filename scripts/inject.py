@@ -60,6 +60,16 @@ def clean_footer(t):
 
 FOOTER = clean_footer(FOOTER)
 
+def fix_audio_preload(t: str) -> str:
+    def repl(m):
+        tag = m.group(0)
+        if "8bit-loop.mp3" not in tag or "preload=" in tag:
+            return tag
+        if tag.endswith("/>"):
+            return tag[:-2] + ' preload="none"/>'
+        return tag[:-1] + ' preload="none">'
+    return re.sub(r"<audio\b[^>]*>", repl, t, flags=re.I)
+
 def _ver():
     s = os.environ.get("GITHUB_SHA")
     if s:
@@ -147,6 +157,7 @@ for h in sorted(glob.glob(str(out / "*.html"))):
             t = t.replace("</head>", GAME_CSS + "\n</head>", 1)
 
     t = bust(t)
+    t = fix_audio_preload(t)
 
     if t != before:
         p.write_text(t, encoding="utf-8")

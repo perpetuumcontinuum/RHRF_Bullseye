@@ -9,7 +9,7 @@ function languageLabel(code: string): string {
       return dn.of(code) || code.toUpperCase();
     }
   } catch {
-    // ignore
+
   }
   return code.toUpperCase();
 }
@@ -29,6 +29,16 @@ export default function EntryFlow({
   const pickLang = (code: string) => {
     setLang(code);
     setStage("mode");
+  };
+
+  const enterWithPlanet = (planet: string, mode: "arcade" | "leaderboard") => {
+    (window as any).__RHRF_PLANET__ = planet;
+    (window as any).__RHRF_GAME_MODE__ = mode;
+
+    try { localStorage.setItem("rf-planet", planet); } catch {}
+    try { localStorage.setItem("rf-game-mode", mode); } catch {}
+
+    onEnterGame();
   };
 
   return (
@@ -62,15 +72,19 @@ export default function EntryFlow({
             <div className="rf-entry-title">{t("entry.mode.title")}</div>
 
             <div className="rf-entry-mode-grid">
-              <button type="button" className="rf-entry-mode rf-entry-mode--plateau" disabled>
+              <button
+                type="button"
+                className="rf-entry-mode rf-entry-mode--plateau"
+                onClick={() => enterWithPlanet("stable", "arcade")}
+              >
                 <span className="rf-entry-mode-title">{t("entry.mode.plateau")}</span>
-                <span className="rf-entry-mode-sub">{t("entry.mode.soon")}</span>
+                <span className="rf-entry-mode-sub">ARCADE</span>
               </button>
 
               <button
                 type="button"
                 className="rf-entry-mode rf-entry-mode--leaderboard"
-                onClick={onEnterGame}
+                onClick={() => enterWithPlanet("cyber", "leaderboard")}
               >
                 <span className="rf-entry-mode-title">{t("entry.mode.leaderboard")}</span>
                 <span className="rf-entry-mode-sub">{t("entry.mode.leaderboardHint")}</span>

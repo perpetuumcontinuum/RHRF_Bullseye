@@ -18,7 +18,7 @@ section.rf-frame-scrim .rf-frame-menu-heading,section.rf-frame-scrim .rf-frame-m
 section.rf-frame-scrim .rf-frame-friends button[aria-pressed=true]{background:var(--chv)}
 section.rf-game-frame .rf-frame-primary,section.rf-frame-scrim .rf-frame-primary{background:var(--pb);color:var(--pf)}
 .rf-theme-switch{position:fixed;top:12px;right:12px;z-index:50;display:flex;gap:6px;padding:5px;background:var(--cbg);border:1px solid var(--ln);border-radius:10px}
-.rf-theme-switch button{display:grid;place-items:center;width:28px;height:28px;min-height:0;padding:0;background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer}
+.rf-theme-switch button{display:grid;place-items:center;width:28px;height:28px;background:transparent;border:1px solid transparent;border-radius:7px;cursor:pointer}
 .rf-theme-switch button:hover{border-color:var(--bd)}
 .rf-theme-switch button[aria-pressed=true]{border-color:var(--bd);box-shadow:0 0 10px var(--g1)}
 .sw{display:block;width:18px;height:18px;border-radius:3px;border:1px solid rgba(127,127,127,.55)}
@@ -27,7 +27,17 @@ section.rf-game-frame .rf-frame-primary,section.rf-frame-scrim .rf-frame-primary
 main#root{position:absolute;top: 3vh}
 main#root{width:123vh}
 .rf-theme-switch{display:flex;flex-direction:column;gap:4px}
-.rf-game-frame button, .rf-frame-scrim button { padding: 1vh !important; }
+.rf-game-frame button, .rf-frame-scrim button {
+  --shell-btn-pad: 1vh;
+  --shell-btn-min: 36px;
+  padding: var(--shell-btn-pad);
+  min-height: var(--shell-btn-min);
+}
+
+button.rf-tools-toggle {
+  --shell-btn-pad: 0;
+  --shell-btn-min: 0;
+}
 @property --cyber-fill{syntax:"<color>";inherits:true;initial-value:#ccff00}
 @keyframes friendCyberFill{0%{--cyber-fill:#ccff00}12%{--cyber-fill:#7dff2a}25%{--cyber-fill:#aa00ff}37%{--cyber-fill:#ff00c8}50%{--cyber-fill:#00ffff}62%{--cyber-fill:#00a0ff}75%{--cyber-fill:#ffaa00}87%{--cyber-fill:#ff5e00}100%{--cyber-fill:#ccff00}}
 .rf-tools-toggle{position:absolute;left:14px;bottom:14px;z-index:4;display:grid;place-items:center;width:36px;height:36px;min-height:0;padding:0;background:var(--cbg);border:1px solid var(--bd);border-radius:9px;color:var(--cfg);cursor:pointer}
@@ -37,6 +47,7 @@ html.rf-tools-open .rf-frame-toolbar{display:flex;bottom:58px}
 @media(max-width:520px){.rf-tools-toggle{left:6px;bottom:6px;width:32px;height:32px}html.rf-tools-open .rf-frame-toolbar{bottom:44px}}
 .rf-site-footer{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;padding:7px 16px;background:var(--cbg);border:1px solid var(--ln);border-radius:999px;box-shadow:0 0 18px var(--g1);font:11px/1 ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;max-width:94vw}
 .rf-site-footer a{display:flex;align-items:center;gap:6px;color:var(--mf);text-decoration:none;border-bottom:1px solid transparent;transition:color .18s,border-color .18s,text-shadow .18s}
+.rf-site-footer a:visited{color:var(--mf)}
 .rf-site-footer a:hover,.rf-site-footer a:focus-visible{color:var(--cfg);border-bottom-color:var(--bd);text-shadow:0 0 10px var(--g1);outline:none}
 .rf-site-footer a svg{fill:var(--ic);opacity:.9;transition:opacity .18s,fill .18s}
 .rf-site-footer a:hover svg{opacity:1}

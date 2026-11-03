@@ -24,3 +24,7 @@ vendor/
 *.bak-*
 *.broken-*
 layout.live.css
+.pw-browsers/
+dump/
+p3*_probe.txt
+p3*_audit.txt

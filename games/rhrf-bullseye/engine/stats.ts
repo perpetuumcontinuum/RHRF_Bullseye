@@ -80,6 +80,19 @@ export function saveStats(stats: GameStats): void {
   }
 }
 
+/** Идемпотентная выдача бейджа: true = получен впервые, false = уже был. */
+export function awardBadge(id: string): boolean {
+  const st = loadStats();
+  if (st.earnedBadges.includes(id)) return false;
+  st.earnedBadges = [...st.earnedBadges, id];
+  saveStats(st);
+  return true;
+}
+
+export function hasBadge(id: string): boolean {
+  return loadStats().earnedBadges.includes(id);
+}
+
 export function formatDuration(ms: number): string {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
   const h = Math.floor(totalSeconds / 3600);

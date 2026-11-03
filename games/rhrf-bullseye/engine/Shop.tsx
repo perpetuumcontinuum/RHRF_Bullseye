@@ -1,3 +1,4 @@
+import { getItemPrice } from "./catalog";
 import { useT } from "./i18n";
 import React, { useMemo, useState } from "react";
 import {
@@ -124,67 +125,74 @@ export default function Shop(props: any) {
             const isConsumable = item.category === "consumable";
 
             if (isConsumable) {
-              const canPlus1 = count + 1 <= CONSUMABLE_CAP && canAfford(item.price, 1);
-              const canPlus10 = count + 10 <= CONSUMABLE_CAP && canAfford(item.price, 10);
+              const canPlus1 = count + 1 <= CONSUMABLE_CAP && canAfford(getItemPrice(item), 1);
+              const canPlus10 = count + 10 <= CONSUMABLE_CAP && canAfford(getItemPrice(item), 10);
 
               return (
-                <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}`}>
+                <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}${equipped ? " rf-shop-item--equipped" : ""}`}>
                   <ItemIcon item={item} />
                   <div className="rf-shop-item-main">
                     <div className="rf-shop-item-heading">
                     <div className="rf-shop-item-name">{t("item." + item.id + ".name", undefined, item.name)}</div>
-                    <div className="rf-shop-item-price-inline">{item.price} RF</div>
                   </div>
                     <div className="rf-shop-item-desc">{t("item." + item.id + ".desc", undefined, item.description)}</div>
                   </div>
 
                   <div className="rf-shop-item-side rf-shop-consumable-side">
-                    
-                    <div className="rf-shop-item-count">{t("shop.inStock", { count, cap: CONSUMABLE_CAP })}</div>
 
-                    <div className="rf-shop-consumable-controls">
+                    <div className="rf-shop-consumable-head">
+                    <div className="rf-shop-item-price-inline">{getItemPrice(item)} RF</div>
+                    <div className="rf-shop-item-count">{t("shop.inStock", { count, cap: CONSUMABLE_CAP })}</div>
+                  </div>
+<div className="rf-shop-consumable-controls">
                       <button disabled={!canPlus1} onClick={() => addConsumable(item, 1)}>
                         +1
                       </button>
                       <button disabled={!canPlus10} onClick={() => addConsumable(item, 10)}>
                         +10
                       </button>
-                      <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (!owned)}
+                      <button disabled={false && rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (!owned)}
                         className="rf-shop-item-btn rf-shop-equip-btn"
                         onClick={() => toggleEquip(item)}
                       >
                         {equipped ? t("ui.unequip") : t("ui.equip")}
                       </button>
-                    </div>
+                    
+                      <button type="button"
+                        className={`rf-shop-auto-btn${props.autoSet?.has(item.id) ? " on" : ""}`}
+                        onClick={() => props.onToggleAuto?.(item)}
+                        aria-label={t("shop.autoBuy", undefined, "Auto")}
+                      >
+                        <svg viewBox="0 0 32 32" aria-hidden="true"><g transform="translate(4,4)"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z" fill="currentColor"/></g></svg>
+                      </button></div>
                   </div>
                 </div>
               );
             }
 
             return (
-              <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}`}>
+              <div key={item.id} className={`rf-shop-item rarity-${item.rarity}${isConsumable ? " rf-shop-item--consumable" : ""}${equipped ? " rf-shop-item--equipped" : ""}`}>
                   <ItemIcon item={item} />
                 <div className="rf-shop-item-main">
                   <div className="rf-shop-item-heading">
                     <div className="rf-shop-item-name">{t("item." + item.id + ".name", undefined, item.name)}</div>
-                    <div className="rf-shop-item-price-inline">{item.price} RF</div>
+                    <div className="rf-shop-item-price-inline">{getItemPrice(item)} RF</div>
                   </div>
                   <div className="rf-shop-item-desc">{t("item." + item.id + ".desc", undefined, item.description)}</div>
                 </div>
 
                 <div className="rf-shop-item-side">
-                  
 
                   {!owned ? (
                     <button
                       className="rf-shop-item-btn"
-                      disabled={!canAfford(item.price, 1)}
+                      disabled={!canAfford(getItemPrice(item), 1)}
                       onClick={() => buyNonConsumable(item)}
                     >
                       {t("shop.buy")}
                     </button>
                   ) : (
-                    <button disabled={rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item)}
+                    <button disabled={false && rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item)}
                       className="rf-shop-item-btn rf-shop-equip-btn"
                       onClick={() => toggleEquip(item)}
                     >
