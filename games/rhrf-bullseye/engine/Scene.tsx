@@ -345,7 +345,7 @@ const pixelBounds = (() => {
       getPlanetAccent(getPlanetId()) ||
       "#ccff00";
   const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || (isCyberLeaderboardBase ? "#ff0000" : "#000000");
-  const laserColor = cyberStyle ? "var(--cyber-fill, #00ffff)" : RARITY_COLORS[getRarityKey(energyQualityId) || ""] || getPlanetAccent(getPlanetId()) || "#ccff00";
+const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || (cyberStyle ? "var(--cyber-fill, #00ffff)" : getPlanetAccent(getPlanetId())) || "#ccff00";
   const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || weaponBaseColor;
 
   const getArmorColor = (id?: string | null) => {
