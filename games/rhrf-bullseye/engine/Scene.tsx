@@ -1037,7 +1037,7 @@ const pixelBounds = (() => {
 {waveR >= 0 && !isRwa && (() => {
         const wx = towerBeamX;
         const wop = Math.max(0, 1 - waveR / 1700);
-        const waveColor = towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor;
+        const waveColor = laserColor;
         return (
           <g pointerEvents="none" className={metalStyle ? "friend-cyber rf-metal" : undefined}>
             <circle cx={wx} cy={TOWER_ANT_Y} r={waveR} fill="none" strokeWidth="7" opacity={wop * 0.92} style={{ stroke: waveColor }} />
@@ -1070,7 +1070,7 @@ const pixelBounds = (() => {
             y={(isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 95 : 115}
             width="10"
             height={(isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 190 : 200}
-            style={{ fill: towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : getPlanetMainColor(getPlanetId()) || "#ff0000"), stroke: towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : getPlanetMainColor(getPlanetId()) || "#ff0000") }}
+            style={{ fill: laserColor, stroke: laserColor }}
             filter={metalStyle ? "none" : "url(#neonGlowPink)"}
             className="laser-beam"
           />
@@ -1165,8 +1165,8 @@ const pixelBounds = (() => {
       {(explosions || []).map(exp => (
         <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
           {exp.particles.map((p, i) => {
-            const col = towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor;
-            return (
+          const col = laserColor;
+          return (
             <rect
               key={i}
               width={p.size}
