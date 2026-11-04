@@ -1051,7 +1051,7 @@ const pixelBounds = (() => {
         const TIP = TOWER_ANT_Y;
         const OVER = isRwa ? 1200 : 0;
         const cyberFill = "var(--cyber-fill, #00ffff)";
-        const beamColor = towerBeamColor === "cyber" ? cyberFill : towerBeamColor;
+        const beamColor = laserColor;
         const layers = isRwa
           ? [{ w: 34, o: 0.16, c: cyberFill }, { w: 22, o: 0.30, c: "#ffffff" }, { w: 12, o: 0.58, c: "#ffffff" }, { w: 6, o: 0.95, c: cyberFill }]
           : [{ w: 34, o: 0.16, c: beamColor }, { w: 22, o: 0.30, c: "#ffffff" }, { w: 12, o: 0.58, c: "#ffffff" }, { w: 6, o: 0.95, c: beamColor }];
