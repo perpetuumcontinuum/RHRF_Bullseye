@@ -73,11 +73,6 @@ export function calculateFinalScore(baseScore: number, bowMultiplier: number): n
   return Math.floor(baseScore * bowMultiplier);
 }
 
-export function getRarityColor(rarity: Rarity): string {
-  if (rarity === 'Legendary') return '#F7931A';
-  if (rarity === 'Epic') return '#ff00ff';
-  return '#ccff00';
-}
 
 export function getItemEffect(item: ShopItem): {
   multiplier: number;
