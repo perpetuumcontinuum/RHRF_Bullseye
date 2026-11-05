@@ -13,6 +13,7 @@ import { type GameStats, formatDuration } from "./stats"
 import { BADGES_BY_KIND, BADGE_ORDER, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 import { useT } from "./i18n";
+import { rfIsConsumableItem, rfCyberBlocksItem } from "./shopRules";
 
 const fmtCompact = (n: number): string => {
   const v = Math.floor(Number(n) || 0);
@@ -67,22 +68,6 @@ function statRow(stats: GameStats | undefined, tab: StatTabId) {
   }
 }
 
-const rfIsConsumableItem = (item: any) => {
-  if (!item) return false;
-
-  const category = String(item.category ?? "").toLowerCase();
-  const id = String(item.id ?? "").toLowerCase();
-
-  return (
-    category === "consumable" ||
-    id.includes("arrow") ||
-    id.includes("armor") ||
-    id.includes("energy")
-  );
-};
-
-const rfCyberBlocksItem = (cyberActive: boolean, item: any) =>
-  Boolean(cyberActive) && !rfIsConsumableItem(item);
 
 const CATEGORY_ORDER: { id: ShopCategory }[] = [
   { id: "bow" },

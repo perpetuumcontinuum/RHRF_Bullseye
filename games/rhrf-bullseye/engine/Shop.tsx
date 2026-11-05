@@ -9,23 +9,8 @@ import {
   type ShopItem,
 } from "./catalog";
 import ItemIcon from "./ItemIcon";
+import { rfIsConsumableItem, rfCyberBlocksItem } from "./shopRules";
 
-const rfIsConsumableItem = (item: any) => {
-  if (!item) return false;
-
-  const category = String(item.category ?? "").toLowerCase();
-  const id = String(item.id ?? "").toLowerCase();
-
-  return (
-    category === "consumable" ||
-    id.includes("arrow") ||
-    id.includes("armor") ||
-    id.includes("energy")
-  );
-};
-
-const rfCyberBlocksItem = (cyberActive: boolean, item: any) =>
-  Boolean(cyberActive) && !rfIsConsumableItem(item);
 
 const TABS = [
   { id: "bow", labelKey: "shop.tab.bow" },
