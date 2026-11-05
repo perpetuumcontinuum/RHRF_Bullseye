@@ -76,11 +76,9 @@ export function CyberFireworks({ vb }: { vb: ArcVb }) {
         <g key={sv.id}>
           {sv.shells.map((sh, k) => (
             <g key={"sh-" + k}>
-              {}
               <circle className="rf-fw-shell" cx={sh.sx} cy={sh.sy} r={3.5}
                 fill="var(--cyber-fill, #aa00ff)"
                 style={{ ["--rise" as any]: sh.rise + "px", ["--drift" as any]: sh.drift + "px" } as React.CSSProperties} />
-              {}
               <g transform={`translate(${sh.ax.toFixed(1)}, ${sh.ay.toFixed(1)})`}>
                 {sh.parts.map((p, i) => (
                   <rect key={"p-" + i} width={p.size} height={p.size}

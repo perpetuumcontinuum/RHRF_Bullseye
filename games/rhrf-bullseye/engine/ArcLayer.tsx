@@ -951,7 +951,6 @@ export default function ArcLayer({ mode, vb, pixels = [], sidePixels = [], backP
                 );
               })}
             </g>
-            {}
             {TREES.filter(([fx, fy]) => vb.y + fy * vb.h > p.y).map(([fx, fy, sc, delay], i) => (
               <Tree key={"trf-" + i} x={vb.x + fx * vb.w} y={vb.y + fy * vb.h} sc={sc} delay={delay} still={false} />
             ))}

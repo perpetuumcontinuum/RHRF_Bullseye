@@ -619,7 +619,6 @@ const pixelBounds = (() => {
         <radialGradient id="moonGrad" cx="40%" cy="40%" r="60%">
           <stop offset="0%" stopColor="#ffffcc"/><stop offset="50%" stopColor="#ffee66"/><stop offset="100%" stopColor="#F7931A"/>
         </radialGradient>
-      {}
       <radialGradient id="moonGradRed" cx="42%" cy="38%" r="68%">
         <stop offset="0%" stopColor="#5c0a08"/>
         <stop offset="38%" stopColor="#8b170e"/>
@@ -682,7 +681,6 @@ const pixelBounds = (() => {
       })()}
 {landingGlow?.visible && (
         <g clipPath="url(#rfHorizonClip)">
-          {}
           <ellipse
             className="rf-landing-glow-wide"
             cx={500}
@@ -691,7 +689,6 @@ const pixelBounds = (() => {
             ry={28}
             fill={isStable ? "#314012" : isRealNft ? "#5a0080" : isRwa ? "#063a3a" : "#ff2bd6"}
           />
-          {}
           <ellipse
             className="rf-landing-glow-mid"
             cx={landingGlow.x}
@@ -700,7 +697,6 @@ const pixelBounds = (() => {
             ry={36}
             fill={isStable ? "#C7E36C" : isBitcoin ? "#F7931A" : isRwa ? "#00ffff" : "#ff1493"}
           />
-          {}
           <ellipse
             className="rf-landing-glow"
             cx={landingGlow.x}
@@ -712,15 +708,6 @@ const pixelBounds = (() => {
         </g>
       )}
             </g>
-      {false && (isStable || isBitcoin) && (asteroidVisible || landingGlow?.visible) && (
-        <>
-          {}
-          <rect x="-20000" y="-20000" width="60000" height="20148" fill="url(#scSkyGrad)" />
-          <rect x="-20000" y="148" width="60000" height="22" fill="url(#scCeilingGrad)" />
-          <line x1="-20000" y1="148" x2="20000" y2="148" stroke="#C7E36C" strokeWidth="2" opacity="0.8" />
-          <line x1="-20000" y1="170" x2="20000" y2="170" stroke="#C7E36C" strokeWidth="5" opacity="1" />
-        </>
-      )}
             <g>
       <BackgroundEvents />
 
@@ -752,7 +739,6 @@ const pixelBounds = (() => {
           <circle r="68.85" fill="none" stroke="#ccff00" strokeWidth="24.3" opacity="0.88" />
           <circle r="44.55" fill="none" stroke="#aa00ff" strokeWidth="24.3" opacity="0.92" />
           <circle r="20.25" fill="none" stroke="#F7931A" strokeWidth="24.3" opacity="0.97" />
-          {}
           <circle r="8.1"  fill="none" stroke="#000000" strokeWidth="2.5" opacity="0.85" />
           <circle r="32.4" fill="none" stroke="#000000" strokeWidth="2.5" opacity="0.85" />
           <circle r="56.7" fill="none" stroke="#000000" strokeWidth="2.5" opacity="0.85" />
@@ -1080,10 +1066,9 @@ const pixelBounds = (() => {
         <g
           className="rf-laser-cyber"
           transform={`translate(${rwaBeamX1}, ${rwaBeamY1}) rotate(${rwaBeamAngle})`}
-          filter="url(#rwaBeamGlow)"
+          filter="url(#neonGlowCyan)"
           pointerEvents="none"
         >
-          {}
           <rect
             x="0"
             y="-10"
@@ -1102,7 +1087,6 @@ const pixelBounds = (() => {
             className="rf-cyber-core-rect"
             style={{ fill: "#ffffff", opacity: 0.82 }}
           />
-          {}
           <circle cx="0" cy="0" r="13" style={{ fill: "var(--cyber-fill, #00ffff)" }} opacity="0.5" />
           <circle cx={rwaBeamLen} cy="0" r="16" style={{ fill: "var(--cyber-fill, #00ffff)" }} opacity="0.55" />
           <circle cx={rwaBeamLen} cy="0" r="6" style={{ fill: "#ffffff" }} opacity="0.9" />
@@ -1161,7 +1145,6 @@ const pixelBounds = (() => {
         </g>
       )}
 
-      {}
       {(explosions || []).map(exp => (
         <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
           {exp.particles.map((p, i) => {
@@ -1180,7 +1163,6 @@ const pixelBounds = (() => {
           })}
         </g>
       ))}
-    {}
     {depart && dp && <DepartOverlay planet={depart.planet} pose={dp} />}
     {isRwa && (
       <>
