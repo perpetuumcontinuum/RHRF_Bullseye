@@ -77,10 +77,10 @@ All values below are simulated score points. They are not token balances and hav
     |-------------------|------------|-----------|-------|
     | RARE BOW          | bow        | rare      | 400 RF |
     | EPIC BOW          | bow        | epic      | 900 RF |
-    | LEGENDARY BOW     | bow        | legendary | 1800 RF |
+    | LEGENDARY BOW     | bow        | legendary | 2400 RF |
     | RARE OUTFIT       | hat        | rare      | 350 RF |
     | EPIC OUTFIT       | hat        | epic      | 800 RF |
-    | LEGENDARY OUTFIT  | hat        | legendary | 1600 RF |
+    | LEGENDARY OUTFIT  | hat        | legendary | 2400 RF |
     | RARE AMULET       | amulet     | rare      | 450 RF |
     | EPIC AMULET       | amulet     | epic      | 1000 RF |
     | LEGENDARY AMULET  | amulet     | legendary | 2000 RF |
@@ -89,7 +89,7 @@ All values below are simulated score points. They are not token balances and hav
     | LEGENDARY ARROWS  | consumable | legendary | 300 RF |
     | RARE ENERGY       | consumable | rare      | 300 RF |
     | EPIC ENERGY       | consumable | epic      | 800 RF |
-    | LEGENDARY ENERGY  | consumable | legendary | 1600 RF |
+    | LEGENDARY ENERGY  | consumable | legendary | 2400 RF |
     | RARE ARMOR        | consumable | rare      | 100 RF |
     | EPIC ARMOR        | consumable | epic      | 220 RF |
     | LEGENDARY ARMOR   | consumable | legendary | 400 RF |
@@ -161,7 +161,7 @@ Dependencies install from the v0.1.4 GitHub release tarball declared in package.
 - Bows: 4000 / 20000 / 100000 RF (rare/epic/legendary).
 - Outfits: 4000 / 20000 / 100000 RF (rare/epic/legendary).
 - Amulets: 4000 / 20000 / 100000 RF (rare/epic/legendary).
-- Consumables: arrows 60/300/1500 RF, energy 300/800/1600 RF, armor 5/10/15 RF (rare/epic/legendary).
+- Consumables: arrows 60/300/1500 RF, energy 300/800/2400 RF, armor 5/10/15 RF (rare/epic/legendary).
 - Selling item: 50 percent of listed price.
 - Offer sale: 60 percent of listed price.
 - Current price tuning is modest; when stat persistence arrives, the economy will become deeper and new features will appear.

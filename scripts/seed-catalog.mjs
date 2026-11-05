@@ -38,7 +38,7 @@ const out = new Map(); const conflicts = [];
 
 const p = path.join(G, "locales/en.ts");
 let s = readFileSync(p, "utf8");
-const miss = [...out.entries()].filter(([k]) => !s.includes('"%s"' % k));
+const miss = [...out.entries()].filter(([k]) => !s.includes(JSON.stringify(k)));
 if (miss.length) {
   const add = miss.map(([k, v]) => "  " + JSON.stringify(k) + ": " + JSON.stringify(v) + ",").join("\n") + "\n";
   const i = s.lastIndexOf("};");

@@ -13,7 +13,6 @@ import { type GameStats, formatDuration } from "./stats"
 import { BADGES_BY_KIND, BADGE_ORDER, BadgeIcon } from "./achievements";
 import ItemIcon from "./ItemIcon";
 import { useT } from "./i18n";
-import { rfIsConsumableItem, rfCyberBlocksItem } from "./shopRules";
 
 const fmtCompact = (n: number): string => {
   const v = Math.floor(Number(n) || 0);
@@ -381,7 +380,7 @@ export default function Profile(props: any) {
           <table className="rf-leaderboard">
             <thead>
               <tr>
-                <th>PLAYER</th>
+                <th>{t("profile.player", undefined, "PLAYER")}</th>
                 <th>{t(STAT_TABS.find((s) => s.id === activeStat)!.colKeys[0])}</th>
                 <th>{t(STAT_TABS.find((s) => s.id === activeStat)!.colKeys[1])}</th>
               </tr>
@@ -392,7 +391,7 @@ export default function Profile(props: any) {
                 if (!row) {
                   return (
                     <tr>
-                      <td colSpan={3} className="rf-leaderboard-empty">NO DATA</td>
+                      <td colSpan={3} className="rf-leaderboard-empty">{t("ui.noData", undefined, "NO DATA")}</td>
                     </tr>
                   );
                 }

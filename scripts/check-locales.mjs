@@ -1,7 +1,7 @@
 // Locale parity + registry check. Exit 1 on drift.
 import { readFileSync, readdirSync } from "node:fs";
-const dir = new URL("../games/rhrf-bullseye/locales/", import.meta.url).pathname;
-const files = readdirSync(dir).filter((f) => f.endsWith(".ts") && f !== "index.ts");
+const dir = new URL("../games/rhrf-bullseye/lang/", import.meta.url).pathname;
+const files = readdirSync(dir).filter((f) => f.endsWith(".ts") && !["index","names","types"].includes(f.replace(/\.ts$/,"")));
 const keysOf = (f) => [...readFileSync(dir + f, "utf8").matchAll(/"([^"]+)"\s*:/g)].map((m) => m[1]);
 
 // registry: every locale file must be imported in locales/index.ts

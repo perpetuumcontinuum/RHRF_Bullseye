@@ -9,7 +9,6 @@ import {
   type ShopItem,
 } from "./catalog";
 import ItemIcon from "./ItemIcon";
-import { rfIsConsumableItem, rfCyberBlocksItem } from "./shopRules";
 
 
 const TABS = [
@@ -177,7 +176,7 @@ export default function Shop(props: any) {
                       {t("shop.buy")}
                     </button>
                   ) : (
-                    <button disabled={false && rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item)}
+                    <button disabled={false}
                       className="rf-shop-item-btn rf-shop-equip-btn"
                       onClick={() => toggleEquip(item)}
                     >

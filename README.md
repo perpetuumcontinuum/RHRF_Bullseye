@@ -14,7 +14,7 @@
   <img alt="Category" src="https://img.shields.io/badge/category-Character%20Spotlight-ff2bd6" />
 </p>
 
-Cyber archery minigame for the Rare Friends Vibeathon. The selected Generations NFT is the archer; RF is a simulated score label.
+Cyber archery minigame for the Rare Friends Vibeathon. The selected Generations NFT is the archer; RF is the in-game shop currency.
 
 - **Category:** Character Spotlight
 - **Stack:** React, TypeScript, FriendSDK v0.1.4, SVG renderer, i18n (27 locales)
@@ -66,7 +66,7 @@ This whole thing is **MIT**. No strings, no gatekeeping, no "ask first".
 
 - 🎯 Fork it, remix it, ship it — go wild.
 - 👽 Swap the archer for your own Rare Friend and call it yours.
-- ⛓️ Wire it to a real economy someday; the simulated RF is just a label today, and the door is wide open.
+- ⛓️ Wire it to a real economy someday; RF is the in-game shop currency; wallet wiring is the next step.
 - 🤘 Built with an AI coding agent Qwen 💜🤖❤️, by a human who kept the weird ideas. That's the spirit of the vibeathon.
 
 Use it as much as you want, for as long as you want. If it makes someone's day brighter or their neon ridge a little more defendable — that's the whole point. 
@@ -75,10 +75,10 @@ Provided as is, no warranties, no promises, no refunds on a missed bullseye. The
 
 ### Economy update
 
-- Bows: 4000 / 20000 / 100000 RF (rare/epic/legendary).
-- Outfits: 4000 / 20000 / 100000 RF (rare/epic/legendary).
-- Amulets: 4000 / 20000 / 100000 RF (rare/epic/legendary).
-- Consumables: arrows 60/300/1500 RF, energy 300/800/1600 RF, armor 5/10/15 RF (rare/epic/legendary).
+- Bows: 600 / 1200 / 2400 RF (rare/epic/legendary).
+- Outfits: 600 / 1200 / 2400 RF (rare/epic/legendary).
+- Amulets: 600 / 1200 / 2400 RF (rare/epic/legendary).
+- Consumables: arrows / energy / armor 5 / 10 / 15 RF (rare/epic/legendary).
 - Selling item: 50 percent of listed price.
 - Offer sale: 60 percent of listed price.
 - Current price tuning is modest; when stat persistence arrives, the economy will become deeper and new features will appear.

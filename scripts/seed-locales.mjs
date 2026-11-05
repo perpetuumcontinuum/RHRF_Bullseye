@@ -2,7 +2,7 @@
 // placeholder. Parity always holds; untranslated keys render English (same as
 // runtime fallback) but are now editable lines per language. Idempotent.
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
-const dir = new URL("../games/rhrf-bullseye/locales/", import.meta.url).pathname;
+const dir = new URL("../games/rhrf-bullseye/lang/", import.meta.url).pathname;
 const PAIR = /"([^"]+)"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
 const parse = (f) => { const o = {}; for (const m of readFileSync(dir + f, "utf8").matchAll(PAIR)) o[m[1]] = m[2]; return o; };
 const en = parse("en.ts");
