@@ -44,9 +44,9 @@ export function getItemPrice(
 export const CONSUMABLE_CAP = 100;
 
 export const CATALOG: ShopItem[] = [
-  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", icon: "bow", price: 600, description: "x2 score" },
-  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 1200, description: "x3 score" },
-  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 2400, description: "x4 score" },
+  { id: "bow_rare", name: "RARE BOW", category: "bow", rarity: "rare", icon: "bow", price: 600, description: "x2 reload" },
+  { id: "bow_epic", name: "EPIC BOW", category: "bow", rarity: "epic", icon: "bow", price: 1200, description: "x3 reload" },
+  { id: "bow_legendary", name: "LEGENDARY BOW", category: "bow", rarity: "legendary", icon: "bow", price: 2400, description: "x4 reload" },
 
   { id: "hat_rare", name: "RARE OUTFIT", category: "hat", rarity: "rare", icon: "clothes", price: 600, description: "x2 accuracy" },
   { id: "hat_epic", name: "EPIC OUTFIT", category: "hat", rarity: "epic", icon: "clothes", price: 1200, description: "x3 accuracy" },
@@ -60,9 +60,9 @@ export const CATALOG: ShopItem[] = [
   { id: "arrow_epic", name: "EPIC ARROWS", category: "consumable", rarity: "epic", icon: "arrow", price: 10, description: "x3 score" },
   { id: "arrow_legendary", name: "LEGENDARY ARROWS", category: "consumable", rarity: "legendary", icon: "arrow", price: 15, description: "x4 score" },
 
-  { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", icon: "energy", price: 5, description: "x2 score" },
-  { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", icon: "energy", price: 10, description: "x3 score" },
-  { id: "energy_legendary", name: "LEGENDARY ENERGY", category: "consumable", rarity: "legendary", icon: "energy", price: 15, description: "x4 score" },
+  { id: "energy_rare", name: "RARE ENERGY", category: "consumable", rarity: "rare", icon: "energy", price: 5, description: "x2 shots" },
+  { id: "energy_epic", name: "EPIC ENERGY", category: "consumable", rarity: "epic", icon: "energy", price: 10, description: "x3 shots" },
+  { id: "energy_legendary", name: "LEGENDARY ENERGY", category: "consumable", rarity: "legendary", icon: "energy", price: 15, description: "x4 shots" },
 
   { id: "armor_rare", name: "RARE ARMOR", category: "consumable", rarity: "rare", icon: "armor", price: 5, description: "-2s stun" },
   { id: "armor_epic", name: "EPIC ARMOR", category: "consumable", rarity: "epic", icon: "armor", price: 10, description: "-4s stun" },
