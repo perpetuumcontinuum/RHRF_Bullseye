@@ -32,7 +32,6 @@ function fromCache(key: string): GenerationSprites | null {
   }
 }
 
-/** Синхронно: уже готовый спрайт, если есть. Иначе null. */
 export function peekSprites(tokenId: bigint): GenerationSprites | null {
   const key = tokenId.toString();
   return _ready.get(key) ?? fromCache(key) ?? null;

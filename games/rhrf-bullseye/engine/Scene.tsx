@@ -345,8 +345,14 @@ const pixelBounds = (() => {
       getPlanetAccent(getPlanetId()) ||
       "#ccff00";
   const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || (isCyberLeaderboardBase ? "#ff0000" : "#000000");
-  const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || (towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor) || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
-  const beamColor = towerBeamColor === "cyber" || towerBeamColor === "#d6b45a" || towerBeamColor === "#8f99a6" || metalStyle ? "var(--cyber-fill, #00ffff)" : RARITY_COLORS[getRarityKey(energyQualityId) || ""] || towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
+  const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || (isCyberLeaderboardBase ? "#ff0000" : "#000000");
+  const beamColor = towerBeamColor === "cyber" || towerBeamColor === "#d6b45a" || towerBeamColor === "#8f99a6" || metalStyle ? "var(--cyber-fill, #00ffff)" : towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
+  const beamLayers = (coreW: number, color: string) => [
+    { w: 34, o: 0.16, c: color },
+    { w: 22, o: 0.30, c: "#ffffff" },
+    { w: 12, o: 0.58, c: "#ffffff" },
+    { w: coreW, o: 0.95, c: color },
+  ];
   const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || weaponBaseColor;
 
   const getArmorColor = (id?: string | null) => {
@@ -661,11 +667,20 @@ const pixelBounds = (() => {
       {isRealNft && <RealNftBackground viewBox={viewBox} missions={missions} towerActivated={towerActivated} />}
       {isBitcoin && <BitcoinPlanetBackground missions={missions} towerActivated={towerActivated} />}
       {isRwa && <RwaPlanetBackground viewBox={viewBox} missions={missions} towerActivated={towerActivated} rwaHeroMode={rwaHeroMode} rwaStonePhase={rwaStonePhase} />}
+      {/* rf-rwa-wave-under-target */}
+      {isRwa && rwaWavePulses > 0 && (
+        <RwaEnergyWave
+          key={`rwa-wave-${rwaWaveKey}`}
+          pulses={rwaWavePulses}
+          waveKey={rwaWaveKey}
+          isPaused={isPaused}
+          isJumping={isJumping}
+          isFallen={isFallen}
+        />
+      )}
       {!isStable && !isRealNft && !isBitcoin && !isRwa && <CyberPlanetBackground viewBox={viewBox} />}
 
 <g clipPath="url(#rfHorizonClip)">
-      {isBitcoin && <BitcoinTargetStand />}
-      {isRealNft && <NftTargetStand />}
       {asteroidVisible && (() => {
         const astMain = isRealNft ? "#aa00ff" : isBitcoin ? "#F7931A" : isRwa ? "#00ffff" : isStable ? "#C7E36C" : "#8B4513";
         const astBody = isRealNft ? "#8a00cc" : isBitcoin ? "#c46a00" : isRwa ? "#0a8f8f" : isStable ? "#C7E36C" : "#A0522D";
@@ -709,6 +724,9 @@ const pixelBounds = (() => {
       )}
             </g>
             <g>
+      {isBitcoin && <BitcoinTargetStand />}
+      {isRealNft && <NftTargetStand />}
+      {isStable && <TargetStand />}
       <BackgroundEvents />
 
       {!isRwa && (
@@ -754,22 +772,73 @@ const pixelBounds = (() => {
           </circle>
         </g>
       )}
-      {isStable && <TargetStand />}
       {isRealNft && <NftTarget />}
       {isBitcoin && (
         <g transform={`translate(${mx(TARGET_CX)}, ${TARGET_CY})`} pointerEvents="none">
           <BitcoinTarget />
         </g>
       )}
+      {/* rf-rwa-portal-before-hero */}
+            {isRwa && (rwaPortalPhase === "open" || rwaPortalPhase === "closing") && (
+        <g
+          pointerEvents={rwaPortalPhase === "open" ? "auto" : "none"}
+          className={`rf-laser-cyber rf-rwa-portal rf-rwa-portal-${rwaPortalPhase}`}
+          style={{ cursor: rwaPortalPhase === "open" ? "pointer" : "default" } as any}
+          onClick={() => {
+            if (rwaPortalPhase === "open") onEnterPortal?.();
+          }}
+        >
+          <ellipse
+            className="rf-rwa-portal-ellipse"
+            cx={TARGET_CX}
+            cy={PLAYER_Y + PLAYER_HEIGHT}
+            rx="72"
+            ry="18"
+            fill="var(--cyber-fill, #00ffff)"
+            opacity="0.35"
+            filter="url(#neonGlowCyan)"
+          />
+          <g className="rf-rwa-portal-beam">
+            <rect
+              x={TARGET_CX - 48}
+              y="88"
+              width="96"
+              height={PLAYER_Y + PLAYER_HEIGHT - 88}
+              fill="var(--cyber-fill, #00ffff)"
+              opacity="0.22"
+              filter="url(#neonGlowCyan)"
+              className="laser-beam"
+            />
+            <rect
+              x={TARGET_CX - 22}
+              y="98"
+              width="44"
+              height={PLAYER_Y + PLAYER_HEIGHT - 98}
+              fill="var(--cyber-fill, #00ffff)"
+              opacity="0.42"
+              filter="url(#neonGlowCyan)"
+            />
+            <rect
+              x={TARGET_CX - 7}
+              y="108"
+              width="14"
+              height={PLAYER_Y + PLAYER_HEIGHT - 108}
+              fill="#ffffff"
+              opacity="0.78"
+              filter="url(#neonGlowCyan)"
+              style={{ fill: "#ffffff" }}
+            />
+          </g>
+        </g>
+      )}
       {isRwa && <RwaBoss layer="stone" facing={rwaFacing} cyberStyle={cyberStyle} forcedGray={rwaRunesGray} phase={rwaStonePhase} towerCharged={rwaTowerCharged} damage={rwaStoneDamage} />}
-
 
       {!depart && (
       <g transform={`translate(${heroLeftX(getPlanetId())}, ${PLAYER_Y})`}>
         <g
           transform={undefined}
           className={[characterClass, isFallen ? "rf-archer-fallen" : ""].filter(Boolean).join(" ") || undefined}
-          style={{
+          style={{ ["--fall-dir" as any]: mx(TARGET_CX) > heroLeftX(getPlanetId()) + spriteCenterX ? 1 : -1,
             ["--armor-color" as any]: armorColor || undefined,
             ["--clothing-color" as any]: clothingColor || undefined,
             ["--cx" as any]: `${spriteCenterX}px`,
@@ -869,6 +938,43 @@ const pixelBounds = (() => {
       </g>
       )}
 
+      {isRwa && <RwaBoss layer="trim" facing={rwaFacing} cyberStyle={cyberStyle} forcedGray={rwaRunesGray} phase={rwaStonePhase} towerCharged={rwaTowerCharged} damage={rwaStoneDamage} />}
+      {!depart && !towerActivated && !combatBlocked && !(isRwa && (!rwaIntroDone || rwaPortalOpen || rwaStonePhase !== "alive")) && (<g className={`rf-crosshair-group ${cyberStyle ? "friend-cyber rf-laser-cyber" : ""}${metalStyle ? " rf-metal" : ""}${!cyberStyle && crosshairColor === "#000000" ? " rf-entity-dark" : ""}`.trim()} transform={`translate(${mx(TARGET_CX) + aimX}, ${TARGET_CY + aimY})`}>
+        <circle cx="0" cy="0" r="10" fill="none" stroke={crosshairColor} strokeWidth="1.5" filter="url(#neonGlowPink)"/>
+        <circle cx="0" cy="0" r="2" fill={crosshairColor} filter="url(#neonGlowPink)"/>
+        <line x1="-14" y1="0" x2="14" y2="0" stroke={crosshairColor} strokeWidth="1" filter="url(#neonGlowPink)"/>
+        <line x1="0" y1="-14" x2="0" y2="14" stroke={crosshairColor} strokeWidth="1" filter="url(#neonGlowPink)"/>
+      </g>)}
+      {isRwa && (isLaserFiring || towerBeamActive || rwaStonePhase === "red") && (
+        <g
+          className="rf-laser-cyber"
+          transform={`translate(${rwaBeamX1}, ${rwaBeamY1}) rotate(${rwaBeamAngle})`}
+          filter="url(#neonGlowCyan)"
+          pointerEvents="none"
+        >
+          <rect
+            x="0"
+            y="-10"
+            width={rwaBeamLen}
+            height="20"
+            rx="10"
+            className="rf-cyber-beam-rect"
+            style={{ fill: "var(--cyber-fill, #00ffff)" }}
+          />
+          <rect
+            x="4"
+            y="-3"
+            width={Math.max(0, rwaBeamLen - 8)}
+            height="6"
+            rx="3"
+            className="rf-cyber-core-rect"
+            style={{ fill: "#ffffff", opacity: 0.82 }}
+          />
+          <circle cx="0" cy="0" r="13" style={{ fill: "var(--cyber-fill, #00ffff)" }} opacity="0.5" />
+          <circle cx={rwaBeamLen} cy="0" r="16" style={{ fill: "var(--cyber-fill, #00ffff)" }} opacity="0.55" />
+          <circle cx={rwaBeamLen} cy="0" r="6" style={{ fill: "#ffffff" }} opacity="0.9" />
+        </g>
+      )}
       {!depart && !towerActivated && !combatBlocked && !isJumping && !isFallen && !(isRwa && (!rwaIntroDone || rwaPortalOpen || rwaPortalEntering || rwaStonePhase !== "alive")) && (
         <g className="rf-bow-group" style={{ transform: `translate(${heroShiftX}px, ${heroShiftY}px)`, opacity: heroOpacity, transition: instantResetPlanet ? "none" : heroTransition } as any}>
           <g className={`${cyberStyle ? "friend-cyber" : ""}${metalStyle ? " rf-metal" : ""}${!cyberStyle && bowColor === "#000000" ? " rf-entity-dark" : ""}`.trim() || undefined} transform={`translate(${BOW_MID_X}, ${BOW_MID_Y}) scale(${heroDir},1) rotate(${bowAngle})`}>
@@ -885,24 +991,7 @@ const pixelBounds = (() => {
           />
         </g>
       )}
-      {isRwa && rwaWavePulses > 0 && (
-        <RwaEnergyWave
-          key={`rwa-wave-${rwaWaveKey}`}
-          pulses={rwaWavePulses}
-          waveKey={rwaWaveKey}
-          isPaused={isPaused}
-          isJumping={isJumping}
-          isFallen={isFallen}
-        />
-      )}
 
-      {isRwa && <RwaBoss layer="trim" facing={rwaFacing} cyberStyle={cyberStyle} forcedGray={rwaRunesGray} phase={rwaStonePhase} towerCharged={rwaTowerCharged} damage={rwaStoneDamage} />}
-      {!depart && !towerActivated && !combatBlocked && !(isRwa && (!rwaIntroDone || rwaPortalOpen || rwaStonePhase !== "alive")) && (<g className={`rf-crosshair-group ${cyberStyle ? "friend-cyber rf-laser-cyber" : ""}${metalStyle ? " rf-metal" : ""}${!cyberStyle && crosshairColor === "#000000" ? " rf-entity-dark" : ""}`.trim()} transform={`translate(${mx(TARGET_CX) + aimX}, ${TARGET_CY + aimY})`}>
-        <circle cx="0" cy="0" r="10" fill="none" stroke={crosshairColor} strokeWidth="1.5" filter="url(#neonGlowPink)"/>
-        <circle cx="0" cy="0" r="2" fill={crosshairColor} filter="url(#neonGlowPink)"/>
-        <line x1="-14" y1="0" x2="14" y2="0" stroke={crosshairColor} strokeWidth="1" filter="url(#neonGlowPink)"/>
-        <line x1="0" y1="-14" x2="0" y2="14" stroke={crosshairColor} strokeWidth="1" filter="url(#neonGlowPink)"/>
-      </g>)}
 {isShooting && !(isRwa && (rwaPortalOpen || rwaStonePhase !== "alive")) && (
         <g className={`${cyberStyle ? "rf-laser-cyber" : ""}${metalStyle ? " rf-metal" : ""}${!cyberStyle && arrowColor === "#000000" ? " rf-entity-dark" : ""}`.trim() || undefined}>
           <line x1={tailX} y1={tailY} x2={tipX} y2={tipY} stroke={arrowColor} strokeWidth="2.5" filter="url(#neonGlowCyan)"/>
@@ -1038,9 +1127,7 @@ const pixelBounds = (() => {
         const TIP = TOWER_ANT_Y;
         const OVER = isRwa ? 1200 : 0;
         const cyberFill = "var(--cyber-fill, #00ffff)";
-        const layers = isRwa
-          ? [{ w: 34, o: 0.16, c: cyberFill }, { w: 22, o: 0.30, c: "#ffffff" }, { w: 12, o: 0.58, c: "#ffffff" }, { w: 6, o: 0.95, c: cyberFill }]
-          : [{ w: 34, o: 0.16, c: beamColor }, { w: 22, o: 0.30, c: "#ffffff" }, { w: 12, o: 0.58, c: "#ffffff" }, { w: 6, o: 0.95, c: beamColor }];
+        const layers = isRwa ? beamLayers(6, cyberFill) : beamLayers(6, beamColor);
         return (
           <g pointerEvents="none" filter={metalStyle ? "none" : "url(#beamSoft)"} className={metalStyle ? "friend-cyber rf-metal" : undefined}>
             {layers.map((b, i) => (
@@ -1049,101 +1136,17 @@ const pixelBounds = (() => {
           </g>
         );
       })()}
-      {isLaserFiring && !isRwa && (
-        <g className={metalStyle ? "friend-cyber rf-metal" : undefined}>
-          <rect
-            x={towerBeamX - 5}
-            y={(isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 95 : 115}
-            width="10"
-            height={(isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 190 : 200}
-            style={{ fill: beamColor, stroke: beamColor }}
-            filter={metalStyle ? "none" : "url(#neonGlowPink)"}
-            className="laser-beam"
-          />
-        </g>
-      )}
-      {isRwa && (isLaserFiring || towerBeamActive || rwaStonePhase === "red") && (
-        <g
-          className="rf-laser-cyber"
-          transform={`translate(${rwaBeamX1}, ${rwaBeamY1}) rotate(${rwaBeamAngle})`}
-          filter="url(#neonGlowCyan)"
-          pointerEvents="none"
-        >
-          <rect
-            x="0"
-            y="-10"
-            width={rwaBeamLen}
-            height="20"
-            rx="10"
-            className="rf-cyber-beam-rect"
-            style={{ fill: "var(--cyber-fill, #00ffff)" }}
-          />
-          <rect
-            x="4"
-            y="-3"
-            width={Math.max(0, rwaBeamLen - 8)}
-            height="6"
-            rx="3"
-            className="rf-cyber-core-rect"
-            style={{ fill: "#ffffff", opacity: 0.82 }}
-          />
-          <circle cx="0" cy="0" r="13" style={{ fill: "var(--cyber-fill, #00ffff)" }} opacity="0.5" />
-          <circle cx={rwaBeamLen} cy="0" r="16" style={{ fill: "var(--cyber-fill, #00ffff)" }} opacity="0.55" />
-          <circle cx={rwaBeamLen} cy="0" r="6" style={{ fill: "#ffffff" }} opacity="0.9" />
-        </g>
-      )}
-            {isRwa && (rwaPortalPhase === "open" || rwaPortalPhase === "closing") && (
-        <g
-          pointerEvents={rwaPortalPhase === "open" ? "auto" : "none"}
-          className={`rf-laser-cyber rf-rwa-portal rf-rwa-portal-${rwaPortalPhase}`}
-          style={{ cursor: rwaPortalPhase === "open" ? "pointer" : "default" } as any}
-          onClick={() => {
-            if (rwaPortalPhase === "open") onEnterPortal?.();
-          }}
-        >
-          <ellipse
-            className="rf-rwa-portal-ellipse"
-            cx={TARGET_CX}
-            cy={PLAYER_Y + PLAYER_HEIGHT}
-            rx="72"
-            ry="18"
-            fill="var(--cyber-fill, #00ffff)"
-            opacity="0.35"
-            filter="url(#neonGlowCyan)"
-          />
-          <g className="rf-rwa-portal-beam">
-            <rect
-              x={TARGET_CX - 48}
-              y="88"
-              width="96"
-              height={PLAYER_Y + PLAYER_HEIGHT - 88}
-              fill="var(--cyber-fill, #00ffff)"
-              opacity="0.22"
-              filter="url(#neonGlowCyan)"
-              className="laser-beam"
-            />
-            <rect
-              x={TARGET_CX - 22}
-              y="98"
-              width="44"
-              height={PLAYER_Y + PLAYER_HEIGHT - 98}
-              fill="var(--cyber-fill, #00ffff)"
-              opacity="0.42"
-              filter="url(#neonGlowCyan)"
-            />
-            <rect
-              x={TARGET_CX - 7}
-              y="108"
-              width="14"
-              height={PLAYER_Y + PLAYER_HEIGHT - 108}
-              fill="#ffffff"
-              opacity="0.78"
-              filter="url(#neonGlowCyan)"
-              style={{ fill: "#ffffff" }}
-            />
+      {isLaserFiring && !isRwa && (() => {
+        const ly = (isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 95 : 115;
+        const lh = (isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 190 : 200;
+        return (
+          <g className={metalStyle ? "friend-cyber rf-metal" : undefined} filter={metalStyle ? "none" : "url(#neonGlowPink)"}>
+            {beamLayers(10, laserColor).map((b, i) => (
+              <rect key={i} className="laser-beam" x={towerBeamX - b.w / 2} y={ly} width={b.w} height={lh} opacity={b.o} style={{ fill: b.c }} />
+            ))}
           </g>
-        </g>
-      )}
+        );
+      })()}
 
       {(explosions || []).map(exp => (
         <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
@@ -1193,7 +1196,7 @@ const pixelBounds = (() => {
         >
           <g
             className={[characterClass, isFallen ? "rf-archer-fallen" : ""].filter(Boolean).join(" ") || undefined}
-            style={{
+            style={{ ["--fall-dir" as any]: mx(TARGET_CX) > heroLeftX(getPlanetId()) + spriteCenterX ? 1 : -1,
               ["--armor-color" as any]: armorColor || undefined,
               ["--clothing-color" as any]: clothingColor || undefined,
               ["--cx" as any]: `${spriteCenterX}px`,
@@ -1242,7 +1245,6 @@ const pixelBounds = (() => {
           )}
         </g>
       )}
-
 
       {isPaused && (
         <g pointerEvents="none">

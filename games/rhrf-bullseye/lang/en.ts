@@ -308,6 +308,11 @@ export const ui: Record<string, string> = {
   "profile.badgesHeading": "{kind} BADGES",
   "badge.kind.anomaly": "ANOMALY",
   "profile.badgeStreak": "x{count} streak",
+  "badge.kind.cyber": "CYBER",
+  "badge.kind.asteroid": "ASTEROID",
+  "notif.streak": "{kind} streak x{count}",
+  "notif.timeServed": "TIME SERVED {hours}H",
+  "notif.earned": "EARNED {amount} RF",
   "rarity.rare": "RARE",
   "rarity.epic": "EPIC",
   "rarity.legendary": "LEGENDARY",
@@ -430,6 +435,10 @@ export const ui: Record<string, string> = {
   "guide.glossary.rf": "in-game currency with no real-world value",
   "badge.arcade_1": "CYBER PLATEAU LEGEND",
   "badge.arcade.desc": "finish the arcade campaign",
+  "badge.kind.singularity": "SINGULARITY",
+  "badge.singularity_1": "SINGULARITY LEGEND",
+  "badge.singularity.desc": "reach singularity for the first time",
+  "notif.singularity": "SINGULARITY REACHED",
   "badge.kind.arcade": "ARCADE",
 };
 

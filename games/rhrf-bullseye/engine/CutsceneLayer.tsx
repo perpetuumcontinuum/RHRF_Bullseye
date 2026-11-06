@@ -52,7 +52,6 @@ const BH = TEXT_TOP + ROWS * STEP + BTN_PAD;
 const NPC_HALF = 37.5;
 const TOP_PAD = 5;
 
-
 function chunkLines(rows: string[]): string[][] {
   const c: string[][] = [];
   for (let i = 0; i < rows.length; i += ROWS) c.push(rows.slice(i, i + ROWS));
@@ -436,7 +435,6 @@ export default function CutsceneLayer({ planet, towerActivated = false, onDialog
       ? crowdLayout.reduce((acc, p) => acc + p.x + NPC_HALF, 0) / crowdLayout.length
       : bx + bw / 2;
 
-  // P323 SAFE CROWD TAIL: только кончик в центр, основание фиксированное
   const useCrowdCenter =
     (crowdMode === "gather" && (who === "crowd" || who === "rep")) ||
     (phase === "departure" && who === "crowd");

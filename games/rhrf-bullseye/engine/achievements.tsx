@@ -1,7 +1,7 @@
 import React from "react";
 
 export type StreakKind = "cyber" | "ghost" | "asteroid";
-export type BadgeKind = StreakKind | "time" | "rf" | "arcade";
+export type BadgeKind = StreakKind | "time" | "rf" | "arcade" | "singularity";
 
 export interface StreakRank {
   n: number;
@@ -89,6 +89,10 @@ export const ASTEROID_RANKS  = build("asteroid", ASTEROID_ROWS);
 export const CYBER_RANKS     = build("cyber",    CYBER_ROWS);
 export const TIME_RANKS      = build("time",     TIME_ROWS);
 export const ARCADE_RANKS    = build("arcade", ARCADE_ROWS);
+const SINGULARITY_ROWS: ReadonlyArray<readonly [number, string, string]> = [
+  [1, "s_1", "SINGULARITY LEGEND"],
+];
+export const SINGULARITY_RANKS = build("singularity", SINGULARITY_ROWS);
 
 export const BADGES_BY_KIND: Record<BadgeKind, readonly StreakRank[]> = {
   rf:       RF_RANKS,
@@ -97,9 +101,10 @@ export const BADGES_BY_KIND: Record<BadgeKind, readonly StreakRank[]> = {
   cyber:    CYBER_RANKS,
   time:     TIME_RANKS,
   arcade:   ARCADE_RANKS,
+  singularity: SINGULARITY_RANKS,
 };
 
-export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "time", "cyber", "arcade"];
+export const BADGE_ORDER: readonly BadgeKind[] = ["rf", "ghost", "asteroid", "time", "cyber", "singularity", "arcade"];
 
 export const KIND_COLOR: Record<BadgeKind, string> = {
   rf:       "#ffffff",
@@ -107,10 +112,11 @@ export const KIND_COLOR: Record<BadgeKind, string> = {
   asteroid: "#aa00ff",
   cyber:    "#00ffff",
   time:     "#F7931A",
-  arcade:     "#ffffff",
+  arcade:     "#d6b45a",
+  singularity: "#8f99a6",
 };
 
-const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 180, time: 33, arcade: 0 };
+const KIND_HUE: Record<BadgeKind, number> = { rf: 0, ghost: 72, asteroid: 282, cyber: 180, time: 33, arcade: 0, singularity: 210 };
 
 export function rankForStreak(kind: BadgeKind, count: number): StreakRank | null {
   for (const r of BADGES_BY_KIND[kind]) if (r.n === count) return r;
@@ -199,14 +205,17 @@ function tierForCount(n: number): keyof typeof PHRASES {
   return "tier1";
 }
 
-export function buildStreakMessage(kind: StreakKind, count: number, rand: () => number = Math.random, hideRank = false): string {
+type TFn = (key: string, params?: Record<string, string | number>, fallback?: string) => string;
+const KIND_KEY: Record<StreakKind, string> = { cyber: "cyber", ghost: "anomaly", asteroid: "asteroid" };
+export function buildStreakMessage(kind: StreakKind, count: number, t: TFn, rand: () => number = Math.random, hideRank = false): string {
   const rank = rankForStreak(kind, count);
-  const kindLabel = kind.toUpperCase();
+  const kindWord = t(`badge.kind.${KIND_KEY[kind]}`, undefined, kind.toUpperCase());
+  const streakWord = t("notif.streak", { kind: kindWord, count }, `${kindWord} streak x${count}`);
   const pool = PHRASES[tierForCount(count)];
   const phrase = pool[Math.floor(rand() * pool.length)];
   const show = rank && !hideRank;
-  if (show && isFinalRank(kind, count)) return `${phrase}! ${kindLabel} STREAK x${count} — ${rank!.label}`;
-  return `${phrase}! ${kindLabel} STREAK x${count}${show ? ` — ${rank!.label}` : ""}`;
+  if (show && isFinalRank(kind, count)) return `${phrase}! ${streakWord} — ${rank!.label}`;
+  return `${phrase}! ${streakWord}${show ? ` — ${rank!.label}` : ""}`;
 }
 
 const TIME_PHRASES = [
@@ -215,12 +224,13 @@ const TIME_PHRASES = [
   ["ONE WITH THE CLOCK", "SLOW BURN LEGEND", "THE TOWER TICKS FOR YOU", "DIAL FULL, QUIVER FULL", "THE GHOSTS GOT OLD", "ASTEROIDS LOST COUNT", "RARE TIME LEGEND: FINAL FORM"],
 ] as const;
 
-export function buildTimeMessage(hours: number, rand: () => number = Math.random, hideRank = false): string {
+export function buildTimeMessage(hours: number, t: TFn, rand: () => number = Math.random, hideRank = false): string {
   const group = hours <= 300 ? 0 : hours <= 700 ? 1 : 2;
   const pool = TIME_PHRASES[group];
   const phrase = pool[Math.floor(rand() * pool.length)];
   const rank = rankForStreak("time", hours);
-  return `${phrase}! TIME SERVED ${hours}H${rank && !hideRank ? ` — ${rank.label}` : ""}`;
+  const served = t("notif.timeServed", { hours }, `TIME SERVED ${hours}H`);
+  return `${phrase}! ${served}${rank && !hideRank ? ` — ${rank.label}` : ""}`;
 }
 
 const RF_PHRASES = [
@@ -235,12 +245,13 @@ export function compactRf(n: number): string {
   return n >= 1e6 ? `${n / 1e6}M` : n >= 1e3 ? `${n / 1e3}K` : String(n);
 }
 
-export function buildRfMessage(amount: number, rand: () => number = Math.random): string {
+export function buildRfMessage(amount: number, t: TFn, rand: () => number = Math.random): string {
   const idx = RF_RANKS.findIndex((r) => r.n === amount);
   const pool = RF_PHRASES[Math.max(0, Math.min(RF_PHRASES.length - 1, idx))];
   const phrase = pool[Math.floor(rand() * pool.length)];
   const rank = rankForStreak("rf", amount);
-  return `${phrase}! EARNED ${compactRf(amount)} RF${rank ? ` — ${rank.label}` : ""}`;
+  const earned = t("notif.earned", { amount: compactRf(amount) }, `EARNED ${compactRf(amount)} RF`);
+  return `${phrase}! ${earned}${rank ? ` — ${rank.label}` : ""}`;
 }
 
 export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
@@ -251,6 +262,20 @@ export function BadgeIcon({ id, size = 28 }: { id: string; size?: number }) {
   };
   const dot = { fill: "currentColor", stroke: "none" as const };
 
+  if (id.startsWith("s_")) {
+    return (
+      <svg {...p}>
+        <rect x="3" y="3" width="26" height="26" rx="4" strokeWidth="2" />
+        <path d="M6 26 L16 16" strokeWidth="2.5" strokeLinecap="round" />
+        <polygon points="20,12 14,14 18,18" fill="currentColor" stroke="none" />
+        <path d="M21 4 L22.6 9.4 L28 11 L22.6 12.6 L21 18 L19.4 12.6 L14 11 L19.4 9.4 Z" fill="currentColor" stroke="none" />
+        <circle cx="21" cy="11" r="1.8" {...dot} />
+        <circle cx="26" cy="6" r="0.9" {...dot} />
+        <circle cx="27" cy="15" r="0.9" {...dot} />
+        <circle cx="15" cy="7" r="0.8" {...dot} />
+      </svg>
+    );
+  }
   if (id.startsWith("rf_")) {
     const n = Number(id.slice(3)) || 0;
     const txt = compactRf(n);

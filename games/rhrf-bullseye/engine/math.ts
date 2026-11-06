@@ -73,7 +73,6 @@ export function calculateFinalScore(baseScore: number, bowMultiplier: number): n
   return Math.floor(baseScore * bowMultiplier);
 }
 
-
 export function getItemEffect(item: ShopItem): {
   multiplier: number;
   speedMod: number;

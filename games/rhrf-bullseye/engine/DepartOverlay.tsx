@@ -10,7 +10,6 @@ import type { DepartPose } from "./departPose";
 const BEAM_BOT = TOWER_ANT_Y;
 const BEAM_TOP = -80;
 
-// Синхронизировано с CutsceneLayer: стандартное речевое окно.
 const ROWS = 3;
 const STEP = 24;
 const TEXT_TOP = 52;
@@ -20,10 +19,8 @@ const NPC_HALF = 37.5;
 const TOP_PAD = 5;
 const SPKR_GAP = 18;
 
-// Якорь для реплики толпы/жителей, как в CutsceneLayer: who === "crowd".
 const CROWD_SPK_CX = 370 + NPC_HALF;
 const CROWD_TOP_Y = 398 - TOP_PAD;
-
 
 function chunkLines(rows: string[]): string[][] {
   const c: string[][] = [];
@@ -70,7 +67,6 @@ export default function DepartOverlay({ planet, pose }: { planet: string; pose: 
 
 const tailPath = buildTailPath(bx, by, bw, tailCx, TAIL_HALF, spkCx, tailY, tailTipY);
 
-  // P323: CutsceneLayer уже рендерит финальный диалог с корректным хвостом.
   const showDepartBubble = false;
 
   return (

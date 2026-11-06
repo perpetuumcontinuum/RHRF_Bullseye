@@ -81,7 +81,6 @@
     return btn;
   }
 
-  // иконка-переключатель кошелька — в углу ИГРЫ (фрейм), не в футере
   function ensureTools() {
     var frame = findFrame();
     if (!frame) return null;

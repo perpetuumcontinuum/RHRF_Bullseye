@@ -18,7 +18,6 @@ const ROWS = 3, STEP = 24, TEXT_TOP = 52, BTN_PAD = 46;
 const BH = TEXT_TOP + ROWS * STEP + BTN_PAD;
 const TOP_PAD = 5;
 
-
 function chunkLines(rows: string[]): string[][] {
   const c: string[][] = [];
   for (let i = 0; i < rows.length; i += ROWS) c.push(rows.slice(i, i + ROWS));

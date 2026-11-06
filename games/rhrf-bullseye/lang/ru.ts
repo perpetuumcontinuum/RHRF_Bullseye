@@ -308,6 +308,11 @@ export const ui: Record<string, string> = {
   "profile.badgesHeading": "ЗНАЧКИ {kind}",
   "badge.kind.anomaly": "АНОМАЛИИ",
   "profile.badgeStreak": "серия x{count}",
+  "badge.kind.cyber": "КИБЕР",
+  "badge.kind.asteroid": "АСТЕРОИД",
+  "notif.streak": "серия {kind} x{count}",
+  "notif.timeServed": "ВРЕМЯ В ИГРЕ {hours}Ч",
+  "notif.earned": "ПОЛУЧЕНО {amount} RF",
   "rarity.rare": "РЕДКИЙ",
   "rarity.epic": "ЭПИЧЕСКИЙ",
   "rarity.legendary": "ЛЕГЕНДАРНЫЙ",
@@ -430,6 +435,10 @@ export const ui: Record<string, string> = {
   "guide.glossary.rf": "внутриигровая валюта без реальной ценности",
   "badge.arcade_1": "ЛЕГЕНДА КИБЕР-ПЛАТО",
   "badge.arcade.desc": "пройти аркаду до финала",
+  "badge.kind.singularity": "СИНГУЛЯРНОСТЬ",
+  "badge.singularity_1": "ЛЕГЕНДА СИНГУЛЯРНОСТИ",
+  "badge.singularity.desc": "впервые достичь сингулярности",
+  "notif.singularity": "ДОСТИГНУТА СИНГУЛЯРНОСТЬ",
   "badge.kind.arcade": "АРКАДА",
 };
 

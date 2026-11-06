@@ -2,11 +2,6 @@ import React from "react";
 
 type Phase = "alive" | "red" | "gone" | "gray";
 
-/**
- * Три буквы RWA у подножия чёрного камня.
- * Рендерятся ВНУТРИ фона, до пальм: пальмы и герой перекрывают их,
- * камень перекрывает пока цел, после gone/gray — светятся.
- */
 export default function RwaLetters({ phase = "alive" }: { phase?: Phase }) {
   const broken = phase === "gone" || phase === "gray";
   const size = 52;

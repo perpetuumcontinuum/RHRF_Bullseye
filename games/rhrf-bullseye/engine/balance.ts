@@ -9,7 +9,6 @@ export const REGEN_MS = 3 * 60_000;
 export const MAX_STORED_SHOTS = 60;
 export const FREE_START_SHOTS = 10;
 
-
 export const AIM_STEP = 0.07;
 export const AIM_SHOT_RANGE = 0.11;
 export const AIM_SHOT_CAP = 500;
@@ -17,7 +16,6 @@ export const AIM_FLOOR = 0.70;
 export const DWELL_BAND = 0.06;
 
 export const BOW_SPEED_FACTOR = 0.82;
-
 
 export const WANDER_PERIOD_Y_S = 2.3;
 export const DWELL_CYCLE_S = 2.6;

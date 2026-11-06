@@ -19,7 +19,6 @@ const ERASE_MS = 2000;
 const FIRST_PEAK_MS = 2000;
 const PEAK_GAP_MS = 6000;
 
-// Как у призрака: чуть урезаем края, чтобы попадание было честным.
 const LETHAL_RATIO = 0.96;
 const LETHAL_PAD = (PEAK_W * (1 - LETHAL_RATIO)) / 2;
 

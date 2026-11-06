@@ -383,7 +383,6 @@ html.rf-fullscreen .rf-site-footer.rf-revealed {
   transform: translate(-50%, 0);
 }
 
-/* неоновый хэндл-подсказка свайпа снизу */
 html.rf-fullscreen .rf-site-footer::before {
   content: "";
   position: absolute;
@@ -398,7 +397,6 @@ html.rf-fullscreen .rf-site-footer::before {
   opacity: .85;
 }
 
-/* кнопка fullscreen теперь контрол футера, не fixed */
 .rf-site-footer .rf-fs-btn {
   position: static;
   width: auto;
@@ -423,9 +421,6 @@ html.rf-fullscreen .rf-site-footer::before {
   height: 18px;
 }
 
-
-
-/* активное состояние переключателя */
 html.rf-tools-open .rf-site-footer > .rf-tools-toggle {
   opacity: 1;
   color: var(--g1, #00e5ff);

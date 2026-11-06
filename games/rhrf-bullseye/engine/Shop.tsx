@@ -10,7 +10,6 @@ import {
 } from "./catalog";
 import ItemIcon from "./ItemIcon";
 
-
 const TABS = [
   { id: "bow", labelKey: "shop.tab.bow" },
   { id: "hat", labelKey: "shop.tab.hat" },

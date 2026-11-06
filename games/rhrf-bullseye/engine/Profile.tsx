@@ -67,7 +67,6 @@ function statRow(stats: GameStats | undefined, tab: StatTabId) {
   }
 }
 
-
 const CATEGORY_ORDER: { id: ShopCategory }[] = [
   { id: "bow" },
   { id: "hat" },
@@ -294,6 +293,10 @@ export default function Profile(props: any) {
                     ? "#aa00ff"
                     : kind === "time"
                     ? "#F7931A"
+                    : kind === "singularity"
+                    ? "#8f99a6"
+                    : kind === "arcade"
+                    ? "#d6b45a"
                     : "#ffffff";
                   return (
                     <div

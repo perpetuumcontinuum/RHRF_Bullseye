@@ -15,12 +15,10 @@ const FILLER_PER_PLANET = 5;
 const BG_COUNT = 3;
 const idx = (p: ResidentPlanet) => Math.max(0, PLANETS.indexOf(p));
 
-/** Лидер (rep / угол диалога) — свой gen1 на каждую планету. */
 export function leaderFor(planet: ResidentPlanet): bigint {
   return GEN1.length ? GEN1[idx(planet) % GEN1.length] : 65007n;
 }
 
-/** Толпа-filler — непрерывное окно не-gen1, сдвинутое по планете. */
 export function fillerFor(planet: ResidentPlanet): readonly bigint[] {
   const start = idx(planet) * FILLER_PER_PLANET;
   const out: bigint[] = [];
@@ -28,7 +26,6 @@ export function fillerFor(planet: ResidentPlanet): readonly bigint[] {
   return out;
 }
 
-/** Фон NFT-планеты — хвост не-gen1 после всех filler-окон. */
 export const NFT_BG_TOKENS: readonly bigint[] = (() => {
   const from = PLANETS.length * FILLER_PER_PLANET;
   const tail = OTHER.slice(from, from + BG_COUNT);
@@ -46,7 +43,6 @@ export function bgTokenFor(slot: number): bigint {
   return pool.length ? pool[slot % pool.length] : leaderFor("nft");
 }
 
-/** Токен для позиции i толпы на планете; repIndex — индекс предводителя. */
 export function residentTokenFor(i: number, repIndex: number, planet: ResidentPlanet): bigint {
   if (i === repIndex) return leaderFor(planet);
   const k = i < repIndex ? i : i - 1;

@@ -65,9 +65,6 @@
       document.addEventListener("touchstart", handler, { once: true });
     }
 
-    // Иконка отражает намерение, а не статус autoplay: на входе всегда
-    // динамик включён на сохранённой громкости (дефолт 3%). Если браузер
-    // заблокировал autoplay — ждём первый жест без слэша на иконке.
     function start() {
       setIcons(true);
       var p;

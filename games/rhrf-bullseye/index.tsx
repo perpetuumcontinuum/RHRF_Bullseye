@@ -76,7 +76,6 @@ const TARGET_RESUME_LEAD_MS = 500;
 const LASER_COOLDOWN_MS = 10000;
 const ROBO_CYCLE = 100;
 const GREAT_SINGULARITY_RF_PER_MIN = 500;
-const ASTEROID_ENERGY_REWARD: Record<number, number> = { 1: 5, 2: 10, 3: 30, 4: 60, 5: 120 };
 const ROBO_TOWER_X = 190;
 const AUTO_BULLSEYE_R = 8.1;
 const SALVO_GAP_MS = 1000;
@@ -199,6 +198,7 @@ const rwaLollipopPath = (() => {
 
 function getInitialRf(): number {
   if (typeof window === "undefined") return 0;
+  if (/localhost|127\.0\.0\.1|0\.0\.0\.0|::1/.test(window.location.hostname)) return 200000;
   return 0;
 }
 
@@ -301,7 +301,7 @@ const [screenShake, setScreenShake] = useState(false);
 const [asteroidWarning, setAsteroidWarning] = useState(false);
 const [explosion, setExplosion] = useState<{x: number, y: number, visible: boolean}>({x: 0, y: 0, visible: false});
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid" | "time" | "rf" | "arcade"; badge: { icon: string; label: string } | null } | null>(null);
+  const [streakBanner, setStreakBanner] = useState<{ text: string; count: number; kind: "cyber" | "ghost" | "asteroid" | "time" | "rf" | "arcade" | "singularity"; badge: { icon: string; label: string } | null } | null>(null);
   const streaksRef = useRef({ cyber: 0, ghost: 0, asteroid: 0 });
 
   const unlockBadge = (id: string) => {
@@ -314,11 +314,15 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     });
   };
 
+  const tt: (key: string, params?: Record<string, string | number>, fallback?: string) => string =
+    (key, params, fallback) => translate(getLang(), key, params, fallback);
   const showStreakAlert = (kind: "cyber" | "ghost" | "asteroid") => {
+    if (autoPilotRef.current || greatPilotRef.current) return;
     const count = streaksRef.current[kind];
     const rank = rankForStreak(kind, count);
     if (!rank) return;
-    const already = gameStats.earnedBadges.includes(rank.id);
+    const already = loadStats().earnedBadges.includes(rank.id);
+    if (already) return; // значок уже получен — ни баннера, ни повторной награды за ранг
     unlockBadge(rank.id);
     if (kind === "ghost") {
       const sb = getPlanetTier(getPlanetId());
@@ -327,12 +331,27 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     }
     if (getGameMode() === "arcade") return; // уведомления о достижениях не показываются в аркаде
     setStreakBanner({
-      text: buildStreakMessage(kind, count, undefined, already),
+      text: buildStreakMessage(kind, count, tt, undefined, already),
       count,
       kind,
       badge: already ? null : { icon: rank.icon, label: rank.label },
     });
-    pt(() => setStreakBanner(null), !already && isFinalRank(kind, count) ? 60000 : 2500);
+    pt(() => setStreakBanner(null), !already && isFinalRank(kind, count) ? 60000 : 5000);
+  };
+
+  const showSingularityAlert = () => {
+    const id = "singularity_1";
+    const already = loadStats().earnedBadges.includes(id);
+    if (already) return;
+    unlockBadge(id);
+    if (getGameMode() === "arcade") return;
+    setStreakBanner({
+      text: tt("notif.singularity", undefined, "SINGULARITY REACHED"),
+      count: 1,
+      kind: "singularity",
+      badge: { icon: "s_1", label: tt("badge.singularity_1", undefined, "SINGULARITY LEGEND") },
+    });
+    pt(() => setStreakBanner(null), 5000);
   };
 
   const lastHoursRef = useRef<number | null>(null);
@@ -351,16 +370,17 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     const crossed = TIME_RANKS.filter((r) => r.n > prevHours && r.n <= hours);
     if (!crossed.length) return;
     const rank = crossed[crossed.length - 1];
-    const already = gameStats.earnedBadges.includes(rank.id);
+    const already = loadStats().earnedBadges.includes(rank.id);
+    if (already) return; // значок уже получен — молчим
     crossed.forEach((r) => unlockBadge(r.id));
     if (getGameMode() === "arcade") return; // уведомления о достижениях не показываются в аркаде
     setStreakBanner({
-      text: buildTimeMessage(rank.n, undefined, already),
+      text: buildTimeMessage(rank.n, tt, undefined, already),
       count: rank.n,
       kind: "time",
       badge: already ? null : { icon: rank.icon, label: rank.label },
     });
-    pt(() => setStreakBanner(null), isFinalRank("time", rank.n) ? 60000 : 2500);
+    pt(() => setStreakBanner(null), isFinalRank("time", rank.n) ? 60000 : 5000);
   }, [gameStats.totalPlayMs]);
 
   const lastRfRef = useRef<number | null>(null);
@@ -379,15 +399,17 @@ const [explosion, setExplosion] = useState<{x: number, y: number, visible: boole
     const crossed = RF_RANKS.filter((r) => r.n > prev && r.n <= earned);
     if (!crossed.length) return;
     const rank = crossed[crossed.length - 1];
+    const already = loadStats().earnedBadges.includes(rank.id);
+    if (already) return; // значок уже получен — молчим в обоих режимах
     crossed.forEach((r) => unlockBadge(r.id));
     if (getGameMode() === "arcade") return; // уведомления о достижениях не показываются в аркаде
     setStreakBanner({
-      text: buildRfMessage(rank.n),
+      text: buildRfMessage(rank.n, tt),
       count: rank.n,
       kind: "rf",
       badge: { icon: rank.icon, label: rank.label },
     });
-    pt(() => setStreakBanner(null), isFinalRank("rf", rank.n) ? 60000 : 2500);
+    pt(() => setStreakBanner(null), isFinalRank("rf", rank.n) ? 60000 : 5000);
   }, [gameStats.earnedScore]);
 
   useEffect(() => {
@@ -455,7 +477,6 @@ const asteroidKilledRef = useRef(false);
   const [rwaPortalPhase, setRwaPortalPhase] = useState<"closed" | "open" | "closing">("closed");
   const rwaHeroModeRef = useRef<"normal" | "side" | "stand" | "fade" | "hidden">("normal");
 
-  // P386: страйк сброшен/не начат -> камень снова сплошной (opacity 1).
   useEffect(() => {
     if (rwaBulls === 0 && rwaStoneDamageRef.current > 0) {
       rwaStoneDamageRef.current = 0;
@@ -750,8 +771,6 @@ const asteroidKilledRef = useRef(false);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
-  // rf-keep-alive: тихий Web-Audio источник снимает браузерный throttling фоновой вкладки.
-  // Без него setInterval робота/физики замирает на фоне, а CSS/SMIL-объекты летают -> рассинхрон.
   useEffect(() => {
     let ctx: AudioContext | null = null;
     let osc: OscillatorNode | null = null;
@@ -870,7 +889,6 @@ const asteroidKilledRef = useRef(false);
     });
   };
 
-
   useEffect(() => {
     const el = gameContainerRef.current;
     if (!el) return;
@@ -928,6 +946,10 @@ const asteroidKilledRef = useRef(false);
   const effectiveCyberStyle = Boolean(isCyberStyle && hasCyberUnlock);
   const [autoPilot, setAutoPilot] = useState(false);
   const [greatPilot, setGreatPilot] = useState(false);
+
+  useEffect(() => {
+    if (autoPilot && effectiveCyberStyle) showSingularityAlert();
+  }, [autoPilot, effectiveCyberStyle]);
   const fireRef = useRef<() => void>(() => {});
   const autoPilotRef = useRef(false);
   const greatPilotRef = useRef(false);
@@ -1472,19 +1494,27 @@ const asteroidKilledRef = useRef(false);
                     if (n >= 6 && !rwaMissions.hat) setRwaMissions((m) => ({ ...m, hat: true }));
                     if (n >= 9 && !rwaMissions.amulet) setRwaMissions((m) => ({ ...m, amulet: true }));
                   }
-                } else if (!rwaTowerChargedRef.current) {
-                  const hadStreak = rwaBullsRef.current > 0;
+                } else {
+                  const hadStreak = rwaBullsRef.current > 0 || rwaTowerChargedRef.current;
                   rwaBullsRef.current = 0;
                   setRwaBulls(0);
+                  rwaTowerChargedRef.current = false;
+                  setRwaTowerCharged(false);
+                  setRwaTowerReady(false);
+                  setRwaMissions({ bow: false, hat: false, amulet: false, arrows: false });
                   if (hadStreak) showRwaBanner("STREAK BROKEN — MISSION RESET", 0, 2600);
                 }
-              } else if (!rwaTowerChargedRef.current) {
+              } else {
                 if (rwaBullseye) {
                   showRwaBanner("MISSION NOT COUNTED — STREAK NOT BROKEN", rwaBullsRef.current, 2600);
                 } else {
                   const hadStreak = rwaBullsRef.current > 0;
                   rwaBullsRef.current = 0;
                   setRwaBulls(0);
+                  rwaTowerChargedRef.current = false;
+                  setRwaTowerCharged(false);
+                  setRwaTowerReady(false);
+                  setRwaMissions({ bow: false, hat: false, amulet: false, arrows: false });
                   if (hadStreak) showRwaBanner("STREAK BROKEN — MISSION RESET", 0, 2600);
                 }
               }
@@ -1586,9 +1616,9 @@ flashTimerRef.current = window.setTimeout(() => {
 
   useEffect(() => {
     (window as any).__RHRF_ROBO_ACTIVE__ = autoPilot;
-    setStreakBanner(null);
 
     if (!autoPilot) {
+      setStreakBanner((b) => (b && b.kind === "arcade" ? b : null));
       setGreatPilot(false);
       const old = roboRef.current;
       if (old) {
@@ -1699,7 +1729,6 @@ flashTimerRef.current = window.setTimeout(() => {
       if ((window as any).__RHRF_IS_PAUSED__) return;
       if (isFallen || towerActivated || arcMode === "depart") return;
 
-      // 1. призрак всегда в приоритете
       const st = roboRef.current;
       const jumpNow = Boolean((window as any).__RHRF_GHOST_JUMP_NOW__);
 
@@ -1830,6 +1859,10 @@ flashTimerRef.current = window.setTimeout(() => {
 
   useEffect(() => {
     const onGhostHit = () => {
+      if (greatPilotRef.current) {
+        if (!jumpingRef.current) { roboSourceRef.current = "auto"; lastJumpSourceRef.current = "auto"; jumpRef.current(); }
+        return;
+      }
 
       recordEvent("ghost", false, lastJumpSourceRef.current || "manual");
 
@@ -2137,7 +2170,8 @@ flashTimerRef.current = window.setTimeout(() => {
   useEffect(() => {
     const onGhostDodged = () => {
         recordEvent("ghost", true, lastJumpSourceRef.current || "manual");
-        const gain = getPlanetTier(getPlanetId()) + (cyberRef.current ? 1 : 0);
+        const roll = Math.floor(Math.random() * 100) + 1;
+        const gain = roll === 1 ? 100 : 1;
         setTotalScore((v) => v + gain);
         addEarnedScore(gain);
 
@@ -2152,7 +2186,7 @@ flashTimerRef.current = window.setTimeout(() => {
           y: py,
           dx: scoreTargetSvg().x - px, dy: scoreTargetSvg().y - py,
           score: gain,
-          color: bitcoin ? "#F7931A" : realNft ? "#aa00ff" : nft ? "#C7E36C" : "#00ffff",
+          color: gain === 100 ? "#d6b45a" : bitcoin ? "#F7931A" : realNft ? "#aa00ff" : nft ? "#C7E36C" : "#00ffff",
           id: Date.now() + Math.random(),
         }]);
         spawnRfCoin(px, py, gain);
@@ -2255,7 +2289,7 @@ flashTimerRef.current = window.setTimeout(() => {
       pt(() => setSuccessMessage(null), 2500);
       impactTimersRef.current.push(pt(() => setExplosion({ x: 0, y: 0, visible: false }), 1500));
       const energyMult = getRarityMult(equippedEnergy) + ((cyberRef.current || autoPilotRef.current) ? 1 : 0);
-      const reward = ASTEROID_ENERGY_REWARD[energyMult] ?? 5;
+      const reward = 15 * energyMult;
       setTotalScore((v) => v + reward);
       addEarnedScore(reward);
       const energyColor = effectiveCyberStyle && !equippedEnergy ? "cyber" : equippedEnergy?.includes("legendary") ? "#F7931A" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : "#ccff00";
@@ -2297,26 +2331,21 @@ flashTimerRef.current = window.setTimeout(() => {
       asteroidArmedRef.current = false;
       asteroidPosLiveRef.current = { ...spawnPos };
       setAsteroidPosition(spawnPos);
-      let startTime = Date.now();
-      asteroidPauseAccumRef.current = 0;
-      asteroidPausedRef.current = false;
+      let elapsed = 0;
+      let lastTs = performance.now();
       const animate = () => {
         if (seq !== asteroidSeqRef.current || asteroidKilledRef.current) return;
 
+        const nowTs = performance.now();
+        const dt = Math.min(nowTs - lastTs, 100);
+        lastTs = nowTs;
+
         if (pausedRef.current || (window as any).__RHRF_CUTSCENE__) {
-          if (!asteroidPausedRef.current) {
-            asteroidPausedRef.current = true;
-            asteroidPauseSinceRef.current = Date.now();
-          }
           requestAnimationFrame(animate);
           return;
         }
 
-        if (asteroidPausedRef.current) {
-          asteroidPauseAccumRef.current += Date.now() - asteroidPauseSinceRef.current;
-          asteroidPausedRef.current = false;
-        }
-        const elapsed = Date.now() - startTime - asteroidPauseAccumRef.current;
+        elapsed += dt;
         const progress = elapsed / (3056 / asteroidSpeedMult(getPlanetTier(getPlanetId())));
         if (progress >= 1) {
           asteroidLiveRef.current = false;
@@ -3027,13 +3056,6 @@ const handleToggleCyberStyle = () => {
       setInventory((inv) => [...inv, "bow_legendary", "hat_legendary", "amulet_legendary"]);
     };
     w.__RHRF_TEST__ = { addRF, setRF, addItem, addAllLegendaries };
-    try {
-      const u = new URL(window.location.href);
-      const trf = Number(u.searchParams.get("testRF") || 0);
-      if (trf > 0) addRF(trf);
-      const ti = u.searchParams.get("testItems");
-      if (ti) ti.split(",").map((x) => x.trim()).filter(Boolean).forEach((id) => addItem(id, 1));
-    } catch {}
     const onPlanetMsg = (e: MessageEvent) => {
       const d = e.data as any;
       if (d && d.type === "rf:set-planet") {
@@ -3175,6 +3197,25 @@ if (arcMode && arcMode !== "depart") {
         )}
       </ArcStage>
 
+      {/* rf-arc-banner-inside */}
+      {streakBanner && (streakBanner.kind === "arcade" || getGameMode() !== "arcade") && (() => {
+        const isFinal = isFinalRank(streakBanner.kind, streakBanner.count);
+        return (
+          <div
+            className={`rf-overlay-msg rf-streak-msg rf-shake-text${isFinal ? " rf-streak-final" : ""}${streakBanner.kind === "arcade" ? " rf-streak-always" : ""}`}
+            style={{ ["--rf-streak-color" as any]: KIND_COLOR[streakBanner.kind] } as any}
+          >
+            <div className="rf-streak-line">{streakBanner.text}</div>
+            {streakBanner.badge && (
+              <div className="rf-streak-badge">
+                <BadgeIcon id={streakBanner.badge.icon} size={22} />
+                <span>{t("badge.unlockedPrefix")} {streakBanner.badge.label}</span>
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
       {isPaused && (
         <svg
           viewBox="0 0 960 640"
@@ -3233,7 +3274,6 @@ if (arcMode && arcMode !== "depart") {
 }
 
   const currentPlanetId = getPlanetId();
-
 
   const activateRwaTower = () => {
     if (
@@ -3305,7 +3345,6 @@ if (arcMode && arcMode !== "depart") {
     rwaHeroModeRef.current = "side";
     setRwaHeroMode("side");
     showRwaBanner("ENTERING PORTAL", 0, 2600);
-
 
     pt(() => {
       rwaHeroModeRef.current = "fade";
@@ -3620,13 +3659,13 @@ if (arcMode && arcMode !== "depart") {
           towerActivated={towerActivated}
         />
       )}
-        <button className={`fire-tower-btn rf-ui-item rf-ui-item--fire${laserCooldown ? " rf-on-cd" : ""}${currentPlanetId === "rwa" && rwaTowerCharged ? " rf-rwa-fire-charged" : ""}`} style={(() => { const c = autoPilot ? "#8f99a6" : equippedEnergy?.includes("legendary") ? "#F7931A" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : null; return c ? { borderColor: c, color: c, boxShadow: `0 0 10px ${c}` } : undefined; })()} disabled={isFallen || laserCooldown || isLaserFiring || towerActivated || arcMode === "depart" || (currentPlanetId === "rwa" && !rwaTowerCharged)} onClick={() => {
+        <button className={`fire-tower-btn rf-ui-item rf-ui-item--fire${laserCooldown ? " rf-on-cd" : ""}${currentPlanetId === "rwa" && rwaTowerCharged ? " rf-rwa-fire-charged" : ""}`} style={(() => { const c = autoPilot ? "#8f99a6" : equippedEnergy?.includes("legendary") ? "#F7931A" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : (currentPlanetId === "cyber" && arcMode !== "depart" && !effectiveCyberStyle ? "#ff0000" : "#000000"); const d = c === "#000000" ? "#ffffff" : c; return { borderColor: d, color: d }; })()} disabled={isFallen || laserCooldown || isLaserFiring || towerActivated || arcMode === "depart" || (currentPlanetId === "rwa" && !rwaTowerCharged)} onClick={() => {
             window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
             handleTowerFire();
           }}>
           {t("btn.fire")}
         </button>
-        <button className="shot-btn rf-ui-item rf-ui-item--shot" style={(() => { const c = autoPilot ? "#8f99a6" : equippedEnergy?.includes("legendary") ? "#F7931A" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : null; return c ? { borderColor: c, color: c, boxShadow: `0 0 10px ${c}` } : undefined; })()} disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring || towerActivated || arcMode === "depart"} onClick={() => { window.dispatchEvent(new Event("rhrf:dismiss-dialog")); handleFire(); }}>
+        <button className="shot-btn rf-ui-item rf-ui-item--shot" style={(() => { const c = autoPilot ? "#8f99a6" : equippedArrow?.includes("legendary") ? "#F7931A" : equippedArrow?.includes("epic") ? "#aa00ff" : equippedArrow?.includes("rare") ? "#ccff00" : (currentPlanetId === "cyber" && arcMode !== "depart" && !effectiveCyberStyle ? "#ff0000" : "#000000"); const d = c === "#000000" ? "#ffffff" : c; return { borderColor: d, color: d }; })()} disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring || towerActivated || arcMode === "depart"} onClick={() => { window.dispatchEvent(new Event("rhrf:dismiss-dialog")); handleFire(); }}>
           {t("btn.shot")}
         </button>
         <button className="jump-btn rf-ui-item rf-ui-item--jump" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isShooting || towerActivated || arcMode === "depart"} onClick={() => { window.dispatchEvent(new Event("rhrf:dismiss-dialog")); handleJump(); }}>

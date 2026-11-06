@@ -2,6 +2,7 @@ import { JUMP_SAFE_START_MS, JUMP_SAFE_END_MS } from "./jump";
 import React, { useEffect, useRef, useState } from "react";
 import { PLAYER_X, PLAYER_WIDTH } from "./geometry";
 import { isNftPlanet, getPlanetId, getPlanetAccent, getSatBeamColor, getPlanetTier, ghostSpeedMult, getLayout, heroLeftX } from "./planets/planetRuntime";
+import { subscribe } from "./ticker";
 
 const GHOST_FRONT = 5;
 const GHOST_START = 1155;
@@ -95,6 +96,8 @@ export default function BackgroundEvents() {
     raf: 0,
   });
   const campWaitRef = useRef({ acc: 0, delay: roll(SAT_MIN_DELAY, SAT_MAX_DELAY), last: 0, raf: 0 });
+  const ghostUnsubRef = useRef<null | (() => void)>(null);
+  const waitUnsubRef = useRef<null | (() => void)>(null);
 
   useEffect(() => {
     const addTimer = (id: number) => timersRef.current.push(id);
@@ -114,7 +117,8 @@ export default function BackgroundEvents() {
       let popped = false;
 
       const finish = () => {
-        cancelAnimationFrame(g.raf);
+        ghostUnsubRef.current?.();
+        ghostUnsubRef.current = null;
         g.active = false;
         (window as any).__RHRF_GHOST_JUMP_NOW__ = false;
         (window as any).__RHRF_GHOST_NO_FIRE__ = false;
@@ -125,11 +129,10 @@ export default function BackgroundEvents() {
       };
 
       const step = (now: number) => {
-        const dt = (now - g.last) / 1000;
+        const dt = Math.min((now - g.last) / 1000, 0.1);
         g.last = now;
 
         if ((window as any).__RHRF_IS_PAUSED__ || (window as any).__RHRF_CUTSCENE__) {
-          g.raf = requestAnimationFrame(step);
           return;
         }
 
@@ -195,10 +198,9 @@ export default function BackgroundEvents() {
           finish();
           return;
         }
-        g.raf = requestAnimationFrame(step);
       };
 
-      g.raf = requestAnimationFrame(step);
+      ghostUnsubRef.current = subscribe(step);
     };
 
     const waitTick = (now: number) => {
@@ -207,10 +209,9 @@ export default function BackgroundEvents() {
       w.last = now;
       if (!(window as any).__RHRF_IS_PAUSED__ && !(window as any).__RHRF_CUTSCENE__ && getPlanetId() !== "rwa") w.acc += dt;
       if (!gRef.current.active && w.acc >= w.delay && getPlanetId() !== "rwa" && !(window as any).__RHRF_CUTSCENE__ && !(window as any).__RHRF_TOWER_SHIELD__) startGhost();
-      w.raf = requestAnimationFrame(waitTick);
     };
     waitRef.current.last = performance.now();
-    waitRef.current.raf = requestAnimationFrame(waitTick);
+    waitUnsubRef.current = subscribe(waitTick);
 
     function finishNftSatellite() {
       cancelAnimationFrame(nftSatRef.current.raf);
@@ -324,8 +325,8 @@ export default function BackgroundEvents() {
     satWaitRef.current.raf = requestAnimationFrame(satWaitTick);
 
     return () => {
-      cancelAnimationFrame(waitRef.current.raf);
-      cancelAnimationFrame(gRef.current.raf);
+      waitUnsubRef.current?.();
+      ghostUnsubRef.current?.();
       cancelAnimationFrame(nftSatRef.current.raf);
       cancelAnimationFrame(satWaitRef.current.raf);
       timersRef.current.forEach((id) => window.clearTimeout(id));

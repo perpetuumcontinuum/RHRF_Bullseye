@@ -72,7 +72,6 @@ const FINALE_MEMBERS = [
   { lat: 22, dy: 3 }, { lat: -24, dy: 9 }, { lat: 7, dy: 13 },
 ];
 
-
 function chunkLines(rows: string[]): string[][] {
   const c: string[][] = [];
   for (let i = 0; i < rows.length; i += ROWS) c.push(rows.slice(i, i + ROWS));
@@ -136,7 +135,6 @@ function arcHeroWorldBounds(
     minX = 4; minY = 1; maxX = 12; maxY = 16;
   }
 
-  // Границы с учётом friend-outline: rect x = gx*STEP-STEP, width=STEP*3.
   const localLeft = (minX - 1) * STEP;
   const localRight = (maxX + 2) * STEP;
   const localTop = (minY - 1) * STEP;
@@ -189,7 +187,6 @@ function ArcHero({ pixels, x, base, offX = 0, offY = 0, shiftX = 0, shiftY = 0, 
     </g>
   );
 }
-
 
 function AnimatedArcHero({
   pixels,
@@ -276,8 +273,6 @@ function AnimatedArcHero({
     />
   );
 }
-
-
 
 export default function ArcLayer({ mode, vb, pixels = [], sidePixels = [], backPixels = [], accent = "#00ffff", onComplete }: {
   mode: Mode; vb: ArcVb; pixels?: [number, number][]; sidePixels?: [number, number][]; backPixels?: [number, number][]; accent?: string; onComplete?: (m: Mode) => void;
@@ -420,11 +415,11 @@ export default function ArcLayer({ mode, vb, pixels = [], sidePixels = [], backP
   useEffect(() => {
     if (mode !== "final" || phase !== "arrive") return;
     (window as any).__RHRF_CUTSCENE__ = true;
-    const start = performance.now();
+    const start = performance.now(); const ARCADE_BANNER_HOLD_MS = 5000;
     const tick = (now: number) => {
       const t = now - start;
-      if (t >= ARRIVE_TOTAL) {
-        setArriveT(ARRIVE_TOTAL);
+      if (t >= ARRIVE_TOTAL) setArriveT(ARRIVE_TOTAL);
+      if (t >= Math.max(ARRIVE_TOTAL, ARCADE_BANNER_HOLD_MS)) {
         setPhase("dialog");
         return;
       }

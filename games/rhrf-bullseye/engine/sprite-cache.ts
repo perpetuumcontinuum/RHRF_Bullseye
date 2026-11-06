@@ -1,5 +1,3 @@
-// Генерируется scripts/gen-sprite-cache.mjs. Не редактировать вручную.
-// {familyId, seed, generation, frames}. Арт независим от существования токена.
 export const SPRITE_CACHE: Record<string, { familyId: number; seed: number; generation: number; frames: string[] }> = {
   "3": {
     "familyId": 7,

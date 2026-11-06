@@ -15,7 +15,6 @@
     return t;
   }
 
-  // применяется синхронно, до парсинга <body> -> без FOUC
   root.dataset.theme = resolve();
 
   function paint() {
@@ -37,7 +36,6 @@
     }
     root.style.setProperty("--rf-ar", String(ratio));
 
-    // вертикальный резерв: переключатель сверху + подвал снизу, меряем по DOM
     var GAP = 8;
     var sw = document.querySelector(".rf-theme-switch");
     var ft = document.querySelector(".rf-site-footer");
@@ -140,14 +138,12 @@
     addEventListener("orientationchange", fitFrame);
     addEventListener("load", fitFrame);
 
-    // runtime.js может перерисовать рамку -> возвращаем кнопку
     new MutationObserver(function () {
       if (!document.getElementById("rfToolsToggle")) mountToggle();
         if (!document.getElementById("rfFsBtn")) mountFs();
     }).observe(document.documentElement, { childList: true, subtree: true });
   });
 
-  // вторая вкладка переключила -> первая подтянула
   addEventListener("storage", function (e) {
     if (e.key === "rhrf_theme" && OK[e.newValue]) { root.dataset.theme = e.newValue; paint(); }
   });

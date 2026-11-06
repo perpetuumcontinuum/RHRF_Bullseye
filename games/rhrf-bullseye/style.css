@@ -313,18 +313,10 @@
   border-color: #f30;
   color: #f0f;
   animation: buttonPulseRed 2s ease-in-out infinite;
-}.shot-btn:hover:not(:disabled){
-  background: #ff2040;
-  color: #fff;
-  border-color: #fff;
-}.fire-tower-btn:hover:not(:disabled){
-  background: #609;
-  color: #fff;
-  border-color: #fff;
-}.jump-btn:hover:not(:disabled){
-  background: #00994d;
-  color: #fff;
-  border-color: #fff;
+}.shot-btn:hover:not(:disabled),.fire-tower-btn:hover:not(:disabled),.jump-btn:hover:not(:disabled){
+  background: color-mix(in srgb, currentColor 25%, transparent);
+  color: currentColor;
+  border-color: currentColor;
 }.score-popup{
   transform-box: fill-box;
   transform-origin: center;
@@ -387,7 +379,7 @@
 }@property --cyber-fill{
   syntax: "<color>";
   inherits: true;
-  initial-value: #ccff00;
+  initial-value: #00ffff;
 }.rf-cyber-root{animation:friendCyberFill 3.2s linear infinite}.friend-cyber{
 
   opacity: 1;
@@ -641,9 +633,9 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }
 
 @keyframes buttonPulse {0%,to{
-    box-shadow: 0 0 10px #f0f, inset 0 0 10px #f0f4;
+    box-shadow: 0 0 10px color-mix(in srgb, currentColor 53%, transparent), inset 0 0 10px color-mix(in srgb, currentColor 27%, transparent);
   }50%{
-    box-shadow: 0 0 25px #f0f, inset 0 0 20px #f0f8;
+    box-shadow: 0 0 25px currentColor, inset 0 0 20px color-mix(in srgb, currentColor 53%, transparent);
   }
 }
 
@@ -1082,24 +1074,21 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 @keyframes rfPulseRed {0%,100%{ box-shadow: 0 0 0 0 rgba(255,43,43,.45); }50%{ box-shadow: 0 0 14px 2px rgba(255,43,43,.35); }
 }
 @keyframes rfPulseViolet {0%,100%{ box-shadow: 0 0 0 0 rgba(176,38,255,.45); }50%{ box-shadow: 0 0 14px 2px rgba(176,38,255,.35); }
-}.controls-row .shot-btn,.controls-row .fire-tower-btn{
+}.controls-row .shot-btn,.controls-row .fire-tower-btn,.controls-row .jump-btn{
   transition: transform .12s ease,background .15s ease,box-shadow .2s ease;
-}.controls-row .shot-btn{
-  color: #ff5a5a;
+  box-shadow: 0 0 10px currentColor;
 }button.fire-tower-btn {
-  color: #d071ff;
-  border-color: #fff;
-  animation: buttonPulse 2s ease-in-out infinite;
+  animation: none;
 }
 
 @keyframes rfArcherFall {0%{
     transform: translate(0, 0) translate(var(--cx), var(--cy)) rotate(0deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
     animation-timing-function: cubic-bezier(.25, .9, .3, 1);
   }32%{
-    transform: translate(0, -10px) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    transform: translate(0, -10px) translate(var(--cx), var(--cy)) rotate(calc(90deg * var(--fall-dir, 1))) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
     animation-timing-function: cubic-bezier(.55, 0, .85, .4);
   }100%{
-    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(calc(90deg * var(--fall-dir, 1))) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
   }
 }.rf-archer-fallen{
   animation: rfArcherFall .5s forwards;
@@ -1108,12 +1097,12 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 
 @media (prefers-reduced-motion: reduce) {.rf-archer-fallen{
     animation: none;
-    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(calc(90deg * var(--fall-dir, 1))) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
   }
 }button.jump-btn {
   color: #2ee48a;
   border-color: #fff;
-  animation: buttonPulseGreen 2s ease-in-out infinite;
+  animation: none;
 }
 
 @media (orientation: landscape) and (max-height: 500px) {:root{
@@ -1329,7 +1318,6 @@ flex: 0 0 auto;
 .rf-shop-consumable-controls button:disabled{ opacity:.3; cursor:not-allowed; }
 .rf-shop-equip-btn{ border-color:#00ffff; color:#00ffff; }
 
-/* P386: надетый предмет — glow цветом rarity (как активная автопокупка) */
 .rf-shop-item{ --eq:#00ffff; }
 .rf-shop-item.rarity-rare{ --eq:#ccff00; }
 .rf-shop-item.rarity-epic{ --eq:#b14dff; }
@@ -1514,7 +1502,6 @@ flex: 0 0 auto;
 .rf-guide-table-cyber-note{ color:#00ffff; font-weight:900; background:rgba(0,255,255,.08); text-align:left; white-space:normal; }
 .rf-guide-sub{ font-size:inherit; }
 table.rf-guide-table *{ font-size:small; text-align:left; }
-
 
 @media (max-width:520px){
   .rf-shop-item{ grid-template-columns:20% minmax(0,1fr); gap:.35rem; }
@@ -2965,8 +2952,6 @@ input, textarea, select, [contenteditable="true"] {
 .scene-container .rf-top-bar > *, .scene-container .controls-row > *{ flex:0 1 auto; width:auto; }
 .scene-container .rf-top-bar .rf-ui-item--score{ flex:0 0 auto; cursor:default; min-width:calc(var(--rf-digits) * 1ch + 2 * var(--rf-ui-pad-x)); }
 .scene-container .rf-top-bar .rf-ui-item--rf{ flex:0 0 auto; cursor:default; color:#fff; min-width:calc(var(--rf-digits) * 1ch + 1.7em + 2 * var(--rf-ui-pad-x)); }
-.rf-ui-item--fire{ color:#ff00ff; }
-.rf-ui-item--shot{ color:#ff2b2b; }
 .rf-ui-item--jump{ color:#00ff88; }
 .scene-container .rf-missions .rf-missions__toggle{ width:100%; height:100%; min-width:0; justify-content:space-between; }
 .scene-container .rf-missions .rf-missions__panel{ position:absolute; width:max-content; min-width:0; max-width:min(86vw,22rem); left:0; right:auto; bottom:calc(100% + var(--rf-ui-gap)); transform-origin:bottom left; font-size:var(--rf-ui-font-size); margin:0; }
@@ -3587,7 +3572,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   }
 }
 
-/* Миссии: та же высота, ширина по тексту */
 .scene-container .controls-row .rf-missions__toggle,
 .controls-row .rf-missions__toggle {
   height: var(--rf-ui-h);
@@ -3601,7 +3585,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   border-radius: var(--rf-ui-radius, .5em);
 }
 
-/* Правый бар: квадрат той же высоты, иконки/цифры пропорционально */
 .scene-container .rf-hud-cat,
 .rf-hud-cat {
   width: var(--rf-ui-h);
@@ -3660,7 +3643,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   line-height: 1;
 }
 
-/* верхний бар */
 .scene-container .rf-top-bar {
   width: auto;
   gap: var(--rf-ui-gap);
@@ -3676,7 +3658,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   border-radius: var(--rf-ui-radius);
 }
 
-/* нижний ряд */
 .scene-container .rf-bottom-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -3714,7 +3695,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   border-radius: var(--rf-ui-radius);
 }
 
-/* правый бар: фикс только лицевая, expand наружу */
 .scene-container .rf-hud-cat {
   position: relative;
   width: auto;
@@ -3774,7 +3754,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   line-height: 1;
 }
 
-/* пауза: бар не выпадает из потока */
 .scene-container .rf-hud-stack.rf-paused-lock,
 .scene-container .rf-bottom-row .rf-hud-stack.rf-paused-lock {
   position: static;
@@ -3803,7 +3782,7 @@ html.rf-nft-neon-preview .rf-top-bar {
 /* ===== P88: overlay fonts + topbar/overlay geometry from one cqw scale ===== */
 
 .scene-container {
-  /* компактные шрифты оверлеев (магазин/профиль/гайд), единомасштабно полю */
+  
   --ui-title: clamp(11px, 3cqw, 19px);
   --ui-name:  clamp(9px, 2.4cqw, 15px);
   --ui-desc:  clamp(7px, 1.9cqw, 12px);
@@ -3812,7 +3791,7 @@ html.rf-nft-neon-preview .rf-top-bar {
   --ui-r:     clamp(5px, 1.5cqw, 10px);
   --ui-gap:   clamp(4px, 1.2cqw, 9px);
 
-  /* топбар и зазор оверлея — от той же шкалы, что и кнопки баров */
+  
   --tb-h: var(--rf-ui-h);
   --tb-r: calc(var(--rf-ui-h) * .22);
   --tb-py: 0;
@@ -3824,7 +3803,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   --rf-overlay-top: calc(var(--rf-top-bar-top) + var(--rf-top-bar-h) + var(--rf-top-edge));
 }
 
-/* оверлей стартует строго под топбаром, панель центрируется в своей зоне */
 .scene-container.rf-overlay-open .rf-shop-overlay,
 .scene-container.rf-overlay-open .rf-profile-overlay,
 .scene-container.rf-overlay-open .rf-guide-overlay,
@@ -3843,7 +3821,7 @@ html.rf-nft-neon-preview .rf-top-bar {
 /* ===== P90: overlay fonts on low cqw coeffs + 96% panel + touch scroll ===== */
 
 .scene-container {
-  /* низкие коэффы: мобила даёт меньший px, чем десктоп (не упирается в max) */
+  
   --ui-title: clamp(11px, 2.2cqw, 20px);
   --ui-name:  clamp(9px,  1.65cqw, 15px);
   --ui-desc:  clamp(7px,  1.2cqw,  12px);
@@ -3914,7 +3892,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   --rf-hud-bottom: calc(clamp(1.2rem, 4.6cqw, 2.6rem) + var(--rf-safe-bottom, 0px));
 }
 
-/* единственный absolute: якорь в углу поля */
 .scene-container .rf-hud-top {
   position: absolute;
   top: auto;
@@ -3925,7 +3902,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   pointer-events: auto;
 }
 
-/* inner: relative, НЕ absolute — containing block для pop */
 .scene-container .rf-hud {
   position: relative;
   display: flex;
@@ -3979,7 +3955,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   text-shadow: 0 0 calc(var(--rf-hud-u) * .1) currentColor;
 }
 
-/* pop: absolute от relative-родителя .rf-hud, вверх-влево */
 .scene-container .rf-hud-pop {
   position: relative;
   top: auto; left: auto; right: auto; bottom: auto;
@@ -4119,6 +4094,9 @@ html.rf-nft-neon-preview .rf-top-bar {
     0 0 10px var(--cyber-fill, #00ffff);
 }
 
+.rf-badge-kind-block--arcade{ --blk: #d6b45a; }
+.rf-badge-kind-block--arcade { --badge-color: #d6b45a; }
+
 /* P185: share stays implemented but visually hidden; pause/mute shifted and slightly clearer */
 .rf-share-btn {
   display: none;
@@ -4175,7 +4153,6 @@ html.rf-nft-neon-preview .rf-top-bar {
   100%    { --cyber-fill: #b7c0ca; }
 }
 
-/* металл только на персонаже/луке/прицеле/стрелах, фон остаётся радугой */
 .friend-cyber.rf-metal,
 .rf-laser-cyber.rf-metal {
   --cyber-fill: #b7c0ca;
@@ -4189,18 +4166,15 @@ html.rf-nft-neon-preview .rf-top-bar {
   filter: none;
 }
 
-/* фильтр на самом узле (тетива), а не только на потомках */
 .friend-cyber.rf-metal[filter],
 .rf-laser-cyber.rf-metal[filter] {
   filter: none;
 }
 
-/* ореол брони висит на САМОМ узле героя -> нужен самоселектор, не потомок */
 .friend-cyber.rf-metal.armor-on {
   filter: none;
 }
 
-/* кнопка робота: системный размер + сталь */
 .rf-ui-item--robo {
   color: #aab2bc;
   padding: 0;
@@ -4231,7 +4205,6 @@ html.rf-metal-active .rf-ui-item--robo {
   }
 }
 
-/* P258: робо-режим без пульсирующей ауры */
 .cyber-active.rf-metal-active .nft-archer:not(.nft-archer-jumping){
   animation: none;
 }
@@ -4298,7 +4271,7 @@ html.rf-great-active .rf-laser-cyber.rf-metal {
   .cyber-active .nft-archer.rf-archer-fallen,
   .cyber-active.rf-metal-active .nft-archer.rf-archer-fallen {
     animation: none;
-    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(calc(90deg * var(--fall-dir, 1))) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
   }
 }
 
@@ -4375,7 +4348,7 @@ html.rf-great-active .scene-container.cyber-active .nft-archer:not(.nft-archer-j
   html.rf-metal-active .scene-container.cyber-active .rf-archer-fallen,
   html.rf-great-active .scene-container.cyber-active .rf-archer-fallen {
     animation: none;
-    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(90deg) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
+    transform: translate(0, var(--drop)) translate(var(--cx), var(--cy)) rotate(calc(90deg * var(--fall-dir, 1))) translate(calc(-1 * var(--cx)), calc(-1 * var(--cy)));
   }
 }
 
@@ -4630,7 +4603,6 @@ html.rf-great-active .scene-container.cyber-active .nft-archer:not(.nft-archer-j
   filter: none;
 }
 
-/* P404: гайд на десктопе — читаемый размер (мобайл наследует как раньше) */
 @media (min-width: 761px) {
   .rf-guide-list, .rf-guide-note { font-size: 1.05rem; line-height: 1.5; }
   .rf-guide-sub { font-size: 1rem; }
@@ -4676,4 +4648,63 @@ svg > .rf-share-btn{display:none;}
 .rf-entry-mode--plateau:hover{
   background: #101000;
   box-shadow: 0 0 24px rgba(204, 255, 0, 0.35);
+}
+
+.shot-btn,
+.controls-row .shot-btn,
+.scene-container .shot-btn,
+.scene-container .controls-row .shot-btn {
+  filter: none !important;
+  animation: none !important;
+}
+.shot-btn:not(:disabled),
+.controls-row .shot-btn:not(:disabled),
+.scene-container .shot-btn:not(:disabled),
+.scene-container .controls-row .shot-btn:not(:disabled) {
+  box-shadow: 0 0 10px currentColor !important;
+}
+.shot-btn:disabled,
+.controls-row .shot-btn:disabled,
+.scene-container .shot-btn:disabled,
+.scene-container .controls-row .shot-btn:disabled {
+  box-shadow: none !important;
+}
+
+.rf-badge-kind-block--singularity{ --blk: #8f99a6; }
+.rf-badge-kind-block--singularity {
+  --badge-color: #8f99a6;
+}
+/* rf-cyber-badge-shimmer-fix */
+.rf-badge-kind-block--cyber {
+  --blk: var(--cyber-fill, #00ffff) !important;
+  animation: friendCyberFill 3.2s linear infinite !important;
+  border-left-color: var(--cyber-fill, #00ffff) !important;
+}
+.rf-badge-kind-block--cyber .rf-profile-section-title {
+  color: var(--cyber-fill, #00ffff) !important;
+  text-shadow: 0 0 8px currentColor, 0 0 18px rgba(255,255,255,.15) !important;
+}
+.rf-badge-kind-block--cyber .rf-badge-card,
+.rf-badge-kind-block--cyber .rf-badge-card.unlocked,
+.rf-badge-kind-block--cyber .rf-badge-icon {
+  color: var(--cyber-fill, #00ffff) !important;
+  border-color: var(--cyber-fill, #00ffff) !important;
+  box-shadow: 0 0 12px var(--cyber-fill, #00ffff) !important;
+}
+.rf-badge-kind-block--cyber .rf-badge-icon {
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,.72),
+    0 0 10px var(--cyber-fill, #00ffff) !important;
+}
+
+/* rf-arc-banner-above */
+.scene-container .rf-overlay-msg,
+.scene-container .rf-streak-msg,
+.scene-container .rf-streak-final,
+.scene-container .rf-shake-text {
+  z-index: 2147483646 !important;
+}
+
+.cyber-active .rf-streak-msg {
+  font-size: calc(clamp(8px, 2.1vw, 14px) * 1.2707);
 }
