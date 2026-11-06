@@ -469,7 +469,7 @@ export default function Profile(props: any) {
                         </div>
 
                         <div className="rf-profile-card-actions">
-                          <button disabled={false && rfCyberBlocksItem(Boolean(props.isCyberStyle ?? (window as any).__RHRF_IS_CYBER__), item) || (count <= 0)}
+                          <button disabled={count <= 0}
                             className="rf-profile-action equip"
                             onClick={() => toggleEquip(item)}
                           >
