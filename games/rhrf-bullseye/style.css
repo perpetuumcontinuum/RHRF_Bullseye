@@ -1178,8 +1178,7 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
 }
 .rf-shop-close:hover, .rf-profile-close:hover, .rf-guide-close:hover{ background:#ff2b5a33; }
 
-.rf-shop-tabs, .rf-profile-tabs, .rf-profile-subtabs, .rf-stat-tabs, .rf-equipment-subtabs {
-  .rf-profile-section .rf-profile-subtabs{
+.rf-profile-section .rf-profile-subtabs{
   padding-top: 0;
   margin-top: .2vmin;
   border-top: 1px solid rgba(0,255,255,.12);
@@ -1191,7 +1190,8 @@ padding: clamp(6px,1.5vw,10px) clamp(8px,2.2vw,14px);
   }
 .rf-profile-section .rf-profile-subtab.active{ opacity: 1;
   }
-  flex: 0 0 auto;
+.rf-shop-tabs, .rf-profile-tabs, .rf-profile-subtabs, .rf-stat-tabs, .rf-equipment-subtabs {
+flex: 0 0 auto;
   display: flex;
   padding: clamp(.4rem,1.2vmin,.7rem) clamp(.6rem,2vmin,1.1rem) 0;
   overflow-x: auto;

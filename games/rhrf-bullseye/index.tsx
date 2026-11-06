@@ -1305,7 +1305,11 @@ const asteroidKilledRef = useRef(false);
     if (v.includes("epic")) return "#aa00ff";
     if (v.includes("rare")) return "#ccff00";
     const pl = getPlanetId();
-    if (pl === "cyber" && !effectiveCyberStyle) return "#ff0000";
+    if (pl === "cyber") {
+      if (greatPilotRef.current) return "#d6b45a";
+      if (autoPilotRef.current) return "#8f99a6";
+      return "#ff0000";
+    }
     return DEFAULT_WEAPON_COLORS[pl] || "#000000";
   };
 
@@ -3102,7 +3106,7 @@ if (arcMode && arcMode !== "depart") {
             pixels={friendPixels}
             sidePixels={sidePixels}
             backPixels={backPixels}
-            accent={{ stable: "#C7E36C", nft: "#aa00ff", bitcoin: "#F7931A", rwa: "#00ffff" }[getPlanetId()] || "#00ffff"}
+            accent={getPlanetMainColor(getPlanetId())}
             onComplete={(m) => {
               if (m === "intro") {
                 setArcMode(null);
@@ -3300,7 +3304,7 @@ if (arcMode && arcMode !== "depart") {
     : (missions[currentPlanetId] || emptyMissions());
 
   return (
-    <div ref={gameContainerRef} tabIndex={0}  className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "") + ((showShop || showProfile || showGuide || showLang) ? " rf-overlay-open" : "")}>
+    <div ref={gameContainerRef} tabIndex={0}  style={{ ["--rf-beam-color" as any]: getPlanetMainColor(currentPlanetId) }} className={"scene-container" + (screenShake ? " screen-shake" : "") + (effectiveCyberStyle ? " cyber-active" : "") + (isPaused ? " rf-paused-root" : "") + ((showShop || showProfile || showGuide || showLang) ? " rf-overlay-open" : "")}>
 
       <div className="scanline-overlay" />
       <div className="vignette" />
@@ -3355,7 +3359,7 @@ if (arcMode && arcMode !== "depart") {
         towerBeamColor={
           currentPlanetId === "cyber"
             ? greatPilot ? "#d6b45a" : autoPilot ? "#8f99a6" : effectiveCyberStyle ? "cyber" : "#ff0000"
-            : effectiveCyberStyle ? "cyber" : getPlanetMainColor(currentPlanetId)
+            : getPlanetMainColor(currentPlanetId)
         }
         isShooting={isShooting}
         isJumping={isJumping}
@@ -3580,13 +3584,13 @@ if (arcMode && arcMode !== "depart") {
           towerActivated={towerActivated}
         />
       )}
-        <button className={`fire-tower-btn rf-ui-item rf-ui-item--fire${laserCooldown ? " rf-on-cd" : ""}${currentPlanetId === "rwa" && rwaTowerCharged ? " rf-rwa-fire-charged" : ""}`} disabled={isFallen || laserCooldown || isLaserFiring || towerActivated || arcMode === "depart" || (currentPlanetId === "rwa" && !rwaTowerCharged)} onClick={() => {
+        <button className={`fire-tower-btn rf-ui-item rf-ui-item--fire${laserCooldown ? " rf-on-cd" : ""}${currentPlanetId === "rwa" && rwaTowerCharged ? " rf-rwa-fire-charged" : ""}`} style={(() => { const c = autoPilot ? "#8f99a6" : equippedEnergy?.includes("legendary") ? "#F7931A" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : null; return c ? { borderColor: c, color: c, boxShadow: `0 0 10px ${c}` } : undefined; })()} disabled={isFallen || laserCooldown || isLaserFiring || towerActivated || arcMode === "depart" || (currentPlanetId === "rwa" && !rwaTowerCharged)} onClick={() => {
             window.dispatchEvent(new Event("rhrf:dismiss-dialog"));
             handleTowerFire();
           }}>
           {t("btn.fire")}
         </button>
-        <button className="shot-btn rf-ui-item rf-ui-item--shot" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring || towerActivated || arcMode === "depart"} onClick={() => { window.dispatchEvent(new Event("rhrf:dismiss-dialog")); handleFire(); }}>
+        <button className="shot-btn rf-ui-item rf-ui-item--shot" style={(() => { const c = autoPilot ? "#8f99a6" : equippedEnergy?.includes("legendary") ? "#F7931A" : equippedEnergy?.includes("epic") ? "#aa00ff" : equippedEnergy?.includes("rare") ? "#ccff00" : null; return c ? { borderColor: c, color: c, boxShadow: `0 0 10px ${c}` } : undefined; })()} disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isLaserFiring || towerActivated || arcMode === "depart"} onClick={() => { window.dispatchEvent(new Event("rhrf:dismiss-dialog")); handleFire(); }}>
           {t("btn.shot")}
         </button>
         <button className="jump-btn rf-ui-item rf-ui-item--jump" disabled={isFallen || shotPhase !== 'IDLE' || isJumping || isShooting || towerActivated || arcMode === "depart"} onClick={() => { window.dispatchEvent(new Event("rhrf:dismiss-dialog")); handleJump(); }}>
