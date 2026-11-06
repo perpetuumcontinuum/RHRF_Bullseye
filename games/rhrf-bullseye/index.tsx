@@ -1291,10 +1291,8 @@ const asteroidKilledRef = useRef(false);
         const onSatellitePass = () => {
       const pid = getPlanetId();
       const cyberMap = pid === "cyber";
-      const singularityActive = Boolean(autoPilotRef.current || greatPilotRef.current);
-      const eqEnergy = equippedEnergyRef.current;
       const energyId = cyberMap
-        ? (singularityActive && eqEnergy && inventoryRef.current.includes(eqEnergy) ? eqEnergy : "energy_rare")
+        ? "energy_rare"
         : pid === "bitcoin"
           ? "energy_legendary"
           : pid === "nft"
