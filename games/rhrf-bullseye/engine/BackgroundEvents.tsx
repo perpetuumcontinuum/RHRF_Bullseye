@@ -460,7 +460,7 @@ export default function BackgroundEvents() {
     cyberGreat ? "#d6b45a" :
     cyberMetal ? "#8f99a6" :
     pidForSatBeam === "cyber" ? "#ccff00" :
-    pidForSatBeam === "bitcoin" ? "#F7931A" :
+    pidForSatBeam === "bitcoin" ? "var(--rf-beam-color)" :
     pidForSatBeam === "nft" ? "#aa00ff" :
     pidForSatBeam === "stable" ? "#ccff00" :
     "#00ffff";

@@ -26,3 +26,5 @@ vendor/
 layout.live.css
 .pw-browsers/
 dump/
+dump_*.txt
+*.bak

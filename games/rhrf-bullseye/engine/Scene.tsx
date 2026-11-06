@@ -346,6 +346,7 @@ const pixelBounds = (() => {
       "#ccff00";
   const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || (isCyberLeaderboardBase ? "#ff0000" : "#000000");
   const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || (towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor) || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
+  const beamColor = towerBeamColor === "cyber" || towerBeamColor === "#d6b45a" || towerBeamColor === "#8f99a6" || metalStyle ? "var(--cyber-fill, #00ffff)" : towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
   const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || weaponBaseColor;
 
   const getArmorColor = (id?: string | null) => {
@@ -663,7 +664,6 @@ const pixelBounds = (() => {
       {!isStable && !isRealNft && !isBitcoin && !isRwa && <CyberPlanetBackground viewBox={viewBox} />}
 
 <g clipPath="url(#rfHorizonClip)">
-            {isStable && <TargetStand />}
       {isBitcoin && <BitcoinTargetStand />}
       {isRealNft && <NftTargetStand />}
       {asteroidVisible && (() => {
@@ -754,6 +754,7 @@ const pixelBounds = (() => {
           </circle>
         </g>
       )}
+      {isStable && <TargetStand />}
       {isRealNft && <NftTarget />}
       {isBitcoin && (
         <g transform={`translate(${mx(TARGET_CX)}, ${TARGET_CY})`} pointerEvents="none">
@@ -1023,7 +1024,7 @@ const pixelBounds = (() => {
 {waveR >= 0 && !isRwa && (() => {
         const wx = towerBeamX;
         const wop = Math.max(0, 1 - waveR / 1700);
-        const waveColor = laserColor;
+        const waveColor = beamColor;
         return (
           <g pointerEvents="none" className={metalStyle ? "friend-cyber rf-metal" : undefined}>
             <circle cx={wx} cy={TOWER_ANT_Y} r={waveR} fill="none" strokeWidth="7" opacity={wop * 0.92} style={{ stroke: waveColor }} />
@@ -1037,7 +1038,6 @@ const pixelBounds = (() => {
         const TIP = TOWER_ANT_Y;
         const OVER = isRwa ? 1200 : 0;
         const cyberFill = "var(--cyber-fill, #00ffff)";
-        const beamColor = laserColor;
         const layers = isRwa
           ? [{ w: 34, o: 0.16, c: cyberFill }, { w: 22, o: 0.30, c: "#ffffff" }, { w: 12, o: 0.58, c: "#ffffff" }, { w: 6, o: 0.95, c: cyberFill }]
           : [{ w: 34, o: 0.16, c: beamColor }, { w: 22, o: 0.30, c: "#ffffff" }, { w: 12, o: 0.58, c: "#ffffff" }, { w: 6, o: 0.95, c: beamColor }];
@@ -1056,7 +1056,7 @@ const pixelBounds = (() => {
             y={(isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 95 : 115}
             width="10"
             height={(isStable || isRealNft || isBitcoin || isCyberLeaderboard) ? 190 : 200}
-            style={{ fill: laserColor, stroke: laserColor }}
+            style={{ fill: beamColor, stroke: beamColor }}
             filter={metalStyle ? "none" : "url(#neonGlowPink)"}
             className="laser-beam"
           />
@@ -1148,7 +1148,7 @@ const pixelBounds = (() => {
       {(explosions || []).map(exp => (
         <g key={exp.id} transform={`translate(${exp.x}, ${exp.y})`}>
           {exp.particles.map((p, i) => {
-          const col = laserColor;
+          const col = beamColor;
           return (
             <rect
               key={i}
