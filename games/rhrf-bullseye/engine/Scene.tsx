@@ -346,7 +346,7 @@ const pixelBounds = (() => {
       "#ccff00";
   const arrowColor = RARITY_COLORS[getRarityKey(arrowQualityId) || ""] || (isCyberLeaderboardBase ? "#ff0000" : "#000000");
   const laserColor = RARITY_COLORS[getRarityKey(energyQualityId) || ""] || (towerBeamColor === "cyber" ? "var(--cyber-fill, #00ffff)" : towerBeamColor) || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
-  const beamColor = towerBeamColor === "cyber" || towerBeamColor === "#d6b45a" || towerBeamColor === "#8f99a6" || metalStyle ? "var(--cyber-fill, #00ffff)" : towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
+  const beamColor = towerBeamColor === "cyber" || towerBeamColor === "#d6b45a" || towerBeamColor === "#8f99a6" || metalStyle ? "var(--cyber-fill, #00ffff)" : RARITY_COLORS[getRarityKey(energyQualityId) || ""] || towerBeamColor || (isCyberLeaderboardBase ? "#ff0000" : "#ccff00");
   const bowColor = RARITY_COLORS[getRarityKey(bowQualityId) || ""] || weaponBaseColor;
 
   const getArmorColor = (id?: string | null) => {

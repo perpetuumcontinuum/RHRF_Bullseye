@@ -750,6 +750,42 @@ const asteroidKilledRef = useRef(false);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
+  // rf-keep-alive: тихий Web-Audio источник снимает браузерный throttling фоновой вкладки.
+  // Без него setInterval робота/физики замирает на фоне, а CSS/SMIL-объекты летают -> рассинхрон.
+  useEffect(() => {
+    let ctx: AudioContext | null = null;
+    let osc: OscillatorNode | null = null;
+    let started = false;
+    const kick = () => {
+      if (started) return;
+      started = true;
+      try {
+        const AC = (window as any).AudioContext || (window as any).webkitAudioContext;
+        if (!AC) return;
+        const c: AudioContext = new AC();
+        const g = c.createGain();
+        g.gain.value = 0.0001;
+        const o = c.createOscillator();
+        o.type = "sine";
+        o.frequency.value = 60;
+        o.connect(g);
+        g.connect(c.destination);
+        o.start();
+        if (c.state === "suspended") void c.resume();
+        ctx = c;
+        osc = o;
+      } catch {}
+    };
+    window.addEventListener("pointerdown", kick, { once: true });
+    window.addEventListener("keydown", kick, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", kick);
+      window.removeEventListener("keydown", kick);
+      try { osc?.stop(); } catch {}
+      try { void ctx?.close(); } catch {}
+    };
+  }, []);
+
   const ptSeqRef = useRef(0);
   const ptMapRef = useRef(new Map<number, { fn: () => void; remaining: number }>());
   const ptRafRef = useRef(0);
