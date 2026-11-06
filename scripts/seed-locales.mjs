@@ -7,7 +7,7 @@ const PAIR = /"([^"]+)"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
 const parse = (f) => { const o = {}; for (const m of readFileSync(dir + f, "utf8").matchAll(PAIR)) o[m[1]] = m[2]; return o; };
 const en = parse("en.ts");
 let touched = 0;
-for (const f of readdirSync(dir).filter((x) => x.endsWith(".ts") && !["index","en","names","types"].includes(x))) {
+for (const f of readdirSync(dir).filter((x) => x.endsWith(".ts") && !["index","en","names","types"].includes(x.replace(".ts","")))) {
   const cur = parse(f);
   const src = readFileSync(dir + f, "utf8");
   const miss = Object.keys(en).filter((k) => !(k in cur));
