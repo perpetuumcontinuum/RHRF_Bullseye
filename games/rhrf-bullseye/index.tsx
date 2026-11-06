@@ -205,6 +205,7 @@ function getInitialRf(): number {
 function RhrfBullseyeInner({ friendId, client }: { friendId: bigint; client?: any }) {
   const [gameStats, setGameStats] = useState<GameStats>(() => loadStats());
   const [arcMode, setArcMode] = useState<null | "intro" | "final" | "depart">(null);
+  const [bannerMode, setBannerMode] = useState(false);
   const arcIntroShownRef = useRef(false);
   const pendingNextRef = useRef<string>("");
   const addEarnedScore = (amount: number) => {
@@ -3149,8 +3150,21 @@ useEffect(() => {
     return () => window.removeEventListener("rhrf:arcade-complete", onArcade as EventListener);
   }, [t]);
 
+  if (bannerMode) {
+    return (
+      <>
+        <BannerScene />
+        <button type="button" onClick={() => setBannerMode(false)} style={{ position: "fixed", top: 8, right: 8, zIndex: 999999, padding: "6px 10px", font: "700 12px/1 monospace", color: "#000", background: "#d6b45a", border: "1px solid #fff", borderRadius: 4, cursor: "pointer" }}>EXIT</button>
+      </>
+    );
+  }
 if (loading || !entryDone) {
-    return <EntryFlow onEnterGame={() => { setEntryDone(true); void preloadNpcSprites().catch(() => {}); }} loading={loading} />;
+    return (
+      <>
+        <EntryFlow onEnterGame={() => { setEntryDone(true); void preloadNpcSprites().catch(() => {}); }} loading={loading} />
+        <button type="button" onClick={() => setBannerMode(true)} style={{ position: "fixed", right: 8, bottom: 8, zIndex: 999999, padding: "6px 10px", font: "700 12px/1 monospace", color: "#000", background: "#ccff00", border: "1px solid #fff", borderRadius: 4, cursor: "pointer" }}>BANNER</button>
+      </>
+    );
   }
 
 if (arcMode && arcMode !== "depart") {
